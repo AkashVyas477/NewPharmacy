@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text , StyleSheet} from 'react-native';
 
-const SignupScreen = props =>{
+const PharmacistSignUpScreen = props =>{
     return(
         <View style={styles.screen}>
             <Text>
-            Signup Screen! 
+            PharmacistSignUpScreen
             </Text>
         </View>
     );
@@ -19,4 +19,4 @@ const  styles=StyleSheet. create({
     }
 });
 
-export default SignupScreen;
+export default PharmacistSignUpScreen;

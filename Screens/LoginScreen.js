@@ -56,8 +56,8 @@ const LoginScreen = (props) => {
                     })}
                 >
                     {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
-                        <View style={{padding:10}} >
-                             <Text style={{ color: 'black',marginBottom:1 }} >E-mail</Text>
+                        <View >
+                             <Text style={{ color: 'black',marginBottom:1, paddingLeft:3 }} >E-mail</Text>
                              <View  style= {{borderBottomColor: '#e8e8e8',borderBottomWidth: 1,}} >
                                 <TextInput
                                     value={values.email}
@@ -71,7 +71,7 @@ const LoginScreen = (props) => {
                                 }
                                 </View>
                             <View style={{padding:10, paddingHorizontal:2}} >
-                                <Text style={{ color: 'black', marginBottom:1 }} >Password</Text>
+                                <Text style={{ color: 'black', marginBottom:1, paddingLeft:3}} >Password</Text>
                                 <View style={{ flexDirection: 'row', justifyContent:'space-between' ,alignItems: 'center', marginBottom: 25,  borderBottomColor: '#e8e8e8',borderBottomWidth: 1, }}>
                                     <TextInput
                                         value={values.password}
@@ -82,8 +82,8 @@ const LoginScreen = (props) => {
                                         secureTextEntry={tnceye ? true : false}
                                     />
                                     <TouchableOpacity onPress={() => setTncEye(!tnceye)} >
-                                        {tnceye ? <Image source={require('../assets/image/Icons/inactiveEye.png')} style={{ height: 15, width: 24, }} /> :
-                                            <Image source={require('../assets/image/Icons/activeEye.png')} style={{ height: 15, width: 24, }} />
+                                        {!tnceye ? <Image source={require('../assets/image/Icons/activeEye.png')} style={{ height: 15, width: 24, }} /> :
+                                            <Image source={require('../assets/image/Icons/inactiveEye.png')} style={{ height: 15, width: 24, }} />
                                         }
                                     </TouchableOpacity>
                                 </View>
@@ -97,8 +97,8 @@ const LoginScreen = (props) => {
                                 <View style={{ flexDirection: 'row',  marginLeft:2 }}>
                                     <TouchableOpacity onPress={tncHandler}>
                                         {tnc ?
-                                            <Image source={require('../assets/image/Icons/checkboxInactive.png')} style={{ height: 20, width: 20 }} /> :
-                                            <Image source={require('../assets/image/Icons/checkboxActive.png')} style={{ height: 20, width: 20 }} />
+                                            <Image source={require('../assets/image/Icons/checkboxActive.png')} style={{ height: 20, width: 20 }} /> :
+                                            <Image source={require('../assets/image/Icons/checkboxInactive.png')} style={{ height: 20, width: 20 }} />
                                         }
                                     </TouchableOpacity>
                                     <Text  style={{ marginLeft:4 }}>
@@ -137,7 +137,7 @@ const LoginScreen = (props) => {
                                        </View>
                                        </TouchableOpacity>
                                     </View>
-                                    <TouchableOpacity onPress={()=>{props.navigation.navigate('SignUp Screen')}} >
+                                    <TouchableOpacity onPress={()=>{props.navigation.navigate('RollSignUpScreen')}} >
                                     <View style={{flexDirection:'row',alignItems:'center', justifyContent:'center'}}>
                                     <Text style={styles.signup} > Don't have Account? <Text style={styles.sp_signup} > Sign up </Text>   </Text>                                
                                     </View>
@@ -176,6 +176,8 @@ const styles = StyleSheet.create({
         // marginBottom: 10
     },
     mainWrapper: {
+        paddingLeft:15,
+        paddingRight:15,
         paddingHorizontal: 1,
         marginVertical: 20,
         width: '100%',

@@ -70,6 +70,7 @@ const LoginScreen = (props) => {
                                     <Text style={{ fontSize: 11, color: 'red' }}>{errors.email}</Text>
                                 }
                                 </View>
+                                
                             <View style={{padding:10, paddingHorizontal:2}} >
                                 <Text style={{ color: 'black', marginBottom:1, paddingLeft:3}} >Password</Text>
                                 <View style={{ flexDirection: 'row', justifyContent:'space-between' ,alignItems: 'center', marginBottom: 25,  borderBottomColor: '#e8e8e8',borderBottomWidth: 1, }}>
@@ -93,6 +94,7 @@ const LoginScreen = (props) => {
                                 }
 
                             </View>
+
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 25 }} >
                                 <View style={{ flexDirection: 'row',  marginLeft:2 }}>
                                     <TouchableOpacity onPress={tncHandler}>

@@ -1,6 +1,7 @@
 import { FastField } from 'formik';
 import React,{useState} from 'react';
-import {View, Text , StyleSheet, Image, TouchableOpacity , Button} from 'react-native';
+import {View, Text , StyleSheet, Image, TouchableOpacity , Button } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const RollSignupScreen = props =>{
     const [customer , setCustomer ] = useState(false);
@@ -22,6 +23,7 @@ const RollSignupScreen = props =>{
 
 
     return(
+        <KeyboardAwareScrollView>
         <View style={styles.screen}>
             <Text style={styles.text1} >
            Who Are you 
@@ -72,6 +74,7 @@ const RollSignupScreen = props =>{
                 </View> */}
             </View>
         </View>
+        </KeyboardAwareScrollView>
     );
 };
 
@@ -82,7 +85,7 @@ const  styles=StyleSheet. create({
     screen:{
         flex:1,
         padding:6,
-        backgroundColor:'white',
+      
     },
     text1:{
         paddingTop:20,

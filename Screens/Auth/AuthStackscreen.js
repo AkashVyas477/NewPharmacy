@@ -6,6 +6,7 @@ import RollSignUpScreen from '../RollSignUpScreen';
 import PharmacyUserScreen from '../PharmacyUserScreen';
 import PharmacistSignUpScreen from '../PharmacistSignUpScreen';
 import CustomerSignupScreen from '../CustomerSignUpScreen';
+import PhoneNumberScreen from '../PhoneNumberScreen';
 
  
 
@@ -19,6 +20,7 @@ const AuthStackScreen = ({ navigation }) => {
             <AuthStack.Screen name="LOGIN AS PHARMACY USER" component={PharmacyUserScreen} />
             <AuthStack.Screen name="CustomerSignup" component={CustomerSignupScreen} />
             <AuthStack.Screen name="PharmacistSingup" component={PharmacistSignUpScreen} />
+            <AuthStack.Screen name="PhoneNumberScreen" component={PhoneNumberScreen} />
         </AuthStack.Navigator>
     );
 }

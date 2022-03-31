@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 import { Formik } from "formik";
 import * as yup from 'yup';
 
@@ -9,10 +11,26 @@ const CustomerSignupScreen = props => {
     const tncHandler = () => {
         setTnc(state => !state);
     };
+    const [male, setMale] = useState(false);
+    const maleHandler = () => {
+        setMale(state => !state);
+    setFemale(false);
+    };
+
+    const [female, setFemale] = useState(false);
+    const femaleHandler = () => {
+        setFemale(state => !state);
+        setMale(false);
+    };
+    
     const [tnceye, setTncEye] = useState(false);
     const [tnceyeconf, setTncEyeconf] = useState(false);
+    
+
 
     return (
+
+        <KeyboardAwareScrollView>
         <View style={styles.screen}>
 
             {/* SignUp  */}
@@ -22,7 +40,7 @@ const CustomerSignupScreen = props => {
                         <Image source={require('../assets/image/Icons/arrow.png')} style={{ height: 20, width: 30 }} />
                     </TouchableOpacity>
                 </View>
-                <Text style={{ fontSize: 25, color: 'black', paddingLeft: 125, }} >
+                <Text style={{ fontSize: 25, color: 'black', paddingLeft: 115, }} >
                     Sign Up
                 </Text>
             </View>
@@ -52,7 +70,7 @@ const CustomerSignupScreen = props => {
                     validationSchema={yup.object().shape({
                         username: yup
                             .string()
-                            .required('Name is required.'),
+                            .required('Username is required.'),
                         email: yup
                             .string()
                             .email()
@@ -79,18 +97,17 @@ const CustomerSignupScreen = props => {
                             <View>
                                 <Text style={styles.main} > Username </Text>
                                 <TextInput
-                                    value={values.name}
+                                    value={values.username}
                                     style={styles.customCss}
-                                    onBlur={() => setFieldTouched('name')}
-                                    onChangeText={handleChange('name')}
-                                    placeholder="Name"
+                                    onBlur={() => setFieldTouched('username')}
+                                    onChangeText={handleChange('username')}
+                                    placeholder="Username"
 
                                 />
-                                {touched.name && errors.name &&
-                                    <Text style={{ fontSize: 11, color: 'red' }}>{errors.name}</Text>
+                                {touched.username && errors.username &&
+                                    <Text style={{ fontSize: 11, color: 'red' }}>{errors.username}</Text>
                                 }
                                 <Text style={styles.main} > Email </Text>
-
                                 <TextInput
                                     value={values.email}
                                     style={styles.customCss}
@@ -102,6 +119,40 @@ const CustomerSignupScreen = props => {
                                 {touched.email && errors.email &&
                                     <Text style={{ fontSize: 11, color: 'red' }}>{errors.email}</Text>
                                 }
+                                
+                                <View>
+                                    {/* Gender */}
+                                <Text style={styles.main} > Gender </Text>
+                                <View>
+                                    {/* male button */}
+                                       <View style={{flexDirection:'row' ,justifyContent:'space-evenly'}}>
+                                           <View style={{flexDirection:'row',alignItems:'center'}}>
+                                            <TouchableOpacity onPress={maleHandler} >
+                                           { !male ?<Image source={require('../assets/image/Icons/roundCheckInactive.png')} style={{ height: 28, width: 28, }} />
+                                            :
+                                                <Image source={require('../assets/image/Icons/roundCheckActive.png')} style={{ height: 28, width: 28, }} />
+                                            }
+                                            </TouchableOpacity>
+                                            <Text style={{paddingLeft:5}} >Male </Text> 
+                                            </View> 
+                                    {/* male button  end*/}
+                                       {/* Female button */}
+                                            <View style={{flexDirection:'row' ,justifyContent:'space-evenly'}}>
+                                           <View style={{flexDirection:'row', alignItems:'center'}}>
+                                            <TouchableOpacity  onPress={femaleHandler}>
+                                           { !female ?<Image source={require('../assets/image/Icons/roundCheckInactive.png')} style={{ height: 28, width: 28, }} />
+                                            :
+                                                <Image source={require('../assets/image/Icons/roundCheckActive.png')} style={{ height: 28, width: 28, }} />
+                                            }
+                                            </TouchableOpacity>
+                                            <Text style={{paddingLeft:5}} >Female</Text>
+                                            </View>
+                                       {/* Female button */}
+                                       </View>
+                                        </View> 
+                                 </View>  
+                                  {/* Gender end */}  
+                                </View>
 
                                 <View>
                                     <Text style={styles.main} > Password </Text>
@@ -148,12 +199,12 @@ const CustomerSignupScreen = props => {
                             </View>
                             {/* Terms & conditions */}
                             <View  >
-                                <View style={{ flexDirection: 'row', marginTop: 10, padding: 5 }} >
+                                <View style={{ flexDirection: 'row',marginTop:15, marginBottom: 15, }} >
                                     <TouchableOpacity onPress={tncHandler} >
                                         {tnc ? <Image source={require('../assets/image/Icons/checkboxActive.png')} style={{ height: 20, width: 20 }} /> :
                                             <Image source={require('../assets/image/Icons/checkboxInactive.png')} style={{ height: 20, width: 20 }} />}
                                     </TouchableOpacity>
-                                    <View style={{ paddingLeft: 5, paddingRight: 7 }}>
+                                    <View style={{}}>
                                         <Text style={styles.tandc} >Accept to<Text style={styles.sp_tandc} >Terms and Conditions</Text> and <Text style={styles.sp_tandc}>Privacy Policy</Text>
                                             <Text style={styles.tandc} > for this app</Text></Text>
                                     </View>
@@ -162,8 +213,8 @@ const CustomerSignupScreen = props => {
                             {/* Terms & conditions */}
                             {/* Next Button */}
                             <View>
-                                <TouchableOpacity style={{ padding: 20, marginTop: 20 }} onPress={() => {
-                                    props.navigation.navigate('PhoneVerification')
+                                <TouchableOpacity onPress={() => {
+                                    props.navigation.navigate('PhoneNumberScreen')
                                 }}>
                                     <View style={styles.buttoncon}>
                                         <Text style={styles.Button}> Next </Text>
@@ -186,6 +237,7 @@ const CustomerSignupScreen = props => {
             </View >
             {/* Formik */}
         </View >
+        </KeyboardAwareScrollView>
     );
 };
 

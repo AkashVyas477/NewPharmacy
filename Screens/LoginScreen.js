@@ -9,8 +9,10 @@ import {
     StyleSheet,
     TouchableOpacity,
     ScrollView
-   
+
 } from 'react-native';
+
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { Formik } from 'formik'
 import * as yup from 'yup'
@@ -29,10 +31,17 @@ const LoginScreen = (props) => {
     const [tnceye, setTncEye] = useState(false);
 
     return (
+        <KeyboardAwareScrollView>
+            {/* Full screen */}
             <View style={styles.mainWrapper}>
-                <View style={{alignItems:'center'}}>
-                <Image source={AppIcon} style={styles.logo} resizeMode="cover" />
+                {/* Logo */}
+
+                <View style={{ alignItems: 'center' }}>
+                    <Image source={AppIcon} style={styles.logo} resizeMode="cover" />
                 </View>
+
+                {/* Logo */}
+
                 <Formik
 
                     initialValues={{
@@ -56,24 +65,28 @@ const LoginScreen = (props) => {
                     })}
                 >
                     {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
+                    
                         <View >
-                             <Text style={{ color: 'black',marginBottom:1, paddingLeft:3 }} >E-mail</Text>
-                             <View  style= {{borderBottomColor: '#e8e8e8',borderBottomWidth: 1,}} >
-                                <TextInput
-                                    value={values.email}
-                                    style={styles.customCss}
-                                    onBlur={() => setFieldTouched('email')}
-                                    onChangeText={handleChange('email')}
-                                    placeholder="E-mail"
-                                />
+                            {/* Inputs */}
+                            <View>
+                                <Text style={{ color: 'black', marginBottom: 1, paddingLeft: 3 }} >E-mail</Text>
+                                <View style={{ borderBottomColor: '#e8e8e8', borderBottomWidth: 1, }} >
+                                    <TextInput
+                                        value={values.email}
+                                        style={styles.customCss}
+                                        onBlur={() => setFieldTouched('email')}
+                                        onChangeText={handleChange('email')}
+                                        placeholder="E-mail"
+                                    />
+                                </View>
                                 {touched.email && errors.email &&
                                     <Text style={{ fontSize: 11, color: 'red' }}>{errors.email}</Text>
                                 }
-                                </View>
-                                
-                            <View style={{padding:10, paddingHorizontal:2}} >
-                                <Text style={{ color: 'black', marginBottom:1, paddingLeft:3}} >Password</Text>
-                                <View style={{ flexDirection: 'row', justifyContent:'space-between' ,alignItems: 'center', marginBottom: 25,  borderBottomColor: '#e8e8e8',borderBottomWidth: 1, }}>
+                            </View>
+
+                            <View style={{ padding: 10, paddingHorizontal: 2 }} >
+                                <Text style={{ color: 'black', marginBottom: 1, paddingLeft: 3 }} >Password</Text>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10, borderBottomColor: '#e8e8e8', borderBottomWidth: 1, }}>
                                     <TextInput
                                         value={values.password}
                                         style={styles.customCss}
@@ -94,63 +107,90 @@ const LoginScreen = (props) => {
                                 }
 
                             </View>
-
+                                   {/* Row merge start  */}
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 25 }} >
-                                <View style={{ flexDirection: 'row',  marginLeft:2 }}>
+                                <View style={{ flexDirection: 'row', marginLeft: 2 }}>
+                                     {/* Check box and Remember me Start */}
                                     <TouchableOpacity onPress={tncHandler}>
                                         {tnc ?
                                             <Image source={require('../assets/image/Icons/checkboxActive.png')} style={{ height: 20, width: 20 }} /> :
                                             <Image source={require('../assets/image/Icons/checkboxInactive.png')} style={{ height: 20, width: 20 }} />
                                         }
                                     </TouchableOpacity>
-                                    <Text  style={{ marginLeft:4 }}>
+                                    <Text style={{ marginLeft: 4 }}>
                                         Remember me
                                     </Text>
                                 </View>
-
+                                         {/* Check box and Remember me End */}
                                 <View>
-                                    <TouchableOpacity onPress={()=>{props.navigation.navigate('FORGOT PASSWORD')}} >
+                                    {/* Forgot passWord start */}
+                                    <TouchableOpacity onPress={() => { props.navigation.navigate('FORGOT PASSWORD') }} >
                                         <Text>
                                             Forgot Password?
                                         </Text>
                                     </TouchableOpacity>
+                                    {/* Forgot passWord end */}
                                 </View>
+                                 {/* Row merge end    */}
                             </View>
+
                             <View>
-                                <Button 
+
+                                <View>
+                                {/* Login button start */}
+                                <Button
                                     color='#0DC314'
                                     title='Login'
                                     disabled={!isValid}
                                     onPress={handleSubmit}
                                     style={styles.Button}
                                 />
-                                <View style={{paddingBottom:3}}>
-                                    <Image source={require('../assets/image/Icons/or.png')} style={{ height: 25, width: '100%' ,marginTop:10 }} />
+                                  {/* Login button end */}
+                                </View>
+
+                                {/* Or image start */}
+                                <View style={{ paddingBottom: 3,paddingTop:10 }}>
+                                    <Image source={require('../assets/image/Icons/or.png')} style={{ height: 25, width: '100%', marginTop: 10 }} />
+                                </View>
+
+                                {/* Or image end */}
+                                <View style={{paddingTop:20}}>
+                                {/* Pharmacy user login start */}
+
+                                <View style={styles.container} >
+                                    <TouchableOpacity onPress={() => { props.navigation.navigate('LOGIN AS PHARMACY USER') }}>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginBottom: 10 }}>
+                                            <Image source={require('../assets/image/Icons/pharmacyUser.png')} style={{ height:60 , width:40, overflow: 'hidden' }} />
+
+                                            <Text style={{ fontWeight: 'bold' }}>
+                                                PharmacyUser
+                                            </Text>
+                                            <Image source={require('../assets/image/Icons/rightArrow.png')} style={{ height: 20, width: 20 }} />
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                                {/* Pharmacy user login end */}
+                                </View>
+                                <View>
+                                        {/* Sing Up start */}
+                                <TouchableOpacity onPress={() => { props.navigation.navigate('RollSignUpScreen') }} >
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding:30 }}>
+                                        <Text style={styles.signup} > Don't have Account? <Text style={styles.sp_signup} > Sign up </Text>   </Text>
                                     </View>
-                                   <View style={styles.container} >
-                                       <TouchableOpacity  onPress={()=>{props.navigation.navigate('LOGIN AS PHARMACY USER')}}>
-                                           <View style={{ flexDirection: 'row', justifyContent:'space-evenly', alignItems: 'center', marginBottom: 25 }}>
-                                       <Image source={require('../assets/image/Icons/pharmacyUser.png')} style={{ height:100 , width: '20%' ,overflow:'hidden'}} />
-                                       
-                                       <Text style={{fontWeight:'bold'}}>
-                                          PharmacyUser 
-                                       </Text>
-                                       <Image source={require('../assets/image/Icons/rightArrow.png')} style={{ height: 20, width: 20}} />
-                                       </View>
-                                       </TouchableOpacity>
-                                    </View>
-                                    <TouchableOpacity onPress={()=>{props.navigation.navigate('RollSignUpScreen')}} >
-                                    <View style={{flexDirection:'row',alignItems:'center', justifyContent:'center'}}>
-                                    <Text style={styles.signup} > Don't have Account? <Text style={styles.sp_signup} > Sign up </Text>   </Text>                                
-                                    </View>
-                                     </TouchableOpacity>
-                        </View>
+
+                                </TouchableOpacity>
+                                 {/* Sing Up start */}
+                                 </View>
+
+                            </View>
+                            {/* Inputs */}
                         </View>
                     )}
                 </Formik>
-            </View> 
-            
-     
+            </View>
+              {/* Full screen */}
+        </KeyboardAwareScrollView>
+
     );
 
 };
@@ -159,27 +199,27 @@ const styles = StyleSheet.create({
     root: {
         flex: 1,
         alignItems: 'center',
-        padding:10,
+        padding: 10,
 
 
     },
 
     logo: {
         width: '70%',
-        height: 300,
-        marginBottom:20,
-        
+        height: 250,
+        marginBottom: 20,
+
 
     },
     customCss: {
-       
+
         // paddingVertical:10,
         // paddingHorizontal:10,
         // marginBottom: 10
     },
     mainWrapper: {
-        paddingLeft:15,
-        paddingRight:15,
+        paddingLeft: 15,
+        paddingRight: 15,
         paddingHorizontal: 1,
         marginVertical: 20,
         width: '100%',
@@ -187,27 +227,34 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 25,
     },
-    container:{
-        shadowColor:'#000',
-                shadowOffset: {
-                    width: 0,
-                    height: 10,
-                },
-                shadowOpacity:0.3,
-                shadowRadius: 2.84,
-                elevation: 1,
+    container: {
+        backgroundColor:'white',
+        padding:10,
+        paddingTop:20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 3.84,
+        elevation: 3,
+
+       
     },
-        
-    signup:{
-        color:'gray',
-        marginBottom:50,
+
+    signup: {
+        color: '#D7DBDD',
+        marginBottom: 50,
+        fontSize:20
 
 
     },
-    sp_signup:{
-        color:'black',
-        marginBottom:50
-        
+    sp_signup: {
+        color: 'black',
+        marginBottom: 50,
+        fontWeight:'bold'
+
     }
 });
 

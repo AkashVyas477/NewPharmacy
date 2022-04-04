@@ -58,14 +58,14 @@ const RollSignupScreen = props =>{
                 </Text>
                 </View>
 
-                    <View style={styles.buttoncon} > 
+                    {showButton ? <View style={styles.buttoncon} > 
                     
                         <TouchableOpacity onPress = {() => { customer ? props.navigation.navigate('CustomerSignup') : props.navigation.navigate('PharmacistSingup') }} >
                            <View >
                                {customer ? <Text style={styles.Button} >I' m Customer </Text> : <Text style={styles.Button}>I' m Pharmacist</Text>}
                             </View> 
                         </TouchableOpacity  >
-                    </View>
+                    </View> : null}
 
 
                  {/* <View> 

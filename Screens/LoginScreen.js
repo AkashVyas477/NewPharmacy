@@ -65,7 +65,7 @@ const LoginScreen = (props) => {
                     })}
                 >
                     {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
-                    
+
                         <View >
                             {/* Inputs */}
                             <View>
@@ -96,7 +96,7 @@ const LoginScreen = (props) => {
                                         secureTextEntry={tnceye ? true : false}
                                     />
                                     <TouchableOpacity onPress={() => setTncEye(!tnceye)} >
-                                        {!tnceye ? <Image source={require('../assets/image/Icons/activeEye.png')} style={{ height: 15, width: 24, }} /> :
+                                        {tnceye ? <Image source={require('../assets/image/Icons/activeEye.png')} style={{ height: 15, width: 24, }} /> :
                                             <Image source={require('../assets/image/Icons/inactiveEye.png')} style={{ height: 15, width: 24, }} />
                                         }
                                     </TouchableOpacity>
@@ -107,10 +107,10 @@ const LoginScreen = (props) => {
                                 }
 
                             </View>
-                                   {/* Row merge start  */}
+                            {/* Row merge start  */}
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 25 }} >
                                 <View style={{ flexDirection: 'row', marginLeft: 2 }}>
-                                     {/* Check box and Remember me Start */}
+                                    {/* Check box and Remember me Start */}
                                     <TouchableOpacity onPress={tncHandler}>
                                         {tnc ?
                                             <Image source={require('../assets/image/Icons/checkboxActive.png')} style={{ height: 20, width: 20 }} /> :
@@ -121,7 +121,7 @@ const LoginScreen = (props) => {
                                         Remember me
                                     </Text>
                                 </View>
-                                         {/* Check box and Remember me End */}
+                                {/* Check box and Remember me End */}
                                 <View>
                                     {/* Forgot passWord start */}
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('FORGOT PASSWORD') }} >
@@ -131,56 +131,58 @@ const LoginScreen = (props) => {
                                     </TouchableOpacity>
                                     {/* Forgot passWord end */}
                                 </View>
-                                 {/* Row merge end    */}
+                                {/* Row merge end    */}
                             </View>
 
                             <View>
 
                                 <View>
-                                {/* Login button start */}
-                                <Button
-                                    color='#0DC314'
-                                    title='Login'
-                                    disabled={!isValid}
-                                    onPress={handleSubmit}
-                                    style={styles.Button}
-                                />
-                                  {/* Login button end */}
+                                    {/* Login button start */}
+                                    <View style={{ width: "100%", }}>
+                                        <TouchableOpacity style={{ padding: 20 }} onPress={() => { props.navigation.navigate('HomeScreen') }} >
+                                            <View style={styles.buttoncon}>
+                                                <Text style={styles.Button}>
+                                                    Login
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Login button end */}
                                 </View>
 
                                 {/* Or image start */}
-                                <View style={{ paddingBottom: 3,paddingTop:10 }}>
-                                    <Image source={require('../assets/image/Icons/or.png')} style={{ height: 25, width: '100%', marginTop: 10 }} />
+                                <View style={{ paddingBottom: 3, paddingTop: 10 }}>
+                                    <Image source={require('../assets/image/Icons/or.png')} style={{ height: 25, width: '100%', marginTop:5 }} />
                                 </View>
 
                                 {/* Or image end */}
-                                <View style={{paddingTop:20}}>
-                                {/* Pharmacy user login start */}
+                                <View style={{ paddingTop: 20 }}>
+                                    {/* Pharmacy user login start */}
 
-                                <View style={styles.container} >
-                                    <TouchableOpacity onPress={() => { props.navigation.navigate('LOGIN AS PHARMACY USER') }}>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginBottom: 10 }}>
-                                            <Image source={require('../assets/image/Icons/pharmacyUser.png')} style={{ height:60 , width:40, overflow: 'hidden' }} />
+                                    <View style={styles.container} >
+                                        <TouchableOpacity onPress={() => { props.navigation.navigate('LOGIN AS PHARMACY USER') }}>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginBottom: 10 }}>
+                                                <Image source={require('../assets/image/Icons/pharmacyUser.png')} style={{ height: 60, width: 40, overflow: 'hidden' }} />
 
-                                            <Text style={{ fontWeight: 'bold' }}>
-                                                PharmacyUser
-                                            </Text>
-                                            <Image source={require('../assets/image/Icons/rightArrow.png')} style={{ height: 20, width: 20 }} />
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-                                {/* Pharmacy user login end */}
+                                                <Text style={{ fontWeight: 'bold' }}>
+                                                    PharmacyUser
+                                                </Text>
+                                                <Image source={require('../assets/image/Icons/rightArrow.png')} style={{ height: 20, width: 20 }} />
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* Pharmacy user login end */}
                                 </View>
                                 <View>
-                                        {/* Sing Up start */}
-                                <TouchableOpacity onPress={() => { props.navigation.navigate('RollSignUpScreen') }} >
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding:30 }}>
-                                        <Text style={styles.signup} > Don't have Account? <Text style={styles.sp_signup} > Sign up </Text>   </Text>
-                                    </View>
+                                    {/* Sing Up start */}
+                                    <TouchableOpacity onPress={() => { props.navigation.navigate('RollSignUpScreen') }} >
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 15}}>
+                                            <Text style={styles.signup} > Don't have Account? <Text style={styles.sp_signup} > Sign up </Text>   </Text>
+                                        </View>
 
-                                </TouchableOpacity>
-                                 {/* Sing Up start */}
-                                 </View>
+                                    </TouchableOpacity>
+                                    {/* Sing Up start */}
+                                </View>
 
                             </View>
                             {/* Inputs */}
@@ -188,7 +190,7 @@ const LoginScreen = (props) => {
                     )}
                 </Formik>
             </View>
-              {/* Full screen */}
+            {/* Full screen */}
         </KeyboardAwareScrollView>
 
     );
@@ -228,9 +230,9 @@ const styles = StyleSheet.create({
         borderRadius: 25,
     },
     container: {
-        backgroundColor:'white',
-        padding:10,
-        paddingTop:20,
+        backgroundColor: 'white',
+        padding: 10,
+        paddingTop: 20,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -240,22 +242,36 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 3,
 
-       
+
     },
 
     signup: {
         color: '#D7DBDD',
-        marginBottom: 50,
-        fontSize:20
+    
+        fontSize: 20
 
 
     },
     sp_signup: {
         color: 'black',
-        marginBottom: 50,
-        fontWeight:'bold'
+       
+        fontWeight: 'bold'
 
-    }
+    },
+    Button: {
+        color: 'white',
+        textAlign: 'center',
+
+    },
+    buttoncon: {
+        backgroundColor: '#0DC314',
+        borderRadius: 10,
+        height: 50,
+        width: "100%",
+        justifyContent: 'center',
+
+
+    },
 });
 
 export default LoginScreen;

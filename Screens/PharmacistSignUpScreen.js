@@ -69,7 +69,7 @@ const PharmacistSignUpScreen = props =>{
             </View>
             {/* Profile */}
             {/* Formik */}
-            <View style={{ padding: 10 }} >
+            <View style={{ padding:10 }} >
                 <Formik
                     initialValues={{
                         username: '',
@@ -170,8 +170,8 @@ const PharmacistSignUpScreen = props =>{
                                 <Text style={styles.main} > Gender </Text>
                                 <View>
                                     {/* male button */}
-                                       <View style={{flexDirection:'row' ,justifyContent:'space-evenly'}}>
-                                           <View style={{flexDirection:'row',alignItems:'center',}}>
+                                       <View style={{flexDirection:'row' ,justifyContent:'space-between', width:'100%', padding:5}}>
+                                           <View style={styles.gendercheck}>
                                             <TouchableOpacity onPress={maleHandler}  >
                                            { !male ?<Image source={require('../assets/image/Icons/roundCheckInactive.png')} style={{ height: 28, width: 28, }} />
                                             :
@@ -183,7 +183,7 @@ const PharmacistSignUpScreen = props =>{
                                             </View> 
                                     {/* male button  end*/}
                                        {/* Female button */}
-                                            <View style={{flexDirection:'row' ,justifyContent:'space-evenly'}}>
+                                            <View style={styles.gendercheck}>
                                            <View style={{flexDirection:'row', alignItems:'center'}}>
                                             <TouchableOpacity onPress={femaleHandler}>
                                            { !female ?<Image source={require('../assets/image/Icons/roundCheckInactive.png')} style={{ height: 28, width: 28, }} />
@@ -202,7 +202,7 @@ const PharmacistSignUpScreen = props =>{
                                 
                                 <View>
                                     <Text style={styles.main} > Password </Text>
-                                    <View  style={{ flexDirection: 'row', justifyContent:'space-evenly',alignItems: 'center'}}>
+                                    <View  style={{ flexDirection: 'row', justifyContent:'space-evenly',alignItems: 'center', paddingLeft:15}}>
                                         <TextInput
                                             value={values.password}
                                             style={styles.customCss}
@@ -211,7 +211,7 @@ const PharmacistSignUpScreen = props =>{
                                             onChangeText={handleChange('password')}
                                             secureTextEntry={tnceye ? true : false}
                                         />
-                                        <TouchableOpacity onPress={() => setTncEye(!tnceye)} >
+                                        <TouchableOpacity onPress={() => setTncEye(!tnceye)} style={{paddingRight:20}} >
                                             {tnceye ? <Image source={require('../assets/image/Icons/activeEye.png')} style={{ height: 15, width: 24, }} /> :
                                                 <Image source={require('../assets/image/Icons/inactiveEye.png')} style={{ height: 15, width: 24, }} />
                                             }
@@ -223,7 +223,7 @@ const PharmacistSignUpScreen = props =>{
                                 </View>
                                     <View>
                                 <Text style={styles.main} > Confirm Password </Text>
-                                <View  style={{ flexDirection: 'row', justifyContent:'space-evenly',alignItems: 'center'}}>
+                                <View  style={{ flexDirection: 'row', justifyContent:'space-evenly',alignItems: 'center', paddingLeft:15}}>
                                 <TextInput
                                     value={values.passwordConfirm}
                                     style={styles.customCss}
@@ -232,7 +232,7 @@ const PharmacistSignUpScreen = props =>{
                                     onChangeText={handleChange('passwordConfirm')}
                                     secureTextEntry={tnceyeconf ? true : false}
                                 />
-                                <TouchableOpacity onPress={() => setTncEyeconf(!tnceyeconf)} >
+                                <TouchableOpacity onPress={() => setTncEyeconf(!tnceyeconf)} style={{paddingRight:20}} >
                                     {tnceyeconf ? <Image source={require('../assets/image/Icons/activeEye.png')} style={{ height: 15, width: 24, }} /> :
                                         <Image source={require('../assets/image/Icons/inactiveEye.png')} style={{ height: 15, width: 24, }} />
                                     }
@@ -246,7 +246,7 @@ const PharmacistSignUpScreen = props =>{
                             {/* Terms & conditions */}
                             <View  >
                                 <View style={{ flexDirection: 'row',marginTop:15, marginBottom: 15, }} >
-                                    <TouchableOpacity onPress={tncHandler} >
+                                    <TouchableOpacity onPress={tncHandler} style={{paddingRight:5}} >
                                         {tnc ? <Image source={require('../assets/image/Icons/checkboxActive.png')} style={{ height: 20, width: 20 }} /> :
                                             <Image source={require('../assets/image/Icons/checkboxInactive.png')} style={{ height: 20, width: 20 }} />}
                                     </TouchableOpacity>
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
     },
     main: {
         color: 'black',
-        marginTop: 20
+        marginTop:10,
 
     },
     Button: {
@@ -345,7 +345,15 @@ const styles = StyleSheet.create({
         color: 'black',
         marginBottom: 50
 
-    }
+    },
+    gendercheck:{
+        flexDirection:'row',
+        alignItems:'center',
+        borderBottomWidth:1, 
+        paddingBottom:5, 
+        width:'40%' ,
+        borderBottomColor: '#e8e8e8',
+    },
 });
 
 export default PharmacistSignUpScreen;

@@ -60,7 +60,7 @@ const PhoneNumberScreen = props => {
                             {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
 
                                 <View>
-                                    <Text style={{ color: 'white', marginBottom: 5 }}>Phone Number</Text>
+                                    <Text style={{ color: 'black', marginBottom: 5 }}>Phone Number</Text>
 
                                     <PhoneInput
                                         ref={phoneInput}
@@ -68,9 +68,9 @@ const PhoneNumberScreen = props => {
                                         defaultValue={phoneNumber}
                                         defaultCode="IN"
                                         layout="first"
-                                        //autoFocus
-                                        // containerStyle={styles.phoneContainer}
-                                        // textContainerStyle={styles.textInput}
+                                        autoFocus
+                                        containerStyle={styles.phoneContainer}
+                                        textContainerStyle={styles.textInput}
                                         onChangeFormattedText={text => {
                                             setphoneNumber(text);
                                         }}
@@ -86,7 +86,7 @@ const PhoneNumberScreen = props => {
 
                 {/* Next Button start  */}
                 <View style={{ width: "100%", }}>
-                    <TouchableOpacity style={{ padding: 20 }} onPress={() => { props.navigation.navigate('Login') }} >
+                    <TouchableOpacity style={{ padding: 20 }} onPress={() => { props.navigation.navigate('VerificationScreen') }} >
                         <View style={styles.buttoncon}>
                             <Text style={styles.Button}>
                                 Next
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     buttoncon: {
         backgroundColor: '#0DC314',
         borderRadius: 10,
-        height: 40,
+        height: 50,
         width: "100%",
         justifyContent: 'center',
 
@@ -136,7 +136,17 @@ const styles = StyleSheet.create({
         marginTop: 5,
         width: '100%',
         
-    }
+    },
+    phoneContainer: {
+        width: '100%',
+        height: 70,
+        marginBottom: 15,
+       
+    },
+    textInput: {
+        paddingVertical: 0,
+      
+    },
 
 
 

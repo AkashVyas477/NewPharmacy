@@ -120,13 +120,14 @@ const CustomerSignupScreen = props => {
                                     <Text style={{ fontSize: 11, color: 'red' }}>{errors.email}</Text>
                                 }
                                 
-                                <View>
+                                <View >
                                     {/* Gender */}
                                 <Text style={styles.main} > Gender </Text>
                                 <View>
                                     {/* male button */}
-                                       <View style={{flexDirection:'row' ,justifyContent:'space-evenly'}}>
-                                           <View style={{flexDirection:'row',alignItems:'center'}}>
+                                       <View style={{flexDirection:'row' ,justifyContent:'space-between',width:'100%', padding:5,}}>
+                                           <View style={styles.gendercheck}>
+                                           
                                             <TouchableOpacity onPress={maleHandler} >
                                            { !male ?<Image source={require('../assets/image/Icons/roundCheckInactive.png')} style={{ height: 28, width: 28, }} />
                                             :
@@ -137,7 +138,7 @@ const CustomerSignupScreen = props => {
                                             </View> 
                                     {/* male button  end*/}
                                        {/* Female button */}
-                                            <View style={{flexDirection:'row' ,justifyContent:'space-evenly'}}>
+                                       <View style={styles.gendercheck}>
                                            <View style={{flexDirection:'row', alignItems:'center'}}>
                                             <TouchableOpacity  onPress={femaleHandler}>
                                            { !female ?<Image source={require('../assets/image/Icons/roundCheckInactive.png')} style={{ height: 28, width: 28, }} />
@@ -153,10 +154,10 @@ const CustomerSignupScreen = props => {
                                  </View>  
                                   {/* Gender end */}  
                                 </View>
-
+                                    {/* Password Start */}  
                                 <View>
                                     <Text style={styles.main} > Password </Text>
-                                    <View  style={{ flexDirection: 'row', justifyContent:'space-evenly',alignItems: 'center'}}>
+                                    <View  style={{ flexDirection: 'row', justifyContent:'space-evenly',alignItems: 'center', paddingLeft:15}}>
                                         <TextInput
                                             value={values.password}
                                             style={styles.customCss}
@@ -165,7 +166,7 @@ const CustomerSignupScreen = props => {
                                             onChangeText={handleChange('password')}
                                             secureTextEntry={tnceye ? true : false}
                                         />
-                                        <TouchableOpacity onPress={() => setTncEye(!tnceye)} >
+                                        <TouchableOpacity onPress={() => setTncEye(!tnceye)} style={{paddingRight:20}} >
                                             {tnceye ? <Image source={require('../assets/image/Icons/activeEye.png')} style={{ height: 15, width: 24, }} /> :
                                                 <Image source={require('../assets/image/Icons/inactiveEye.png')} style={{ height: 15, width: 24, }} />
                                             }
@@ -175,9 +176,9 @@ const CustomerSignupScreen = props => {
                                         <Text style={{ fontSize: 11, color: 'red' }}>{errors.password}</Text>
                                     }
                                 </View>
-                                    <View>
+                                    <View  >
                                 <Text style={styles.main} > Confirm Password </Text>
-                                <View  style={{ flexDirection: 'row', justifyContent:'space-evenly',alignItems: 'center'}}>
+                                <View  style={{ flexDirection: 'row', justifyContent:'space-evenly',alignItems: 'center', paddingLeft:15}}>
                                 <TextInput
                                     value={values.passwordConfirm}
                                     style={styles.customCss}
@@ -186,9 +187,9 @@ const CustomerSignupScreen = props => {
                                     onChangeText={handleChange('passwordConfirm')}
                                     secureTextEntry={tnceyeconf ? true : false}
                                 />
-                                <TouchableOpacity onPress={() => setTncEyeconf(!tnceyeconf)} >
-                                    {tnceyeconf ? <Image source={require('../assets/image/Icons/activeEye.png')} style={{ height: 15, width: 24, }} /> :
-                                        <Image source={require('../assets/image/Icons/inactiveEye.png')} style={{ height: 15, width: 24, }} />
+                                <TouchableOpacity onPress={() => setTncEyeconf(!tnceyeconf)} style={{paddingRight:20}} >
+                                    {tnceyeconf ? <Image source={require('../assets/image/Icons/activeEye.png')} style={{ height: 15, width: 24,  }} /> :
+                                        <Image source={require('../assets/image/Icons/inactiveEye.png')} style={{ height: 15, width: 24,}} />
                                     }
                                 </TouchableOpacity>
                                 </View>
@@ -196,15 +197,17 @@ const CustomerSignupScreen = props => {
                                     <Text style={{ fontSize: 11, color: 'red' }} >{errors.passwordConfirm}</Text>
                                 }
                                 </View>
+                                {/* Password end */}  
                             </View>
+                             
                             {/* Terms & conditions */}
                             <View  >
-                                <View style={{ flexDirection: 'row',marginTop:15, marginBottom: 15, }} >
-                                    <TouchableOpacity onPress={tncHandler} >
+                                <View style={{ flexDirection: 'row',marginTop:15, marginBottom: 15,paddingRight:5 }} >
+                                    <TouchableOpacity onPress={tncHandler} style={{paddingRight:5}} >
                                         {tnc ? <Image source={require('../assets/image/Icons/checkboxActive.png')} style={{ height: 20, width: 20 }} /> :
                                             <Image source={require('../assets/image/Icons/checkboxInactive.png')} style={{ height: 20, width: 20 }} />}
                                     </TouchableOpacity>
-                                    <View style={{}}>
+                                    <View style={styles.textAlign} >
                                         <Text style={styles.tandc} >Accept to<Text style={styles.sp_tandc} >Terms and Conditions</Text> and <Text style={styles.sp_tandc}>Privacy Policy</Text>
                                             <Text style={styles.tandc} > for this app</Text></Text>
                                     </View>
@@ -255,11 +258,12 @@ const styles = StyleSheet.create({
         borderBottomColor: '#e8e8e8',
         width: '100%',
         paddingBottom:2,
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        
     },
     main: {
         color: 'black',
-        marginTop: 20
+        marginTop: 10
 
     },
     Button: {
@@ -280,7 +284,8 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     tandc: {
-        color: 'black'
+        color: 'black',
+       
 
     },
     sp_tandc: {
@@ -299,7 +304,20 @@ const styles = StyleSheet.create({
         color: 'black',
         marginBottom: 50
 
-    }
+    },
+    gendercheck:{
+        flexDirection:'row',
+        alignItems:'center',
+        borderBottomWidth:1, 
+        paddingBottom:5, 
+        width:'40%' ,
+        borderBottomColor: '#e8e8e8',
+    },
+    // textAlign: {
+    //     // adjustsFontSizeToFit:true,
+    //     // numberOfLines:'number'
+    //     fontSize:fontSize
+    // },
 });
 
 export default CustomerSignupScreen;

@@ -18,20 +18,20 @@ const PhoneNumberScreen = props => {
             <KeyboardAwareScrollView>
                 <View >
                     {/* Logo And Text start */}
-                    <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+                    <View style={styles.logoText}>
                         <View>
                             <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-                                <Image source={require('../assets/image/Icons/arrow.png')} style={{ height: 20, width: 30 }} />
+                                <Image source={require('../../../assets/Icons/Arrow/arrow.png')} style={styles.arrow} />
                             </TouchableOpacity>
                         </View>
 
-                        <Text style={{ fontSize: 25, color: 'black', paddingLeft: 65 }} >
+                        <Text style={styles.phoneNoText} >
                             PHONE NUMBER
                         </Text>
 
                     </View>
                     <View style={styles.screen}>
-                        <Image source={require('../assets/image/Icons/phoneNumberImg.png')} style={{ height: 200, width: 190, marginTop: 20 }} />
+                        <Image source={require('../../../assets/Icons/logo/phoneNumberImg.png')} style={styles.phoneNoImg} />
                     </View>
                     <View  >
                         <Text style={styles.text}>
@@ -60,7 +60,7 @@ const PhoneNumberScreen = props => {
                             {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
 
                                 <View>
-                                    <Text style={{ color: 'black', marginBottom: 5 }}>Phone Number</Text>
+                                    <Text style={styles.textPhoneNo}>Phone Number</Text>
 
                                     <PhoneInput
                                         ref={phoneInput}
@@ -85,8 +85,8 @@ const PhoneNumberScreen = props => {
                 {/* Phone number end */}
 
                 {/* Next Button start  */}
-                <View style={{ width: "100%", }}>
-                    <TouchableOpacity style={{ padding: 20 }} onPress={() => { props.navigation.navigate('VerificationScreen') }} >
+                <View style={styles.button_sty}>
+                    <TouchableOpacity style={styles.button_sty} onPress={() => { props.navigation.navigate('VerificationScreen') }} >
                         <View style={styles.buttoncon}>
                             <Text style={styles.Button}>
                                 Next
@@ -110,6 +110,30 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
 
     },
+    logoText:{ 
+        flexDirection: 'row',
+         alignItems: 'center',
+         padding: 10
+         },
+    arrow:{ 
+        height: 20,
+         width: 30 
+        },
+        phoneNoText:{ 
+            fontSize: 25, 
+            color: 'black', 
+            paddingLeft: 65 
+        },
+    phoneNoImg:{ 
+        height: 200,
+         width: 190, 
+         marginTop: 20 
+        },
+    textPhoneNo:{ 
+            color: 'black',
+             marginBottom: 5
+             },
+    
     text: {
         padding: 20,
         paddingHorizontal: 10,
@@ -126,8 +150,13 @@ const styles = StyleSheet.create({
         height: 50,
         width: "100%",
         justifyContent: 'center',
+    },
+    button_sty:{
+         width: "100%",
+         },
 
-
+    touch:{ 
+        padding: 20 
     },
     customCss: {
         padding: 10,

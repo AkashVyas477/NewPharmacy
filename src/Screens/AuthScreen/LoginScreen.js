@@ -18,7 +18,7 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 
 
-import AppIcon from '../assets/image/Icons/appIcon.png';
+import AppIcon from '../../../assets/Icons/AppIcon/appIcon.png';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -36,7 +36,7 @@ const LoginScreen = (props) => {
             <View style={styles.mainWrapper}>
                 {/* Logo */}
 
-                <View style={{ alignItems: 'center' }}>
+                <View style={styles.logoScreen}>
                     <Image source={AppIcon} style={styles.logo} resizeMode="cover" />
                 </View>
 
@@ -69,7 +69,7 @@ const LoginScreen = (props) => {
                         <View >
                             {/* Inputs */}
                             <View>
-                                <Text style={{ color: 'black', marginBottom: 1, paddingLeft: 3 }} >E-mail</Text>
+                                <Text style={styles.text} >E-mail</Text>
                                 <View style={{ borderBottomColor: '#e8e8e8', borderBottomWidth: 1, }} >
                                     <TextInput
                                         value={values.email}
@@ -80,13 +80,13 @@ const LoginScreen = (props) => {
                                     />
                                 </View>
                                 {touched.email && errors.email &&
-                                    <Text style={{ fontSize: 11, color: 'red' }}>{errors.email}</Text>
+                                    <Text style={styles.errortext}>{errors.email}</Text>
                                 }
                             </View>
 
                             <View style={{ padding: 10, paddingHorizontal: 2 }} >
-                                <Text style={{ color: 'black', marginBottom: 1, paddingLeft: 3 }} >Password</Text>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10, borderBottomColor: '#e8e8e8', borderBottomWidth: 1, }}>
+                                <Text style={styles.text}  >Password</Text>
+                                <View style={styles.password_sty}>
                                     <TextInput
                                         value={values.password}
                                         style={styles.customCss}
@@ -96,28 +96,28 @@ const LoginScreen = (props) => {
                                         secureTextEntry={tnceye ? true : false}
                                     />
                                     <TouchableOpacity onPress={() => setTncEye(!tnceye)} >
-                                        {tnceye ? <Image source={require('../assets/image/Icons/activeEye.png')} style={{ height: 15, width: 24, }} /> :
-                                            <Image source={require('../assets/image/Icons/inactiveEye.png')} style={{ height: 15, width: 24, }} />
+                                        {tnceye ? <Image source={require('../../../assets/Icons/EyeIcon/activeEye.png')} style={styles.eyeIcon} /> :
+                                            <Image source={require('../../../assets/Icons/EyeIcon/inactiveEye.png')} style={styles.eyeIcon} />
                                         }
                                     </TouchableOpacity>
                                 </View>
 
                                 {touched.password && errors.password &&
-                                    <Text style={{ fontSize: 11, color: 'red' }}>{errors.password}</Text>
+                                    <Text style={styles.errortext}>{errors.password}</Text>
                                 }
 
                             </View>
                             {/* Row merge start  */}
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 25 }} >
-                                <View style={{ flexDirection: 'row', marginLeft: 2 }}>
+                            <View style={styles.checkbox_sty} >
+                                <View style={styles.check}>
                                     {/* Check box and Remember me Start */}
                                     <TouchableOpacity onPress={tncHandler}>
                                         {tnc ?
-                                            <Image source={require('../assets/image/Icons/checkboxActive.png')} style={{ height: 20, width: 20 }} /> :
-                                            <Image source={require('../assets/image/Icons/checkboxInactive.png')} style={{ height: 20, width: 20 }} />
+                                            <Image source={require('../../../assets/Icons/CheckBox/checkboxActive.png')} style={styles.checkIcon} /> :
+                                            <Image source={require('../../../assets/Icons/CheckBox/checkboxInactive.png')} style={styles.checkIcon} />
                                         }
                                     </TouchableOpacity>
-                                    <Text style={{ marginLeft: 4 }}>
+                                    <Text style={styles.remberme}>
                                         Remember me
                                     </Text>
                                 </View>
@@ -138,8 +138,8 @@ const LoginScreen = (props) => {
 
                                 <View>
                                     {/* Login button start */}
-                                    <View style={{ width: "100%", }}>
-                                        <TouchableOpacity style={{ padding: 20 }} onPress={() => { props.navigation.navigate('HomeScreen') }} >
+                                    <View style={styles.button_sty}>
+                                        <TouchableOpacity style={{ padding: 20 }} onPress={() => { props.navigation.navigate('Drawer', { screen:'Home' }) }} >
                                             <View style={styles.buttoncon}>
                                                 <Text style={styles.Button}>
                                                     Login
@@ -151,23 +151,23 @@ const LoginScreen = (props) => {
                                 </View>
 
                                 {/* Or image start */}
-                                <View style={{ paddingBottom: 3, paddingTop: 10 }}>
-                                    <Image source={require('../assets/image/Icons/or.png')} style={{ height: 25, width: '100%', marginTop:5 }} />
+                                <View style={styles.or_sty}>
+                                    <Image source={require('../../../assets/Icons/Image/or.png')} style={styles.orImg} />
                                 </View>
 
                                 {/* Or image end */}
-                                <View style={{ paddingTop: 20 }}>
+                                <View style={styles.pharmacyUser_sty}>
                                     {/* Pharmacy user login start */}
 
                                     <View style={styles.container} >
                                         <TouchableOpacity onPress={() => { props.navigation.navigate('LOGIN AS PHARMACY USER') }}>
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginBottom: 10 }}>
-                                                <Image source={require('../assets/image/Icons/pharmacyUser.png')} style={{ height: 60, width: 40, overflow: 'hidden' }} />
+                                            <View style={styles.pharmacyUserBox}>
+                                                <Image source={require('../../../assets/Icons/Image/pharmacyUser.png')} style={styles.pharmacyUserImg} />
 
                                                 <Text style={{ fontWeight: 'bold' }}>
                                                     PharmacyUser
                                                 </Text>
-                                                <Image source={require('../assets/image/Icons/rightArrow.png')} style={{ height: 20, width: 20 }} />
+                                                <Image source={require('../../../assets/Icons/Arrow/rightArrow.png')} style={styles.arrow} />
                                             </View>
                                         </TouchableOpacity>
                                     </View>
@@ -176,7 +176,7 @@ const LoginScreen = (props) => {
                                 <View>
                                     {/* Sing Up start */}
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('RollSignUpScreen') }} >
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 15}}>
+                                        <View style={styles.signup}>
                                             <Text style={styles.signup} > Don't have Account? <Text style={styles.sp_signup} > Sign up </Text>   </Text>
                                         </View>
 
@@ -205,6 +205,7 @@ const styles = StyleSheet.create({
 
 
     },
+    logoScreen:{ alignItems: 'center' },
 
     logo: {
         width: '70%',
@@ -269,9 +270,59 @@ const styles = StyleSheet.create({
         height: 50,
         width: "100%",
         justifyContent: 'center',
-
-
     },
+    text:{ color: 'black', marginBottom: 1, paddingLeft: 3 },
+    errortext:{ 
+        fontSize: 11, 
+        color: 'red' 
+    },
+    password_sty:{ 
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+    borderBottomColor: '#e8e8e8',
+    borderBottomWidth: 1,
+     },
+     eyeIcon:{ 
+         height: 15, 
+         width: 24, 
+        },
+     checkbox_sty:{ 
+    flexDirection: 'row',
+    justifyContent: 'space-between', 
+    alignItems: 'center',
+    marginBottom: 25 
+    },
+    check:{ 
+        flexDirection: 'row',
+         marginLeft: 2 
+        },
+        checkIcon:{ 
+            height: 20, 
+            width: 20 
+        },
+    remberme:{ 
+        marginLeft: 4
+     },
+    button_sty:{ 
+        width: "100%",
+     },
+    or_sty:{ 
+        paddingBottom: 3, 
+        paddingTop: 10 
+    },
+    orImg:{ 
+        height: 25, 
+        width: '100%',
+         marginTop:5
+        },
+    pharmacyUser_sty:{ paddingTop: 20 },
+    pharmacyUserBox:{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginBottom: 10 },
+    pharmacyUserImg:{ height: 60, width: 40, overflow: 'hidden' },
+    arrow:{ height: 20, width: 20 },
+    signup:{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 15},
 });
 
 export default LoginScreen;
+

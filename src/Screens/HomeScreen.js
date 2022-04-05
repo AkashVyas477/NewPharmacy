@@ -11,12 +11,12 @@ const HomeScreen = props =>{
               {/*Logo + Icon  */}
                  <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
                         <View>
-                            <TouchableOpacity   >
-                                <Image source={require('../assets/image/Icons/menu.png')} style={{ height: 20, width:25 }} />
+                            <TouchableOpacity onPress={() =>props.navigation.toggleDrawer()}  >
+                                <Image source={require('../assets/Icons/Edit-Add/menu.png')} style={{ height: 20, width:25 }} />
                             </TouchableOpacity>
                         </View>
                         <View style={{paddingLeft:100}}>
-                        <Image source={require('../assets/image/Icons/headerAppIcon.png')} style={{ height:60 ,  width:130,}} />
+                        <Image source={require('../assets/Icons/AppIcon/headerAppIcon.png')} style={{ height:60 ,  width:130,}} />
                         </View>
                         </View>
                {/*Logo + Icon  */}
@@ -28,7 +28,7 @@ const HomeScreen = props =>{
                                 Location
                             </Text>
                             <View >
-                            <Text style={{color:'#0DC314', paddingLeft:7, marginBottom:10}}> 374  WIlliam S Canning Blvd <Image source={require('../assets/image/Icons/pencil.png')} style={{ height:15 ,  width:15,}} /> </Text>
+                            <Text style={{color:'#0DC314', paddingLeft:7, marginBottom:10}}> 374  WIlliam S Canning Blvd <Image source={require('../assets/Icons/Edit-Add/pencil.png')} style={{ height:15 ,  width:15,}} /> </Text>
                             </View>
                             </TouchableOpacity>
                             </View>

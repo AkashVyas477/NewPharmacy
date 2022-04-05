@@ -12,13 +12,13 @@ const VerificationScreen = props =>{
         <View style={styles.screen}>
              <KeyboardAwareScrollView>
             {/* VERIFICATION  */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, padding: 10 }}>
+            <View style={styles.Verification_sty}>
                 <View>
                     <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-                        <Image source={require('../assets/image/Icons/arrow.png')} style={{ height: 20, width: 30 }} />
+                        <Image source={require('../../../assets/Icons/Arrow/arrow.png')} style={styles.arrow_sty} />
                     </TouchableOpacity>
                 </View>
-                <Text style={{ fontSize: 25, color: 'black', paddingLeft: 40, }} >
+                <Text style={styles.VerificationTitle_sty} >
                    VERIFICATION CODE
                 </Text>
             </View>
@@ -26,13 +26,13 @@ const VerificationScreen = props =>{
 
             {/* logo */}
             <View style={styles.screen}>
-                        <Image source={require('../assets/image/Icons/mobile.png')} style={{ height: 192, width: 120, marginTop: 20 }} />
+                        <Image source={require('../../../assets/Icons/logo/mobile.png')} style={styles.logo_sty} />
                     </View>
                     <View>
                       <View >
                         <Text style={styles.text}> Waiting for Automatically detect and SMS sent to +7752773315  
                         <View>
-                         <TouchableOpacity onPress={() => {props.navigation.navigate('PhoneNumberScreen')}} style={{fontSize:20}} > 
+                         <TouchableOpacity onPress={() => {props.navigation.navigate('PhoneNumberScreen')}} style={styles.wrongNo_sty} > 
                          <Text style={styles.Touchtext}> Wrong number ? </Text>
                          </TouchableOpacity>
                          </View>
@@ -43,7 +43,7 @@ const VerificationScreen = props =>{
 
             {/* Code input Start */}
 
-            <View style={{ flex: 0.75 }}>
+            <View style={styles.codeInPut}>
         <View style={styles.optContainer}>
            <TextInput
           ref={pin1ref}
@@ -87,8 +87,8 @@ const VerificationScreen = props =>{
             {/* Code input End */}
 
             {/* Next Button start  */}
-            <View style={{ width: "100%", }}>
-                    <TouchableOpacity style={{ padding: 20 }} onPress={() => { props.navigation.navigate('HomeScreen') }} >
+            <View style={styles.buton_style}>
+                    <TouchableOpacity style={styles.Touch} onPress={() => { props.navigation.navigate('HomeScreen') }} >
                         <View style={styles.buttoncon}>
                             <Text style={styles.Button}>
                                 Verify Now
@@ -104,6 +104,17 @@ const VerificationScreen = props =>{
 };
 
 const  styles=StyleSheet. create({
+
+    buton_style:{ 
+        width: "100%", 
+    },
+    Touch:{ 
+        padding: 20
+     },
+
+    codeInPut:{
+         flex: 0.75 
+        },
     screen: {
         flex: 1,
         alignItems: 'center',
@@ -120,9 +131,6 @@ const  styles=StyleSheet. create({
     },
     Touchtext:{
         color: '#D5E018',
-     
-        
-       
         
     },
     Button: {
@@ -167,6 +175,29 @@ const  styles=StyleSheet. create({
       justifyContent: 'center',
       textAlign: 'center'
     },
+
+    Verification_sty:{
+        flexDirection: 'row',
+         alignItems: 'center',
+          marginTop: 5, 
+          padding: 10
+    },
+    arrow_sty:{
+         height: 20,
+          width: 30 
+        },
+        VerificationTitle_sty:{
+             fontSize: 25, 
+             color: 'black',
+              paddingLeft: 40,
+             },
+             logo_sty:{ 
+                 height: 192,
+                  width: 120,
+                   marginTop: 20
+                 },
+                 wrongNo_sty:{fontSize:20},
+
 });
 
 export default VerificationScreen;

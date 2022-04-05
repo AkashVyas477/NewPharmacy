@@ -12,26 +12,32 @@ const ForgotPasswordScreen = props => {
 
         <View style={styles.screen}>
             <KeyboardAwareScrollView>
-                <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+                {/* Header start */}
+                <View style={styles.header_sty}>
                     <View>
                         <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-                            <Image source={require('../assets/image/Icons/arrow.png')} style={{ height: 20, width: 30 }} />
+                            <Image source={require('../../../assets/Icons/Arrow/arrow.png')} style={styles.arrow} />
                         </TouchableOpacity>
                     </View>
-                    <Text style={{ fontSize: 25, color: 'black', paddingLeft: 50 }} >
+                    <Text style={styles.headerText} >
                         FORGOT PASSWORD
                     </Text>
                 </View>
+                {/* Header start */}
+                {/* logo start */}
                 <View style={styles.screen}>
-                    <Image source={require('../assets/image/Icons/forgotPLock.png')} style={{ height: 300, width: "86%", marginTop: 20 }} />
+                    <Image source={require('../../../assets/Icons/AppIcon/forgotPLock.png')} style={styles.forgotLockImg} />
                 </View>
+                
                 <View  >
                     <Text style={styles.text}>
                         Pleas Enter the Email Address Below, You will Receive a link to Create a new Password via Email.
                     </Text>
 
                 </View>
+                {/* logo end */}
                 <View style={styles.mainWrapper} >
+                    {/* Formik Start */}
                     <Formik
 
                         initialValues={{
@@ -50,8 +56,8 @@ const ForgotPasswordScreen = props => {
                     >
                         {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
                             <View >
-                                <Text style={{ color: 'black', marginBottom: 1, paddingLeft: 3 }} >E-mail</Text>
-                                <View style={{ borderBottomColor: '#e8e8e8', borderBottomWidth: 1, }} >
+                                <Text style={styles.formiText} >E-mail</Text>
+                                <View style={styles.formiText_sty} >
                                     <TextInput
                                         value={values.email}
                                         // style={styles.customCss}
@@ -61,7 +67,7 @@ const ForgotPasswordScreen = props => {
                                         keyboardType='email-address'
                                     />
                                     {touched.email && errors.email &&
-                                        <Text style={{ fontSize: 11, color: 'red' }}>{errors.email}</Text>
+                                        <Text style={styles.errorText}>{errors.email}</Text>
                                     }
 
                                 </View>
@@ -74,7 +80,7 @@ const ForgotPasswordScreen = props => {
                     style={styles.Button}
                 /> */}
 
-                                <TouchableOpacity style={{ padding: 20 }} onPress={() => { props.navigation.navigate('Login') }} >
+                                <TouchableOpacity style={styles.touch} onPress={() => { props.navigation.navigate('Login') }} >
                                     <View style={styles.buttoncon}>
                                         <Text style={styles.Button}>
                                             Send
@@ -85,6 +91,7 @@ const ForgotPasswordScreen = props => {
 
                         )}
                     </Formik>
+                    {/* Formik End */}
                 </View>
             </KeyboardAwareScrollView>
         </View>
@@ -116,6 +123,7 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         justifyContent: 'center',
         borderRadius: 25,
+        padding: 5
     },
     Button: {
         color: 'white',
@@ -130,7 +138,17 @@ const styles = StyleSheet.create({
 
         justifyContent: 'center'
 
-    }
+    },
+    header_sty:{ flexDirection: 'row', alignItems: 'center', padding: 10 },
+    arrow:{ height: 20, width: 30 },
+    headerText:{ fontSize: 25, color: 'black', paddingLeft: 50 },
+    forgotLockImg:{ height: 300, width: "86%", marginTop: 20 },
+    formiText:{ color: 'black', marginBottom: 1, paddingLeft: 3, paddingLeft:6,paddingRight:6 },
+    formiText_sty:{ borderBottomColor: '#e8e8e8', borderBottomWidth: 1, paddingLeft:5, paddingRight:5  },
+    errorText:{ fontSize: 11, color: 'red' },
+    touch:{ padding: 20 },
+
+
 });
 
 export default ForgotPasswordScreen;

@@ -4,33 +4,38 @@ import {View, Text ,TextInput, StyleSheet , TouchableOpacity, Image} from 'react
 const pharmacyuserscreen = props =>{
     return(
         <View style={styles.screen}>
-            <View style={{width:"100%"}}>
-            <View  style={{flexDirection:'row',alignItems:'center',padding:10}}>
+{/* Screen partation for button and ID */}
+
+            <View style={styles.screen2}>
+                 {/* Logo & HeaderText */}
+            <View  style={styles.Header}>
               <View>
                   <TouchableOpacity onPress={() => (props.navigation.goBack())} >      
-                    <Image source={require('../assets/image/Icons/arrow.png')} style={{height:20, width:30}} />
+                    <Image source={require('../../../assets/Icons/Arrow/arrow.png')} style={styles.arrow} />
               </TouchableOpacity>
               </View>
-        <Text style={{fontSize:20,color:'black',paddingLeft:30}} >
+        <Text style={styles.HeaderText} >
             LOGIN AS PHARMACY USER
         </Text>  
         </View>
-
-        <View style={{paddingTop:40, width:"100%"}} >
-                        <Text style={{ color: 'black', marginBottom: 1, paddingLeft:3 }}>
+            {/* Logo & HeaderText */}
+            {/* Input  */}
+        <View style={styles.text_sty} >
+                        <Text style={styles.text}>
                             Pharmacy ID
                             </Text>
-                        <View style={{ borderBottomColor: '#e8e8e8', borderBottomWidth:1 , }} >
+                        <View style={styles.TextInput} >
                             <TextInput  
                                 placeholder="Pharamacy ID Number"
                                 keyboardType='number-pad'
                             />
                         </View>
                     </View>
+             {/* Input  */}
                     </View>
-
-                    <View style={{width:"100%",}}>
-                    <TouchableOpacity style={{padding:20}} onPress={()=>{props.navigation.navigate('Login')}} >
+{/* Screen partation for button and ID */}
+                    <View style={styles.button_sty}>
+                    <TouchableOpacity style={styles.touch} onPress={()=>{props.navigation.navigate('Login')}} >
                     <View style={styles.buttoncon}>
                         <Text style={styles.Button}>
                             Verify now
@@ -51,11 +56,36 @@ const  styles=StyleSheet.create({
         padding: 10,
         justifyContent:'space-between'        
     }, 
-    text:{
-        textAlign: 'center',
-        padding: 10,
-        paddingHorizontal: 10,
+    screen2:{
+        width:"100%"
     },
+    Header:{
+        flexDirection:'row',
+        alignItems:'center',
+        padding:10
+    },
+    arrow:{
+        height:20,
+         width:30
+        },
+    HeaderText:{
+        fontSize:20,
+        color:'black',
+        paddingLeft:30
+    },
+    text_sty:{
+        paddingTop:40,
+         width:"100%"
+        },
+     text:{ 
+        color: 'black',
+        marginBottom: 1,
+        paddingLeft:3 
+        },
+    TextInput:{
+         borderBottomColor: '#e8e8e8', 
+         borderBottomWidth:1 ,
+         },
     Button:{
         color:'white',
         textAlign:'center',
@@ -67,9 +97,9 @@ const  styles=StyleSheet.create({
         height:40,
         width: "100%",
         justifyContent:'center',
-        
-       
-    }
+    },
+    button_sty:{width:"100%",},
+    touch:{padding:20},
 });
 
 export default pharmacyuserscreen;

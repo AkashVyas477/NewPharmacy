@@ -15,7 +15,7 @@ const VerificationScreen = props =>{
             <View style={styles.Verification_sty}>
                 <View>
                     <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-                        <Image source={require('../../../assets/Icons/Arrow/arrow.png')} style={styles.arrow_sty} />
+                        <Image source={require('../../assets/Icons/Arrow/arrow.png')} style={styles.arrow_sty} />
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.VerificationTitle_sty} >
@@ -26,7 +26,7 @@ const VerificationScreen = props =>{
 
             {/* logo */}
             <View style={styles.screen}>
-                        <Image source={require('../../../assets/Icons/logo/mobile.png')} style={styles.logo_sty} />
+                        <Image source={require('../../assets/Icons/logo/mobile.png')} style={styles.logo_sty} />
                     </View>
                     <View>
                       <View >

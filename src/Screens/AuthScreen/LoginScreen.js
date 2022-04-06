@@ -18,7 +18,7 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 
 
-import AppIcon from '../../../assets/Icons/AppIcon/appIcon.png';
+import AppIcon from '../../assets/Icons/AppIcon/appIcon.png';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -96,8 +96,8 @@ const LoginScreen = (props) => {
                                         secureTextEntry={tnceye ? true : false}
                                     />
                                     <TouchableOpacity onPress={() => setTncEye(!tnceye)} >
-                                        {tnceye ? <Image source={require('../../../assets/Icons/EyeIcon/activeEye.png')} style={styles.eyeIcon} /> :
-                                            <Image source={require('../../../assets/Icons/EyeIcon/inactiveEye.png')} style={styles.eyeIcon} />
+                                        {tnceye ? <Image source={require('../../assets/Icons/EyeIcon/activeEye.png')} style={styles.eyeIcon} /> :
+                                            <Image source={require('../../assets/Icons/EyeIcon/inactiveEye.png')} style={styles.eyeIcon} />
                                         }
                                     </TouchableOpacity>
                                 </View>
@@ -113,8 +113,8 @@ const LoginScreen = (props) => {
                                     {/* Check box and Remember me Start */}
                                     <TouchableOpacity onPress={tncHandler}>
                                         {tnc ?
-                                            <Image source={require('../../../assets/Icons/CheckBox/checkboxActive.png')} style={styles.checkIcon} /> :
-                                            <Image source={require('../../../assets/Icons/CheckBox/checkboxInactive.png')} style={styles.checkIcon} />
+                                            <Image source={require('../../assets/Icons/CheckBox/checkboxActive.png')} style={styles.checkIcon} /> :
+                                            <Image source={require('../../assets/Icons/CheckBox/checkboxInactive.png')} style={styles.checkIcon} />
                                         }
                                     </TouchableOpacity>
                                     <Text style={styles.remberme}>
@@ -152,7 +152,7 @@ const LoginScreen = (props) => {
 
                                 {/* Or image start */}
                                 <View style={styles.or_sty}>
-                                    <Image source={require('../../../assets/Icons/Image/or.png')} style={styles.orImg} />
+                                    <Image source={require('../../assets/Icons/Image/or.png')} style={styles.orImg} />
                                 </View>
 
                                 {/* Or image end */}
@@ -162,12 +162,12 @@ const LoginScreen = (props) => {
                                     <View style={styles.container} >
                                         <TouchableOpacity onPress={() => { props.navigation.navigate('LOGIN AS PHARMACY USER') }}>
                                             <View style={styles.pharmacyUserBox}>
-                                                <Image source={require('../../../assets/Icons/Image/pharmacyUser.png')} style={styles.pharmacyUserImg} />
+                                                <Image source={require('../../assets/Icons/Image/pharmacyUser.png')} style={styles.pharmacyUserImg} />
 
                                                 <Text style={{ fontWeight: 'bold' }}>
                                                     PharmacyUser
                                                 </Text>
-                                                <Image source={require('../../../assets/Icons/Arrow/rightArrow.png')} style={styles.arrow} />
+                                                <Image source={require('../../assets/Icons/Arrow/rightArrow.png')} style={styles.arrow} />
                                             </View>
                                         </TouchableOpacity>
                                     </View>
@@ -176,7 +176,7 @@ const LoginScreen = (props) => {
                                 <View>
                                     {/* Sing Up start */}
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('RollSignUpScreen') }} >
-                                        <View style={styles.signup}>
+                                        <View style={styles.signup_sty}>
                                             <Text style={styles.signup} > Don't have Account? <Text style={styles.sp_signup} > Sign up </Text>   </Text>
                                         </View>
 
@@ -309,11 +309,11 @@ const styles = StyleSheet.create({
         width: "100%",
      },
     or_sty:{ 
-        paddingBottom: 3, 
-        paddingTop: 10 
+        paddingBottom: 5, 
+        paddingTop: 5 
     },
     orImg:{ 
-        height: 25, 
+        height: 20, 
         width: '100%',
          marginTop:5
         },
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     pharmacyUserBox:{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginBottom: 10 },
     pharmacyUserImg:{ height: 60, width: 40, overflow: 'hidden' },
     arrow:{ height: 20, width: 20 },
-    signup:{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 15},
+    signup_sty:{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 15},
 });
 
 export default LoginScreen;

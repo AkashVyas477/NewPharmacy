@@ -43,8 +43,8 @@ const RollSignupScreen = props =>{
             <View style={{alignItems:'center',paddingTop:50}}>
             <View style={{flexDirection:'column', marginTop:5}} >
                 <TouchableOpacity onPress={customerHandler} >
-                    {!customer?<Image source={require('../../../assets/Icons/Image/customerInactive.png')} style={styles.customerIcon1} />:
-                    <Image source={require('../../../assets/Icons/Image/customerActive.png')}  style={styles.customerIcon2} />}
+                    {!customer?<Image source={require('../../assets/Icons/Image/customerInactive.png')} style={styles.customerIcon1} />:
+                    <Image source={require('../../assets/Icons/Image/customerActive.png')}  style={styles.customerIcon2} />}
                 </TouchableOpacity>
                 <Text style={styles.customerText} >
                     Customer
@@ -53,8 +53,8 @@ const RollSignupScreen = props =>{
 
                 <View style={{flexDirection:'column', marginTop:20}} >
                 <TouchableOpacity onPress={pharmacistHandler} >
-                    {!pharamacy?<Image source={require('../../../assets/Icons/Image/pharmistInactive.png')} style={styles.pharmistIcon1} />:
-                    <Image source={require('../../../assets/Icons/Image/pharmistActive.png')}  style={styles.pharmistIcon2}  />}
+                    {!pharamacy?<Image source={require('../../assets/Icons/Image/pharmistInactive.png')} style={styles.pharmistIcon1} />:
+                    <Image source={require('../../assets/Icons/Image/pharmistActive.png')}  style={styles.pharmistIcon2}  />}
                 </TouchableOpacity>
                 <Text style={styles.pharmistText} >
                     Pharmacist

@@ -21,7 +21,7 @@ const PhoneNumberScreen = props => {
                     <View style={styles.logoText}>
                         <View>
                             <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-                                <Image source={require('../../../assets/Icons/Arrow/arrow.png')} style={styles.arrow} />
+                                <Image source={require('../../assets/Icons/Arrow/arrow.png')} style={styles.arrow} />
                             </TouchableOpacity>
                         </View>
 
@@ -31,7 +31,7 @@ const PhoneNumberScreen = props => {
 
                     </View>
                     <View style={styles.screen}>
-                        <Image source={require('../../../assets/Icons/logo/phoneNumberImg.png')} style={styles.phoneNoImg} />
+                        <Image source={require('../../assets/Icons/logo/phoneNumberImg.png')} style={styles.phoneNoImg} />
                     </View>
                     <View  >
                         <Text style={styles.text}>

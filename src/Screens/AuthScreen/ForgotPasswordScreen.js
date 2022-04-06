@@ -16,7 +16,7 @@ const ForgotPasswordScreen = props => {
                 <View style={styles.header_sty}>
                     <View>
                         <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-                            <Image source={require('../../../assets/Icons/Arrow/arrow.png')} style={styles.arrow} />
+                            <Image source={require('../../assets/Icons/Arrow/arrow.png')} style={styles.arrow} />
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.headerText} >
@@ -26,7 +26,7 @@ const ForgotPasswordScreen = props => {
                 {/* Header start */}
                 {/* logo start */}
                 <View style={styles.screen}>
-                    <Image source={require('../../../assets/Icons/AppIcon/forgotPLock.png')} style={styles.forgotLockImg} />
+                    <Image source={require('../../assets/Icons/AppIcon/forgotPLock.png')} style={styles.forgotLockImg} />
                 </View>
                 
                 <View  >

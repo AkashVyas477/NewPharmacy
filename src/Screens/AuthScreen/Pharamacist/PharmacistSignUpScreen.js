@@ -173,9 +173,9 @@ const PharmacistSignUpScreen = props =>{
                                        <View style={styles.gender_sty}>
                                            <View style={styles.gendercheck}>
                                             <TouchableOpacity onPress={maleHandler}  >
-                                           { !male ?<Image source={require('../assets/image/Icons/roundCheckInactive.png')} style={{ height: 28, width: 28, }} />
+                                           { !male ?<Image source={require('../../../assets/Icons/CheckBox/roundCheckInactive.png')} style={{ height: 28, width: 28, }} />
                                             :
-                                                <Image source={require('../assets/image/Icons/roundCheckActive.png')} style={{ height: 28, width: 28, }} />
+                                                <Image source={require('../../../assets/Icons/CheckBox/roundCheckActive.png')} style={{ height: 28, width: 28, }} />
                                             }
                                             </TouchableOpacity>
                                             <Text style={styles.gendertext} >Male </Text> 

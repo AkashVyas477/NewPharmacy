@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import AuthStackScreen from '../navigation/Authnavigation/AuthStackscreen';
-import DrawerNavigator from '../navigation/customerRoute';
+import AuthStackScreen from './Authnavigation/AuthStackscreen';
+import DrawerNavigator from './customerRoute';
 
 const AppStack = createStackNavigator();
 const AppNavigator = props => {

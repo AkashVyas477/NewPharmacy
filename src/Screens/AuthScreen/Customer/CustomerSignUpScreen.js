@@ -63,33 +63,10 @@ const CustomerSignupScreen = props => {
                     initialValues={{
                         username: '',
                         email: '',
-                        // gender: '',
                         password: ''
                     }}
                     onSubmit={values => Alert.alert(JSON.stringify(values))}
-                    validationSchema={yup.object().shape({
-                        username: yup
-                            .string()
-                            .required('Username is required.'),
-                        email: yup
-                            .string()
-                            .email()
-                            .required('Email is required.'),
-                        // gender: yup
-                        //     .number()
-                        //     .max(10)
-                        //     .required(),
-                        password: yup
-                            .string()
-                            .min(3, 'Password can not be less than 3 characters.')
-                            .max(11, 'Password can not be more than 12 characters long.')
-                            .required(),
-                        passwordConfirm: yup
-                            .string()
-                            .label('Password Confirm')
-                            .required()
-                            .oneOf([yup.ref('password')], 'Passwords does not match'),
-                    })}
+                    validationSchema={SignUpValidationSchema}
                 >
                     {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
                         <View >

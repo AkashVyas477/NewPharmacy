@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import LoginValidationSchema from '../../ForValidationSchema/LoginValidationSchema';
 
 import { Formik } from 'formik'
 import * as yup from 'yup'
@@ -50,19 +51,7 @@ const LoginScreen = (props) => {
                         password: ''
                     }}
                     onSubmit={values => Alert.alert(JSON.stringify(values))}
-                    validationSchema={yup.object().shape({
-
-                        email: yup
-                            .string()
-                            .email()
-                            .required('Email is required.'),
-
-                        password: yup
-                            .string()
-                            .min(3, 'Password can not be less than 3 characters.')
-                            .max(11, 'Password can not be more than 12 characters long.')
-                            .required(),
-                    })}
+                    validationSchema={LoginValidationSchema}
                 >
                     {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
 
@@ -77,6 +66,7 @@ const LoginScreen = (props) => {
                                         onBlur={() => setFieldTouched('email')}
                                         onChangeText={handleChange('email')}
                                         placeholder="E-mail"
+                                        
                                     />
                                 </View>
                                 {touched.email && errors.email &&
@@ -93,7 +83,8 @@ const LoginScreen = (props) => {
                                         placeholder="Password"
                                         onBlur={() => setFieldTouched('password')}
                                         onChangeText={handleChange('password')}
-                                        secureTextEntry={tnceye ? true : false}
+                                        secureTextEntry={tnceye ? false: true}
+                                        
                                     />
                                     <TouchableOpacity onPress={() => setTncEye(!tnceye)} >
                                         {tnceye ? <Image source={require('../../assets/Icons/EyeIcon/activeEye.png')} style={styles.eyeIcon} /> :
@@ -139,7 +130,7 @@ const LoginScreen = (props) => {
                                 <View>
                                     {/* Login button start */}
                                     <View style={styles.button_sty}>
-                                        <TouchableOpacity style={{ padding: 20 }} onPress={() => { props.navigation.navigate('Drawer', { screen:'Home' }) }} >
+                                        <TouchableOpacity  style={{ padding: 20 }} onPress={() => { props.navigation.navigate('Drawer', { screen:'Home' }) }} >
                                             <View style={styles.buttoncon}>
                                                 <Text style={styles.Button}>
                                                     Login

@@ -22,10 +22,10 @@ const DrawerNavigator = props =>{
         <Drawer.Navigator headerMode='none'>
             {/* <Drawer.Screen name ='Profile' component={ProfileScreen} /> */}
             <Drawer.Screen name ='Home' component={TabNavigator} options={{
-                drawerIcon: () => <Image source={require('../assets/Icons/HomeIcon/homemenu.png')} style={{ height:35 ,  width:35,}}/>}} />
+                drawerIcon: () => <Image source={require('../Assets/Icons/HomeIcon/homeIcon.png')} style={{ height:35 ,  width:35,}}/>}} />
             <Drawer.Screen name ='AddressStack' component={AddresStackScreen} options={{
                     drawerLabel:'Manage Address',
-                    drawerIcon: () => <Image source={require('../assets/Icons/location/locationPin.png')} style={{ height:40 ,  width:30,}}/>,
+                    drawerIcon: () => <Image source={require('../Assets/Icons/location/locationPin.png')} style={{ height:40 ,  width:30,}}/>,
 
                 }}/>
             
@@ -48,7 +48,7 @@ const TabNavigator = props =>{
                 tabBarLabel:'DASHBOARD',
               tabBarIcon:({focused})=> (
 
-                   < Image source={require('../assets/Icons/HomeIcon/homeIcon.png')} style={{ height:22 ,  width:25, marginTop:15 , tintColor: focused? 'green' : '#cccccc' }}  /> 
+                   < Image source={require('../Assets/Icons/HomeIcon/homeIcon.png')} style={{ height:22 ,  width:25, marginTop:15 , tintColor: focused? 'green' : '#cccccc' }}  /> 
             )  
             }}/>
             <Tab.Screen 
@@ -57,7 +57,7 @@ const TabNavigator = props =>{
             options={{
                 tabBarLabel:'PRESCRIPTION',
               tabBarIcon:({focused})=> (
-                    < Image source={require('../assets/Icons/HomeIcon/prescriptionIcon.png')} style={{ height:25 ,width:18, marginTop:15,tintColor: focused? 'green' : '#cccccc'}} /> 
+                    < Image source={require('../Assets/Icons/HomeIcon/prescriptionIcon.png')} style={{ height:25 ,width:18, marginTop:15,tintColor: focused? 'green' : '#cccccc'}} /> 
             )  
             }}
             

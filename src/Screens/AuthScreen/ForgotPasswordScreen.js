@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Button, Saf
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { Formik } from 'formik'
-import * as yup from 'yup'
-
+import ForgotPasswordValidation from '../../ForValidationSchema/ForgotPassword';
+import { Colors, Images } from '../../CommonConfig'
 
 
 const ForgotPasswordScreen = props => {
@@ -16,7 +16,7 @@ const ForgotPasswordScreen = props => {
                 <View style={styles.header_sty}>
                     <View>
                         <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-                            <Image source={require('../../assets/Icons/Arrow/arrow.png')} style={styles.arrow} />
+                            <Image source={Images.Arrow} style={styles.arrow} />
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.headerText} >
@@ -26,7 +26,7 @@ const ForgotPasswordScreen = props => {
                 {/* Header start */}
                 {/* logo start */}
                 <View style={styles.screen}>
-                    <Image source={require('../../assets/Icons/AppIcon/forgotPLock.png')} style={styles.forgotLockImg} />
+                    <Image source={Images.ForgotPlock} style={styles.forgotLockImg} />
                 </View>
                 
                 <View  >
@@ -46,13 +46,7 @@ const ForgotPasswordScreen = props => {
                             password: ''
                         }}
                         onSubmit={values => Alert.alert(JSON.stringify(values))}
-                        validationSchema={yup.object().shape({
-
-                            email: yup
-                                .string()
-                                .email()
-                                .required('Email is required.'),
-                        })}
+                        validationSchema={ForgotPasswordValidation}
                     >
                         {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
                             <View >
@@ -126,26 +120,36 @@ const styles = StyleSheet.create({
         padding: 5
     },
     Button: {
-        color: 'white',
+        color: Colors.ButtonTextColor,
         textAlign: 'center',
 
     },
     buttoncon: {
-        backgroundColor: '#0DC314',
+        backgroundColor:Colors.PRIMARY,
         borderRadius: 10,
         height: 40,
         width: "100%",
-
         justifyContent: 'center'
 
     },
-    header_sty:{ flexDirection: 'row', alignItems: 'center', padding: 10 },
-    arrow:{ height: 20, width: 30 },
-    headerText:{ fontSize: 25, color: 'black', paddingLeft: 50 },
+    header_sty:{ 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        padding: 10 
+    },
+    arrow:{ 
+        height: 20, 
+        width: 30 
+    },
+    headerText:{ 
+        fontSize: 25, 
+        color: Colors.Sp_Text, 
+        paddingLeft: 50 
+    },
     forgotLockImg:{ height: 300, width: "86%", marginTop: 20 },
-    formiText:{ color: 'black', marginBottom: 1, paddingLeft: 3, paddingLeft:6,paddingRight:6 },
-    formiText_sty:{ borderBottomColor: '#e8e8e8', borderBottomWidth: 1, paddingLeft:5, paddingRight:5  },
-    errorText:{ fontSize: 11, color: 'red' },
+    formiText:{ color:Colors.Sp_Text, marginBottom: 1, paddingLeft: 3, paddingLeft:6,paddingRight:6 },
+    formiText_sty:{ borderBottomColor: Colors.borderBottomColor, borderBottomWidth: 1, paddingLeft:5, paddingRight:5  },
+    errorText:{ fontSize: 11, color:Colors.Error_Textcolor },
     touch:{ padding: 20 },
 
 

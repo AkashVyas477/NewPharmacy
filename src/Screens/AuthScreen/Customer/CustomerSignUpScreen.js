@@ -3,7 +3,13 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { Formik } from "formik";
-import * as yup from 'yup';
+import SignUpValidationSchema from '../../../ForValidationSchema/SignupValidationSchema' 
+import { Images , Colors } from '../../../CommonConfig';
+import Button from '../../../Components/Common/Button';
+import CheckBox from '../../../Components/Common/CheckBox';
+import Gender from '../../../Components/Common/Gender';
+import EyeButton from '../../../Components/Common/EyeButton';
+
 
 const CustomerSignupScreen = props => {
 
@@ -37,7 +43,8 @@ const CustomerSignupScreen = props => {
             <View style={styles.header}>
                 <View>
                     <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-                        <Image source={require('../../../assets/Icons/Arrow/arrow.png')} style={styles.arrow} />
+                       
+                        <Image source={Images.Arrow} style={styles.arrow}/>
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.headerText} >
@@ -48,11 +55,11 @@ const CustomerSignupScreen = props => {
             {/* Profile */}
             <View style={styles.profile}>
                 <View >
-                    <Image source={require('../../../assets/Icons/Image/signupPlaceholder.png')} style={styles.profileImg} />
+                    <Image source={Images.SignupPlaceholder} style={styles.profileImg} />
                 </View>
                 <View>
                     <TouchableOpacity style={styles.addIcon}>
-                        <Image source={require('../../../assets/Icons/Edit-Add/addIcon.png')} style={styles.addIconImg} />
+                        <Image source={Images.AddIcon} style={styles.addIconImg} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -106,25 +113,29 @@ const CustomerSignupScreen = props => {
                                            <View style={styles.gendercheck}>
                                            
                                             <TouchableOpacity onPress={maleHandler} >
-                                           { !male ?<Image source={require('../../../assets/Icons/CheckBox/roundCheckInactive.png')} style={styles.checkIcon} />
+                                           { !male ?<Image source={Images.RoundCheckInactive} style={styles.checkIcon}/>
+                                                    
                                             :
-                                                <Image source={require('../../../assets/Icons/CheckBox/roundCheckActive.png')}style={styles.checkIcon}  />
+                                            <Image source={Images.RoundCheckActive} style={styles.checkIcon}  />
                                             }
                                             </TouchableOpacity>
                                             <Text style={styles.genderText} >Male </Text> 
+                                        {/* <Gender  state={male} onPress={ () => {setMale(!male)} } /> */}
+
                                             </View> 
                                     {/* male button  end*/}
                                        {/* Female button */}
                                        <View style={styles.gendercheck}>
                                            <View style={styles.femaleGender}>
                                             <TouchableOpacity  onPress={femaleHandler}>
-                                           { !female ?<Image source={require('../../../assets/Icons/CheckBox/roundCheckInactive.png')} style={styles.checkIcon}  />
+                                           { !female ?<Image source={Images.RoundCheckInactive} style={styles.checkIcon}  />
                                             :
-                                                <Image source={require('../../../assets/Icons/CheckBox/roundCheckActive.png')} style={styles.checkIcon} />
+                                            <Iamge source={Images.RoundCheckActive} style={styles.checkIcon} />
                                             }
                                             </TouchableOpacity>
                                             <Text style={styles.genderText} >Female</Text>
                                             </View>
+                                            {/* <Gender  state={female} onPress={ () => {setFemale(!female)} }  /> */}
                                        {/* Female button */}
                                        </View>
                                         </View> 
@@ -143,11 +154,7 @@ const CustomerSignupScreen = props => {
                                             onChangeText={handleChange('password')}
                                             secureTextEntry={tnceye ? true : false}
                                         />
-                                        <TouchableOpacity onPress={() => setTncEye(!tnceye)} style={styles.eye_sty} >
-                                            {tnceye ? <Image source={require('../../../assets/Icons/EyeIcon/activeEye.png')} style={styles.eyeIcon}  /> :
-                                                <Image source={require('../../../assets/Icons/EyeIcon/inactiveEye.png')} style={styles.eyeIcon}  />
-                                            }
-                                        </TouchableOpacity>
+                                        <EyeButton style={styles.eye_sty} state={tnceye} onPress={ () => {setTncEye(!tnceye)} }/>
                                     </View>
                                     {touched.password && errors.password &&
                                         <Text style={styles.errortext}>{errors.password}</Text>
@@ -164,11 +171,9 @@ const CustomerSignupScreen = props => {
                                     onChangeText={handleChange('passwordConfirm')}
                                     secureTextEntry={tnceyeconf ? true : false}
                                 />
-                                <TouchableOpacity onPress={() => setTncEyeconf(!tnceyeconf)} style={styles.eye_sty} >
-                                    {tnceyeconf ? <Image source={require('../../../assets/Icons/EyeIcon/activeEye.png')} style={styles.eyeIcon} /> :
-                                        <Image source={require('../../../assets/Icons/EyeIcon/inactiveEye.png')}style={styles.eyeIcon}  />
-                                    }
-                                </TouchableOpacity>
+                                
+                                <EyeButton style={styles.eye_sty} state={tnceyeconf} onPress={ () => {setTncEyeconf(!tnceyeconf)} }/>
+
                                 </View>
                                 {touched.passwordConfirm && errors.passwordConfirm &&
                                     <Text style={styles.errortext}>{errors.passwordConfirm}</Text>
@@ -181,8 +186,8 @@ const CustomerSignupScreen = props => {
                             <View  >
                                 <View style={styles.terms_sty} >
                                     <TouchableOpacity onPress={tncHandler} style={{paddingRight:5}} >
-                                        {tnc ? <Image source={require('../../../assets/Icons/CheckBox/checkboxActive.png')} style={styles.checkbox} /> :
-                                            <Image source={require('../../../assets/Icons/CheckBox/checkboxInactive.png')} style={styles.checkbox} />}
+                                        {tnc ? <Image source={Images.CheckBoxActive} style={styles.checkbox} /> :
+                                            <Image source={Images.CheckBoxInactive} style={styles.checkbox} />}
                                     </TouchableOpacity>
                                     <View style={styles.textAlign} >
                                         <Text style={styles.tandc} >Accept to<Text style={styles.sp_tandc} >Terms and Conditions</Text> and <Text style={styles.sp_tandc}>Privacy Policy</Text>
@@ -224,10 +229,10 @@ const CustomerSignupScreen = props => {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: Colors.backgroundColor,
     },
     header:{ flexDirection: 'row', alignItems: 'center', marginTop: 5, padding: 10 },
-    headerText:{ fontSize: 25, color: 'black', paddingLeft: 115, },
+    headerText:{ fontSize: 25, color: Colors.Sp_Text, paddingLeft: 115, },
     addIcon: {
         left: Dimensions.get('window').width * 0.12,
         bottom: Dimensions.get('window').width * 0.1,
@@ -237,17 +242,17 @@ const styles = StyleSheet.create({
     addIconImg:{ height: 50, width: 50 },
     arrow:{ height: 20, width: 30 },
     Formik_sty:{ padding: 10 },
-    errortext:{ fontSize: 11, color: 'red' },
+    errortext:{ fontSize: 11, color:Colors.Error_Textcolor },
     customCss: {
         borderBottomWidth: 1,
-        borderBottomColor: '#e8e8e8',
+        borderBottomColor: Colors.borderBottomColor,
         width: '100%',
         paddingBottom:2,
         justifyContent: 'space-evenly',
     },
     gender_sty:{flexDirection:'row' ,justifyContent:'space-between',width:'100%', padding:5,},
     main: {
-        color: 'black',
+        color: Colors.Sp_Text,
         marginTop: 10
 
     },
@@ -257,7 +262,7 @@ const styles = StyleSheet.create({
 
     },
     buttoncon: {
-        backgroundColor: '#0DC314',
+        backgroundColor: Colors.PRIMARY,
         borderRadius: 10,
         height: 40,
         width: "100%",
@@ -269,16 +274,16 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     tandc: {
-        color: 'black',
+        color: Colors.Sp_Text,
        
 
     },
     sp_tandc: {
-        color: 'blue'
+        color: Colors.Blue
 
     },
     signup: {
-        color: 'gray',
+        color: Colors.Gray,
         marginBottom: 50,
         fontSize: 20,
 
@@ -296,7 +301,7 @@ const styles = StyleSheet.create({
         borderBottomWidth:1, 
         paddingBottom:5, 
         width:'40%' ,
-        borderBottomColor: '#e8e8e8',
+        borderBottomColor: Colors.borderBottomColor,
     },
     checkIcon:{ height: 28, width: 28, },
     femaleGender:{flexDirection:'row', alignItems:'center'},

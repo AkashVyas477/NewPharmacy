@@ -1,6 +1,6 @@
-import * as Yup from 'yup';
+import * as yup from 'yup';
 import LoginScreen from '../Screens/AuthScreen/LoginScreen';
-import formFieldErrorMessages from './ForErrorMessage';
+
 const LoginValidationSchema = yup.object().shape({
                     email:yup.string()
                             .email()

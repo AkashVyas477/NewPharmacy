@@ -2,26 +2,23 @@ import React, { useState } from 'react';
 import {
     View,
     KeyboardAvoidingView,
-    Button,
     Text,
     TextInput,
     Image,
     StyleSheet,
     TouchableOpacity,
     ScrollView
-
 } from 'react-native';
+import { Images,Colors } from '../../CommonConfig';
+import Button from '../../Components/Common/Button';
+import EyeButton from '../../Components/Common/EyeButton';
+import CheckBox from '../../Components/Common/CheckBox';
+
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import LoginValidationSchema from '../../ForValidationSchema/LoginValidationSchema';
+import LoginValidationSchema from '../../ForValidationSchema/LoginValidationSchema'
 
 import { Formik } from 'formik'
-import * as yup from 'yup'
-
-
-import AppIcon from '../../assets/Icons/AppIcon/appIcon.png';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
 
 const LoginScreen = (props) => {
 
@@ -34,13 +31,12 @@ const LoginScreen = (props) => {
     return (
         <KeyboardAwareScrollView>
             {/* Full screen */}
+
             <View style={styles.mainWrapper}>
                 {/* Logo */}
-
                 <View style={styles.logoScreen}>
-                    <Image source={AppIcon} style={styles.logo} resizeMode="cover" />
+                    <Image source={Images.AppIcon} style={styles.logo} resizeMode="cover" />
                 </View>
-
                 {/* Logo */}
 
                 <Formik
@@ -66,7 +62,7 @@ const LoginScreen = (props) => {
                                         onBlur={() => setFieldTouched('email')}
                                         onChangeText={handleChange('email')}
                                         placeholder="E-mail"
-                                        
+
                                     />
                                 </View>
                                 {touched.email && errors.email &&
@@ -83,14 +79,15 @@ const LoginScreen = (props) => {
                                         placeholder="Password"
                                         onBlur={() => setFieldTouched('password')}
                                         onChangeText={handleChange('password')}
-                                        secureTextEntry={tnceye ? false: true}
-                                        
+                                        secureTextEntry={tnceye ? false : true}
+
                                     />
-                                    <TouchableOpacity onPress={() => setTncEye(!tnceye)} >
-                                        {tnceye ? <Image source={require('../../assets/Icons/EyeIcon/activeEye.png')} style={styles.eyeIcon} /> :
-                                            <Image source={require('../../assets/Icons/EyeIcon/inactiveEye.png')} style={styles.eyeIcon} />
+                                    {/* <TouchableOpacity onPress={() => setTncEye(!tnceye)} >
+                                        {tnceye ? <Image source={require('../../Assets/Icons/EyeIcon/activeEye.png')} style={styles.eyeIcon} /> :
+                                            <Image source={require('../../Assets/Icons/EyeIcon/inactiveEye.png')} style={styles.eyeIcon} />
                                         }
-                                    </TouchableOpacity>
+                                    </TouchableOpacity> */}
+                                     <EyeButton  state={tnceye} onPress={ () => {setTncEye(!tnceye)} }/>
                                 </View>
 
                                 {touched.password && errors.password &&
@@ -102,12 +99,7 @@ const LoginScreen = (props) => {
                             <View style={styles.checkbox_sty} >
                                 <View style={styles.check}>
                                     {/* Check box and Remember me Start */}
-                                    <TouchableOpacity onPress={tncHandler}>
-                                        {tnc ?
-                                            <Image source={require('../../assets/Icons/CheckBox/checkboxActive.png')} style={styles.checkIcon} /> :
-                                            <Image source={require('../../assets/Icons/CheckBox/checkboxInactive.png')} style={styles.checkIcon} />
-                                        }
-                                    </TouchableOpacity>
+                                    <CheckBox/>
                                     <Text style={styles.remberme}>
                                         Remember me
                                     </Text>
@@ -130,20 +122,19 @@ const LoginScreen = (props) => {
                                 <View>
                                     {/* Login button start */}
                                     <View style={styles.button_sty}>
-                                        <TouchableOpacity  style={{ padding: 20 }} onPress={() => { props.navigation.navigate('Drawer', { screen:'Home' }) }} >
-                                            <View style={styles.buttoncon}>
-                                                <Text style={styles.Button}>
-                                                    Login
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
+                                        <Button 
+                                        label="Login"
+                                        onPress={() => { props.navigation.navigate('Drawer', { screen: 'Home' }) }}
+                                        disabled={!isValid}
+                                        
+                                        />
                                     </View>
                                     {/* Login button end */}
                                 </View>
 
                                 {/* Or image start */}
                                 <View style={styles.or_sty}>
-                                    <Image source={require('../../assets/Icons/Image/or.png')} style={styles.orImg} />
+                                    <Image source={Images.or} style={styles.orImg} />
                                 </View>
 
                                 {/* Or image end */}
@@ -153,12 +144,11 @@ const LoginScreen = (props) => {
                                     <View style={styles.container} >
                                         <TouchableOpacity onPress={() => { props.navigation.navigate('LOGIN AS PHARMACY USER') }}>
                                             <View style={styles.pharmacyUserBox}>
-                                                <Image source={require('../../assets/Icons/Image/pharmacyUser.png')} style={styles.pharmacyUserImg} />
-
+                                                <Image source={Images.PharmacyUser} style={styles.pharmacyUserImg} />
                                                 <Text style={{ fontWeight: 'bold' }}>
                                                     PharmacyUser
                                                 </Text>
-                                                <Image source={require('../../assets/Icons/Arrow/rightArrow.png')} style={styles.arrow} />
+                                                <Image source={Images.RightArrow} style={styles.arrow} />
                                             </View>
                                         </TouchableOpacity>
                                     </View>
@@ -196,7 +186,7 @@ const styles = StyleSheet.create({
 
 
     },
-    logoScreen:{ alignItems: 'center' },
+    logoScreen: { alignItems: 'center' },
 
     logo: {
         width: '70%',
@@ -204,12 +194,6 @@ const styles = StyleSheet.create({
         marginBottom: 20,
 
 
-    },
-    customCss: {
-
-        // paddingVertical:10,
-        // paddingHorizontal:10,
-        // marginBottom: 10
     },
     mainWrapper: {
         paddingLeft: 15,
@@ -222,10 +206,10 @@ const styles = StyleSheet.create({
         borderRadius: 25,
     },
     container: {
-        backgroundColor: 'white',
+        backgroundColor: Colors.backgroundColor,
         padding: 10,
         paddingTop: 20,
-        shadowColor: "#000",
+        shadowColor: Colors.shadowColor,
         shadowOffset: {
             width: 0,
             height: 2,
@@ -238,81 +222,83 @@ const styles = StyleSheet.create({
     },
 
     signup: {
-        color: '#D7DBDD',
-    
+        color: Colors.Gray,
         fontSize: 20
 
 
     },
     sp_signup: {
-        color: 'black',
-       
+        color: Colors.Sp_Text,
         fontWeight: 'bold'
 
     },
     Button: {
-        color: 'white',
+       color: Colors.ButtonTextColor,
         textAlign: 'center',
 
     },
     buttoncon: {
-        backgroundColor: '#0DC314',
+        backgroundColor:Colors.PRIMARY,
         borderRadius: 10,
         height: 50,
         width: "100%",
         justifyContent: 'center',
     },
-    text:{ color: 'black', marginBottom: 1, paddingLeft: 3 },
-    errortext:{ 
-        fontSize: 11, 
-        color: 'red' 
+    text: {
+        color: Colors.Sp_Text,
+        marginBottom: 1,
+        paddingLeft: 3
     },
-    password_sty:{ 
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-    borderBottomColor: '#e8e8e8',
-    borderBottomWidth: 1,
-     },
-     eyeIcon:{ 
-         height: 15, 
-         width: 24, 
-        },
-     checkbox_sty:{ 
-    flexDirection: 'row',
-    justifyContent: 'space-between', 
-    alignItems: 'center',
-    marginBottom: 25 
+    errortext: {
+        fontSize: 11,
+        color: 'red'
     },
-    check:{ 
+    password_sty: {
         flexDirection: 'row',
-         marginLeft: 2 
-        },
-        checkIcon:{ 
-            height: 20, 
-            width: 20 
-        },
-    remberme:{ 
-        marginLeft: 4
-     },
-    button_sty:{ 
-        width: "100%",
-     },
-    or_sty:{ 
-        paddingBottom: 5, 
-        paddingTop: 5 
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10,
+        borderBottomColor: Colors.borderBottomColor,
+        borderBottomWidth: 1,
     },
-    orImg:{ 
-        height: 20, 
+    eyeIcon: {
+        height: 15,
+        width: 24,
+    },
+    checkbox_sty: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 25
+    },
+    check: {
+        flexDirection: 'row',
+        marginLeft: 2
+    },
+    checkIcon: {
+        height: 20,
+        width: 20
+    },
+    remberme: {
+        marginLeft: 4
+    },
+    button_sty: {
+        width: "100%",
+    },
+    or_sty: {
+        paddingBottom: 5,
+        paddingTop: 5
+    },
+    orImg: {
+        height: 20,
         width: '100%',
-         marginTop:5
-        },
-    pharmacyUser_sty:{ paddingTop: 20 },
-    pharmacyUserBox:{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginBottom: 10 },
-    pharmacyUserImg:{ height: 60, width: 40, overflow: 'hidden' },
-    arrow:{ height: 20, width: 20 },
-    signup_sty:{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 15},
+        marginTop: 5
+    },
+    pharmacyUser_sty: { paddingTop: 20 },
+    pharmacyUserBox: { flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginBottom: 10 },
+    pharmacyUserImg: { height: 60, width: 40, overflow: 'hidden' },
+    arrow: { height: 20, width: 20 },
+    signup_sty: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 15 },
 });
 
 export default LoginScreen;

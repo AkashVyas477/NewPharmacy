@@ -4,7 +4,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import PhoneInput from 'react-native-phone-number-input';
 
 import { Formik } from 'formik'
-import * as yup from 'yup'
+import PhoneNumberVAlidationSchema from '../../ForValidationSchema/PhoneNoValidationSchema';
+import { Colors, Images } from '../../CommonConfig'
 
 
 
@@ -21,7 +22,7 @@ const PhoneNumberScreen = props => {
                     <View style={styles.logoText}>
                         <View>
                             <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-                                <Image source={require('../../assets/Icons/Arrow/arrow.png')} style={styles.arrow} />
+                                <Image source={Images.Arrow} style={styles.arrow}/>
                             </TouchableOpacity>
                         </View>
 
@@ -31,7 +32,7 @@ const PhoneNumberScreen = props => {
 
                     </View>
                     <View style={styles.screen}>
-                        <Image source={require('../../assets/Icons/logo/phoneNumberImg.png')} style={styles.phoneNoImg} />
+                    <Image source={Images.PhoneNumberImg} style={styles.phoneNoImg} />
                     </View>
                     <View  >
                         <Text style={styles.text}>
@@ -45,17 +46,11 @@ const PhoneNumberScreen = props => {
                         <Formik
                             initialValues={{
 
-                                mobile: '',
+                                mobile:'',
                             }}
 
                             onSubmit={values => Alert.alert(JSON.stringify(values))}
-                            validationSchema={yup.object().shape({
-
-                            mobile: yup
-                            .number()
-                            .max(10)
-                            .required(),
-                            })}
+                            validationSchema={PhoneNumberVAlidationSchema}
                         >
                             {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
 
@@ -72,7 +67,7 @@ const PhoneNumberScreen = props => {
                                         containerStyle={styles.phoneContainer}
                                         textContainerStyle={styles.textInput}
                                         onChangeFormattedText={text => {
-                                            setphoneNumber(text);
+                                        setphoneNumber(text);
                                         }}
                                     />
                                 </View>
@@ -121,7 +116,7 @@ const styles = StyleSheet.create({
         },
         phoneNoText:{ 
             fontSize: 25, 
-            color: 'black', 
+            color: Colors.Sp_Text, 
             paddingLeft: 65 
         },
     phoneNoImg:{ 
@@ -130,7 +125,7 @@ const styles = StyleSheet.create({
          marginTop: 20 
         },
     textPhoneNo:{ 
-            color: 'black',
+            color: Colors.Sp_Text,
              marginBottom: 5
              },
     
@@ -145,7 +140,7 @@ const styles = StyleSheet.create({
 
     },
     buttoncon: {
-        backgroundColor: '#0DC314',
+        backgroundColor:Colors.PRIMARY,
         borderRadius: 10,
         height: 50,
         width: "100%",

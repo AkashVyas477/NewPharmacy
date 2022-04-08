@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
+import { Images, Colors } from '../../CommonConfig';
 const PrescriptionScreen = props => {
 
     // const [current , setCurrent ] = useState(false);
@@ -29,11 +29,11 @@ const PrescriptionScreen = props => {
                     <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
                         <View>
                             <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}  >
-                                <Image source={require('../../assets/Icons/Edit-Add/menu.png')} style={{ height: 20, width: 25 }} />
+                                <Image source={Images.Menu} style={{ height: 20, width: 25 }} />
                             </TouchableOpacity>
                         </View>
                         <View style={{ paddingLeft: 100 }}>
-                            <Image source={require('../../assets/Icons/AppIcon/headerAppIcon.png')} style={{ height: 60, width: 130, }} />
+                            <Image source={Images.HeaderAppIcon} style={{ height: 60, width: 130, }} />
                         </View>
                     </View>
 
@@ -46,7 +46,7 @@ const PrescriptionScreen = props => {
                                     Location
                                 </Text>
                                 <View >
-                                    <Text style={{ color: '#0DC314', paddingLeft: 7, marginBottom: 10 }}> 374  WIlliam S Canning Blvd <Image source={require('../../assets/Icons/Edit-Add/pencil.png')} style={{ height: 15, width: 15, }} /> </Text>
+                                    <Text style={{ color: '#0DC314', paddingLeft: 7, marginBottom: 10 }}> 374  WIlliam S Canning Blvd <Image source={Images.Pencil} style={{ height: 15, width: 15, }} /> </Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -93,7 +93,7 @@ const PrescriptionScreen = props => {
 
                 {/* Img */}
                 <View style={{ alignItems: 'center', paddingTop: 60, }}>
-                    <Image source={require('../../assets/Icons/logo/emptyPlacholder.png')} style={{ height: 200, width: 300, }} />
+                    <Image source={Images.EmptyPlacholder} style={{ height: 200, width: 300, }} />
                     <View>
                         <Text style={{ textAlign: 'center', padding: 10, fontWeight: 'bold', color: 'black', fontSize: 25 }}>
                             Looks empty!
@@ -108,7 +108,7 @@ const PrescriptionScreen = props => {
 
 
                     <View>
-                        <Image source={require('../../assets/Icons/location/nav.png')} style={{
+                        <Image source={Images.Nav} style={{
                             height: 120, width: 70,
                             left: Dimensions.get('window').width * 0.18,
                             bottom: Dimensions.get('window').width * 0.01,
@@ -118,7 +118,7 @@ const PrescriptionScreen = props => {
 
                     <View>
                         <TouchableOpacity>
-                            <Image source={require('../../assets/Icons/Image/fabIcon.png')} style={{
+                            <Image source={Images.FabIcon} style={{
                                 height: 60, width: 60,
                                 left: Dimensions.get('window').width * 0.34,
                                 bottom: Dimensions.get('window').width * 0.1,

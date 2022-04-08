@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text ,TextInput, StyleSheet , TouchableOpacity, Image} from 'react-native';
+import {Images, Colors} from '../../../CommonConfig' 
 
 const pharmacyuserscreen = props =>{
     return(
@@ -11,7 +12,7 @@ const pharmacyuserscreen = props =>{
             <View  style={styles.Header}>
               <View>
                   <TouchableOpacity onPress={() => (props.navigation.goBack())} >      
-                    <Image source={require('../../../assets/Icons/Arrow/arrow.png')} style={styles.arrow} />
+                  <Image source={Images.Arrow} style={styles.arrow} />
               </TouchableOpacity>
               </View>
         <Text style={styles.HeaderText} >
@@ -52,7 +53,7 @@ const  styles=StyleSheet.create({
     screen:{
         flex: 1,
         alignItems: 'flex-start',
-        backgroundColor: 'white',
+        backgroundColor:Colors.White,
         padding: 10,
         justifyContent:'space-between'        
     }, 
@@ -70,7 +71,7 @@ const  styles=StyleSheet.create({
         },
     HeaderText:{
         fontSize:20,
-        color:'black',
+        color:Colors.Sp_Text,
         paddingLeft:30
     },
     text_sty:{
@@ -78,21 +79,21 @@ const  styles=StyleSheet.create({
          width:"100%"
         },
      text:{ 
-        color: 'black',
+        color: Colors.Sp_Text,
         marginBottom: 1,
         paddingLeft:3 
         },
     TextInput:{
-         borderBottomColor: '#e8e8e8', 
+         borderBottomColor: Colors.borderBottomColor, 
          borderBottomWidth:1 ,
          },
     Button:{
-        color:'white',
+        color:Colors.ButtonTextColor,
         textAlign:'center',
        
     },
     buttoncon:{
-        backgroundColor:'#0DC314',
+        backgroundColor:Colors.PRIMARY,
         borderRadius:10,
         height:40,
         width: "100%",

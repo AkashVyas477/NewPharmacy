@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text , StyleSheet , Image, ImageBackground, TouchableOpacity} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { Images, Colors } from '../../CommonConfig';
 
 const LocationScreen = props =>{
     return(
@@ -11,7 +12,7 @@ const LocationScreen = props =>{
             <View style={styles.Header}>
                 <View>
                     <TouchableOpacity onPress={() => props.navigation.toggleDrawer()} >
-                            <Image source={require('../../assets/Icons/Edit-Add/menu.png')} style={{ height: 20, width:25 }} />
+                            <Image source={Images.Menu} style={{ height: 20, width:25 }} />
                     </TouchableOpacity>
                 </View>
                     <Text style={styles.Text_Sty}>

@@ -1,4 +1,4 @@
-import * as Yup from 'yup';
+import * as yup from 'yup';
 import CustomerSignupScreen from '../Screens/AuthScreen/Customer/CustomerSignUpScreen';
 import PharmacistSignUpScreen from '../Screens/AuthScreen/Pharamacist/PharmacistSignUpScreen';
 

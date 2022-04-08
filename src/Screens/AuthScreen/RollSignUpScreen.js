@@ -2,6 +2,8 @@ import { FastField } from 'formik';
 import React,{useState} from 'react';
 import {View, Text , StyleSheet, Image, TouchableOpacity , Button } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {Images, Colors} from '../../CommonConfig'
+
 
 const RollSignupScreen = props =>{
     const [customer , setCustomer ] = useState(false);
@@ -43,8 +45,8 @@ const RollSignupScreen = props =>{
             <View style={{alignItems:'center',paddingTop:50}}>
             <View style={{flexDirection:'column', marginTop:5}} >
                 <TouchableOpacity onPress={customerHandler} >
-                    {!customer?<Image source={require('../../assets/Icons/Image/customerInactive.png')} style={styles.customerIcon1} />:
-                    <Image source={require('../../assets/Icons/Image/customerActive.png')}  style={styles.customerIcon2} />}
+                    {!customer?<Image source={Images.CustomerInactive} style={styles.customerIcon1} />:
+                    <Image source={Images.CustomerActive}  style={styles.customerIcon2} />}
                 </TouchableOpacity>
                 <Text style={styles.customerText} >
                     Customer
@@ -53,8 +55,8 @@ const RollSignupScreen = props =>{
 
                 <View style={{flexDirection:'column', marginTop:20}} >
                 <TouchableOpacity onPress={pharmacistHandler} >
-                    {!pharamacy?<Image source={require('../../assets/Icons/Image/pharmistInactive.png')} style={styles.pharmistIcon1} />:
-                    <Image source={require('../../assets/Icons/Image/pharmistActive.png')}  style={styles.pharmistIcon2}  />}
+                    {!pharamacy?<Image source={Images.PharmistInactive} style={styles.pharmistIcon1} />:
+                    <Image source={Images.PharmistActive}  style={styles.pharmistIcon2}  />}
                 </TouchableOpacity>
                 <Text style={styles.pharmistText} >
                     Pharmacist
@@ -100,7 +102,7 @@ const  styles=StyleSheet. create({
         paddingLeft:6,
         fontSize:30,
         fontWeight:'bold',
-        color:'black'
+        color:Colors.Sp_Text
 
     },
     text2:{
@@ -110,7 +112,7 @@ const  styles=StyleSheet. create({
 
     },
     text3:{
-        color:'#0DC314',
+        color:Colors.PRIMARY,
         paddingLeft:5,
         fontSize:18,
         fontWeight:'bold',
@@ -123,14 +125,14 @@ const  styles=StyleSheet. create({
         paddingBottom:2
     },
     Button:{
-        color:'white',
+        color:Colors.White,
         textAlign:'center',
         fontSize:20
        
     },
     buttoncon:{
        marginTop:30,
-        backgroundColor:'#0DC314',
+        backgroundColor:Colors.PRIMARY,
         borderRadius:10,
         height:40,
         width: "100%",

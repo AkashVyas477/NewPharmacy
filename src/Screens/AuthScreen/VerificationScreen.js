@@ -2,6 +2,8 @@ import React,{useRef} from 'react';
 import {View, Text ,TextInput, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
+import { Images,Colors } from '../../CommonConfig';
+
 const VerificationScreen = props =>{
 
   const pin1ref = useRef(null);
@@ -15,7 +17,7 @@ const VerificationScreen = props =>{
             <View style={styles.Verification_sty}>
                 <View>
                     <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-                        <Image source={require('../../assets/Icons/Arrow/arrow.png')} style={styles.arrow_sty} />
+                        <Image source={Images.Arrow} style={styles.arrow_sty} />
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.VerificationTitle_sty} >
@@ -26,7 +28,7 @@ const VerificationScreen = props =>{
 
             {/* logo */}
             <View style={styles.screen}>
-                        <Image source={require('../../assets/Icons/logo/mobile.png')} style={styles.logo_sty} />
+                        <Image source={Images.Mobile} style={styles.logo_sty} />
                     </View>
                     <View>
                       <View >
@@ -130,16 +132,16 @@ const  styles=StyleSheet. create({
         justifyContent:'center'
     },
     Touchtext:{
-        color: '#D5E018',
+        color: Colors.TouchText,
         
     },
     Button: {
-        color: 'white',
+        color: Colors.ButtonTextColor,
         textAlign: 'center',
 
     },
     buttoncon: {
-        backgroundColor: '#0DC314',
+        backgroundColor: Colors.PRIMARY,
         borderRadius: 10,
         height: 50,
         width: "100%",
@@ -188,7 +190,7 @@ const  styles=StyleSheet. create({
         },
         VerificationTitle_sty:{
              fontSize: 25, 
-             color: 'black',
+             color: Colors.Sp_Text,
               paddingLeft: 40,
              },
              logo_sty:{ 

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Formik } from "formik";
-import * as yup from 'yup';
+
 import SignUpValidationSchema from '../../../ForValidationSchema/SignupValidationSchema';
+import {Images,Colors} from '../../../CommonConfig'
 
 const PharmacistSignUpScreen = props =>{
 
@@ -14,13 +15,13 @@ const PharmacistSignUpScreen = props =>{
 
     const [male, setMale] = useState(false);
     const maleHandler = () => {
-        setMale(state => !state);
+        setMale(true);
     setFemale(false);
     };
 
     const [female, setFemale] = useState(false);
     const femaleHandler = () => {
-        setFemale(state => !state);
+        setFemale(true);
         setMale(false);
     };
     // const  genderMale = ()=>{
@@ -35,9 +36,7 @@ const PharmacistSignUpScreen = props =>{
     
     const [tnceye, setTncEye] = useState(false);
     const [tnceyeconf, setTncEyeconf] = useState(false);
-    // const [male,setMale]= useState(false);
-    // const [female,setFemale]= useState(false);
-    // const [gender,setGender]= useState(false);
+   
 
 
 
@@ -49,7 +48,8 @@ const PharmacistSignUpScreen = props =>{
             <View style={styles.Header}>
                 <View>
                     <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-                        <Image source={require('../../../assets/Icons/Arrow/arrow.png')} style={styles.arrow} />
+                        
+                        <Image source={Images.Arrow} style={styles.arrow} />
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.TextSignUp} >
@@ -60,11 +60,11 @@ const PharmacistSignUpScreen = props =>{
             {/* Profile */}
             <View style={styles.Profile}>
                 <View >
-                    <Image source={require('../../../assets/Icons/Image/signupPlaceholder.png')} style={styles.ProfileImg} />
+                <Image source={Images.SignupPlaceholder} style={styles.ProfileImg} />
                 </View>
                 <View>
                     <TouchableOpacity style={styles.addIcon}>
-                        <Image source={require('../../../assets/Icons/Edit-Add/addIcon.png')} style={styles.AddImgIcon} />
+                    <Image source={Images.AddIcon}style={styles.AddImgIcon} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -150,9 +150,8 @@ const PharmacistSignUpScreen = props =>{
                                        <View style={styles.gender_sty}>
                                            <View style={styles.gendercheck}>
                                             <TouchableOpacity onPress={maleHandler}  >
-                                           { !male ?<Image source={require('../../../assets/Icons/CheckBox/roundCheckInactive.png')} style={{ height: 28, width: 28, }} />
-                                            :
-                                                <Image source={require('../../../assets/Icons/CheckBox/roundCheckActive.png')} style={{ height: 28, width: 28, }} />
+                                           { male ? <Image source={Images.RoundCheckActive} style={{ height: 28, width: 28, }} />:
+                                            <Image source={Images.RoundCheckInactive} style={{ height: 28, width: 28, }} />
                                             }
                                             </TouchableOpacity>
                                             <Text style={styles.gendertext} >Male </Text> 
@@ -163,9 +162,9 @@ const PharmacistSignUpScreen = props =>{
                                             <View style={styles.gendercheck}>
                                            <View style={styles.femalegender_bt}>
                                             <TouchableOpacity onPress={femaleHandler}>
-                                           { !female ?<Image source={require('../../../assets/Icons/CheckBox/roundCheckInactive.png')} style={{ height: 28, width: 28, }} />
+                                           { female ?<Image source={Images.RoundCheckActive} style={{ height: 28, width: 28, }} />
                                             :
-                                                <Image source={require('../../../assets/Icons/CheckBox/roundCheckActive.png')} style={{ height: 28, width: 28, }} />
+                                            <Image source={Images.RoundCheckInactive} style={{ height: 28, width: 28, }} />
                                             }
                                             </TouchableOpacity>
                                             <Text style={styles.gendertext}>Female</Text>
@@ -189,8 +188,8 @@ const PharmacistSignUpScreen = props =>{
                                             secureTextEntry={tnceye ? true : false}
                                         />
                                         <TouchableOpacity onPress={() => setTncEye(!tnceye)} style={styles.eyePosition} >
-                                            {tnceye ? <Image source={require('../../../assets/Icons/EyeIcon/activeEye.png')} style={styles.eyeIcon} /> :
-                                                <Image source={require('../../../assets/Icons/EyeIcon/inactiveEye.png')} style={styles.eyeIcon} />
+                                            {tnceye ? <Image source={Images.ActiveEye} style={styles.eyeIcon} /> :
+                                                <Image source={Images.InactiveEye}style={styles.eyeIcon} />
                                             }
                                         </TouchableOpacity>
                                     </View>
@@ -210,8 +209,8 @@ const PharmacistSignUpScreen = props =>{
                                     secureTextEntry={tnceyeconf ? true : false}
                                 />
                                 <TouchableOpacity onPress={() => setTncEyeconf(!tnceyeconf)} style={styles.eyePosition} >
-                                    {tnceyeconf ? <Image source={require('../../../assets/Icons/EyeIcon/activeEye.png')} style={styles.eyeIcon}  /> :
-                                        <Image source={require('../../../assets/Icons/EyeIcon/inactiveEye.png')} style={styles.eyeIcon}  />
+                                    {tnceyeconf ? <Image source={Images.ActiveEye} style={styles.eyeIcon}  /> :
+                                       <Image source={Images.InactiveEye} style={styles.eyeIcon}  />
                                     }
                                 </TouchableOpacity>
                                 </View>
@@ -224,8 +223,8 @@ const PharmacistSignUpScreen = props =>{
                             <View  >
                                 <View style={{ flexDirection: 'row',marginTop:15, marginBottom: 15, }} >
                                     <TouchableOpacity onPress={tncHandler} style={{paddingRight:5}} >
-                                        {tnc ? <Image source={require('../../../assets/Icons/CheckBox/checkboxActive.png')} style={styles.checkbox} /> :
-                                            <Image source={require('../../../assets/Icons/CheckBox/checkboxInactive.png')} style={styles.checkbox} />}
+                                        {tnc ? <Image source={Images.CheckBoxActive} style={styles.checkbox} /> :
+                                            <Image source={Images.CheckBoxInactive} style={styles.checkbox} />}
                                     </TouchableOpacity>
                                     <View style={{}}>
                                         <Text style={styles.tandc} >Accept to<Text style={styles.sp_tandc} >Terms and Conditions</Text> and <Text style={styles.sp_tandc}>Privacy Policy</Text>
@@ -267,7 +266,7 @@ const PharmacistSignUpScreen = props =>{
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor:Colors.backgroundColor,
     },
     Header:{
          flexDirection: 'row',
@@ -298,7 +297,7 @@ const styles = StyleSheet.create({
     
     customCss: {
         borderBottomWidth: 1,
-        borderBottomColor: '#e8e8e8',
+        borderBottomColor: Colors.borderBottomColor,
         width: '100%',
         paddingBottom:2,
         justifyContent: 'space-evenly'
@@ -314,7 +313,7 @@ const styles = StyleSheet.create({
 
     },
     buttoncon: {
-        backgroundColor: '#0DC314',
+        backgroundColor: Colors.PRIMARY,
         borderRadius: 10,
         height: 40,
         width: "100%",
@@ -327,15 +326,15 @@ const styles = StyleSheet.create({
     },
     errorText:{ fontSize: 11, color: 'red' },
     tandc: {
-        color: 'black'
+        color: Colors.Sp_Text
 
     },
     sp_tandc: {
-        color: 'blue'
+        color: Colors.Blue
 
     },
     signup: {
-        color: 'gray',
+        color: Colors.Gray,
         marginBottom: 50,
         fontSize: 20,
 
@@ -343,7 +342,7 @@ const styles = StyleSheet.create({
 
     },
     sp_signup: {
-        color: 'black',
+        color: Colors.Sp_Text,
         marginBottom: 50
 
     },
@@ -358,7 +357,7 @@ const styles = StyleSheet.create({
         borderBottomWidth:1, 
         paddingBottom:5, 
         width:'40%' ,
-        borderBottomColor: '#e8e8e8',
+        borderBottomColor: Colors.borderBottomColor,
     },
     gendertext:{
         paddingLeft:5,

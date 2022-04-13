@@ -6,7 +6,7 @@ import PhoneInput from 'react-native-phone-number-input';
 import { Formik } from 'formik'
 import PhoneNumberVAlidationSchema from '../../ForValidationSchema/PhoneNoValidationSchema';
 import { Colors, Images } from '../../CommonConfig'
-
+import { Header } from '../../Components/Common';
 
 
 const PhoneNumberScreen = props => {
@@ -20,7 +20,7 @@ const PhoneNumberScreen = props => {
                 <View >
                     {/* Logo And Text start */}
                     <View style={styles.logoText}>
-                        <View>
+                        {/* <View>
                             <TouchableOpacity onPress={() => (props.navigation.goBack())} >
                                 <Image source={Images.Arrow} style={styles.arrow}/>
                             </TouchableOpacity>
@@ -28,7 +28,8 @@ const PhoneNumberScreen = props => {
 
                         <Text style={styles.phoneNoText} >
                             PHONE NUMBER
-                        </Text>
+                        </Text> */}
+                        <Header Title="PHONE NUMBER" />
 
                     </View>
                     <View style={styles.screen}>

@@ -1,13 +1,12 @@
 import { StyleSheet,Image, TouchableOpacity } from 'react-native';
 import React, {useState} from 'react';
 import { Images } from '../../CommonConfig';
-import { colorProps } from 'react-native-reanimated/src/reanimated2/UpdateProps';
 
 
-const EyeButton = (props) => {   
+const EyeButton = ({onEyePress,tnceye,style}) => {   
     return (
-        <TouchableOpacity onPress={props.onPress}  style={props.style}>
-            {props.tnceye ? <Image source={Images.ActiveEye} style={styles.eyeIcon} /> :
+        <TouchableOpacity onPress={onEyePress} style={style}>
+            {tnceye ? <Image source={Images.ActiveEye} style={styles.eyeIcon} /> :
                 <Image source={Images.InactiveEye} style={styles.eyeIcon} />
             }
         </TouchableOpacity>

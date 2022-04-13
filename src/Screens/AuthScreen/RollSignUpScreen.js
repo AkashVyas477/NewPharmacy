@@ -73,10 +73,7 @@ const RollSignupScreen = props =>{
                     </View> : null}
 
 
-                 {/* <View> 
-                    {showButton && <Button style={styles.button}  title = {customer ? 'I\'m Customer' : 'I\'m Pharmacit'}
-                    onPress = {() => {props.navaigation.navigate('SignInScreen');}}/>}
-                </View> */}
+        
             </View>
             {/* RollSelction end */}
         </View>

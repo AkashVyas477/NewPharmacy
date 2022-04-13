@@ -17,7 +17,7 @@ const Button =({
     return(
       <TouchableOpacity 
       delayPressIn={0}
-      style={{ padding: 20 }} 
+      style={{ padding: 10 }} 
       onPress={onPress} 
       >
       <View style={styles.buttoncon}>

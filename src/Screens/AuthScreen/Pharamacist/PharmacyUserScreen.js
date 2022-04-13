@@ -1,106 +1,134 @@
 import React from 'react';
-import {View, Text ,TextInput, StyleSheet , TouchableOpacity, Image} from 'react-native';
-import {Images, Colors} from '../../../CommonConfig' 
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { Images, Colors } from '../../../CommonConfig'
+import { Formik } from 'formik'
+import PharmacyUserValidation from '../../../ForValidationSchema/PharmacyUserValidationSchema';
+import{ Button,Header} from '../../../Components/Common';
 
-const pharmacyuserscreen = props =>{
-    return(
+
+const pharmacyuserscreen = props => {
+    return (
         <View style={styles.screen}>
-{/* Screen partation for button and ID */}
+            {/* Screen partation for button and ID */}
 
             <View style={styles.screen2}>
-                 {/* Logo & HeaderText */}
-            <View  style={styles.Header}>
-              <View>
-                  <TouchableOpacity onPress={() => (props.navigation.goBack())} >      
-                  <Image source={Images.Arrow} style={styles.arrow} />
-              </TouchableOpacity>
-              </View>
-        <Text style={styles.HeaderText} >
-            LOGIN AS PHARMACY USER
-        </Text>  
-        </View>
-            {/* Logo & HeaderText */}
-            {/* Input  */}
-        <View style={styles.text_sty} >
-                        <Text style={styles.text}>
-                            Pharmacy ID
-                            </Text>
-                        <View style={styles.TextInput} >
-                            <TextInput  
-                                placeholder="Pharamacy ID Number"
-                                keyboardType='number-pad'
-                            />
+                {/* Logo & HeaderText */}
+                <View style={styles.Header}>
+                    <Header 
+                    Title="LOGIN AS PHARMACY USER"
+                    />
+                </View>
+                {/* Logo & HeaderText */}
+                {/* Input  */}
+                {/* Formik start */}
+
+                <Formik
+
+                    initialValues={{
+                        idNo: ''
+                    }}
+                    onSubmit={() => { props.navigation.navigate('Drawer', { screen: 'Pharamacist' }) }}
+                    validationSchema={PharmacyUserValidation}
+                >
+                    {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
+                        <View >
+                        <View style={styles.text_sty} >
+                            {/* Inputs */}
+                            <View style={styles.TextInput}>
+                                <Text style={styles.text} >Pharmacy ID</Text>
+                                {/* <View style={{ borderBottomColor: '#e8e8e8', borderBottomWidth: 1, }} > */}
+                                    <TextInput
+                                        value={values.idNo}
+                                        onBlur={() => setFieldTouched('idNO')}
+                                        onChangeText={handleChange('idNo')}
+                                        placeholder="Pharamacy ID Number"
+                                        keyboardType='number-pad'
+
+                                    />
+                                </View>
+                                {touched.idNo && errors.idNo &&
+                                    <Text style={styles.errortext}>{errors.idNo}</Text>
+                                }
                         </View>
-                    </View>
-             {/* Input  */}
-                    </View>
-{/* Screen partation for button and ID */}
-                    <View style={styles.button_sty}>
-                    <TouchableOpacity style={styles.touch} onPress={()=>{props.navigation.navigate('Login')}} >
-                    <View style={styles.buttoncon}>
-                        <Text style={styles.Button}>
-                            Verify now
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-                    </View>
-                    
-            </View>
+
+                        
+                            <View>
+                                {/* Login button start */}
+                                <View >
+                                    <Button 
+                                    label="Verify now"
+                                    onPress={handleSubmit}    
+                                    />
+                                </View>
+                                {/* Login button end */}
+                            </View>
+                            </View>
+                    )}
+                </Formik>
+                            {/* Formik end */}
+                            {/* Input  */}
+        </View>
+    </View>
     );
 };
 
-const  styles=StyleSheet.create({
-    screen:{
-        flex: 1,
-        alignItems: 'flex-start',
-        backgroundColor:Colors.White,
-        padding: 10,
-        justifyContent:'space-between'        
-    }, 
-    screen2:{
-        width:"100%"
+            const styles = StyleSheet.create({
+                screen: {
+                flex: 1,
+            alignItems: 'flex-start',
+            backgroundColor: Colors.White,
+            padding: 10,
+            justifyContent: 'space-between'
     },
-    Header:{
-        flexDirection:'row',
-        alignItems:'center',
-        padding:10
+            screen2: {
+                width: "100%"
     },
-    arrow:{
-        height:20,
-         width:30
-        },
-    HeaderText:{
-        fontSize:20,
-        color:Colors.Sp_Text,
-        paddingLeft:30
+            Header: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            padding: 10
     },
-    text_sty:{
-        paddingTop:40,
-         width:"100%"
-        },
-     text:{ 
-        color: Colors.Sp_Text,
-        marginBottom: 1,
-        paddingLeft:3 
-        },
-    TextInput:{
-         borderBottomColor: Colors.borderBottomColor, 
-         borderBottomWidth:1 ,
-         },
-    Button:{
-        color:Colors.ButtonTextColor,
-        textAlign:'center',
-       
+            arrow: {
+                height: 20,
+            width: 30
     },
-    buttoncon:{
-        backgroundColor:Colors.PRIMARY,
-        borderRadius:10,
-        height:40,
-        width: "100%",
-        justifyContent:'center',
+            HeaderText: {
+                fontSize: 20,
+            color: Colors.Sp_Text,
+            paddingLeft: 30
     },
-    button_sty:{width:"100%",},
-    touch:{padding:20},
+            text_sty: {
+                paddingTop: 40,
+            width: "100%"
+    },
+            text: {
+                color: Colors.Sp_Text,
+            marginBottom: 1,
+            paddingLeft: 3
+    },
+            TextInput: {
+                borderBottomColor: Colors.borderBottomColor,
+            borderBottomWidth: 1,
+    },
+            Button: {
+                color: Colors.ButtonTextColor,
+            textAlign: 'center',
+
+    },
+            buttoncon: {
+                backgroundColor: Colors.PRIMARY,
+            borderRadius: 10,
+            height: 40,
+            width: "100%",
+            justifyContent: 'center',
+    },
+            button_sty: {width: "100%", },
+            touch: {padding: 20 },
+            errortext: 
+            {
+                fontSize: 11,
+                color: 'red'
+            },
 });
 
-export default pharmacyuserscreen;
+            export default pharmacyuserscreen;

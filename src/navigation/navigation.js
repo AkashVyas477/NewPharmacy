@@ -6,6 +6,8 @@ import DrawerNavigator from './customerRoute';
 
 const AppStack = createStackNavigator();
 const AppNavigator = props => {
+
+   
     return(
         <NavigationContainer>
             <AppStack.Navigator headerMode='none'>
@@ -15,4 +17,5 @@ const AppNavigator = props => {
         </NavigationContainer>
     )
 }
+
 export default AppNavigator;

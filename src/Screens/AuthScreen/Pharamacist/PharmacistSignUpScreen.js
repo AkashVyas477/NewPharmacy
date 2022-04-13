@@ -5,6 +5,7 @@ import { Formik } from "formik";
 
 import SignUpValidationSchema from '../../../ForValidationSchema/SignupValidationSchema';
 import {Images,Colors} from '../../../CommonConfig'
+import { Button,EyeButton,CheckBox,RadioButton, Header } from '../../../Components/Common';
 
 const PharmacistSignUpScreen = props =>{
 
@@ -24,15 +25,6 @@ const PharmacistSignUpScreen = props =>{
         setFemale(true);
         setMale(false);
     };
-    // const  genderMale = ()=>{
-    //     setMale(true);
-    //     setFemale(false);
-    // };
-    
-    // const  genderFemale = ()=>{
-    //     setMale(false);
-    //     setFemale(true);
-    // };
     
     const [tnceye, setTncEye] = useState(false);
     const [tnceyeconf, setTncEyeconf] = useState(false);
@@ -46,15 +38,9 @@ const PharmacistSignUpScreen = props =>{
 
             {/* SignUp  */}
             <View style={styles.Header}>
-                <View>
-                    <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-                        
-                        <Image source={Images.Arrow} style={styles.arrow} />
-                    </TouchableOpacity>
-                </View>
-                <Text style={styles.TextSignUp} >
-                    Sign Up
-                </Text>
+                <Header 
+                Title="SIGN UP"
+                />
             </View>
             {/* SignUp  */}
             {/* Profile */}
@@ -146,29 +132,24 @@ const PharmacistSignUpScreen = props =>{
                                     {/* Gender */}
                                 <Text style={styles.main} > Gender </Text>
                                 <View>
+                                    <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
                                     {/* male button */}
-                                       <View style={styles.gender_sty}>
-                                           <View style={styles.gendercheck}>
-                                            <TouchableOpacity onPress={maleHandler}  >
-                                           { male ? <Image source={Images.RoundCheckActive} style={{ height: 28, width: 28, }} />:
-                                            <Image source={Images.RoundCheckInactive} style={{ height: 28, width: 28, }} />
-                                            }
-                                            </TouchableOpacity>
-                                            <Text style={styles.gendertext} >Male </Text> 
-
+                                       <View >
+                                            <RadioButton 
+                                            label="Male" 
+                                            onPress={maleHandler}
+                                            state={male}
+                                            />
                                             </View> 
                                     {/* male button  end*/}
                                        {/* Female button */}
-                                            <View style={styles.gendercheck}>
-                                           <View style={styles.femalegender_bt}>
-                                            <TouchableOpacity onPress={femaleHandler}>
-                                           { female ?<Image source={Images.RoundCheckActive} style={{ height: 28, width: 28, }} />
-                                            :
-                                            <Image source={Images.RoundCheckInactive} style={{ height: 28, width: 28, }} />
-                                            }
-                                            </TouchableOpacity>
-                                            <Text style={styles.gendertext}>Female</Text>
-                                            </View>
+                                            <View >
+                                            <RadioButton 
+                                            label="Femal" 
+                                            onPress={femaleHandler}
+                                            state={female}
+                                            />
+                                                
                                        {/* Female button */}
                                        </View>
                                         </View> 
@@ -178,7 +159,7 @@ const PharmacistSignUpScreen = props =>{
                                 
                                 <View>
                                     <Text style={styles.main} > Password </Text>
-                                    <View  style={styles.eye_sty}>
+                                    <View  style={styles.password_sty}>
                                         <TextInput
                                             value={values.password}
                                             style={styles.customCss}
@@ -187,19 +168,15 @@ const PharmacistSignUpScreen = props =>{
                                             onChangeText={handleChange('password')}
                                             secureTextEntry={tnceye ? true : false}
                                         />
-                                        <TouchableOpacity onPress={() => setTncEye(!tnceye)} style={styles.eyePosition} >
-                                            {tnceye ? <Image source={Images.ActiveEye} style={styles.eyeIcon} /> :
-                                                <Image source={Images.InactiveEye}style={styles.eyeIcon} />
-                                            }
-                                        </TouchableOpacity>
+                                        <EyeButton style={styles.eye_sty} tnceye={tnceye} onEyePress={ () => {setTncEye(!tnceye)} }/>
                                     </View>
                                     {touched.password && errors.password &&
-                                        <Text style={styles.errorText}>{errors.password}</Text>
+                                        <Text style={styles.errortext}>{errors.password}</Text>
                                     }
                                 </View>
-                                    <View>
+                                    <View  >
                                 <Text style={styles.main} > Confirm Password </Text>
-                                <View  style={styles.eye_sty}>
+                                <View  style={styles.password_sty}>
                                 <TextInput
                                     value={values.passwordConfirm}
                                     style={styles.customCss}
@@ -208,18 +185,17 @@ const PharmacistSignUpScreen = props =>{
                                     onChangeText={handleChange('passwordConfirm')}
                                     secureTextEntry={tnceyeconf ? true : false}
                                 />
-                                <TouchableOpacity onPress={() => setTncEyeconf(!tnceyeconf)} style={styles.eyePosition} >
-                                    {tnceyeconf ? <Image source={Images.ActiveEye} style={styles.eyeIcon}  /> :
-                                       <Image source={Images.InactiveEye} style={styles.eyeIcon}  />
-                                    }
-                                </TouchableOpacity>
+                                
+                                <EyeButton style={styles.eye_sty} tnceye={tnceyeconf} onEyePress={ () => {setTncEyeconf(!tnceyeconf)} }/>
+
                                 </View>
                                 {touched.passwordConfirm && errors.passwordConfirm &&
-                                    <Text style={styles.errorText} >{errors.passwordConfirm}</Text>
+                                    <Text style={styles.errortext}>{errors.passwordConfirm}</Text>
                                 }
                                 </View>
+                                {/* Password end */}  
                             </View>
-                            {/* Terms & conditions */}
+                            {/* /* Terms & conditions */}
                             <View  >
                                 <View style={{ flexDirection: 'row',marginTop:15, marginBottom: 15, }} >
                                     <TouchableOpacity onPress={tncHandler} style={{paddingRight:5}} >
@@ -341,44 +317,20 @@ const styles = StyleSheet.create({
 
 
     },
+    eye_sty:{paddingRight:20},
     sp_signup: {
         color: Colors.Sp_Text,
         marginBottom: 50
 
     },
-    gender_sty:{
-        flexDirection:'row' ,
-        justifyContent:'space-between',
-         width:'100%', padding:5
-        },
-    gendercheck:{
-        flexDirection:'row',
-        alignItems:'center',
-        borderBottomWidth:1, 
-        paddingBottom:5, 
-        width:'40%' ,
-        borderBottomColor: Colors.borderBottomColor,
-    },
-    gendertext:{
-        paddingLeft:5,
-    },
-    femalegender_bt:{
-        flexDirection:'row', 
-        alignItems:'center'
-    },
+   
     eye_sty:{ 
     flexDirection: 'row',
      justifyContent:'space-evenly',
      alignItems: 'center', 
-     paddingLeft:15
     },
-    eyeIcon:{ 
-        height: 15, 
-        width: 24, 
-    },
-    eyePosition:{
-        paddingRight:20
-    },
+    
+    
     checkbox:{ 
         height: 20, 
         width: 20 

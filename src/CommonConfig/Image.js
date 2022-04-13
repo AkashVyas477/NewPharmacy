@@ -91,13 +91,15 @@ export default {
 
     // Info
         AboutUSicon: require('../Assets/Icons/aboutUSicon.png'),
-        AccountReview:('../Assets/Icons/accountReview.png'),
-        Calendar:('../Assets/Icons/calendar.png'),
-        PrivacyPolicy: ('../Assets/Icons/privacyPolicy.png'),
-        Quotes:('../Assets/Icons/quotes.png'),
-        ReloadIcon:('../Assets/Icons/reloadIcon.png'),
-        TermsNconditions:('../Assets/Icons/termsNconditions.png'),
+        AccountReview:require('../Assets/Icons/accountReview.png'),
+        Calendar:require('../Assets/Icons/calendar.png'),
+        PrivacyPolicy: require('../Assets/Icons/privacyPolicy.png'),
+        Quotes:require('../Assets/Icons/quotes.png'),
+        ReloadIcon:require('../Assets/Icons/reloadIcon.png'),
+        TermsNconditions:require('../Assets/Icons/termsNconditions.png'),
     
+        // Images of shop
+        apollo:require('../Assets/Icons/images.png')
 
 
 }

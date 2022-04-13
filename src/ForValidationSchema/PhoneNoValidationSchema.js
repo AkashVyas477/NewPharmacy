@@ -1,6 +1,4 @@
 import * as yup from 'yup';
-import PhoneNumberScreen from '../Screens/AuthScreen/PhoneNumberScreen';
-
 const  PhoneNumberVAlidationSchema= yup.object().shape({
     mobile: yup
     .number()

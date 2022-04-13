@@ -3,6 +3,7 @@ import {View, Text ,TextInput, StyleSheet, TouchableOpacity, Image} from 'react-
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { Images,Colors } from '../../CommonConfig';
+import { Header } from '../../Components/Common';
 
 const VerificationScreen = props =>{
 
@@ -15,14 +16,7 @@ const VerificationScreen = props =>{
              <KeyboardAwareScrollView>
             {/* VERIFICATION  */}
             <View style={styles.Verification_sty}>
-                <View>
-                    <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-                        <Image source={Images.Arrow} style={styles.arrow_sty} />
-                    </TouchableOpacity>
-                </View>
-                <Text style={styles.VerificationTitle_sty} >
-                   VERIFICATION CODE
-                </Text>
+            <Header Title="VERIFICATION CODE" />
             </View>
             {/* VERIFICATION  */}
 
@@ -179,10 +173,8 @@ const  styles=StyleSheet. create({
     },
 
     Verification_sty:{
-        flexDirection: 'row',
-         alignItems: 'center',
-          marginTop: 5, 
-          padding: 10
+          marginTop: 10, 
+        //   padding: 10
     },
     arrow_sty:{
          height: 20,

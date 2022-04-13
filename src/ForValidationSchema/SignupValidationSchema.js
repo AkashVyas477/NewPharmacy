@@ -1,7 +1,4 @@
 import * as yup from 'yup';
-import CustomerSignupScreen from '../Screens/AuthScreen/Customer/CustomerSignUpScreen';
-import PharmacistSignUpScreen from '../Screens/AuthScreen/Pharamacist/PharmacistSignUpScreen';
-
 const SignUpValidationSchema =yup.object().shape({
                             username: yup
                             .string()

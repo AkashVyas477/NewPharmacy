@@ -1,7 +1,11 @@
-import React from 'react';
-import {View, Text , StyleSheet ,TouchableOpacity, Image} from 'react-native';
+import React,{useState} from 'react';
+import {View, Text , StyleSheet ,TouchableOpacity, Image ,FlatList } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { Images, Colors } from '../../CommonConfig';
+import Pharamacies from '../../Components/DummyData/DummyData';
+
+
 
 
 const HomeScreen = props =>{
@@ -42,6 +46,16 @@ const HomeScreen = props =>{
                         <Text style={{color:'#717D7E', fontSize:17, padding:10}}>
                             Near By Pharmacies
                         </Text>
+
+                        <View >
+                               {Pharamacies.map( (object) => {
+                                   return (
+                                        <View key={object.id}>
+                                            
+                                        </View>
+                                   )
+                               } )}
+                        </View>
                     </View>
                     {/* Dtabase */}
         </KeyboardAwareScrollView>

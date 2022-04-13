@@ -1,6 +1,4 @@
 import * as yup from 'yup';
-import LoginScreen from '../Screens/AuthScreen/LoginScreen';
-
 const LoginValidationSchema = yup.object().shape({
                     email:yup.string()
                             .email()

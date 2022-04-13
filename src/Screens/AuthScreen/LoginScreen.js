@@ -10,10 +10,7 @@ import {
     ScrollView
 } from 'react-native';
 import { Images,Colors } from '../../CommonConfig';
-import Button from '../../Components/Common/Button';
-import EyeButton from '../../Components/Common/EyeButton';
-import CheckBox from '../../Components/Common/CheckBox';
-
+import {CheckBox,EyeButton,Button} from '../../Components/Common';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import LoginValidationSchema from '../../ForValidationSchema/LoginValidationSchema'
@@ -23,7 +20,7 @@ import { Formik } from 'formik'
 const LoginScreen = (props) => {
 
     const [tnc, setTnc] = useState(false);
-    const tncHandler = () => {
+    const tncHandler = () => { 
         setTnc(state => !state);
     };
     const [tnceye, setTncEye] = useState(false);
@@ -46,7 +43,7 @@ const LoginScreen = (props) => {
                         email: '',
                         password: ''
                     }}
-                    onSubmit={values => Alert.alert(JSON.stringify(values))}
+                    onSubmit={() => { props.navigation.navigate('Drawer', { screen: 'Home' }) }}
                     validationSchema={LoginValidationSchema}
                 >
                     {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
@@ -87,7 +84,9 @@ const LoginScreen = (props) => {
                                             <Image source={require('../../Assets/Icons/EyeIcon/inactiveEye.png')} style={styles.eyeIcon} />
                                         }
                                     </TouchableOpacity> */}
-                                     <EyeButton  state={tnceye} onPress={ () => {setTncEye(!tnceye)} }/>
+                                     <EyeButton
+                                       tnceye={tnceye}
+                                       onEyePress={ () => {setTncEye(!tnceye)} }/>
                                 </View>
 
                                 {touched.password && errors.password &&
@@ -124,9 +123,7 @@ const LoginScreen = (props) => {
                                     <View style={styles.button_sty}>
                                         <Button 
                                         label="Login"
-                                        onPress={() => { props.navigation.navigate('Drawer', { screen: 'Home' }) }}
-                                        disabled={!isValid}
-                                        
+                                        onPress={handleSubmit}    
                                         />
                                     </View>
                                     {/* Login button end */}

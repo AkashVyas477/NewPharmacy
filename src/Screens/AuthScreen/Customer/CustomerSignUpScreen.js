@@ -5,10 +5,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { Formik } from "formik";
 import SignUpValidationSchema from '../../../ForValidationSchema/SignupValidationSchema' 
 import { Images , Colors } from '../../../CommonConfig';
-import Button from '../../../Components/Common/Button';
-import CheckBox from '../../../Components/Common/CheckBox';
-import Gender from '../../../Components/Common/Gender';
-import EyeButton from '../../../Components/Common/EyeButton';
+import {CheckBox,EyeButton,Button,RadioButton,Header} from '../../../Components/Common';
 
 
 const CustomerSignupScreen = props => {
@@ -41,15 +38,9 @@ const CustomerSignupScreen = props => {
 
             {/* SignUp  */}
             <View style={styles.header}>
-                <View>
-                    <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-                       
-                        <Image source={Images.Arrow} style={styles.arrow}/>
-                    </TouchableOpacity>
-                </View>
-                <Text style={styles.headerText} >
-                    Sign Up
-                </Text>
+                <Header 
+                Title= "SIGN UP"
+                />
             </View>
             {/* SignUp  */}
             {/* Profile */}
@@ -108,34 +99,24 @@ const CustomerSignupScreen = props => {
                                     {/* Gender */}
                                 <Text style={styles.main} > Gender </Text>
                                 <View>
+                                <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
                                     {/* male button */}
-                                       <View style={styles.gender_sty}>
-                                           <View style={styles.gendercheck}>
-                                           
-                                            <TouchableOpacity onPress={maleHandler} >
-                                           { !male ?<Image source={Images.RoundCheckInactive} style={styles.checkIcon}/>
-                                                    
-                                            :
-                                            <Image source={Images.RoundCheckActive} style={styles.checkIcon}  />
-                                            }
-                                            </TouchableOpacity>
-                                            <Text style={styles.genderText} >Male </Text> 
-                                        {/* <Gender  state={male} onPress={ () => {setMale(!male)} } /> */}
-
+                                       <View >
+                                            <RadioButton 
+                                            label="Male" 
+                                            onPress={maleHandler}
+                                            state={male}
+                                            />
                                             </View> 
                                     {/* male button  end*/}
                                        {/* Female button */}
-                                       <View style={styles.gendercheck}>
-                                           <View style={styles.femaleGender}>
-                                            <TouchableOpacity  onPress={femaleHandler}>
-                                           { !female ?<Image source={Images.RoundCheckInactive} style={styles.checkIcon}  />
-                                            :
-                                            <Iamge source={Images.RoundCheckActive} style={styles.checkIcon} />
-                                            }
-                                            </TouchableOpacity>
-                                            <Text style={styles.genderText} >Female</Text>
-                                            </View>
-                                            {/* <Gender  state={female} onPress={ () => {setFemale(!female)} }  /> */}
+                                            <View >
+                                            <RadioButton 
+                                            label="Femal" 
+                                            onPress={femaleHandler}
+                                            state={female}
+                                            />
+                                                
                                        {/* Female button */}
                                        </View>
                                         </View> 
@@ -154,7 +135,7 @@ const CustomerSignupScreen = props => {
                                             onChangeText={handleChange('password')}
                                             secureTextEntry={tnceye ? true : false}
                                         />
-                                        <EyeButton style={styles.eye_sty} state={tnceye} onPress={ () => {setTncEye(!tnceye)} }/>
+                                        <EyeButton style={styles.eye_sty} tnceye={tnceye} onEyePress={ () => {setTncEye(!tnceye)} }/>
                                     </View>
                                     {touched.password && errors.password &&
                                         <Text style={styles.errortext}>{errors.password}</Text>
@@ -172,7 +153,7 @@ const CustomerSignupScreen = props => {
                                     secureTextEntry={tnceyeconf ? true : false}
                                 />
                                 
-                                <EyeButton style={styles.eye_sty} state={tnceyeconf} onPress={ () => {setTncEyeconf(!tnceyeconf)} }/>
+                                <EyeButton style={styles.eye_sty} tnceye={tnceyeconf} onEyePress={ () => {setTncEyeconf(!tnceyeconf)} }/>
 
                                 </View>
                                 {touched.passwordConfirm && errors.passwordConfirm &&
@@ -198,13 +179,11 @@ const CustomerSignupScreen = props => {
                             {/* Terms & conditions */}
                             {/* Next Button */}
                             <View>
-                                <TouchableOpacity onPress={() => {
-                                    props.navigation.navigate('PhoneNumberScreen')
-                                }}>
-                                    <View style={styles.buttoncon}>
-                                        <Text style={styles.Button}> Next </Text>
-                                    </View>
-                                </TouchableOpacity>
+                                <Button
+                                label="Next"
+                                onPress={() => {
+                                    props.navigation.navigate('PhoneNumberScreen')}}
+                                />
                                 <View style={styles.login_sty}>
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('Login') }} >
                                         <View style={styles.signup_sty}>
@@ -250,24 +229,12 @@ const styles = StyleSheet.create({
         paddingBottom:2,
         justifyContent: 'space-evenly',
     },
-    gender_sty:{flexDirection:'row' ,justifyContent:'space-between',width:'100%', padding:5,},
     main: {
         color: Colors.Sp_Text,
         marginTop: 10
 
     },
-    Button: {
-        color: 'white',
-        textAlign: 'center',
-
-    },
-    buttoncon: {
-        backgroundColor: Colors.PRIMARY,
-        borderRadius: 10,
-        height: 40,
-        width: "100%",
-        justifyContent: 'center',
-    },
+    
     text: {
         padding: 10,
         paddingHorizontal: 10,
@@ -287,8 +254,6 @@ const styles = StyleSheet.create({
         marginBottom: 50,
         fontSize: 20,
 
-
-
     },
     sp_signup: {
         color: 'black',
@@ -303,10 +268,8 @@ const styles = StyleSheet.create({
         width:'40%' ,
         borderBottomColor: Colors.borderBottomColor,
     },
-    checkIcon:{ height: 28, width: 28, },
-    femaleGender:{flexDirection:'row', alignItems:'center'},
-   genderText:{paddingLeft:5},
-   eyeIcon:{ height: 15, width: 24, },
+   
+   
    eye_sty:{paddingRight:20},
    password_sty:{ flexDirection: 'row', justifyContent:'space-evenly',alignItems: 'center', paddingLeft:15},
    terms_sty:{ flexDirection: 'row',marginTop:15, marginBottom: 15,paddingRight:5 },
@@ -314,11 +277,6 @@ const styles = StyleSheet.create({
    login_sty:{ width: "100%", marginTop: 10 },
    signup_sty:{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
 
-    // textAlign: {
-    //     // adjustsFontSizeToFit:true,
-    //     // numberOfLines:'number'
-    //     fontSize:fontSize
-    // },
 });
 
 export default CustomerSignupScreen;

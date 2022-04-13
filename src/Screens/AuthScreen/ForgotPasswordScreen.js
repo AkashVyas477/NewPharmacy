@@ -5,6 +5,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { Formik } from 'formik'
 import ForgotPasswordValidation from '../../ForValidationSchema/ForgotPassword';
 import { Colors, Images } from '../../CommonConfig'
+import { Header } from '../../Components/Common';
 
 
 const ForgotPasswordScreen = props => {
@@ -14,14 +15,15 @@ const ForgotPasswordScreen = props => {
             <KeyboardAwareScrollView>
                 {/* Header start */}
                 <View style={styles.header_sty}>
-                    <View>
+                    {/* <View>
                         <TouchableOpacity onPress={() => (props.navigation.goBack())} >
                             <Image source={Images.Arrow} style={styles.arrow} />
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.headerText} >
                         FORGOT PASSWORD
-                    </Text>
+                    </Text> */}
+                    <Header Title="FORGOT PASSWORD" />
                 </View>
                 {/* Header start */}
                 {/* logo start */}

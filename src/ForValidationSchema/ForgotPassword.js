@@ -1,6 +1,4 @@
 import * as yup from 'yup';
-import ForgotPasswordScreen from '../Screens/AuthScreen/ForgotPasswordScreen';
-
 const ForgotPasswordValidation =  yup.object().shape({
 email: yup
 .string()

@@ -3,6 +3,8 @@ import { Image,View } from 'react-native';
 import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
 
 
 // Home Screens
@@ -13,7 +15,9 @@ import PrescriptionScreen from '../Screens/CustomerScreen/PrescriptionScreen';
 
 //LocationScreen
 import LocationScreen from '../Screens/CustomerScreen/Location';
-import ViewNativeComponent from 'react-native/Libraries/Components/View/ViewNativeComponent';
+
+import CurrentPrescriptionScreen from '../Screens/CustomerScreen/CurrentPrescriptionScreen';
+import PastPrescriptionScreen from '../Screens/CustomerScreen/PastPrescriptionScreen';
 
 
 const Drawer = createDrawerNavigator()
@@ -67,6 +71,17 @@ const TabNavigator = props =>{
        
     )
 }
+
+
+// const TopTab = createMaterialTopTabNavigator();
+//     function MyTabs() {
+//         return (
+//           <Tab.Navigator>
+//             <Tab.Screen name="Current" component={CurrentPrescriptionScreen} />
+//             <Tab.Screen name="Past" component={PastPrescriptionScreen} />
+//           </Tab.Navigator>
+//         );
+//       }
 
 
 const HomeStack = createStackNavigator()

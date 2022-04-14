@@ -6,7 +6,7 @@ const Header = props => {
     return (
       <View style={styles.wrapper}>
         <TouchableOpacity
-          onPress={() => (props.navigation.goBack())}
+          onPress={props.onPress}
           style={styles.headerStyle}>
             <Image source={Images.Arrow} style={styles.backIcon} />
         </TouchableOpacity>

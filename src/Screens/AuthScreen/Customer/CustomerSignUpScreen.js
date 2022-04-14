@@ -40,6 +40,7 @@ const CustomerSignupScreen = props => {
             <View style={styles.header}>
                 <Header 
                 Title= "SIGN UP"
+                onPress={() => props.navigation.goBack()}
                 />
             </View>
             {/* SignUp  */}

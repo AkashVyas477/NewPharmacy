@@ -29,7 +29,9 @@ const PhoneNumberScreen = props => {
                         <Text style={styles.phoneNoText} >
                             PHONE NUMBER
                         </Text> */}
-                        <Header Title="PHONE NUMBER" />
+                        <Header Title="PHONE NUMBER"
+                        onPress={() => props.navigation.goBack()}
+                        />
 
                     </View>
                     <View style={styles.screen}>

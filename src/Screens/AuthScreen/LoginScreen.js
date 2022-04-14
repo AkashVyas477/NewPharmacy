@@ -167,6 +167,17 @@ const LoginScreen = (props) => {
                         </View>
                     )}
                 </Formik>
+
+
+                                    {/* Remove this after completing desing */}
+                <Button
+                    label="Skip Login"
+                    onPress={() => { props.navigation.navigate('Drawer', { screen: 'Home' }) }}
+                />
+                                     {/* Remove this after completing desing */}
+           
+           
+           
             </View>
             {/* Full screen */}
         </KeyboardAwareScrollView>

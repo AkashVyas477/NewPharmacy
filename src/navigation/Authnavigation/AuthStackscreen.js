@@ -27,7 +27,6 @@ const AuthStackScreen = ({ navigation }) => {
             <AuthStack.Screen name="PhoneNumberScreen" component={PhoneNumberScreen} />
             <AuthStack.Screen name="VerificationScreen" component={VerificationScreen} />
             <AuthStack.Screen name="LocationScreen" component={LocationScreen} />
-            
         </AuthStack.Navigator>
     );
 }

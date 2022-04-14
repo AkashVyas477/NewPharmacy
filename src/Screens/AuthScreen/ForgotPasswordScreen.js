@@ -23,7 +23,9 @@ const ForgotPasswordScreen = props => {
                     <Text style={styles.headerText} >
                         FORGOT PASSWORD
                     </Text> */}
-                    <Header Title="FORGOT PASSWORD" />
+                    <Header Title="FORGOT PASSWORD"
+                    onPress={() => props.navigation.goBack()}
+                     />
                 </View>
                 {/* Header start */}
                 {/* logo start */}

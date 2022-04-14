@@ -4,11 +4,14 @@ import { Images, Colors } from '../../../CommonConfig'
 import { Formik } from 'formik'
 import PharmacyUserValidation from '../../../ForValidationSchema/PharmacyUserValidationSchema';
 import{ Button,Header} from '../../../Components/Common';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 const pharmacyuserscreen = props => {
     return (
         <View style={styles.screen}>
+        <KeyboardAwareScrollView>
+        <View >
             {/* Screen partation for button and ID */}
 
             <View style={styles.screen2}>
@@ -16,6 +19,7 @@ const pharmacyuserscreen = props => {
                 <View style={styles.Header}>
                     <Header 
                     Title="LOGIN AS PHARMACY USER"
+                    onPress={() => props.navigation.goBack()}
                     />
                 </View>
                 {/* Logo & HeaderText */}
@@ -51,8 +55,7 @@ const pharmacyuserscreen = props => {
                                 }
                         </View>
 
-                        
-                            <View>
+                            <View style={{justifyContent:'space-between'}} >
                                 {/* Login button start */}
                                 <View >
                                     <Button 
@@ -69,16 +72,17 @@ const pharmacyuserscreen = props => {
                             {/* Input  */}
         </View>
     </View>
+    </KeyboardAwareScrollView>
+    </View>
     );
 };
 
             const styles = StyleSheet.create({
                 screen: {
                 flex: 1,
-            alignItems: 'flex-start',
             backgroundColor: Colors.White,
             padding: 10,
-            justifyContent: 'space-between'
+            justifyContent:'space-between'
     },
             screen2: {
                 width: "100%"

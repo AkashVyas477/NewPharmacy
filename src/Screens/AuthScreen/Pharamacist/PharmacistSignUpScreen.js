@@ -40,6 +40,7 @@ const PharmacistSignUpScreen = props =>{
             <View style={styles.Header}>
                 <Header 
                 Title="SIGN UP"
+                onPress={() => props.navigation.goBack()}
                 />
             </View>
             {/* SignUp  */}

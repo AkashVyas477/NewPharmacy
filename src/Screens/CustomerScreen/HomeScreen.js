@@ -1,17 +1,20 @@
 import React,{useState} from 'react';
-import {View, Text , StyleSheet ,TouchableOpacity, Image ,FlatList } from 'react-native';
+import {View, Text , StyleSheet ,TouchableOpacity, Image ,FlatList,ScrollView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { Images, Colors } from '../../CommonConfig';
-import Pharamacies from '../../Components/DummyData/DummyData';
+import Pharamacies from '../../Components/Shop/Pharamacies';
+import PharamaciesData from '../../DummyData/DummyData';
+
 
 
 
 
 const HomeScreen = props =>{
+    console.log(PharamaciesData)
     return(
         <View>
-            <KeyboardAwareScrollView>     
+            <ScrollView>     
             <View style={styles.screen}>     
               {/*Logo + Icon  */}
                  <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
@@ -47,18 +50,27 @@ const HomeScreen = props =>{
                             Near By Pharmacies
                         </Text>
 
-                        <View >
-                               {Pharamacies.map( (object) => {
-                                   return (
-                                        <View key={object.id}>
-                                            
-                                        </View>
-                                   )
-                               } )}
-                        </View>
+                       <View>
+                            <FlatList
+                            data={PharamaciesData}
+                            renderItem={({item})=> {
+                                return(
+                                    <View key={item.id} >
+                                    <Pharamacies 
+                                    pimage={item.simg}
+                                    pname={item.sname}
+                                    paddress={item.address}
+                                    pdistance={item.distance}
+                                    onClick={()=>{props.navigation.navigate('Pharamacies_Detail',{id:item.id})} }
+                                    />
+                                     </View>                            
+                                )
+                            }}
+                            />
+                       </View>
                     </View>
                     {/* Dtabase */}
-        </KeyboardAwareScrollView>
+        </ScrollView>
         </View>
     );
 };

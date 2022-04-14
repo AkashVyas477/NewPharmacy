@@ -16,7 +16,9 @@ const VerificationScreen = props =>{
              <KeyboardAwareScrollView>
             {/* VERIFICATION  */}
             <View style={styles.Verification_sty}>
-            <Header Title="VERIFICATION CODE" />
+            <Header Title="VERIFICATION CODE"
+            onPress={() => props.navigation.goBack()}
+            />
             </View>
             {/* VERIFICATION  */}
 

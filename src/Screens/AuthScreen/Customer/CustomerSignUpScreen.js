@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions, Modal } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
+import * as ImagePicker from 'react-native-image-crop-picker';
 import { Formik } from "formik";
 import SignUpValidationSchema from '../../../ForValidationSchema/SignupValidationSchema' 
 import { Images , Colors } from '../../../CommonConfig';
 import {CheckBox,EyeButton,Button,RadioButton,Header} from '../../../Components/Common';
+
 
 
 const CustomerSignupScreen = props => {
@@ -28,6 +29,31 @@ const CustomerSignupScreen = props => {
     
     const [tnceye, setTncEye] = useState(false);
     const [tnceyeconf, setTncEyeconf] = useState(false);
+
+const [selectedImage, setSelectedImage] = useState(null)
+   const [modalVisible, setModalVisible] = useState(false);
+   const takeFromCamera = () => {
+    ImagePicker.openCamera({
+            width: 100,
+            height: 100,
+            cropping: true,
+        }).then(image => {
+           
+            setSelectedImage(image.path)
+            setModalVisible(!modalVisible)
+      });
+}
+const pickFromGallery = () => {
+    ImagePicker.openPicker({
+            width: 100,
+            height: 100,
+            cropping: true
+        }).then(image => {
+           
+            setSelectedImage(image.path)
+            setModalVisible(!modalVisible)
+        });
+}
     
 
 
@@ -47,12 +73,48 @@ const CustomerSignupScreen = props => {
             {/* Profile */}
             <View style={styles.profile}>
                 <View >
-                    <Image source={Images.SignupPlaceholder} style={styles.profileImg} />
+                {selectedImage ? <Image source={{ uri: selectedImage}} style={{height:100,width:100}}/> :<Image source={Images.SignupPlaceholder} style={styles.profileImg} />}
                 </View>
                 <View>
-                    <TouchableOpacity style={styles.addIcon}>
+                    <TouchableOpacity style={styles.addIcon}   onPress={()=>setModalVisible(true) } >
                         <Image source={Images.AddIcon} style={styles.addIconImg} />
                     </TouchableOpacity>
+                    {/* <View style={styles.centeredView}> */}
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            setModalVisible(!modalVisible);
+                        }}
+                    >
+                        <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.modalText}>Choose option: </Text>
+                            <TouchableOpacity
+                                style={[styles.buttonModal, styles.buttonClose]}
+                                onPress={pickFromGallery}
+                            >
+                            <Text style={styles.textStyle}>Choose from gallery</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.buttonModal, styles.buttonClose]}
+                                onPress={takeFromCamera}
+                            >
+                            <Text style={styles.textStyle}>Use Camera</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.buttonModal, styles.buttonClose]}
+                                onPress={() => {setModalVisible(false)}}
+                            >
+                            <Text style={styles.textStyle}>Close</Text>
+                            </TouchableOpacity>
+                        </View>
+                        </View>
+                    </Modal>
+                {/* </View> */}
+                    
+
                 </View>
             </View>
             {/* Profile */}
@@ -211,18 +273,45 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.backgroundColor,
     },
-    header:{ flexDirection: 'row', alignItems: 'center', marginTop: 5, padding: 10 },
-    headerText:{ fontSize: 25, color: Colors.Sp_Text, paddingLeft: 115, },
+    header:{ 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        marginTop: 5, 
+        padding: 10 
+    },
+    headerText:{ 
+        fontSize: 25, 
+        color: Colors.Sp_Text, 
+        paddingLeft: 115, 
+    },
     addIcon: {
         left: Dimensions.get('window').width * 0.12,
         bottom: Dimensions.get('window').width * 0.1,
     },
-    profile:{ flexDirection: 'column', alignItems: 'center', marginTop: 10 },
-    profileImg:{ height: 125, width: 125 },
-    addIconImg:{ height: 50, width: 50 },
-    arrow:{ height: 20, width: 30 },
-    Formik_sty:{ padding: 10 },
-    errortext:{ fontSize: 11, color:Colors.Error_Textcolor },
+    profile:{ 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        marginTop: 10 
+    },
+    profileImg:{ 
+        height: 125, 
+        width: 125 
+    },
+    addIconImg:{ 
+        height: 50, 
+        width: 50 
+    },
+    arrow:{ 
+        height: 20, 
+        width: 30 
+    },
+    Formik_sty:{ 
+        padding: 10 
+    },
+    errortext:{ 
+        fontSize: 11, 
+        color:Colors.Error_Textcolor 
+    },
     customCss: {
         borderBottomWidth: 1,
         borderBottomColor: Colors.borderBottomColor,
@@ -271,12 +360,80 @@ const styles = StyleSheet.create({
     },
    
    
-   eye_sty:{paddingRight:20},
-   password_sty:{ flexDirection: 'row', justifyContent:'space-evenly',alignItems: 'center', paddingLeft:15},
-   terms_sty:{ flexDirection: 'row',marginTop:15, marginBottom: 15,paddingRight:5 },
-   checkbox:{ height: 20, width: 20 },
-   login_sty:{ width: "100%", marginTop: 10 },
-   signup_sty:{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+   eye_sty:{
+       paddingRight:20
+    },
+   password_sty:{ 
+       flexDirection: 'row', 
+       justifyContent:'space-evenly',
+       alignItems: 'center', 
+       paddingLeft:15
+    },
+   terms_sty:{ 
+       flexDirection: 'row',
+       marginTop:15, 
+       marginBottom: 15,
+       paddingRight:5 
+    },
+   checkbox:{ 
+       height: 20, 
+       width: 20 
+    },
+   login_sty:{ 
+       width: "100%",
+        marginTop: 10 
+    },
+   signup_sty:{ 
+       flexDirection: 'row', 
+       alignItems: 'center', 
+       justifyContent: 'center' 
+    },
+
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: Colors.White,
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    buttonModal: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        marginVertical:5,
+        width:200
+    },
+    buttonOpen: {
+        backgroundColor: "#F194FF",
+    },
+    buttonClose: {
+        backgroundColor: Colors.Gray,
+    },
+    textStyle: {
+        color: Colors.White,
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        fontWeight:"bold",
+        fontSize:20
+    },
 
 });
 

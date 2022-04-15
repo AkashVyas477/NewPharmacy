@@ -3,9 +3,10 @@ import { Image,View } from 'react-native';
 import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 
 // Home Screens
@@ -87,17 +88,6 @@ const TabNavigator = props =>{
 }
 
 
-// const TopTab = createMaterialTopTabNavigator();
-//     function MyTabs() {
-//         return (
-//           <Tab.Navigator>
-//             <Tab.Screen name="Current" component={CurrentPrescriptionScreen} />
-//             <Tab.Screen name="Past" component={PastPrescriptionScreen} />
-//           </Tab.Navigator>
-//         );
-//       }
-
-
 const HomeStack = createStackNavigator()
 const HomeStackScreen = props => {
     return (
@@ -113,6 +103,8 @@ const PrescriptionStackScreen = props => {
     return (
         <PrescriptionStack.Navigator headerMode='none' >
             <PrescriptionStack.Screen name='Prescription' component={PrescriptionScreen}/>
+            <PrescriptionStack.Screen name='CurrentPrescriptionScreen_Data' component={CurrentPrescriptionScreen}/>
+            <PrescriptionStack.Screen name='PastPrescriptionScreen_Data' component={PastPrescriptionScreen}/>
         </PrescriptionStack.Navigator>
     )
 }
@@ -125,3 +117,18 @@ const AddresStackScreen = props => {
         </AddresStack.Navigator>
     )
 }
+
+
+
+
+// const TopTab = createMaterialTopTabNavigator();
+
+// const MyTabs = props=> {
+//   return (
+//     <TopTab.Navigator>
+//       <TopTab.Screen name="Current" component={CurrentPrescriptionScreen}  />
+//       <TopTab.Screen name="Past" component={PastPrescriptionScreen} />
+//     </TopTab.Navigator>
+//   );
+// }
+

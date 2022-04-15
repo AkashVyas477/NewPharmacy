@@ -1,31 +1,21 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions , FlatList, ScrollView} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Images, Colors } from '../../CommonConfig';
+import { Button } from '../../Components/Common';
+import PrescriptionData from '../../DummyData/PrescriptoinDummydata';
+import PrescriptionScreenData from '../../Components/Shop/Prescriptionsdata';
+
+
 const PrescriptionScreen = props => {
 
-    // const [current , setCurrent ] = useState(false);
-    // const [past, setPast ] = useState(false);
-    // const [ showButtonColor, setShowButtonColor]=useState();
-
-
-    // const currentHandler = () => {
-    //     setCurrent(true);
-    //     setPast(false);
-    //     setShowButtonColor(true);
-
-    // };
-    // const pastHandler = () => {
-    //     setCurrent(false);
-    //     setPast(true);
-    //     setShowButtonColor(true);
-    // };
-
+    const [state , setState ] = useState('Current');
     return (
-        <View>
-            <KeyboardAwareScrollView>
-                <View style={styles.screen}>
-                    {/*Logo + Icon  */}
+        <View style={styles.screen1} >
+           
+                <View style={styles.screen2}>
+                    {/*Logo + Menu  */}
+
                     <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
                         <View>
                             <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}  >
@@ -51,48 +41,85 @@ const PrescriptionScreen = props => {
                             </TouchableOpacity>
                         </View>
                     </View>
+                                {/* Current And Past Button   */}
+                                <View  style={{paddingHorizontal:30, flexDirection:'row', alignItems:'center', justifyContent:'center',paddingVertical:10}}>
+                                    <TouchableOpacity style={{...styles.currentPastButton,borderTopLeftRadius:10, borderBottomLeftRadius:10, backgroundColor: state === 'Current' ? Colors.PRIMARY : Colors.White}} onPress={ () => setState('Current') }>
+                                        <Text style={{color: state === 'Current' ? Colors.White : Colors.Gray}}>Current</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={{...styles.currentPastButton,borderTopRightRadius:10, borderBottomRightRadius:10,backgroundColor: state === 'Past' ? Colors.PRIMARY : Colors.White}} onPress={ () => setState('Past') }>
+                                        <Text style={{color: state === 'Past' ? Colors.White : Colors.Gray}}>Past</Text>
+                                    </TouchableOpacity>
+                                </View>
+                </View>
 
-                    <View style={{ paddingBottom: 10, }}>
-                        <View style={{ flexDirection: 'row', padding: 10, justifyContent: 'center', width: "90%", marginLeft: 20, }} >
-                            <View style={{ width: "50%" }}>
-                                {/* <TouchableOpacity>
-                            <Text style={{textAlign:'center', paddingRight:40,}}>
-                                Current
-                            </Text>
-                            </TouchableOpacity> */}
-
-                                <TouchableOpacity
-                                    // style={styles.loginScreenButton}
-                                    // onPress={() => navigate('HomeScreen')}
-                                    underlayColor='#fff'>
-                                    <Text style={{textAlign:'center', paddingRight:40}}>Current</Text>
-                                </TouchableOpacity>
-                            </View>
-
-                            <View style={styles.line} ></View>
-                            <View style={{ width: "50%" }}>
-                                {/* <TouchableOpacity >
-                            <Text style={{textAlign:'center'}}>
-                                Past
-                            </Text>
-                            </TouchableOpacity> */}
-                            <TouchableOpacity
-                                    // style={styles.loginScreenButton}
-                                    // onPress={() => navigate('HomeScreen')}
-                                    underlayColor='#fff'>
-                                    <Text style={{textAlign:'center', paddingRight:40}}>Past</Text>
-                                </TouchableOpacity>
-                            </View>
+                {/* Body */}
+                
+                <View>
+               
+                    {state === 'Current' ? 
+                    <View>
+                        <View>
+                            <FlatList
+                            data={PrescriptionData}
+                            renderItem={({item})=> {
+                                return(
+                                    <View key={item.id} >
+                                    <PrescriptionScreenData
+                                    image={item.PrescriptionImg}
+                                    name={item.PrescriptionName}
+                                    details={item.Details}
+                                    quotes={item.Quotes}
+                                    onClick={()=>{props.navigation.navigate('CurrentPrescriptionScreen_Data',{id:item.id})} }
+                                    />
+                                     </View>                            
+                                )
+                            }}
+                            />
+                      
+                        <View>
+                            <TouchableOpacity>
+                                <Image source={Images.FabIcon} style={{ height: 60, width: 60 ,position:'absolute',left: Dimensions.get('window').width * 0.77,bottom: Dimensions.get('window').width * 0.6,}} />
+                            </TouchableOpacity>
                         </View>
-
-
-
+                        </View>
+                    </View>    
+                    :
+                    <View>
+                            <View>
+                            <FlatList
+                            data={PrescriptionData}
+                            renderItem={({item})=> {
+                                return(
+                                    <View key={item.id} >
+                                    <PrescriptionScreenData
+                                    image={item.PrescriptionImg}
+                                    name={item.PrescriptionName}
+                                    details={item.Details}
+                                    quotes={item.Quotes}
+                                    onClick={()=>{props.navigation.navigate('PastPrescriptionScreen_Data',{id:item.id})} }
+                                    />
+                                     </View>                            
+                                )
+                            }}
+                            />
+                        <View>
+                            <TouchableOpacity>
+                                <Image source={Images.FabIcon} style={{ height: 60, width: 60 ,position:'absolute',left: Dimensions.get('window').width * 0.77,bottom: Dimensions.get('window').width * 0.6,}} />
+                            </TouchableOpacity>
+                        </View>
+                        </View>
                     </View>
+               
+                    }
+
+                    
                 </View>
 
 
+                
+
                 {/* Img */}
-                <View style={{ alignItems: 'center', paddingTop: 60, }}>
+                {/* <View style={{ alignItems: 'center', paddingTop: 20, }}>
                     <Image source={Images.EmptyPlacholder} style={{ height: 200, width: 300, }} />
                     <View>
                         <Text style={{ textAlign: 'center', padding: 10, fontWeight: 'bold', color: 'black', fontSize: 25 }}>
@@ -125,24 +152,34 @@ const PrescriptionScreen = props => {
                             }} />
                         </TouchableOpacity>
                     </View>
-                    {/* <Text style={{color:'#717D7E', fontSize:17, padding:10}}>
-                        Near By Pharmacies
-                    </Text> */}
-                </View>
-                {/* Dtabase */}
-            </KeyboardAwareScrollView>
+                    
+                </View> */}
+
+            
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    screen: {
+    screen1: {
         flex: 1,
+       
+    },
+    screen2: {
+        
         backgroundColor: 'white',
     },
     line: {
         borderWidth: 1,
         borderColor: 'grey'
     },
+    currentPastButton:{
+        flex:1,
+        padding:10,
+        alignItems:'center', 
+        justifyContent:'center',
+        borderWidth:1,
+        borderColor: Colors.Gray
+    }
 });
 export default PrescriptionScreen;

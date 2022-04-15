@@ -4,7 +4,7 @@ import { Colors,Images } from '../../CommonConfig';
 
 
 const Button =({
-    label,
+  label,
   onPress,
   color,
   backgroundColor,

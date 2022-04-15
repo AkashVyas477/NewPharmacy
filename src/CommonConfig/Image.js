@@ -99,7 +99,14 @@ export default {
         TermsNconditions:require('../Assets/Icons/termsNconditions.png'),
     
         // Images of shop
-        apollo:require('../Assets/Icons/images.png')
+        apollo:require('../Assets/Icons/images.png'),
+
+        //Prescription
+        // Citalopram:require('../Assets/Icons/citalopram.jpeg'),
+        Acetaminophen:require('../Assets/Icons/Acetsminophrn.jpg'),
+        Hydrochlorothiazide:require('../Assets/Icons/Hydrochlorothiazide.jpeg'),
+        Amitriptyline:require('../Assets/Icons/amitriptyline.png'),
+        Atorvastatin:require('../Assets/Icons/Atorvastatin.jpeg'),
 
 
 }

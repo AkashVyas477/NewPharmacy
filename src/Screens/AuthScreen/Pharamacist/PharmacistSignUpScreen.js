@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions,Modal } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Formik } from "formik";
-
+import * as ImagePicker from 'react-native-image-crop-picker';
 import SignUpValidationSchema from '../../../ForValidationSchema/SignupValidationSchema';
 import {Images,Colors} from '../../../CommonConfig'
 import { Button,EyeButton,CheckBox,RadioButton, Header } from '../../../Components/Common';
@@ -28,8 +28,33 @@ const PharmacistSignUpScreen = props =>{
     
     const [tnceye, setTncEye] = useState(false);
     const [tnceyeconf, setTncEyeconf] = useState(false);
-   
 
+
+  
+const [selectedImage, setSelectedImage] = useState(null)
+const [modalVisible, setModalVisible] = useState(false);
+const takeFromCamera = () => {
+ ImagePicker.openCamera({
+         width: 100,
+         height: 100,
+         cropping: true,
+     }).then(image => {
+        
+         setSelectedImage(image.path)
+         setModalVisible(!modalVisible)
+   });
+}
+const pickFromGallery = () => {
+ ImagePicker.openPicker({
+         width: 100,
+         height: 100,
+         cropping: true
+     }).then(image => {
+        console.log(image);
+         setSelectedImage(image.path)
+         setModalVisible(!modalVisible)
+     });
+}
 
 
     return (
@@ -47,12 +72,46 @@ const PharmacistSignUpScreen = props =>{
             {/* Profile */}
             <View style={styles.Profile}>
                 <View >
-                <Image source={Images.SignupPlaceholder} style={styles.ProfileImg} />
+                {selectedImage ? <Image source={{ uri: selectedImage}} style={{height:100,width:100}}/> : <Image source={Images.SignupPlaceholder} style={styles.ProfileImg} />}
                 </View>
                 <View>
-                    <TouchableOpacity style={styles.addIcon}>
+                    <TouchableOpacity style={styles.addIcon} onPress={()=>setModalVisible(true) } >
                     <Image source={Images.AddIcon}style={styles.AddImgIcon} />
                     </TouchableOpacity>
+
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            setModalVisible(!modalVisible);
+                        }}
+                    >
+                        <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.modalText}>Choose option: </Text>
+                            <TouchableOpacity
+                                style={[styles.buttonModal, styles.buttonClose]}
+                                onPress={pickFromGallery}
+                            >
+                            <Text style={styles.textStyle}>Choose from gallery</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.buttonModal, styles.buttonClose]}
+                                onPress={takeFromCamera}
+                            >
+                            <Text style={styles.textStyle}>Use Camera</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.buttonModal, styles.buttonClose]}
+                                onPress={() => {setModalVisible(false)}}
+                            >
+                            <Text style={styles.textStyle}>Close</Text>
+                            </TouchableOpacity>
+                        </View>
+                        </View>
+                    </Modal>
+
                 </View>
             </View>
             {/* Profile */}
@@ -158,7 +217,8 @@ const PharmacistSignUpScreen = props =>{
                                   {/* Gender end */}  
                                 </View>
                                 
-                                <View>
+                                 {/* Password Start */}  
+                                 <View>
                                     <Text style={styles.main} > Password </Text>
                                     <View  style={styles.password_sty}>
                                         <TextInput
@@ -269,7 +329,10 @@ const styles = StyleSheet.create({
         height: 125,
          width: 125 
         },
-    AddImgIcon:{ height: 50, width: 50 },
+    AddImgIcon:{ 
+        height: 50, 
+        width: 50 
+    },
     formik:{ padding:10 },
     
     customCss: {
@@ -301,7 +364,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         textAlign: 'center'
     },
-    errorText:{ fontSize: 11, color: 'red' },
+    errorText:{ 
+        fontSize: 11, 
+        color: 'red' 
+    },
     tandc: {
         color: Colors.Sp_Text
 
@@ -312,7 +378,7 @@ const styles = StyleSheet.create({
     },
     signup: {
         color: Colors.Gray,
-        marginBottom: 50,
+        marginBottom:10,
         fontSize: 20,
 
 
@@ -323,15 +389,7 @@ const styles = StyleSheet.create({
         color: Colors.Sp_Text,
         marginBottom: 50
 
-    },
-   
-    eye_sty:{ 
-    flexDirection: 'row',
-     justifyContent:'space-evenly',
-     alignItems: 'center', 
-    },
-    
-    
+    }, 
     checkbox:{ 
         height: 20, 
         width: 20 
@@ -341,11 +399,62 @@ const styles = StyleSheet.create({
         marginTop: 10 
     },
     touchsignup:{ 
-    flexDirection: 'row',
-     alignItems: 'center', 
-     justifyContent: 'center'
+        flexDirection: 'row',
+        alignItems: 'center', 
+        justifyContent: 'center'
      },
-
+     password_sty:{ 
+         flexDirection: 'row', 
+         justifyContent:'space-evenly',
+         alignItems: 'center', 
+         paddingLeft:15
+        },
+     
+        centeredView: {
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 22
+        },
+        modalView: {
+            margin: 20,
+            backgroundColor: Colors.White,
+            borderRadius: 20,
+            padding: 35,
+            alignItems: "center",
+            shadowColor: "#000",
+            shadowOffset: {
+                width: 0,
+                height: 2
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            elevation: 5
+        },
+        buttonModal: {
+            borderRadius: 20,
+            padding: 10,
+            elevation: 2,
+            marginVertical:5,
+            width:200
+        },
+        buttonOpen: {
+            backgroundColor: "#F194FF",
+        },
+        buttonClose: {
+            backgroundColor: Colors.Gray,
+        },
+        textStyle: {
+            color: Colors.White,
+            fontWeight: "bold",
+            textAlign: "center"
+        },
+        modalText: {
+            marginBottom: 15,
+            textAlign: "center",
+            fontWeight:"bold",
+            fontSize:20
+        },
 
 });
 

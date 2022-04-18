@@ -72,8 +72,8 @@ const pickFromGallery = () => {
             {/* SignUp  */}
             {/* Profile */}
             <View style={styles.profile}>
-                <View >
-                {selectedImage ? <Image source={{ uri: selectedImage}} style={{height:100,width:100}}/> :<Image source={Images.SignupPlaceholder} style={styles.profileImg} />}
+                <View style={{borderRadius:50,overflow:'hidden'}}>
+                {selectedImage ? <Image source={{ uri: selectedImage}} style={{height:100,width:100,}}/> :<Image source={Images.SignupPlaceholder} style={styles.profileImg} />}
                 </View>
                 <View>
                     <TouchableOpacity style={styles.addIcon}   onPress={()=>setModalVisible(true) } >
@@ -279,10 +279,10 @@ const styles = StyleSheet.create({
         marginTop: 5, 
         padding: 10 
     },
-    headerText:{ 
-        fontSize: 25, 
-        color: Colors.Sp_Text, 
-        paddingLeft: 115, 
+    headerText: {
+        fontSize:20,
+        color:Colors.Sp_Text,
+        fontWeight:'bold',
     },
     addIcon: {
         left: Dimensions.get('window').width * 0.12,

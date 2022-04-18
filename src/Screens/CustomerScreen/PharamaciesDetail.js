@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, StatusBar, Image, Dimensions, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, StatusBar, Image, Dimensions, TouchableOpacity, ImageBackground } from 'react-native'
 import React, { useState, useRef } from 'react'
 
 // import RBSheet from "react-native-raw-bottom-sheet";
@@ -31,21 +31,41 @@ const PharamaciesDetail = (props) => {
 
     return (
         <View > 
-        <View style={styles.header_sty} >
-            {/* <StatusBar backgroundColor={selectedItem.bgColor} barStyle='light-content' /> */}
+        {/* <View style={styles.header_sty} >
+           
             <Header  
              Title="DETAILS"
              onPress={() => props.navigation.goBack()}
              />
-        </View>
+        </View> */}
 
             {/* Image  */}
-            <View>
+            {/* <View>
             <View style={{ alignItems: 'center', padding: 10 }} >
                         <Image source={selectedItem.simg} style={styles.imageContainer}/>
                 </View>
+            </View> */}
+
+            <View >
+            <View style={{ alignItems: 'center', padding:10 }} >
+           
+            <ImageBackground source={selectedItem.simg} resizeMode="cover" style={styles.imageContainer}>
+            <View  style={styles.header_sty}>
+                <Header
+                Title="DETAILS"
+                onPress={() => props.navigation.goBack()}
+                />
+           </View>
+                </ImageBackground>
+                
+           
+               
+                
+                </View>
             </View>
 
+<View>
+   
         {/* Shop Name & address*/}
         <View style={styles.card}>
         <View style={{flexDirection:'row' ,alignItems:'center',justifyContent:'space-between'}}>
@@ -68,7 +88,10 @@ const PharamaciesDetail = (props) => {
         <Text style={{alignItems:'center',justifyContent:'flex-start'}}> Text Note By Pharamacies</Text>
         <Text style={{textAlign:'auto', padding:10}}>Detalis By Pharamacies</Text>
         </View>
-       
+
+    
+</View>
+
         </View>
     )
 }
@@ -80,7 +103,8 @@ const styles = StyleSheet.create({
     header_sty:{ 
         flexDirection: 'row', 
         alignItems: 'center', 
-        padding: 10 
+        padding: 10 ,
+        
     },
     text:{
         fontWeight:'bold',
@@ -103,7 +127,8 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         height: width *0.7 ,
-        width: width * 0.9
+        width: width * 1,
+        opacity: 0.7
     },
     card: {
         backgroundColor:Colors.White,
@@ -145,5 +170,17 @@ const styles = StyleSheet.create({
         
         // alignItems:'flex-end',
        
+      },
+
+      //Header style
+
+      wrapper: {flexDirection: 'row', alignItems: 'center', flex: 1},
+      headerStyle: {flex: 0.5, height: 30, width:40, },
+      backIcon: {resizeMode: 'contain', height:30, width: 30 },
+      headerText: {
+          fontSize:20,
+        color:Colors.White,
+        fontWeight:'bold',
+      //   paddingLeft:10
       },
 })

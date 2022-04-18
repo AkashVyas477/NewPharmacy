@@ -71,7 +71,7 @@ const pickFromGallery = () => {
             {/* SignUp  */}
             {/* Profile */}
             <View style={styles.Profile}>
-                <View >
+                <View style={{borderRadius:50,overflow:'hidden'}}>
                 {selectedImage ? <Image source={{ uri: selectedImage}} style={{height:100,width:100}}/> : <Image source={Images.SignupPlaceholder} style={styles.ProfileImg} />}
                 </View>
                 <View>
@@ -92,7 +92,7 @@ const pickFromGallery = () => {
                             <Text style={styles.modalText}>Choose option: </Text>
                             <TouchableOpacity
                                 style={[styles.buttonModal, styles.buttonClose]}
-                                onPress={pickFromGallery}
+                                onPress={pickFromGallery} 
                             >
                             <Text style={styles.textStyle}>Choose from gallery</Text>
                             </TouchableOpacity>

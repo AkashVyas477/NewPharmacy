@@ -102,7 +102,7 @@ export default {
         apollo:require('../Assets/Icons/images.png'),
 
         //Prescription
-        // Citalopram:require('../Assets/Icons/citalopram.jpeg'),
+        Citalopram:require('../Assets/Icons/citalopram.png'),
         Acetaminophen:require('../Assets/Icons/Acetsminophrn.jpg'),
         Hydrochlorothiazide:require('../Assets/Icons/Hydrochlorothiazide.jpeg'),
         Amitriptyline:require('../Assets/Icons/amitriptyline.png'),

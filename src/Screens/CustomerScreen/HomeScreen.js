@@ -14,7 +14,7 @@ const HomeScreen = props =>{
     console.log(PharamaciesData)
     return(
         <View>
-            <ScrollView>     
+            <View>     
             <View style={styles.screen}>     
               {/*Logo + Icon  */}
                  <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
@@ -45,6 +45,7 @@ const HomeScreen = props =>{
 
 
                     {/* Dtabase */}
+                    <View style={styles.screen1} >
                     <View style={{alignItems:'center'}}>
                         <Text style={{color:'#717D7E', fontSize:17, padding:10}}>
                             Near By Pharmacies
@@ -69,17 +70,19 @@ const HomeScreen = props =>{
                             />
                        </View>
                     </View>
+                    </View>
                     {/* Dtabase */}
-        </ScrollView>
+        </View>
         </View>
     );
 };
 
 const  styles=StyleSheet. create({
     screen:{
-        flex:1,
         backgroundColor:'white',
-    }
+        elevation:5
+    },
+   
 });
 
 export default HomeScreen;

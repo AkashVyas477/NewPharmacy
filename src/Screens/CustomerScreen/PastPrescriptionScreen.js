@@ -37,9 +37,11 @@ const PastPrescriptionScreen = props =>{
 
             {/* Image  */}
             <View>
+                <TouchableOpacity  onPress={() => { props.navigation.navigate('Preview', { id: pid }) }}>
             <View style={{ alignItems: 'center', padding: 10 }} >
                         <Image source={selectedItem.PrescriptionImg} style={styles.imageContainer}/>
                 </View>
+                </TouchableOpacity>
             </View>
 
         {/* Shop Name & address*/}

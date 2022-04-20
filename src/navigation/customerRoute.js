@@ -3,6 +3,7 @@ import { Image, View } from 'react-native';
 import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { Images } from '../CommonConfig';
 
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
@@ -11,9 +12,14 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 // Home Screens
 import HomeScreen from '../Screens/CustomerScreen/HomeScreen';
+//LogInScren
+import LoginScreen from '../Screens/AuthScreen/LoginScreen'
 
 // Prescriptions
 import PrescriptionScreen from '../Screens/CustomerScreen/PrescriptionScreen';
+// Language
+import LanguageScreen from '../Screens/CustomerScreen/Language';
+// LogoutScreen
 
 //LocationScreen
 import LocationScreen from '../Screens/CustomerScreen/Location';
@@ -27,21 +33,39 @@ import PharamaciesDetail from '../Screens/CustomerScreen/PharamaciesDetail';
 import PrescriptionImageScreen from '../Screens/CustomerScreen/PrescriptionImageScreen';
 //ImagePreview
 import Preview from '../Screens/CustomerScreen/ImagePreview';
+// Profile
+import CustomerProfileScreen from '../Screens/CustomerScreen/CustomerProfileScreen'
 
 const Drawer = createDrawerNavigator()
 const DrawerNavigator = props => {
     return (
         <Drawer.Navigator headerMode='none'>
-            {/* <Drawer.Screen name ='Profile' component={ProfileScreen} /> */}
+            <Drawer.Screen name ='CustomerProfileScreen' component={CustomerProfileScreen} 
+            options={{
+                drawerIcon:()=> <Image source={Images.SignupPlaceholder} style={{height:50, width:50, borderRadius:50, overflow:'hidden'}}/>,
+                drawerLabel:" USer "
+            }}
+            />
             <Drawer.Screen name='Home' component={TabNavigator} options={{
-                drawerIcon: () => <Image source={require('../Assets/Icons/HomeIcon/homeIcon.png')} style={{ height: 35, width: 35, }} />
+                drawerIcon: () => <Image source={require('../Assets/Icons/HomeIcon/homeIcon.png')} style={{ height: 20, width: 20,  }} />,
+                
             }} />
 
             <Drawer.Screen name='AddressStack' component={AddresStackScreen} options={{
                 drawerLabel: 'Manage Address',
-                drawerIcon: () => <Image source={require('../Assets/Icons/location/locationPin.png')} style={{ height: 40, width: 30, }} />,
+                drawerIcon: () => <Image source={require('../Assets/Icons/location/locationPin.png')} style={{ height: 27, width: 20, }} />,
 
             }} />
+
+            <Drawer.Screen name='Language' component={LanguageScreen} options={{
+                drawerLabel:'Language',
+                drawerIcon:()=> <Image source={Images.Language} style={{height: 30, width: 30,}} />,
+            }} />
+
+            <Drawer.Screen name ='LogOut' component={LoginScreen} options={{
+                drawerLabel:'Log Out', 
+                drawerIcon:()=> <Image source={Images.Logout} style={{height: 30, width: 27,}} />,
+            }}/>
 
             {/* <Drawer.Screen name ='Address' component={ManageAddress} /> */}
         </Drawer.Navigator>
@@ -109,6 +133,7 @@ const HomeStackScreen = props => {
             <HomeStack.Screen name='CurrentPrescriptionScreen_Data' component={CurrentPrescriptionScreen} />
             <HomeStack.Screen name='PastPrescriptionScreen_Data' component={PastPrescriptionScreen} />
             <HomeStack.Screen name ='Preview'component={Preview}/>
+          
         </HomeStack.Navigator>
     )
 }
@@ -133,6 +158,15 @@ const AddresStackScreen = props => {
         <AddresStack.Navigator headerMode='none'>
             <AddresStack.Screen name='ManageAddress' component={LocationScreen} />
         </AddresStack.Navigator>
+    )
+}
+
+const LanguageStack = createStackNavigator()
+const LanguageStackScreen = props => {
+    return(
+        <LanguageStack.Navigator headerMode='none'>
+        <LanguageStack.Screen name='Language' component={LanguageScreen}/>
+        </LanguageStack.Navigator>
     )
 }
 

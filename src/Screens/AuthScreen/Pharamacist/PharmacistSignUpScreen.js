@@ -6,6 +6,8 @@ import * as ImagePicker from 'react-native-image-crop-picker';
 import SignUpValidationSchema from '../../../ForValidationSchema/SignupValidationSchema';
 import {Images,Colors} from '../../../CommonConfig'
 import { Button,EyeButton,CheckBox,RadioButton, Header } from '../../../Components/Common';
+import { postRequest } from '../../../Components/Helpers/ApiHelper';
+import { useDispatch } from 'react-redux';
 
 const PharmacistSignUpScreen = props =>{
 
@@ -55,6 +57,9 @@ const pickFromGallery = () => {
          setModalVisible(!modalVisible)
      });
 }
+
+
+const dispatch= useDispatch();
 
 
     return (
@@ -123,7 +128,13 @@ const pickFromGallery = () => {
                         email: '',
                         password: ''
                     }}
-                    onSubmit={values => Alert.alert(JSON.stringify(values))}
+                    onSubmit={values => {
+                        const data = {username: values.username, email: values.email, password: values.password}
+                        console.log(data)
+                        dispatch(AuthAction.addDetails(data));
+                        
+                        props.navigation.navigate('PhoneNumberScreen')
+                    }} 
                     validationSchema={SignUpValidationSchema}
                 >
                     {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
@@ -137,6 +148,7 @@ const pickFromGallery = () => {
                                     onBlur={() => setFieldTouched('username')}
                                     onChangeText={handleChange('username')}
                                     placeholder="Username"
+                                    autoCapitalize='none'
 
                                 />
                                 {touched.username && errors.username &&
@@ -150,6 +162,7 @@ const pickFromGallery = () => {
                                     onChangeText={handleChange('email')}
                                     placeholder="E-mail"
                                     keyboardType='email-address'
+                                    autoCapitalize='none'
                                 />
                                 {touched.email && errors.email &&
                                     <Text style={styles.errorText}>{errors.email}</Text>
@@ -164,6 +177,7 @@ const pickFromGallery = () => {
                                     onBlur={() => setFieldTouched('storeName')}
                                     onChangeText={handleChange('storeName')}
                                     placeholder="StoreName"
+                                    autoCapitalize='none'
                                    
                                 />
                                 {touched.storeName && errors.storeName &&
@@ -180,6 +194,7 @@ const pickFromGallery = () => {
                                     onBlur={() => setFieldTouched('licenseId')}
                                     onChangeText={handleChange('licenseId')}
                                     placeholder="License ID "
+                                    autoCapitalize='none'
                                    
                                 />
                                 {touched.licenseId && errors.licenseId &&
@@ -228,8 +243,9 @@ const pickFromGallery = () => {
                                             onBlur={() => setFieldTouched('password')}
                                             onChangeText={handleChange('password')}
                                             secureTextEntry={tnceye ? true : false}
+                                            autoCapitalize='none'
                                         />
-                                        <EyeButton style={styles.eye_sty} tnceye={tnceye} onEyePress={ () => {setTncEye(!tnceye)} }/>
+                                        <EyeButton style={styles.eye_sty} tnceye={!tnceye} onEyePress={ () => {setTncEye(!tnceye)} }/>
                                     </View>
                                     {touched.password && errors.password &&
                                         <Text style={styles.errortext}>{errors.password}</Text>
@@ -245,9 +261,10 @@ const pickFromGallery = () => {
                                     onBlur={() => setFieldTouched('passwordConfirm')}
                                     onChangeText={handleChange('passwordConfirm')}
                                     secureTextEntry={tnceyeconf ? true : false}
+                                    autoCapitalize='none'
                                 />
                                 
-                                <EyeButton style={styles.eye_sty} tnceye={tnceyeconf} onEyePress={ () => {setTncEyeconf(!tnceyeconf)} }/>
+                                <EyeButton style={styles.eye_sty} tnceye={!tnceyeconf} onEyePress={ () => {setTncEyeconf(!tnceyeconf)} }/>
 
                                 </View>
                                 {touched.passwordConfirm && errors.passwordConfirm &&

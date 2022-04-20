@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity,ActivityIndicator} from 'react-native';
 import React from 'react';
 import { Colors,Images } from '../../CommonConfig';
 
@@ -21,10 +21,18 @@ const Button =({
       onPress={onPress} 
       >
       <View style={styles.buttoncon}>
+      {showActivityIndicator ? (
+        <ActivityIndicator
+          color={inidicatorColor ? inidicatorColor : Colors.PRIMARY_COLOR}
+          size="small"
+        />
+      ) : (
           <Text style={[styles.ButtonLabel,{color:color ?? Colors.White}, textStyle]}>
               {label}
           </Text>
+          )}
       </View>
+      
   </TouchableOpacity>
     );
 };

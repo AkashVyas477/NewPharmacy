@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions, Modal } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as ImagePicker from 'react-native-image-crop-picker';
@@ -6,10 +6,36 @@ import { Formik } from "formik";
 import SignUpValidationSchema from '../../../ForValidationSchema/SignupValidationSchema' 
 import { Images , Colors } from '../../../CommonConfig';
 import {CheckBox,EyeButton,Button,RadioButton,Header} from '../../../Components/Common';
+import messaging from '@react-native-firebase/messaging';
+import { postRequest } from '../../../Components/Helpers/ApiHelper';
+import { useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
+import rootReducer from '../../../Redux/Reducer';
+
 
 
 
 const CustomerSignupScreen = props => {
+
+
+    // let deviceToken;
+    // useEffect(() => {
+    //     // Get the device token
+    //     messaging()
+    //       .getToken()
+    //       .then(token => {
+    //         deviceToken = token
+    //       });
+    //     },[])
+
+        // const onPressRegister = async (values) => {
+        //     const data = { 
+        //     };
+        //         const response = await postRequest('register', data);
+        //         console.log(response)
+               
+        // }
+
 
     const [tnc, setTnc] = useState(false);
     const tncHandler = () => {
@@ -54,6 +80,8 @@ const pickFromGallery = () => {
             setModalVisible(!modalVisible)
         });
 }
+
+const dispatch= useDispatch();
     
 
 
@@ -126,7 +154,13 @@ const pickFromGallery = () => {
                         email: '',
                         password: ''
                     }}
-                    onSubmit={values => Alert.alert(JSON.stringify(values))}
+                    onSubmit={values =>{
+                        const data = {username: values.username, email: values.email, password: values.password}
+                        dispatch(AuthActions.addDetails(data));
+                        console.log(dispatch)
+                        props.navigation.navigate('PhoneNumberScreen')
+                    }} 
+                    // onSubmit={onPressRegister}
                     validationSchema={SignUpValidationSchema}
                 >
                     {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
@@ -140,6 +174,7 @@ const pickFromGallery = () => {
                                     onBlur={() => setFieldTouched('username')}
                                     onChangeText={handleChange('username')}
                                     placeholder="Username"
+                                    autoCapitalize='none'
 
                                 />
                                 {touched.username && errors.username &&
@@ -153,6 +188,7 @@ const pickFromGallery = () => {
                                     onChangeText={handleChange('email')}
                                     placeholder="E-mail"
                                     keyboardType='email-address'
+                                    autoCapitalize='none'
                                 />
                                 {touched.email && errors.email &&
                                     <Text style={styles.errortext}>{errors.email}</Text>
@@ -197,6 +233,7 @@ const pickFromGallery = () => {
                                             onBlur={() => setFieldTouched('password')}
                                             onChangeText={handleChange('password')}
                                             secureTextEntry={tnceye ? true : false}
+                                            autoCapitalize='none'
                                         />
                                         <EyeButton style={styles.eye_sty} tnceye={tnceye} onEyePress={ () => {setTncEye(!tnceye)} }/>
                                     </View>
@@ -214,6 +251,7 @@ const pickFromGallery = () => {
                                     onBlur={() => setFieldTouched('passwordConfirm')}
                                     onChangeText={handleChange('passwordConfirm')}
                                     secureTextEntry={tnceyeconf ? true : false}
+                                    autoCapitalize='none'
                                 />
                                 
                                 <EyeButton style={styles.eye_sty} tnceye={tnceyeconf} onEyePress={ () => {setTncEyeconf(!tnceyeconf)} }/>

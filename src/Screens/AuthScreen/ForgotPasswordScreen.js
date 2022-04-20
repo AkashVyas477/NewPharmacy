@@ -1,14 +1,51 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Button, SafeAreaView } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, SafeAreaView, Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { Formik } from 'formik'
 import ForgotPasswordValidation from '../../ForValidationSchema/ForgotPassword';
 import { Colors, Images } from '../../CommonConfig'
-import { Header } from '../../Components/Common';
+import { Header,Button } from '../../Components/Common';
+import messaging from '@react-native-firebase/messaging';
+import { postRequest } from '../../Components/Helpers/ApiHelper';
 
 
 const ForgotPasswordScreen = props => {
+  
+    let deviceToken;
+    useEffect(() => {
+        // Get the device token
+        messaging()
+          .getToken()
+          .then(token => {
+            deviceToken = token
+          });
+        },[])
+        const [isLoading, setisLoading]=useState(false)
+        const onPressSendLink = async (values) => {
+            setisLoading(true);
+            const data = {
+              email: values.email.toLowerCase(),
+             
+              device_token:deviceToken
+            };
+                const response = await postRequest('forgotPassword', data);
+                console.log(response)
+                if(!response.success) {
+                    setisLoading(false);
+                    let errorMessage = "Check Your Email ";
+                    if(response.data.ErrorMessage === "Email Does not exists!"){
+                        errorMessage = "Email Does does not exist!"
+                    }
+                    Alert.alert('Error',errorMessage,[{text:"Okay"}])
+                } else {
+                    setisLoading(false);
+                    props.navigation.navigate('Login') 
+                }
+            }
+    
+
+
     return (
 
         <View style={styles.screen}>
@@ -47,9 +84,9 @@ const ForgotPasswordScreen = props => {
                         initialValues={{
 
                             email: '',
-                            password: ''
                         }}
-                        onSubmit={values => Alert.alert(JSON.stringify(values))}
+                        // onSubmit={values => Alert.alert(JSON.stringify(values))}
+                        onSubmit={onPressSendLink}
                         validationSchema={ForgotPasswordValidation}
                     >
                         {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
@@ -63,13 +100,19 @@ const ForgotPasswordScreen = props => {
                                         onChangeText={handleChange('email')}
                                         placeholder="E-mail"
                                         keyboardType='email-address'
+                                        autoCapitalize='none'
                                     />
                                     {touched.email && errors.email &&
                                         <Text style={styles.errorText}>{errors.email}</Text>
                                     }
 
                                 </View>
-
+                                        <Button  
+                                           label="Send"
+                                           onPress={handleSubmit}
+                                           showActivityIndicator={isLoading}
+                                           disabled={!isValid|| isLoading}   
+                                        />
                                 {/* <Button 
                     color='#0DC314'
                     title='Send'
@@ -78,13 +121,13 @@ const ForgotPasswordScreen = props => {
                     style={styles.Button}
                 /> */}
 
-                                <TouchableOpacity style={styles.touch} onPress={() => { props.navigation.navigate('Login') }} >
+                                {/* <TouchableOpacity style={styles.touch} onPress={() => { props.navigation.navigate('Login') }} >
                                     <View style={styles.buttoncon}>
                                         <Text style={styles.Button}>
                                             Send
                                         </Text>
                                     </View>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                             </View>
 
                         )}

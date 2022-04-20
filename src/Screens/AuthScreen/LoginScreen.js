@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
     View,
     KeyboardAvoidingView,
@@ -7,23 +7,65 @@ import {
     Image,
     StyleSheet,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    Alert
 } from 'react-native';
-import { Images,Colors } from '../../CommonConfig';
+import { Images,Colors,Constants } from '../../CommonConfig';
 import {CheckBox,EyeButton,Button} from '../../Components/Common';
+import { postRequest } from '../../Components/Helpers/ApiHelper';
+import messaging from '@react-native-firebase/messaging';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import LoginValidationSchema from '../../ForValidationSchema/LoginValidationSchema'
 
 import { Formik } from 'formik'
 
+
+
 const LoginScreen = (props) => {
 
+    let deviceToken;
+    useEffect(() => {
+        // Get the device token
+        messaging()
+          .getToken()
+          .then(token => {
+            deviceToken = token
+          });
+        },[])
+        
     const [tnc, setTnc] = useState(false);
     const tncHandler = () => { 
         setTnc(state => !state);
     };
     const [tnceye, setTncEye] = useState(false);
+
+    const [isLoading, setisLoading]=useState(false)
+    const onPressLogin = async (values) => {
+        setisLoading(true);
+        const data = {
+          email: values.email.toLowerCase(),
+          password: values.password,
+          device_token:deviceToken
+        };
+            const response = await postRequest('login', data);
+            console.log(response)
+            if(!response.success) {
+                setisLoading(false);
+                let errorMessage = "Something went wrong!";
+                if(response.data.ErrorMessage === "User not exists!"){
+                    errorMessage = "User does not exist!"
+                }
+                if(response.data.ErrorMessage === "Login Failed!") {
+                    errorMessage = "Invalid Password!"
+                }
+                Alert.alert('Error',errorMessage,[{text:"Okay"}])
+            } else {
+                setisLoading(false);
+                props.navigation.navigate('Drawer', { screen: 'Home' }) 
+            }
+    }
+    
 
     return (
         <KeyboardAwareScrollView>
@@ -39,11 +81,10 @@ const LoginScreen = (props) => {
                 <Formik
 
                     initialValues={{
-
                         email: '',
                         password: ''
                     }}
-                    onSubmit={() => { props.navigation.navigate('Drawer', { screen: 'Home' }) }}
+                    onSubmit={onPressLogin}
                     validationSchema={LoginValidationSchema}
                 >
                     {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
@@ -59,6 +100,8 @@ const LoginScreen = (props) => {
                                         onBlur={() => setFieldTouched('email')}
                                         onChangeText={handleChange('email')}
                                         placeholder="E-mail"
+                                        keyboardType='email-address'
+                                        autoCapitalize='none'
 
                                     />
                                 </View>
@@ -77,6 +120,7 @@ const LoginScreen = (props) => {
                                         onBlur={() => setFieldTouched('password')}
                                         onChangeText={handleChange('password')}
                                         secureTextEntry={tnceye ? false : true}
+                                        autoCapitalize='none'
 
                                     />
                                     {/* <TouchableOpacity onPress={() => setTncEye(!tnceye)} >
@@ -122,8 +166,10 @@ const LoginScreen = (props) => {
                                     {/* Login button start */}
                                     <View style={styles.button_sty}>
                                         <Button 
+                                        showActivityIndicator={isLoading}
                                         label="Login"
-                                        onPress={handleSubmit}    
+                                        onPress={handleSubmit} 
+                                        disabled={!isValid|| isLoading}   
                                         />
                                     </View>
                                     {/* Login button end */}
@@ -184,7 +230,9 @@ const LoginScreen = (props) => {
 
     );
 
+
 };
+
 
 const styles = StyleSheet.create({
     root: {
@@ -310,4 +358,3 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
-

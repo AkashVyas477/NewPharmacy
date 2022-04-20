@@ -21,7 +21,7 @@ const SignUpValidationSchema =yup.object().shape({
                             .string()
                             .required('Store Name is required.'), 
                         licenseId: yup
-                            .number()
+                            .string()
                             .required('License ID is required.'), 
 
 });

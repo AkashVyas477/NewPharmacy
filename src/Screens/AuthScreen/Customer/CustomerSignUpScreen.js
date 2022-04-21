@@ -10,10 +10,6 @@ import messaging from '@react-native-firebase/messaging';
 import { postRequest } from '../../../Components/Helpers/ApiHelper';
 import { useDispatch } from 'react-redux';
 import { Provider } from 'react-redux';
-import rootReducer from '../../../Redux/Reducer';
-
-
-
 
 const CustomerSignupScreen = props => {
 
@@ -157,7 +153,7 @@ const dispatch= useDispatch();
                     onSubmit={values =>{
                         const data = {username: values.username, email: values.email, password: values.password}
                         dispatch(AuthActions.addDetails(data));
-                        console.log(dispatch)
+                        // console.log(dispatch)
                         props.navigation.navigate('PhoneNumberScreen')
                     }} 
                     // onSubmit={onPressRegister}

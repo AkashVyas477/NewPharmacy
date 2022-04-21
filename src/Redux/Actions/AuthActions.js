@@ -1,3 +1,4 @@
+export const ADD_DETAILS = 'ADD_DETAILS'
 export const ADD_PHONE = 'ADD_PHONE'
 export const SET_ROLE = 'SET_ROLE'
 export const ADD_IMAGE ='ADD_IMAGE'

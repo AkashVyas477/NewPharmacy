@@ -1,11 +1,16 @@
 import React,{useRef} from 'react';
-import {View, Text ,TextInput, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {View, Text ,TextInput, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { color } from 'react-native-reanimated';
+
 
 import { Images,Colors } from '../../CommonConfig';
-import { Header } from '../../Components/Common';
+import { Header , Button } from '../../Components/Common';
 
 const VerificationScreen = props =>{
+
+  const countryCode = props.route.params.countryCode;
+  const phoneNumber = props.route.params.phoneNumber;
 
   const pin1ref = useRef(null);
   const pin2ref = useRef(null);
@@ -13,35 +18,39 @@ const VerificationScreen = props =>{
   const pin4ref = useRef(null);
     return(
         <View style={styles.screen}>
-             <KeyboardAwareScrollView>
-            {/* VERIFICATION  */}
-            <View style={styles.Verification_sty}>
-            <Header Title="VERIFICATION CODE"
+          <ScrollView>
+            {/* Header  */}
+            <View style={styles.header1}>
+            <Header 
+            Title="VERIFICATION CODE"
             onPress={() => props.navigation.goBack()}
             />
             </View>
-            {/* VERIFICATION  */}
+            {/* Header end */}
 
             {/* logo */}
-            <View style={styles.screen}>
+                      <View style={{alignItems:'center'}} >
                         <Image source={Images.Mobile} style={styles.logo_sty} />
-                    </View>
-                    <View>
-                      <View >
-                        <Text style={styles.text}> Waiting for Automatically detect and SMS sent to +7752773315  
-                        <View>
-                         <TouchableOpacity onPress={() => {props.navigation.navigate('PhoneNumberScreen')}} style={styles.wrongNo_sty} > 
-                         <Text style={styles.Touchtext}> Wrong number ? </Text>
-                         </TouchableOpacity>
+                      </View>
+                      {/* Text  */}
+                         <View style={{}}>
+                           <View>
+                           <Text style={styles.text}> Waiting for Automatically detect and SMS sent to {countryCode}-{phoneNumber}</Text>
+                           <TouchableOpacity onPress={() => {props.navigation.navigate('PhoneNumberScreen')}} > 
+                           <Text style={styles.Touchtext}> Wrong number ? </Text>
+                           </TouchableOpacity>
+                           </View>
+                           <View>
+                          
+                          </View>
                          </View>
-                         </Text>
-                         </View>
-                    </View>
+                      {/* Text  */}
+                         
             {/* logo */}
 
             {/* Code input Start */}
 
-            <View style={styles.codeInPut}>
+          <View style={styles.codeInPut}>
         <View style={styles.optContainer}>
            <TextInput
           ref={pin1ref}
@@ -80,61 +89,54 @@ const VerificationScreen = props =>{
         }}
             style={styles.opt}
           />
-        </View>
-        </View>
-            {/* Code input End */}
-
-            {/* Next Button start  */}
-            <View style={styles.buton_style}>
-                    <TouchableOpacity style={styles.Touch} onPress={() => { props.navigation.navigate('HomeScreen') }} >
-                        <View style={styles.buttoncon}>
-                            <Text style={styles.Button}>
-                                Verify Now
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-                {/* Next Button end */}
-            </KeyboardAwareScrollView>
-        </View>
+            </View>
+            {/* Button */}
+          
+          </View>
+          <Button
+          label="Verify Now"
+          onPress={() => { props.navigation.navigate('HomeScreen') }}
+        />
+          </ScrollView>
+         
+        
+      </View>
     );
 };
 
+
+
+
+
+
 const  styles=StyleSheet. create({
-
-    buton_style:{ 
-        width: "100%", 
-    },
-    Touch:{ 
-        padding: 20
-     },
-
+  header1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+    padding: 10
+},
     codeInPut:{
-         flex: 0.75 
+         flex: 0.75 , 
+         paddingBottom:10
         },
     screen: {
         flex: 1,
-        alignItems: 'center',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-
     },
     text: {
         padding: 20,
-        paddingHorizontal: 10,
         textAlign: 'center',
-        alignItems:'center',
-        justifyContent:'center'
+        alignItems:'center'
     },
     Touchtext:{
         color: Colors.TouchText,
-        
+        fontSize:15,
+        textAlign:'center', 
+      
     },
     Button: {
         color: Colors.ButtonTextColor,
         textAlign: 'center',
-
     },
     buttoncon: {
         backgroundColor: Colors.PRIMARY,
@@ -142,8 +144,6 @@ const  styles=StyleSheet. create({
         height: 50,
         width: "100%",
         justifyContent: 'center',
-
-
     },
     customCss: {
         padding: 10,
@@ -151,7 +151,6 @@ const  styles=StyleSheet. create({
         borderBottomWidth:1,
         marginTop: 5,
         width: '100%',
-        
     },
     optContainer: {
       flex: 0.6,
@@ -166,17 +165,13 @@ const  styles=StyleSheet. create({
       height: 55,
       borderBottomColor: 'grey',
       borderBottomWidth: 2,
-      // borderTopWidth:2,
-      // borderLeftWidth:2,
-      // borderRightWidth:2,
-      // backgroundColor:'#0DC314',
       justifyContent: 'center',
       textAlign: 'center'
     },
 
     Verification_sty:{
           marginTop: 10, 
-        //   padding: 10
+          padding: 10
     },
     arrow_sty:{
          height: 20,
@@ -190,9 +185,9 @@ const  styles=StyleSheet. create({
              logo_sty:{ 
                  height: 192,
                   width: 120,
-                   marginTop: 20
+                   marginTop: 20,
                  },
-                 wrongNo_sty:{fontSize:20},
+                //  wrongNo_sty:{fontSize:20,},
 
 });
 

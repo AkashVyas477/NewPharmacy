@@ -1,219 +1,9 @@
-// import React, { useState, useRef } from 'react';
-// import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput,  SafeAreaView, Alert } from 'react-native';
-// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-// import PhoneInput from 'react-native-phone-number-input';
-
-// import { Formik } from 'formik'
-// import PhoneNumberVAlidationSchema from '../../ForValidationSchema/PhoneNoValidationSchema';
-// import { Colors, Images } from '../../CommonConfig'
-// import { useDispatch } from 'react-redux';
-// import { postRequest } from '../../Components/Helpers/ApiHelper';
-// import { Header,Button } from '../../Components/Common';
-// import VerificationScreen from './VerificationScreen';
-
-
-// const PhoneNumberScreen = props => {
-//     const [phoneNumber, setphoneNumber] = useState('');
-//     const phoneInput = useRef(null);
-
-//     const dispatch = useDispatch()
-//     const pressHandler = async(countryCode, phoneNumber) => {
-//         console.log("hi")
-//         const data = {
-//             country_code: countryCode,
-//             phone_number: phoneNumber
-//         }
-//         dispatch(AuthActions.addPhone(data))
-//         const OTPData = {
-//             country_code: countryCode,
-//             phone_number: phoneNumber,
-//             channel: "sms"
-//         }
-//         const response = await postRequest('/users/generateOTP', OTPData);
-//         let errorMsg = 'Something went wrong!';
-//         if (response.success) {
-//             props.navigation.navigate('VerificationScreen',{countryCode: countryCode, phoneNumber: phoneNumber})
-//         } else {
-//             Alert.alert("Error",errorMsg,[{text:"Okay"}])
-//         }
-//     }
-
-//     return (
-//         <View style={styles.screen}>
-//             <KeyboardAwareScrollView>
-//                 <View >
-//                     {/* Logo And Text start */}
-//                     <View style={styles.logoText}>
-//                         {/* <View>
-//                             <TouchableOpacity onPress={() => (props.navigation.goBack())} >
-//                                 <Image source={Images.Arrow} style={styles.arrow}/>
-//                             </TouchableOpacity>
-//                         </View>
-
-//                         <Text style={styles.phoneNoText} >
-//                             PHONE NUMBER
-//                         </Text> */}
-//                         <Header Title="PHONE NUMBER"
-//                         onPress={() => props.navigation.goBack()}
-//                         />
-
-//                     </View>
-//                     <View style={styles.screen}>
-//                     <Image source={Images.PhoneNumberImg} style={styles.phoneNoImg} />
-//                     </View>
-//                     <View  >
-//                         <Text style={styles.text}>
-//                             We Will Send You A Verification Code To Verify Your Phone NUMBER
-//                         </Text>
-
-//                     </View>
-//                     {/* Logo And Text end */}
-//                     {/* Phone Number Start */}
-//                     <View>
-//                         <Formik
-//                             initialValues={{
-
-//                                 mobile:'',
-//                             }}
-
-//                             onSubmit={pressHandler}
-//                             validationSchema={PhoneNumberVAlidationSchema}
-//                         >
-//                             {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
-
-//                                 <View>
-//                                     <Text style={styles.textPhoneNo}>Phone Number</Text>
-
-//                                     <PhoneInput
-//                                         ref={phoneInput}
-//                                         style={styles.customCss}
-//                                         defaultValue={phoneNumber}
-//                                         defaultCode="IN"
-//                                         layout="first"
-//                                         autoFocus
-//                                         containerStyle={styles.phoneContainer}
-//                                         textContainerStyle={styles.textInput}
-//                                         onChangeFormattedText={text => {
-//                                         setphoneNumber(text);
-//                                         }}
-//                                     />
-
-//                                     <View>
-//                                         <Button
-//                                             label="Next"
-//                                             onPress={handleSubmit}
-//                                         />
-//                                     </View>
-
-//                                 </View>
-                                
-//                             )}
-
-//                         </Formik>
-//                     </View>
-//                 </View>
-
-//                 {/* Phone number end */}
-
-//             </KeyboardAwareScrollView>
-//         </View>
-//     );
-// };
-
-// const styles = StyleSheet.create({
-//     screen: {
-//         flex: 1,
-//         alignItems: 'center',
-//         alignItems: 'center',
-//         justifyContent: 'space-between',
-
-//     },
-//     logoText:{ 
-//         flexDirection: 'row',
-//          alignItems: 'center',
-//          padding: 10
-//          },
-//     arrow:{ 
-//         height: 20,
-//          width: 30 
-//         },
-//         phoneNoText:{ 
-//             fontSize: 25, 
-//             color: Colors.Sp_Text, 
-//             paddingLeft: 65 
-//         },
-//     phoneNoImg:{ 
-//         height: 200,
-//          width: 190, 
-//          marginTop: 20 
-//         },
-//     textPhoneNo:{ 
-//             color: Colors.Sp_Text,
-//              marginBottom: 5
-//              },
-    
-//     text: {
-//         padding: 20,
-//         paddingHorizontal: 10,
-//         textAlign: 'center'
-//     },
-//     Button: {
-//         color: 'white',
-//         textAlign: 'center',
-
-//     },
-//     buttoncon: {
-//         backgroundColor:Colors.PRIMARY,
-//         borderRadius: 10,
-//         height: 50,
-//         width: "100%",
-//         justifyContent: 'center',
-//     },
-//     button_sty:{
-//          width: "100%",
-//          },
-
-//     touch:{ 
-//         padding: 20 
-//     },
-//     customCss: {
-//         padding: 10,
-//         marginBottom: 12,
-//         borderBottomWidth:1,
-//         marginTop: 5,
-//         width: '100%',
-        
-//     },
-//     phoneContainer: {
-//         width: '100%',
-//         height: 70,
-//         marginBottom: 15,
-       
-//     },
-//     textInput: {
-//         paddingVertical: 0,
-      
-//     },
-
-
-
-// });
-
-// export default PhoneNumberScreen;
-
-
-
-
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Image,TextInput, Alert } from 'react-native';
-// import Ionicon from 'react-native-vector-icons/Ionicons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch } from 'react-redux';
-// import {CountryPicker} from "react-native-country-codes-picker";
-// import CountryPicker  from 'react-native-country-codes-picker';
-
-
-import  AuthActions from '../../Redux/Actions/AuthActions';
+import  CountryPicker from 'react-native-country-picker-modal';
+import * as AuthActions from '../../Redux/Actions/AuthActions';
 import{ Colors, Images }from '../../CommonConfig';
 import { Header, Button } from '../../Components/Common';
 import { postRequest } from '../../Components/Helpers/ApiHelper';
@@ -221,30 +11,36 @@ import { postRequest } from '../../Components/Helpers/ApiHelper';
 
 
 const PhoneNumberScreen = props => {
-
+    const [isLoading, setisLoading]=useState(false)
     const [show, setShow] = useState(false);
-    const [countryCode, setCountryCode] = useState('+91');
+    const [countryCode, setCountryCode] = useState('IN');
+    const [callingCode, setcallingCode]= useState('91')
     const [phoneNumber, setPhoneNumber ] = useState('');
     
     const dispatch = useDispatch()
 
     const pressHandler = async(countryCode, phoneNumber) => {
+        setisLoading(true);
         const data = {
             country_code: countryCode,
             phone_number: phoneNumber
         }
-        dispatch(registerActions.addPhone(data))
+        dispatch(AuthActions.addPhone(data))
 
         const OTPData = {
             country_code: countryCode,
             phone_number: phoneNumber,
             channel: "sms"
         }
-        const response = await postRequest('/users/generateOTP', OTPData);
+        const response = await postRequest('generateOTP', OTPData);
+        // console.log(response)
         let errorMsg = 'Something went wrong!';
         if (response.success) {
-            props.navigation.navigate('VerifyScreen',{countryCode: countryCode, phoneNumber: phoneNumber})
+            setisLoading(false);
+            
+            props.navigation.navigate('VerificationScreen',{countryCode:countryCode, phoneNumber:phoneNumber})
         } else {
+            setisLoading(false);
             Alert.alert("Error",errorMsg,[{text:"Okay"}])
         }
     }
@@ -253,7 +49,6 @@ const PhoneNumberScreen = props => {
         <View style={styles.screen}>
             <KeyboardAwareScrollView>
                 {/* <StatusBar backgroundColor={Colors.ORANGE} barStyle='light-content' /> */}
-
                 {/* HEADER */}
                 <View style={styles.header1}>
                     <Header 
@@ -275,11 +70,23 @@ const PhoneNumberScreen = props => {
                     <View style={styles.body}>                     
                         <Text style={styles.textPhoneNo} >Phone Number</Text>
                         <View style={styles.action} >
-                            {/* <Ionicon name="call" color={Colors.ORANGE} size={20} style={{flex:0.5}}/> */}
                             <Text style={{flex:0.5, fontWeight:'bold'}}>{countryCode}</Text>
                             <TouchableOpacity onPress={() => setShow(true)} style={{flex: 0.5}}>
-                                {/* <Ionicon name="caret-down-outline" size={20} color={ Colors.BLACK } /> */}
-                                <Image source={Images.DropDown} style={{height:10,width:10}}/>
+                                {/* <Image source={Images.DropDown} style={{height:10,width:10}}/> */}
+                                <CountryPicker
+                                    withFilter
+                                    countryCode={countryCode}
+                                    withFlag
+                                    withAlphaFilter={false}
+                                    withCallingCode
+                                    onSelect={country => {
+                                        console.log('country', country);
+                                        const { cca2, callingCode } = country;
+                                        setCountryCode(cca2);
+                                        setcallingCode(callingCode[0]);
+                                    }}
+                                    containerButtonStyle={{ alignItems: 'center',}}
+                                />
                                 </TouchableOpacity>
                             <View style={{width:0, borderColor: Colors.Gray, borderWidth:0.5, height:30, marginRight:10}} ></View>
                             <TextInput 
@@ -290,8 +97,12 @@ const PhoneNumberScreen = props => {
                             />
                         </View>
 
-                            <View>
+                            <View style={{marginTop:20}}>
                             <Button
+                            disabled={ phoneNumber.length === 10 ? false : true } 
+                            onPress={() => pressHandler(countryCode, phoneNumber)}
+                            showActivityIndicator={isLoading}
+                            // disabled={isLoading}   
                             label="Next"
                             />
                             </View>
@@ -302,137 +113,107 @@ const PhoneNumberScreen = props => {
                     </View>
                 </View>
             </KeyboardAwareScrollView>
-            {/* <CountryPicker
-                show={show}
-                style={{
-                    modal:{
-                        height:500,
-                        backgroundColor:Colors.Gray,
-                    },
-                    countryButtonStyles:{
-                        height:80
-                    },
-                    flag: {
-                        fontSize:30
-                    },
-                    dialCode: {
-                        fontSize:20,
-                        fontWeight:'bold'
-                    },
-                    countryName: {
-                        fontSize:20
-                    }
-                }}
-                pickerButtonOnPress={(item) => {
-                    setCountryCode(item.dial_code);
-                    setShow(false);
-                }}
-            /> */}
-
-            
+           
         </View>
     );
 };
 
 const styles = StyleSheet.create({
 
-    header1:{ 
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        marginTop: 5, 
-        padding: 10 
+    header1: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 5,
+        padding: 10
     },
-    phoneNoImg:{ 
-                height: 200,
-                 width: 190, 
-                 marginTop: 20 
-                },
-                screen: {
-                            flex: 1,
-                            alignItems: 'center',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            backgroundColor:Colors.White
-                    
-                        },
-                        text: {
-                                    padding: 20,
-                                    paddingHorizontal: 10,
-                                    textAlign: 'center'
-                                },
-                                textPhoneNo:{ 
-                                                color: Colors.Gray,
-                                                 marginBottom: 5
-                                                 },
-    // screen:{
-    //     flex:1,
-    //     backgroundColor:Colors.WHITE
-    // },
-    sendCode:{
-        backgroundColor: Colors.ORANGE, 
-        padding:15, 
-        marginTop:50, 
-        borderRadius:5,
-        alignItems:'center', 
-        justifyContent:'center'
+    phoneNoImg: {
+        height: 200,
+        width: 190,
+        marginTop: 20
     },
-    sendCodeText:{
-        fontWeight:'bold', 
-        color: Colors.WHITE, 
-        fontSize:20
+    screen: {
+        flex: 1,
+        alignItems: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: Colors.White
+
     },
-    header:{
-        flex:1,
+    text: {
+        padding: 20,
+        paddingHorizontal: 10,
+        textAlign: 'center'
+    },
+    textPhoneNo: {
+        color: Colors.Gray,
+        marginBottom: 5
+    },
+
+    sendCode: {
         backgroundColor: Colors.ORANGE,
-        flexDirection:'row',
-        justifyContent:'space-between'
+        padding: 15,
+        marginTop: 50,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
-    headerLabel:{
-        color:Colors.WHITE,
-        fontWeight:'bold',
-        fontSize:26,
-        margin:10
+    sendCodeText: {
+        fontWeight: 'bold',
+        color: Colors.WHITE,
+        fontSize: 20
     },
-    headerText:{
-        color:Colors.WHITE,
-        fontWeight:'600',
-        fontSize:15,
-        width:'100%',
-        marginLeft:10
+    header: {
+        flex: 1,
+        backgroundColor: Colors.ORANGE,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
-    body:{
-        flex:3,
-       
-        borderTopLeftRadius:30,
-        borderTopRightRadius:30,
-        paddingHorizontal:20,
-        paddingVertical:30
+    headerLabel: {
+        color: Colors.WHITE,
+        fontWeight: 'bold',
+        fontSize: 26,
+        margin: 10
     },
-    image:{
-        marginVertical:10,
-        marginRight:5,
+    headerText: {
+        color: Colors.WHITE,
+        fontWeight: '600',
+        fontSize: 15,
+        width: '100%',
+        marginLeft: 10
+    },
+    body: {
+        flex: 3,
+
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        paddingHorizontal: 20,
+        paddingVertical: 30
+    },
+    image: {
+        marginVertical: 10,
+        marginRight: 5,
         height: 180,
-        width:180
+        width: 180
     },
-    footerText:{
-        fontSize:18,
-        marginTop:5,
-        marginBottom:5,
+    footerText: {
+        fontSize: 18,
+        marginTop: 5,
+        marginBottom: 5,
         color: Colors.GREY
     },
-    action:{
-        flexDirection:'row',
-        marginTop:15,
-        borderBottomWidth:1,
-        borderBottomColor:Colors.LIGHTER_GREY,
+    action: {
+        flexDirection: 'row',
+        marginTop: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.LIGHTER_GREY,
         paddingBottom: 10,
-        alignItems:'center',
+        alignItems: 'center',
     },
-    text_footer:{
-        color:'#05375a',
-        fontSize:18,
-        fontWeight:'bold',
-        marginTop:50
+    text_footer: {
+        color: '#05375a',
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: 50
     },
 });
 

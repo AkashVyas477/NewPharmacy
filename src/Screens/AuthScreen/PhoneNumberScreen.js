@@ -22,8 +22,8 @@ const PhoneNumberScreen = props => {
     const pressHandler = async(countryCode, phoneNumber) => {
         setisLoading(true);
         const data = {
-            country_code: countryCode,
-            phone_number: phoneNumber
+            country_code:countryCode,
+            phone_number:phoneNumber
         }
         dispatch(AuthActions.addPhone(data))
 
@@ -33,12 +33,12 @@ const PhoneNumberScreen = props => {
             channel: "sms"
         }
         const response = await postRequest('generateOTP', OTPData);
-        // console.log(response)
+        console.log(response)
         let errorMsg = 'Something went wrong!';
         if (response.success) {
             setisLoading(false);
             
-            props.navigation.navigate('VerificationScreen',{countryCode:countryCode, phoneNumber:phoneNumber})
+            props.navigation.navigate('VerificationScreen',{countryCode: countryCode, phoneNumber: phoneNumber})
         } else {
             setisLoading(false);
             Alert.alert("Error",errorMsg,[{text:"Okay"}])

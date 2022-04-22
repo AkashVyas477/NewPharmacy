@@ -1,7 +1,8 @@
-import React,{useRef} from 'react';
+import React,{useRef, useState} from 'react';
 import {View, Text ,TextInput, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { color } from 'react-native-reanimated';
+import OTPInputView from '@twotalltotems/react-native-otp-input';
+import { postRequest , postFormDataRequest } from '../../Components/Helpers/ApiHelper';
+import { useSelector } from 'react-redux';
 
 
 import { Images,Colors } from '../../CommonConfig';
@@ -9,13 +10,44 @@ import { Header , Button } from '../../Components/Common';
 
 const VerificationScreen = props =>{
 
-  const countryCode = props.route.params.countryCode;
-  const phoneNumber = props.route.params.phoneNumber;
+const [ otpValue, setOTPValue ] = useState('');
 
-  const pin1ref = useRef(null);
-  const pin2ref = useRef(null);
-  const pin3ref = useRef(null);
-  const pin4ref = useRef(null);
+const countryCode = props.route.params.countryCode;
+const phoneNumber = props.route.params.phoneNumber;
+
+
+    const pressHandler = async(otpValue) => {
+        const verifyOTP = {
+            otpValue: otpValue,
+            country_code: countryCode,
+            phone_number: phonenNmber
+        }
+        const response = await postRequest('verifyOTP', verifyOTP);
+        const resData = response.data;
+        let errorMsg = 'Something went wrong!';
+        if (response.success) {
+            // CALL REGISTER API 
+            const regResponse = await postFormDataRequest('register', userFormData );
+            console.log(regResponse);
+            if (!regResponse.success) {
+                if (regResponse.data.error === 'USER ALREADY EXISTS') {
+                    errorMsg = "The credentials entered already exist. Please check the details.";
+                } 
+                Alert.alert("Error!", errorMsg, [{text: "Okay"}]);
+            } else {
+                //SUCCESS  then Route
+                props.navigation.navigate('SignInScreen')
+            }
+        } else {
+            if( resData.error ==="Invalid OTP entered!"){
+                errorMsg = "Invalid OTP entered!"
+            }
+            Alert.alert("Error",errorMsg,[{text:"Okay"}])
+        }
+    }
+
+
+
     return(
         <View style={styles.screen}>
           <ScrollView>
@@ -33,66 +65,58 @@ const VerificationScreen = props =>{
                         <Image source={Images.Mobile} style={styles.logo_sty} />
                       </View>
                       {/* Text  */}
-                         <View style={{}}>
+                         <View >
                            <View>
-                           <Text style={styles.text}> Waiting for Automatically detect and SMS sent to {countryCode}-{phoneNumber}</Text>
+                           <Text style={styles.text}> Waiting for Automatically detect and SMS sent to </Text>
                            <TouchableOpacity onPress={() => {props.navigation.navigate('PhoneNumberScreen')}} > 
-                           <Text style={styles.Touchtext}> Wrong number ? </Text>
+                           {/* <Text style={styles.Touchtext}> Wrong number ? </Text> */}
+                           {/* <Text style={styles.text} >{countryCode}-{phoneNumber}<Text style={styles.Touchtext} > Wrong number ? </Text></Text> */}
+                           <Text style={styles.text} >{countryCode}-{phoneNumber}<Text style={styles.Touchtext} > Wrong number ? </Text></Text>
                            </TouchableOpacity>
                            </View>
-                           <View>
-                          
-                          </View>
-                         </View>
-                      {/* Text  */}
                          
+                         </View>
+                      {/* Text  */}   
             {/* logo */}
 
             {/* Code input Start */}
 
-          <View style={styles.codeInPut}>
-        <View style={styles.optContainer}>
-           <TextInput
-          ref={pin1ref}
-            autoFocus={true}
-            maxLength={1}
-            keyboardType='phone-pad'
-          onKeyPress={({nativeEvent}) => {
-          nativeEvent.key === 'Backspace' ? null : pin2ref.current.focus();
-          }}
-            style={styles.opt}
-          />
-          <TextInput
-          ref={pin2ref}
-          maxLength={1}
-          keyboardType='numeric'
-         onKeyPress={({nativeEvent}) => {
-           nativeEvent.key === 'Backspace' ? pin1ref.current.focus() : pin3ref.current.focus();
-       }}
-            style={styles.opt}
-          />
-          <TextInput
-          ref={pin3ref}
-          maxLength={1}
-          keyboardType='numeric'
-          onKeyPress={({nativeEvent}) => {
-            nativeEvent.key === 'Backspace' ? pin2ref.current.focus() : pin4ref.current.focus();
-        }}
-            style={styles.opt}
-          />
-          <TextInput
-          ref={pin4ref}
-          maxLength={1}
-          keyboardType='numeric'
-          onKeyPress={({nativeEvent}) => {
-            nativeEvent.key === 'Backspace' ? pin3ref.current.focus() : pin4ref.current.blur();
-        }}
-            style={styles.opt}
-          />
+            <View style={{flex:3}}>
+                <View style={styles.body}>
+                    <View style={{flex:1}}>
+                        <View style={{flex:0.5}}>
+                            <OTPInputView 
+                                pinCount={4}
+                                autoFocusOnLoad
+                                codeInputFieldStyle = {styles.OtpInputCellUnfocused }
+                                codeInputHighlightStyle ={styles.OtpInputCell}
+                                placeholderCharacter="-"
+                                // placeholderTextColor={styles.otptext}
+                                onCodeFilled = {(code) => {setOTPValue(code)}}
+                            />
+                        </View>
+
+                        {/* Resend Code */}
+                        {/* <View style={{flex:0.5, flexDirection:'row', justifyContent:'center'}}>
+                            <Text style={styles.resend_code}>Didn't Get the Code? </Text>
+                            <TouchableOpacity onPress={() => {props.navigation.navigate('NumberVerificationScreen')}} >
+                                <Text style={styles.resend}>Resend Code</Text>
+                            </TouchableOpacity>
+                        </View> */}
+                    </View>
+
+                    {/* <View style={{flex:0.5}}>
+                        <TouchableOpacity activeOpacity={0.7} style={styles.verifyNow} onPress={() => pressHandler(otpValue)}>
+                            <Text style={styles.verifyNowText}>Verify Now</Text>
+                        </TouchableOpacity>
+                    </View> */}
+
+                </View>
             </View>
-            {/* Button */}
-          
-          </View>
+
+
+
+          {/* Button */}
           <Button
           label="Verify Now"
           onPress={() => { props.navigation.navigate('HomeScreen') }}
@@ -103,92 +127,77 @@ const VerificationScreen = props =>{
       </View>
     );
 };
-
-
-
-
-
-
 const  styles=StyleSheet. create({
   header1: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 5,
     padding: 10
-},
-    codeInPut:{
-         flex: 0.75 , 
-         paddingBottom:10
-        },
-    screen: {
-        flex: 1,
-    },
-    text: {
-        padding: 20,
-        textAlign: 'center',
-        alignItems:'center'
-    },
-    Touchtext:{
-        color: Colors.TouchText,
-        fontSize:15,
-        textAlign:'center', 
-      
-    },
-    Button: {
-        color: Colors.ButtonTextColor,
-        textAlign: 'center',
-    },
-    buttoncon: {
-        backgroundColor: Colors.PRIMARY,
-        borderRadius: 10,
-        height: 50,
-        width: "100%",
-        justifyContent: 'center',
-    },
-    customCss: {
-        padding: 10,
-        marginBottom: 12,
-        borderBottomWidth:1,
-        marginTop: 5,
-        width: '100%',
-    },
-    optContainer: {
-      flex: 0.6,
-      justifyContent: 'space-evenly',
-      flexDirection: 'row'
-    },
-    opt:{
-      fontWeight: '600',
-      alignSelf: 'center',
-      padding: 10,
-      fontSize: 20,
-      height: 55,
-      borderBottomColor: 'grey',
-      borderBottomWidth: 2,
-      justifyContent: 'center',
-      textAlign: 'center'
-    },
+  },
+  screen: {
+    flex: 1,
+  },
+  text: {
 
-    Verification_sty:{
-          marginTop: 10, 
-          padding: 10
-    },
-    arrow_sty:{
-         height: 20,
-          width: 30 
-        },
-        VerificationTitle_sty:{
-             fontSize: 25, 
-             color: Colors.Sp_Text,
-              paddingLeft: 40,
-             },
-             logo_sty:{ 
-                 height: 192,
-                  width: 120,
-                   marginTop: 20,
-                 },
-                //  wrongNo_sty:{fontSize:20,},
+    textAlign: 'center',
+    alignItems: 'center'
+  },
+  Touchtext: {
+    color: Colors.TouchText,
+    fontSize: 15,
+    textAlign: 'center',
+
+  },
+
+  logo_sty: {
+    height: 192,
+    width: 120,
+    marginTop: 20,
+  },
+  // resend: {
+  //   color: Colors.ORANGE,
+  //   fontWeight: 'bold',
+  //   fontSize: 18
+  // },
+  // resend_code: {
+  //   fontWeight: 'bold',
+  //   color: Colors.GREY,
+  //   fontSize: 18
+  // },
+
+  OtpInputCell: {
+    backgroundColor: Colors.White,
+    borderRadius: 5,
+    borderWidth: 0,
+    height: 60,
+    width: 60
+  },
+  OtpInputCellUnfocused: {
+    backgroundColor: Colors.PRIMARY ,
+    borderRadius: 5,
+    borderWidth: 0,
+    height: 60,
+    width: 60
+  },
+  // otptext:{
+  //   color: Colors.Sp_Text
+  // },
+
+
+  body: {
+    flex: 3,
+    // backgroundColor:Colors.White,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingHorizontal: 35,
+    paddingTop: 30,
+    justifyContent: 'space-between'
+  },
 
 });
+
+                
+
+
 
 export default VerificationScreen;

@@ -19,6 +19,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import LoginValidationSchema from '../../ForValidationSchema/LoginValidationSchema'
 
 import { Formik } from 'formik'
+import VerificationScreen from './VerificationScreen';
 
 
 
@@ -219,6 +220,11 @@ const LoginScreen = (props) => {
                 <Button
                     label="Skip Login"
                     onPress={() => { props.navigation.navigate('Drawer', { screen: 'Home' }) }}
+                />
+
+                <Button
+                    label="Skip otp screen"
+                    onPress={() => { props.navigation.navigate('VerificationScreen') } }
                 />
                                      {/* Remove this after completing desing */}
            

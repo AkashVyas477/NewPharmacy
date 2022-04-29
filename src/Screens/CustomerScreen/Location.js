@@ -11,7 +11,7 @@ const LocationScreen = props =>{
         <View style={styles.screen}>  
             <View style={styles.Header}>
                 <View>
-                    <TouchableOpacity onPress={() => props.navigation.toggleDrawer()} >
+                    <TouchableOpacity   >
                             <Image source={Images.Menu} style={{ height: 20, width:25 }} />
                     </TouchableOpacity>
                 </View>

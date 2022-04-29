@@ -130,7 +130,7 @@ const LoginScreen = (props) => {
                                         }
                                     </TouchableOpacity> */}
                                      <EyeButton
-                                       tnceye={tnceye}
+                                       tnceye={!tnceye}
                                        onEyePress={ () => {setTncEye(!tnceye)} }/>
                                 </View>
 
@@ -222,10 +222,6 @@ const LoginScreen = (props) => {
                     onPress={() => { props.navigation.navigate('Drawer', { screen: 'Home' }) }}
                 />
 
-                <Button
-                    label="Skip otp screen"
-                    onPress={() => { props.navigation.navigate('VerificationScreen') } }
-                />
                                      {/* Remove this after completing desing */}
            
            

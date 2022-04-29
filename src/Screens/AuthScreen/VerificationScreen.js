@@ -1,5 +1,5 @@
 import React,{useRef, useState} from 'react';
-import {View, Text ,TextInput, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
+import {View, Text ,TextInput, StyleSheet, TouchableOpacity, Image, ScrollView,Alert} from 'react-native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import { postRequest , postFormDataRequest } from '../../Components/Helpers/ApiHelper';
 import { useSelector } from 'react-redux';
@@ -10,35 +10,65 @@ import { Header , Button } from '../../Components/Common';
 
 const VerificationScreen = props =>{
 
-const [ otpValue, setOTPValue ] = useState('');
+const user = useSelector(state => state.Auth )
+console.log(user)
 
+const userFormData = new FormData();
+// userFormData.append("role", user.role)
+// userFormData.append("name",user.name)
+// userFormData.append("email",user.email)
+// userFormData.append("password",user.password )
+// userFormData.append("gender", user.gender)
+// userFormData.append("image", { uri: user.image.path, type: user.image.mime, name: })
+// userFormData.append("phone_number", user.mobile)
+// userFormData.append("store_name", user.store_name)
+// userFormData.append("store_logo", user.store_logo)
+// userFormData.append("license_id", user.license_id)
+console.log(userFormData)
+ 
 const countryCode = props.route.params.countryCode;
 const phoneNumber = props.route.params.phoneNumber;
+
+const [ otpValue, setOTPValue ] = useState('');
+
 
 
     const pressHandler = async(otpValue) => {
         const verifyOTP = {
             otpValue: otpValue,
             country_code: countryCode,
-            phone_number: phonenNmber
+            phone_number: phoneNumber
         }
         const response = await postRequest('verifyOTP', verifyOTP);
+        console.log(response);
         const resData = response.data;
         let errorMsg = 'Something went wrong!';
         if (response.success) {
+          const registerData = {
+            name: userFormData.name,
+            email: userFormData.email,
+            password:userFormData.password,
+            gender: userFormData.gender,
+            country_code: userFormData.countrycode,
+            phone:userFormData.mobile,
+            store_name:userFormData.store_name,
+            // store_log:userFormData.store_log,
+            license_id:userFormData.license_id
+          }
             // CALL REGISTER API 
-            const regResponse = await postFormDataRequest('register', userFormData );
-            console.log(regResponse);
-            if (!regResponse.success) {
-                if (regResponse.data.error === 'USER ALREADY EXISTS') {
+            const userResponse = await postRequest('register', registerData);
+            console.log(userResponse);
+            if (!userResponse.success) {
+                if (userResponse.data.error === 'USER ALREADY EXISTS') {
                     errorMsg = "The credentials entered already exist. Please check the details.";
                 } 
                 Alert.alert("Error!", errorMsg, [{text: "Okay"}]);
             } else {
                 //SUCCESS  then Route
-                props.navigation.navigate('SignInScreen')
+                props.navigation.navigate('HomeScreen')
             }
-        } else {
+         } 
+         else {
             if( resData.error ==="Invalid OTP entered!"){
                 errorMsg = "Invalid OTP entered!"
             }
@@ -91,39 +121,20 @@ const phoneNumber = props.route.params.phoneNumber;
                                 codeInputFieldStyle = {styles.OtpInputCellUnfocused }
                                 codeInputHighlightStyle ={styles.OtpInputCell}
                                 placeholderCharacter="-"
-                                // placeholderTextColor={styles.otptext}
                                 onCodeFilled = {(code) => {setOTPValue(code)}}
                             />
                         </View>
-
-                        {/* Resend Code */}
-                        {/* <View style={{flex:0.5, flexDirection:'row', justifyContent:'center'}}>
-                            <Text style={styles.resend_code}>Didn't Get the Code? </Text>
-                            <TouchableOpacity onPress={() => {props.navigation.navigate('NumberVerificationScreen')}} >
-                                <Text style={styles.resend}>Resend Code</Text>
-                            </TouchableOpacity>
-                        </View> */}
                     </View>
-
-                    {/* <View style={{flex:0.5}}>
-                        <TouchableOpacity activeOpacity={0.7} style={styles.verifyNow} onPress={() => pressHandler(otpValue)}>
-                            <Text style={styles.verifyNowText}>Verify Now</Text>
-                        </TouchableOpacity>
-                    </View> */}
-
                 </View>
             </View>
-
-
-
           {/* Button */}
+          <View style={{padding:20}} >
           <Button
           label="Verify Now"
-          onPress={() => { props.navigation.navigate('HomeScreen') }}
+          onPress={() => pressHandler(otpValue)}
         />
+        </View>
           </ScrollView>
-         
-        
       </View>
     );
 };
@@ -179,14 +190,8 @@ const  styles=StyleSheet. create({
     height: 60,
     width: 60
   },
-  // otptext:{
-  //   color: Colors.Sp_Text
-  // },
-
-
   body: {
     flex: 3,
-    // backgroundColor:Colors.White,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 35,

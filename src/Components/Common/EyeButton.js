@@ -6,8 +6,8 @@ import { Images } from '../../CommonConfig';
 const EyeButton = ({onEyePress,tnceye,style}) => {   
     return (
         <TouchableOpacity onPress={onEyePress} style={style}>
-            {tnceye ? <Image source={Images.ActiveEye} style={styles.eyeIcon} /> :
-                <Image source={Images.InactiveEye} style={styles.eyeIcon} />
+            {tnceye ? <Image source={Images.InactiveEye}  style={styles.eyeIcon} /> :
+                <Image source={Images.ActiveEye}style={styles.eyeIcon} />
             }
         </TouchableOpacity>
         

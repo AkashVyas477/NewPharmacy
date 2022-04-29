@@ -31,7 +31,7 @@ const HomeScreen = props =>{
                {/* Location  */}
                         <View>
                             <View>
-                            <TouchableOpacity  onPress={() => { props.navigation.navigate('AddressStack', { screen:'ManageAddress' }) }}>
+                            <TouchableOpacity  onPress={() => { props.navigation.navigate('LocationScreen' ) }}>
                             <Text style={{padding:10}}>
                                 Location
                             </Text>

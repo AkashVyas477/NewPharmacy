@@ -35,23 +35,27 @@ import PrescriptionImageScreen from '../Screens/CustomerScreen/PrescriptionImage
 import Preview from '../Screens/CustomerScreen/ImagePreview';
 // Profile
 import CustomerProfileScreen from '../Screens/CustomerScreen/CustomerProfileScreen'
+//EditProfile
+import CustomerProfileEditScreen from '../Screens/CustomerScreen/CustomerProfileEditScreen '
+//ChangePassword
+import  ChangePassword from '../Screens/CustomerScreen/ChangePassword'
 
 const Drawer = createDrawerNavigator()
 const DrawerNavigator = props => {
     return (
         <Drawer.Navigator headerMode='none'>
-            <Drawer.Screen name ='CustomerProfileScreen' component={CustomerProfileScreen} 
+            <Drawer.Screen name ='UserStack' component={UserStackScreen} 
             options={{
                 drawerIcon:()=> <Image source={Images.SignupPlaceholder} style={{height:50, width:50, borderRadius:50, overflow:'hidden'}}/>,
                 drawerLabel:" USer "
             }}
             />
-            <Drawer.Screen name='Home' component={TabNavigator} options={{
+            <Drawer.Screen name='Home' component={TabNavigator} 
+            options={{
                 drawerIcon: () => <Image source={require('../Assets/Icons/HomeIcon/homeIcon.png')} style={{ height: 20, width: 20,  }} />,
-                
             }} />
 
-            <Drawer.Screen name='AddressStack' component={AddresStackScreen} options={{
+            <Drawer.Screen name='AddresStack' component={AddresStackScreen} options={{
                 drawerLabel: 'Manage Address',
                 drawerIcon: () => <Image source={require('../Assets/Icons/location/locationPin.png')} style={{ height: 27, width: 20, }} />,
 
@@ -77,7 +81,7 @@ export default DrawerNavigator;
 const Tab = createBottomTabNavigator()
 const getTabBarVisibility = (route) => {
     const routeName = getFocusedRouteNameFromRoute(route);
-    const hideOnScreens = ['Pharamacies_Detail','CurrentPrescriptionScreen_Data','PastPrescriptionScreen_Data','Preview' ]
+    const hideOnScreens = ['Pharamacies_Detail','CurrentPrescriptionScreen_Data','PastPrescriptionScreen_Data','Preview', 'Edit_Profile']
     if (hideOnScreens.indexOf(routeName) > -1) return false;
     return true;
 };
@@ -133,7 +137,7 @@ const HomeStackScreen = props => {
             <HomeStack.Screen name='CurrentPrescriptionScreen_Data' component={CurrentPrescriptionScreen} />
             <HomeStack.Screen name='PastPrescriptionScreen_Data' component={PastPrescriptionScreen} />
             <HomeStack.Screen name ='Preview'component={Preview}/>
-          
+            {/* <HomeStack.Screen name ='Edit_Profile'component={CustomerProfileEditScreen}/> */}
         </HomeStack.Navigator>
     )
 }
@@ -147,7 +151,6 @@ const PrescriptionStackScreen = props => {
             <PrescriptionStack.Screen name='PastPrescriptionScreen_Data' component={PastPrescriptionScreen} />
             <PrescriptionStack.Screen name='PrescriptionImageScreen' component={PrescriptionImageScreen} />
             <PrescriptionStack.Screen name='Preview' component={Preview} />
-           
         </PrescriptionStack.Navigator>
     )
 }
@@ -167,6 +170,18 @@ const LanguageStackScreen = props => {
         <LanguageStack.Navigator headerMode='none'>
         <LanguageStack.Screen name='Language' component={LanguageScreen}/>
         </LanguageStack.Navigator>
+    )
+}
+
+const UserStack = createStackNavigator()
+const UserStackScreen = props => {
+    return(
+        <UserStack.Navigator headerMode='none'>
+        <UserStack.Screen name='Profile'component={CustomerProfileScreen}/>
+        <UserStack.Screen name='Edit_Profile'component={CustomerProfileEditScreen}/>
+        <UserStack.Screen name='ChangePassword'component={ChangePassword}/>
+        
+        </UserStack.Navigator>
     )
 }
 

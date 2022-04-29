@@ -14,7 +14,7 @@ const PhoneNumberScreen = props => {
     const [isLoading, setisLoading]=useState(false)
     const [show, setShow] = useState(false);
     const [countryCode, setCountryCode] = useState('IN');
-    const [callingCode, setcallingCode]= useState('91')
+    const [callingCode, setcallingCode]= useState('+91')
     const [phoneNumber, setPhoneNumber ] = useState('');
     
     const dispatch = useDispatch()
@@ -30,7 +30,8 @@ const PhoneNumberScreen = props => {
         const OTPData = {
             country_code: countryCode,
             phone_number: phoneNumber,
-            channel: "sms"
+            channel: "sms",
+            // mobile: phoneNumber
         }
         const response = await postRequest('generateOTP', OTPData);
         console.log(response)
@@ -38,7 +39,7 @@ const PhoneNumberScreen = props => {
         if (response.success) {
             setisLoading(false);
             
-            props.navigation.navigate('VerificationScreen',{countryCode: countryCode, phoneNumber: phoneNumber})
+            props.navigation.navigate('VerificationScreen',{ countryCode: countryCode,phoneNumber: phoneNumber})
         } else {
             setisLoading(false);
             Alert.alert("Error",errorMsg,[{text:"Okay"}])
@@ -100,7 +101,7 @@ const PhoneNumberScreen = props => {
                             <View style={{marginTop:20}}>
                             <Button
                             disabled={ phoneNumber.length === 10 ? false : true } 
-                            onPress={() => pressHandler(countryCode, phoneNumber)}
+                            onPress={() => pressHandler(callingCode, phoneNumber)}
                             showActivityIndicator={isLoading}
                             // disabled={isLoading}   
                             label="Next"

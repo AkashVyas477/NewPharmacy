@@ -1,13 +1,19 @@
-import { FastField } from 'formik';
+// import { FastField } from 'formik';
 import React,{useState} from 'react';
-import {View, Text , StyleSheet, Image, TouchableOpacity , Button } from 'react-native';
+import {View, Text , StyleSheet, Image, TouchableOpacity ,} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useDispatch } from 'react-redux';
 import {Images, Colors} from '../../CommonConfig'
+import { Button } from '../../Components/Common';
+
+import * as AuthActions from '../../Redux/Actions/AuthActions'
 
 
 const RollSignupScreen = props =>{
+
+    const dispatch= useDispatch();
     const [customer , setCustomer ] = useState(false);
-    const [pharamacy, setPharmacist ] = useState(false);
+    const [pharamacist, setPharmacist ] = useState(false);
     const [ showButton, setShowButton]=useState(false);
     
 
@@ -46,7 +52,7 @@ const RollSignupScreen = props =>{
             <View style={{flexDirection:'column', marginTop:5}} >
                 <TouchableOpacity onPress={customerHandler} >
                     {!customer?<Image source={Images.CustomerInactive} style={styles.customerIcon1} />:
-                    <Image source={Images.CustomerActive}  style={styles.customerIcon2} />}
+                    <Image source={Images.CustomerActive}  style={styles.customerIcon2 } />}
                 </TouchableOpacity>
                 <Text style={styles.customerText} >
                     Customer
@@ -55,22 +61,41 @@ const RollSignupScreen = props =>{
 
                 <View style={{flexDirection:'column', marginTop:20}} >
                 <TouchableOpacity onPress={pharmacistHandler} >
-                    {!pharamacy?<Image source={Images.PharmistInactive} style={styles.pharmistIcon1} />:
-                    <Image source={Images.PharmistActive}  style={styles.pharmistIcon2}  />}
+                    {!pharamacist?<Image source={Images.PharmistInactive} style={styles.pharmistIcon1} />:
+                    <Image source={Images.PharmistActive}  style={styles.pharmistIcon2  }  />}
                 </TouchableOpacity>
                 <Text style={styles.pharmistText} >
                     Pharmacist
                 </Text>
                 </View>
 
-                    {showButton ? <View style={styles.buttoncon} > 
-                    
-                        <TouchableOpacity onPress = {() => { customer ? props.navigation.navigate('CustomerSignup') : props.navigation.navigate('PharmacistSingup') }} >
+                {/* <View style={flex:1 ,width:'100%', paddingHorizontal:15, paddingBottom:10,justifyContent:'center'}>
+                     
+                     {showButton ?
+                   
+                         <TouchableOpacity
+                         style={styles.buttoncon}
+                        onPress = {() => { 
+                            customer ? props.navigation.navigate('CustomerSignup') : 
+                            props.navigation.navigate('PharmacistSingup') 
+                            }} >
                            <View >
                                {customer ? <Text style={styles.Button} >I' m Customer </Text> : <Text style={styles.Button}>I' m Pharmacist</Text>}
                             </View> 
                         </TouchableOpacity  >
-                    </View> : null}
+                    : null}  */}
+
+                    <View style={{flex:1 ,width:'100%', paddingHorizontal:15, paddingBottom:10,justifyContent:'center'}}>
+                    {showButton ?<Button
+                        onPress={()=>{
+                            dispatch(AuthActions.setUserRole(customer?1:2))
+                            console.log(AuthActions.setUserRole(customer?1:2));
+                            customer ? props.navigation.navigate('CustomerSignup') : 
+                            props.navigation.navigate('PharmacistSingup') 
+                        }}
+                        label={customer ? "I'm Customer": "I'm Pharmacist"}    />
+                : null}
+                    </View> 
 
 
         

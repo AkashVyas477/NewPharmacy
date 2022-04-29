@@ -8,6 +8,7 @@ import {Images,Colors} from '../../../CommonConfig'
 import { Button,EyeButton,CheckBox,RadioButton, Header } from '../../../Components/Common';
 import { postRequest } from '../../../Components/Helpers/ApiHelper';
 import { useDispatch } from 'react-redux';
+import * as AuthActions from '../../../Redux/Actions/AuthActions'
 
 const PharmacistSignUpScreen = props =>{
 
@@ -128,11 +129,10 @@ const dispatch= useDispatch();
                         email: '',
                         password: ''
                     }}
-                    onSubmit={values => {
-                        const data = {username: values.username, email: values.email, password: values.password}
-                        console.log(data)
-                        dispatch(AuthAction.addDetails(data));
-                        
+                    onSubmit={values =>{
+                        const data = {username:values.username, email: values.email, password: values.password}
+                        // console.log(dispatch)
+                        dispatch(AuthActions.addDetails(data));
                         props.navigation.navigate('PhoneNumberScreen')
                     }} 
                     validationSchema={SignUpValidationSchema}
@@ -220,7 +220,7 @@ const dispatch= useDispatch();
                                        {/* Female button */}
                                             <View >
                                             <RadioButton 
-                                            label="Femal" 
+                                            label="Female" 
                                             onPress={femaleHandler}
                                             state={female}
                                             />
@@ -242,7 +242,7 @@ const dispatch= useDispatch();
                                             placeholder="Password"
                                             onBlur={() => setFieldTouched('password')}
                                             onChangeText={handleChange('password')}
-                                            secureTextEntry={tnceye ? true : false}
+                                            secureTextEntry={!tnceye ? true : false}
                                             autoCapitalize='none'
                                         />
                                         <EyeButton style={styles.eye_sty} tnceye={!tnceye} onEyePress={ () => {setTncEye(!tnceye)} }/>
@@ -260,7 +260,7 @@ const dispatch= useDispatch();
                                     placeholder='confirm Password'
                                     onBlur={() => setFieldTouched('passwordConfirm')}
                                     onChangeText={handleChange('passwordConfirm')}
-                                    secureTextEntry={tnceyeconf ? true : false}
+                                    secureTextEntry={!tnceyeconf ? true : false}
                                     autoCapitalize='none'
                                 />
                                 
@@ -289,13 +289,21 @@ const dispatch= useDispatch();
                             {/* Terms & conditions */}
                             {/* Next Button */}
                             <View>
-                                <TouchableOpacity onPress={() => {
-                                    props.navigation.navigate('PhoneNumberScreen')
-                                }}>
+                                {/* <TouchableOpacity 
+                                // onPress={() => {
+                                //     props.navigation.navigate('PhoneNumberScreen')
+                                // }}
+                                onPress={handleSubmit}
+                                >
                                     <View style={styles.buttoncon}>
                                         <Text style={styles.Button}> Next </Text>
                                     </View>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
+
+                                <Button 
+                                 label="Next"
+                                 onPress={handleSubmit}
+                                 />
                                 <View style={styles.signup_sty}>
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('Login') }} >
                                         <View style={styles.touchsignup}>

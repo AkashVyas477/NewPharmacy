@@ -3,36 +3,15 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions,
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as ImagePicker from 'react-native-image-crop-picker';
 import { Formik } from "formik";
-import SignUpValidationSchema from '../../../ForValidationSchema/SignupValidationSchema' 
+import SignUpValidationSchemaCustomer from '../../../ForValidationSchema/SignupValidationSchemaCustomer';
 import { Images , Colors } from '../../../CommonConfig';
 import {CheckBox,EyeButton,Button,RadioButton,Header} from '../../../Components/Common';
 import messaging from '@react-native-firebase/messaging';
-import { postRequest } from '../../../Components/Helpers/ApiHelper';
+import * as AuthActions from '../../../Redux/Actions/AuthActions'
 import { useDispatch } from 'react-redux';
-import { Provider } from 'react-redux';
+
 
 const CustomerSignupScreen = props => {
-
-
-    // let deviceToken;
-    // useEffect(() => {
-    //     // Get the device token
-    //     messaging()
-    //       .getToken()
-    //       .then(token => {
-    //         deviceToken = token
-    //       });
-    //     },[])
-
-        // const onPressRegister = async (values) => {
-        //     const data = { 
-        //     };
-        //         const response = await postRequest('register', data);
-        //         console.log(response)
-               
-        // }
-
-
     const [tnc, setTnc] = useState(false);
     const tncHandler = () => {
         setTnc(state => !state);
@@ -148,18 +127,21 @@ const dispatch= useDispatch();
                     initialValues={{
                         username: '',
                         email: '',
-                        password: ''
+                        gender:'',
+                        password: '',
+                        passwordConfirm:'',
+                        
                     }}
-                    onSubmit={values =>{
-                        const data = {username: values.username, email: values.email, password: values.password}
+                    onSubmit={(values) =>{
+                        const data = {username:values.username, email:values.email, password:values.password, gender:values.gender,}
                         dispatch(AuthActions.addDetails(data));
-                        // console.log(dispatch)
+                        console.log(data)
                         props.navigation.navigate('PhoneNumberScreen')
-                    }} 
+                    }}
                     // onSubmit={onPressRegister}
-                    validationSchema={SignUpValidationSchema}
+                    validationSchema={SignUpValidationSchemaCustomer}
                 >
-                    {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
+                    {({ values, errors, setFieldTouched, touched, handleChange, isValid, setFieldValue , handleSubmit }) => (
                         <View >
                             {/* Input Text */}
                             <View>
@@ -168,7 +150,7 @@ const dispatch= useDispatch();
                                     value={values.username}
                                     style={styles.customCss}
                                     onBlur={() => setFieldTouched('username')}
-                                    onChangeText={handleChange('username')}
+                                    onChangeText={handleChange('username')} 
                                     placeholder="Username"
                                     autoCapitalize='none'
 
@@ -199,17 +181,26 @@ const dispatch= useDispatch();
                                        <View >
                                             <RadioButton 
                                             label="Male" 
-                                            onPress={maleHandler}
+                                            onPress={() => {
+                                                maleHandler()
+                                                setFieldValue('gender','male')
+                                            }}
                                             state={male}
+                                          
+                                          
                                             />
                                             </View> 
                                     {/* male button  end*/}
                                        {/* Female button */}
                                             <View >
                                             <RadioButton 
-                                            label="Femal" 
-                                            onPress={femaleHandler}
+                                            label="Female"
+                                            onPress={() => {
+                                                femaleHandler()
+                                                setFieldValue('gender','female')
+                                            }}
                                             state={female}
+                                            
                                             />
                                                 
                                        {/* Female button */}
@@ -228,10 +219,10 @@ const dispatch= useDispatch();
                                             placeholder="Password"
                                             onBlur={() => setFieldTouched('password')}
                                             onChangeText={handleChange('password')}
-                                            secureTextEntry={tnceye ? true : false}
+                                            secureTextEntry={!tnceye ? true : false}
                                             autoCapitalize='none'
                                         />
-                                        <EyeButton style={styles.eye_sty} tnceye={tnceye} onEyePress={ () => {setTncEye(!tnceye)} }/>
+                                        <EyeButton style={styles.eye_sty} tnceye={!tnceye} onEyePress={ () => {setTncEye(!tnceye)} }/>
                                     </View>
                                     {touched.password && errors.password &&
                                         <Text style={styles.errortext}>{errors.password}</Text>
@@ -246,11 +237,11 @@ const dispatch= useDispatch();
                                     placeholder='confirm Password'
                                     onBlur={() => setFieldTouched('passwordConfirm')}
                                     onChangeText={handleChange('passwordConfirm')}
-                                    secureTextEntry={tnceyeconf ? true : false}
+                                    secureTextEntry={!tnceyeconf ? true : false}
                                     autoCapitalize='none'
                                 />
                                 
-                                <EyeButton style={styles.eye_sty} tnceye={tnceyeconf} onEyePress={ () => {setTncEyeconf(!tnceyeconf)} }/>
+                                <EyeButton style={styles.eye_sty} tnceye={!tnceyeconf} onEyePress={ () => {setTncEyeconf(!tnceyeconf)} }/>
 
                                 </View>
                                 {touched.passwordConfirm && errors.passwordConfirm &&
@@ -276,11 +267,16 @@ const dispatch= useDispatch();
                             {/* Terms & conditions */}
                             {/* Next Button */}
                             <View>
+                                {/* <TouchableOpacity onPress={handleSubmit}>
+                                    <Text>Next</Text>
+                                </TouchableOpacity> */}
                                 <Button
                                 label="Next"
-                                onPress={() => {
-                                    props.navigation.navigate('PhoneNumberScreen')}}
+                                onPress={handleSubmit}
                                 />
+                                 {/* Next Button */}
+                                 </View>
+
                                 <View style={styles.login_sty}>
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('Login') }} >
                                         <View style={styles.signup_sty}>
@@ -288,9 +284,8 @@ const dispatch= useDispatch();
                                         </View>
                                     </TouchableOpacity>
                                 </View>
-                                {/* Next Button */}
-                                {/* Input Text */}
-                            </View>
+                               
+                           
                         </View>
 
                     )}

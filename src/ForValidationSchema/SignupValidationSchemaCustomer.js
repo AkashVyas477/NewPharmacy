@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-const SignUpValidationSchema =yup.object().shape({
+const SignUpValidationSchemaCustomer =yup.object().shape({
                             username: yup
                             .string()
                             .required('Username is required.'),
@@ -17,17 +17,13 @@ const SignUpValidationSchema =yup.object().shape({
                             .label('Password Confirm')
                             .required()
                             .oneOf([yup.ref('password')], 'Passwords does not match'),
-                        storeName: yup
-                            .string()
-                            .required('Store Name is required.'), 
-                        licenseId: yup
-                            .string()
-                            .required('License ID is required.'), 
                         gender: yup
-                            .string()
-                            
-                            
-                            
+                        .string()
+                        
+                        
+                        
+                       
+                        
 
 });
-export default SignUpValidationSchema ;
+export default SignUpValidationSchemaCustomer ;

@@ -5,8 +5,8 @@ const LoginValidationSchema = yup.object().shape({
                             .required(),
 
                         password: yup.string()
-                            .min(3, 'Password can not be less than 3 characters.')
-                            .max(11, 'Password can not be more than 12 characters long.')
+                            .min(6, 'Password can not be less than 6 characters.')
+                            .max(11, 'Password can not be more than 11 characters long.')
                             .required(),
 
 });

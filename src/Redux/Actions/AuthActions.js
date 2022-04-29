@@ -8,7 +8,7 @@ export const addDetails = (data) => {
 export const addPhone = (data) => {
     return { type: ADD_PHONE, data }
 }
-// 0- CATERER & 1- CUSTOMER
+// 2- Pharmacist & 1- CUSTOMER
 export const setUserRole = (n) => {
     return { type: SET_ROLE , role: n}
 }

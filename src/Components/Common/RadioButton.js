@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
         alignItems:'center',
         // borderBottomWidth:1, 
         paddingBottom:5, 
-        width:'60%' ,
+        width:'70%' ,
         // borderBottomColor: Colors.borderBottomColor,
     },
     checkIcon:{ height: 28, width: 28, },
-    radioText:{paddingLeft:5, color:Colors.Sp_Text},
+    radioText:{paddingLeft:6, color:Colors.Sp_Text},
 
 })
 export default RadioButton;

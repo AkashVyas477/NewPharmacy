@@ -10,5 +10,6 @@ export default {
     Blue: 'blue',
     Gray:'gray',
     White:'white',
-    TouchText: '#D5E018'
+    TouchText: '#D5E018',
+    orange:'#F39C12'
 }

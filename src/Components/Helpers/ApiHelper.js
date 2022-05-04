@@ -70,3 +70,35 @@ export const postRequest = async (url, data) => {
     });
 }
   
+export const getRequest = async (url) => {
+
+  return await axios
+    .get( apiBaseUrl + url, {
+        headers:{
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
+        }
+    })
+    .then( (response) => {
+        if(response.data.status===1) {
+            return {
+              success: true,
+              data: response.data,
+              statusCode: response.status,
+            };
+        } else {
+            return {
+              success: false,
+              data: response.data,
+              statusCode: response.status,
+            };
+        }
+    })
+    .catch((error) => {
+          return {
+            success: false,
+            data: error.response.data,
+            statusCode: error.response.status,
+        };
+    });
+}

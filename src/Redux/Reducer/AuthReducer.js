@@ -5,11 +5,11 @@ const initialState = {
     email: '',
     password: '',
     gender:'',
-    // image: {},
+    image: {},
     country_code:'',
     phone_number:'',
     store_name:'',
-    // store_logo:{},
+    store_logo:{},
     license_id:'',
 
    
@@ -17,21 +17,25 @@ const initialState = {
 export default (state = initialState, action ) => {
     switch(action.type) {
         case ADD_DETAILS:
-            console.log(action.data);
+            // console.log(action.data);
+            const image = 'some url';
             const username = action.data.username;
             const email = action.data.email;
             const password = action.data.password;
             const gender = action.data.gender;
-            const store_name=action.data.store_name;
-            // const store_logo= action.data.store_logo;
+            const storeName=action.data.storeName;
+            const licenseId= action.data.licenseId;
+            const store_logo= 'some logo';
             return {
                 ...state,
+                image:image,
                 name: username,
                 email:email,
                 password: password,
                 gender:gender,
-                store_name:store_name,
-            //     store_logo:store_logo,
+                storeName:storeName,
+                licenseId:licenseId,
+                store_logo:store_logo,
             }
         case ADD_PHONE:
             const country_code = action.data.country_code;
@@ -39,7 +43,8 @@ export default (state = initialState, action ) => {
             return {
                 ...state,
                 country_code: country_code,
-                phone_number: phone_number
+                phone_number: phone_number,
+                channel:"sms"
             }
         case SET_ROLE:
             const role = action.role;

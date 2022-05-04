@@ -2,9 +2,9 @@ import { StyleSheet, Text, View, ScrollView, StatusBar, Image, Dimensions, Touch
 import React, { useState, useRef } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import PrescriptionData from '../../DummyData/PrescriptoinDummydata';
-import { Colors, Images } from '../../CommonConfig';
-import { Header, Button } from '../../Components/Common';
+import PrescriptionData from '../../../DummyData/PrescriptoinDummydata';
+import { Colors, Images } from '../../../CommonConfig';
+import { Header, Button } from '../../../Components/Common';
 
 
 const { width } = Dimensions.get('window')
@@ -27,11 +27,11 @@ const CurrentPrescriptionScreen = props => {
     }
     return (
 
-        <View >
+        <View style={{flex:1}} >
             {/* Header */}
             <View >
                 <View style={{ alignItems: 'center', }} >
-                    <TouchableOpacity onPress={() => { props.navigation.navigate('Preview', { id: pid }) }}
+                    <TouchableOpacity onPress={() => { props.navigation.navigate('Preview', { id:pid}) }}
                     >
                         <ImageBackground source={selectedItem.PrescriptionImg} resizeMode="cover" style={styles.imageContainer}>
 
@@ -49,8 +49,9 @@ const CurrentPrescriptionScreen = props => {
 
 
             {/* Body */}
-            <View>
-                <ScrollView>
+            <ScrollView>
+            <View >
+           
                     {/* Shop Name & address*/}
                     <View style={styles.card}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -75,7 +76,7 @@ const CurrentPrescriptionScreen = props => {
                     </View>
 
                     {/* List of Medicines */}
-                    {/* first Pharmacy */}
+                   
                     <View style={styles.card2}>
                         <Text style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
                             List Of Medicines
@@ -90,24 +91,32 @@ const CurrentPrescriptionScreen = props => {
                             <Text>Citalopram</Text>
                         </View>
                     </View>
-                    {/* Second Pharmacy */}
+                    {/* first Pharmacy */}
                     <View style={styles.card2}>
                         <View>
+                            <Text style={{marginBottom:5}}>
+                                Pharmacist Replied
+                            </Text>
                             <Text>
-                                Medkart Pharmacy
+                                Apollo Pharmacy
                             </Text>
                         </View>
                     </View>
-                    {/* Third Pharmacy */}
+                    <View style={styles.card2}>
+                        <Text>
+                            Medkart Pharmacy
+                        </Text>
+                    </View>
                     <View style={styles.card2}>
                         <Text>
                             Medkart Pharmacy
                         </Text>
                     </View>
 
-                </ScrollView>
+              
             </View>
             {/* Body */}
+            </ScrollView>
         </View>
 
 

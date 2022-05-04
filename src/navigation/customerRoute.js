@@ -3,7 +3,7 @@ import { Image, View } from 'react-native';
 import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Images } from '../CommonConfig';
+import { Images, Colors } from '../CommonConfig';
 
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
@@ -24,15 +24,17 @@ import LanguageScreen from '../Screens/CustomerScreen/Language';
 //LocationScreen
 import LocationScreen from '../Screens/CustomerScreen/Location';
 //Current Screen
-import CurrentPrescriptionScreen from '../Screens/CustomerScreen/CurrentPrescriptionScreen';
+import CurrentPrescriptionScreen from '../Screens/CustomerScreen/DetailsScreen/CurrentPrescriptionScreenDetail';
 //Past Screen
-import PastPrescriptionScreen from '../Screens/CustomerScreen/PastPrescriptionScreen';
+import PastPrescriptionScreen from '../Screens/CustomerScreen/DetailsScreen/PastPrescriptionScreenDetail';
 //PharamaciesDetail
-import PharamaciesDetail from '../Screens/CustomerScreen/PharamaciesDetail';
+import PharamaciesDetail from '../Screens/CustomerScreen/DetailsScreen/PharamaciesDetail';
 // Create Request
 import PrescriptionImageScreen from '../Screens/CustomerScreen/PrescriptionImageScreen';
 //ImagePreview
-import Preview from '../Screens/CustomerScreen/ImagePreview';
+import Preview from '../Screens/CustomerScreen/DetailsScreen/ImagePreview';
+// PharamaciesIamgePreview
+import PharamaciesImagePreview from '../Screens/CustomerScreen/DetailsScreen/PharamaciesImagePreview';
 // Profile
 import CustomerProfileScreen from '../Screens/CustomerScreen/CustomerProfileScreen'
 //EditProfile
@@ -81,7 +83,7 @@ export default DrawerNavigator;
 const Tab = createBottomTabNavigator()
 const getTabBarVisibility = (route) => {
     const routeName = getFocusedRouteNameFromRoute(route);
-    const hideOnScreens = ['Pharamacies_Detail','CurrentPrescriptionScreen_Data','PastPrescriptionScreen_Data','Preview', 'Edit_Profile']
+    const hideOnScreens = ['Pharamacies_Detail','CurrentPrescriptionScreen_Data','PastPrescriptionScreen_Data','Preview', 'PharamaciesImagePreview', 'Edit_Profile']
     if (hideOnScreens.indexOf(routeName) > -1) return false;
     return true;
 };
@@ -122,7 +124,11 @@ const TabNavigator = props => {
                     )
                 })} />
 
+                
+
         </Tab.Navigator>
+
+       
 
     )
 }
@@ -137,6 +143,8 @@ const HomeStackScreen = props => {
             <HomeStack.Screen name='CurrentPrescriptionScreen_Data' component={CurrentPrescriptionScreen} />
             <HomeStack.Screen name='PastPrescriptionScreen_Data' component={PastPrescriptionScreen} />
             <HomeStack.Screen name ='Preview'component={Preview}/>
+            <HomeStack.Screen name ='PharamaciesImagePreview'component={PharamaciesImagePreview}/>
+
             {/* <HomeStack.Screen name ='Edit_Profile'component={CustomerProfileEditScreen}/> */}
         </HomeStack.Navigator>
     )
@@ -151,6 +159,8 @@ const PrescriptionStackScreen = props => {
             <PrescriptionStack.Screen name='PastPrescriptionScreen_Data' component={PastPrescriptionScreen} />
             <PrescriptionStack.Screen name='PrescriptionImageScreen' component={PrescriptionImageScreen} />
             <PrescriptionStack.Screen name='Preview' component={Preview} />
+            <PrescriptionStack.Screen name='PharamaciesImagePreview' component={PharamaciesImagePreview} />
+
         </PrescriptionStack.Navigator>
     )
 }

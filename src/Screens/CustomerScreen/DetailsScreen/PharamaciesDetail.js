@@ -1,20 +1,14 @@
 import { StyleSheet, Text, View, ScrollView, StatusBar, Image, Dimensions, TouchableOpacity, ImageBackground } from 'react-native'
 import React, { useState, useRef } from 'react'
-
-// import RBSheet from "react-native-raw-bottom-sheet";
-// import { RadioButton } from 'react-native-paper';
-
-import PharamaciesData from '../../DummyData/DummyData';
-import { Colors,Images } from '../../CommonConfig';
-import { Header, Button , } from '../../Components/Common';
+import PharamaciesData from '../../../DummyData/DummyData';
+import { Colors,Images } from '../../../CommonConfig';
+import { Header, Button , } from '../../../Components/Common';
 
 
 const { width } = Dimensions.get('window')
 const height = width * 100 / 0.6
 
 const PharamaciesDetail = (props) => {
-    // const [checked, setChecked] = useState('first')
-    // const refRBSheet = useRef();
     const pid = props.route.params.id
     const selectedItem =PharamaciesData.find(item => item.id === pid)
     
@@ -23,7 +17,7 @@ const PharamaciesDetail = (props) => {
     const [active, setActive] = useState(0);
 
     const change = ({ nativeEvent }) => {
-        const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
+        const slide = Math.ceil(nativeEvent.contentOffset.x /nativeEvent.layoutMeasurement.width);
         if (slide !== active) {
             setActive(slide);
         }
@@ -31,25 +25,11 @@ const PharamaciesDetail = (props) => {
 
     return (
         <View > 
-        {/* <View style={styles.header_sty} >
-           
-            <Header  
-             Title="DETAILS"
-             onPress={() => props.navigation.goBack()}
-             />
-        </View> */}
-
-            {/* Image  */}
-            {/* <View>
-            <View style={{ alignItems: 'center', padding: 10 }} >
-                        <Image source={selectedItem.simg} style={styles.imageContainer}/>
-                </View>
-            </View> */}
-
             <View >
-            <View style={{ alignItems: 'center', padding:10 }} >
-           
+            <View style={{ alignItems: 'center', padding:10 }} >   
+            <TouchableOpacity onPress={() => { props.navigation.navigate('PharamaciesImagePreview', { id: pid }) }} >
             <ImageBackground source={selectedItem.simg} resizeMode="cover" style={styles.imageContainer}>
+         
             <View  style={styles.header_sty}>
                 <Header
                 Title="DETAILS"
@@ -57,11 +37,9 @@ const PharamaciesDetail = (props) => {
                 />
            </View>
                 </ImageBackground>
-                
-           
-               
-                
+                </TouchableOpacity>
                 </View>
+  
             </View>
 
 <View>

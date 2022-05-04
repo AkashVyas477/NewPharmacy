@@ -1,17 +1,31 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import {View, Text , StyleSheet ,TouchableOpacity, Image ,FlatList,ScrollView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { Images, Colors } from '../../CommonConfig';
 import Pharamacies from '../../Components/Shop/Pharamacies';
 import PharamaciesData from '../../DummyData/DummyData';
-
+import { getRequest } from '../../Components/Helpers/ApiHelper';
+import Toast from 'react-native-simple-toast';
 
 
 
 
 const HomeScreen = props =>{
-    console.log(PharamaciesData)
+    const [ pharmacyList, setPharmacyList ] = useState([])
+    useEffect(()=>{
+        getNearByPharmacy();
+    },[])
+    const getNearByPharmacy= async()=>{
+        const response = await getRequest('customer/getNearByPharmacy')
+        if(response.success) {
+            setPharmacyList(response.data.getNearByPharmacy)
+        } else {
+            Toast.show('No NearByPharmacy available currently!')
+        }
+    }
+
+    // console.log(PharamaciesData)
     return(
         <View>
             <View>     
@@ -53,7 +67,7 @@ const HomeScreen = props =>{
 
                        <View>
                             <FlatList
-                            data={PharamaciesData}
+                            data={pharmacyList}
                             renderItem={({item})=> {
                                 return(
                                     <View key={item.id} >

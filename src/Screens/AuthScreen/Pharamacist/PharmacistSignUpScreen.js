@@ -127,17 +127,21 @@ const dispatch= useDispatch();
                     initialValues={{
                         username: '',
                         email: '',
-                        password: ''
+                        password: '',
+                        gender:'',
+                        licenseId:'',
+                        storeName:'',
+
                     }}
                     onSubmit={values =>{
-                        const data = {username:values.username, email: values.email, password: values.password}
+                        const data = {username:values.username, email: values.email, password: values.password,gender: values.gender,storeName: values.storeName,licenseId: values.licenseId}
                         // console.log(dispatch)
                         dispatch(AuthActions.addDetails(data));
                         props.navigation.navigate('PhoneNumberScreen')
                     }} 
                     validationSchema={SignUpValidationSchema}
                 >
-                    {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
+                    {({ values, errors, setFieldTouched, touched, handleChange, isValid, setFieldValue, handleSubmit }) => (
                         <View >
                             {/* Input Text */}
                             <View>
@@ -212,8 +216,12 @@ const dispatch= useDispatch();
                                        <View >
                                             <RadioButton 
                                             label="Male" 
-                                            onPress={maleHandler}
+                                            onPress={() => {
+                                                maleHandler()
+                                                setFieldValue('gender','male')
+                                            }}
                                             state={male}
+                                           
                                             />
                                             </View> 
                                     {/* male button  end*/}
@@ -221,8 +229,12 @@ const dispatch= useDispatch();
                                             <View >
                                             <RadioButton 
                                             label="Female" 
-                                            onPress={femaleHandler}
+                                            onPress={() => {
+                                                femaleHandler()
+                                                setFieldValue('gender','female')
+                                            }}
                                             state={female}
+                                          
                                             />
                                                 
                                        {/* Female button */}

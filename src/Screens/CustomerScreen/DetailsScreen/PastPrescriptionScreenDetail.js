@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, ScrollView, StatusBar, Image, Dimensions, TouchableOpacity } from 'react-native'
 import React, { useState, useRef } from 'react'
 
-import PrescriptionData from '../../DummyData/PrescriptoinDummydata';
-import { Colors,Images } from '../../CommonConfig';
-import { Header, Button , } from '../../Components/Common';
+import PrescriptionData from '../../../DummyData/PrescriptoinDummydata';
+import { Colors,Images } from '../../../CommonConfig';
+import { Header, Button , } from '../../../Components/Common';
 
 
 const { width } = Dimensions.get('window')

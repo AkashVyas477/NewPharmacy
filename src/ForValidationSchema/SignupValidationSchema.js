@@ -24,7 +24,7 @@ const SignUpValidationSchema =yup.object().shape({
                             .string()
                             .required('License ID is required.'), 
                         gender: yup
-                            .string()
+                        .string(),
                             
                             
                             

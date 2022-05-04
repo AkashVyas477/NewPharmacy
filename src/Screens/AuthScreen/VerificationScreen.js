@@ -7,65 +7,65 @@ import { useSelector } from 'react-redux';
 
 import { Images,Colors } from '../../CommonConfig';
 import { Header , Button } from '../../Components/Common';
+import { useRoute } from '@react-navigation/native';
 
 const VerificationScreen = props =>{
 
-const user = useSelector(state => state.Auth )
-console.log(user)
+const user = useSelector(state => state.Auth)
+// console.log(user)
 
-const userFormData = new FormData();
-// userFormData.append("role", user.role)
-// userFormData.append("name",user.name)
-// userFormData.append("email",user.email)
-// userFormData.append("password",user.password )
-// userFormData.append("gender", user.gender)
-// userFormData.append("image", { uri: user.image.path, type: user.image.mime, name: })
-// userFormData.append("phone_number", user.mobile)
-// userFormData.append("store_name", user.store_name)
-// userFormData.append("store_logo", user.store_logo)
-// userFormData.append("license_id", user.license_id)
-console.log(userFormData)
  
 const countryCode = props.route.params.countryCode;
 const phoneNumber = props.route.params.phoneNumber;
 
-const [ otpValue, setOTPValue ] = useState('');
+const [ otp, setOTPValue ] = useState('');
 
-
-
-    const pressHandler = async(otpValue) => {
+    const pressHandler = async(otp) => {
         const verifyOTP = {
-            otpValue: otpValue,
+            otp: otp,
             country_code: countryCode,
-            phone_number: phoneNumber
+            phone_number: phoneNumber,
+            // channel:"sms"
         }
+   
         const response = await postRequest('verifyOTP', verifyOTP);
-        console.log(response);
+        // console.log(response);
         const resData = response.data;
         let errorMsg = 'Something went wrong!';
         if (response.success) {
-          const registerData = {
-            name: userFormData.name,
-            email: userFormData.email,
-            password:userFormData.password,
-            gender: userFormData.gender,
-            country_code: userFormData.countrycode,
-            phone:userFormData.mobile,
-            store_name:userFormData.store_name,
-            // store_log:userFormData.store_log,
-            license_id:userFormData.license_id
+          const registerData = user.role == '1' ? {
+            role:user.role,
+            name: user.name,
+            email: user.email,
+            password:user.password,
+            gender: user.gender,
+            country_code: user.country_code,
+            phone:user.phone_number,
+          } :
+          {
+            role:user.role,
+            name: user.name,
+            email: user.email,
+            password:user.password,
+            gender: user.gender,
+            country_code: user.country_code,
+            phone:user.phone_number,
+            storeName:user.storeName,
+            // store_log:user.store_log,
+            licenseId:user.licenseId
           }
+          console.log(registerData,'register Data');
             // CALL REGISTER API 
-            const userResponse = await postRequest('register', registerData);
-            console.log(userResponse);
-            if (!userResponse.success) {
-                if (userResponse.data.error === 'USER ALREADY EXISTS') {
+            const registerResponse = await postRequest('register', registerData);
+            console.log(registerResponse);
+            if (!registerResponse.success) {
+                if (registerResponse.data.error === 'USER ALREADY EXISTS') {
                     errorMsg = "The credentials entered already exist. Please check the details.";
                 } 
                 Alert.alert("Error!", errorMsg, [{text: "Okay"}]);
             } else {
                 //SUCCESS  then Route
-                props.navigation.navigate('HomeScreen')
+                props.navigation.navigate('Drawer', { screen: 'Home' })
             }
          } 
          else {
@@ -99,12 +99,9 @@ const [ otpValue, setOTPValue ] = useState('');
                            <View>
                            <Text style={styles.text}> Waiting for Automatically detect and SMS sent to </Text>
                            <TouchableOpacity onPress={() => {props.navigation.navigate('PhoneNumberScreen')}} > 
-                           {/* <Text style={styles.Touchtext}> Wrong number ? </Text> */}
-                           {/* <Text style={styles.text} >{countryCode}-{phoneNumber}<Text style={styles.Touchtext} > Wrong number ? </Text></Text> */}
                            <Text style={styles.text} >{countryCode}-{phoneNumber}<Text style={styles.Touchtext} > Wrong number ? </Text></Text>
                            </TouchableOpacity>
                            </View>
-                         
                          </View>
                       {/* Text  */}   
             {/* logo */}
@@ -131,7 +128,7 @@ const [ otpValue, setOTPValue ] = useState('');
           <View style={{padding:20}} >
           <Button
           label="Verify Now"
-          onPress={() => pressHandler(otpValue)}
+          onPress={() => pressHandler(otp)}
         />
         </View>
           </ScrollView>

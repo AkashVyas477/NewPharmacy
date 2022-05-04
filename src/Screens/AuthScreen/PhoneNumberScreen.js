@@ -39,7 +39,7 @@ const PhoneNumberScreen = props => {
         if (response.success) {
             setisLoading(false);
             
-            props.navigation.navigate('VerificationScreen',{ countryCode: countryCode,phoneNumber: phoneNumber})
+            props.navigation.navigate('VerificationScreen',{countryCode: countryCode, phoneNumber: phoneNumber})
         } else {
             setisLoading(false);
             Alert.alert("Error",errorMsg,[{text:"Okay"}])

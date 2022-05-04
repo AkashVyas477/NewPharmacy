@@ -125,6 +125,7 @@ const dispatch= useDispatch();
             <View style={styles.Formik_sty} >
                 <Formik
                     initialValues={{
+                        // image:{},
                         username: '',
                         email: '',
                         gender:'',

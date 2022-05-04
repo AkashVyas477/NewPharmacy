@@ -56,77 +56,121 @@ const PrescriptionScreen = props => {
 
             {/* Body */}
 
-            <View style={{ padding:8,height:"100%"}}>
+            <View style={{ padding: 8, height: "100%" }}>
 
                 <SafeAreaView >
 
                     {state === 'Current' ?
                         <View>
-                            <FlatList
-                                data={PrescriptionData}
-                                renderItem={({ item }) => {
-                                    return (
-                                        // console.log(PrescriptionData),
-                                        <View key={item.id} >
-                                            <PrescriptionScreenData
-                                                // id = { item.id }
-                                                image={item.PrescriptionImg}
-                                                name={item.PrescriptionName}
-                                                details={item.Details}
-                                                quotes={item.Quotes}
-                                                onClick={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { id: item.id }) }}
-                                            />
-                                        </View>
-                                    )
-                                }}
-                            />
 
-                            <View>
-                                {/* <TouchableOpacity>
-                                <Image source={Images.FabIcon} style={{ height: 60, width: 60 ,position:'absolute',left: Dimensions.get('window').width * 0.77,bottom: Dimensions.get('window').width * 0.6,}} />
-                            </TouchableOpacity> */}
-                            </View>
+                            {/* If There is no data  */}
+
+                            {PrescriptionData.length === 0 ?
+
+                                <View style={{ alignItems: 'center', paddingTop: 50, }}>
+                                    <Image source={Images.EmptyPlacholder} style={{ height: 200, width: 300, }} />
+                                    <View>
+                                        <Text style={{ textAlign: 'center', padding: 10, fontWeight: 'bold', color: 'black', fontSize: 25 }}>
+                                            Looks empty!
+                                        </Text>
+                                        <Text style={{ textAlign: 'center', color: 'grey', fontSize: 15 }}>
+                                            Tap the Upload button to
+                                        </Text>
+                                        <Text style={{ textAlign: 'center', color: 'grey', fontSize: 15 }}>
+                                            create new post
+                                        </Text>
+                                    </View>
+                                    <View>
+                                        <Image source={Images.Nav} style={{
+                                            height: 130, width: 70,
+                                            left: Dimensions.get('window').width * 0.20,
+                                            bottom: Dimensions.get('window').width * 0.001,
+                                        }} />
+                                    </View>
+                                </View>
+                                : <FlatList
+                                    data={PrescriptionData}
+                                    renderItem={({ item }) => {
+                                        return (
+                                            // console.log(PrescriptionData),
+                                            <View key={item.id} >
+                                                <PrescriptionScreenData
+                                                    // id = { item.id }
+                                                    image={item.PrescriptionImg}
+                                                    name={item.PrescriptionName}
+                                                    details={item.Details}
+                                                    quotes={item.Quotes}
+                                                    onClick={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { id: item.id }) }}
+                                                />
+                                            </View>
+                                        )
+                                    }}
+                                />
+                            }
                         </View>
-
                         :
                         <View>
-                            <FlatList
-                            
-                                data={PrescriptionData}
-                                renderItem={({ item }) => {
-                                    return (
-                                        <View key={item.id} >
-                                            <PrescriptionScreenData
-                                                image={item.PrescriptionImg}
-                                                name={item.PrescriptionName}
-                                                details={item.Details}
-                                                quotes={item.Quotes}
-                                                onClick={() => { props.navigation.navigate('PastPrescriptionScreen_Data', { id: item.id }) }}
-                                            />
-                                        </View>
-                                    )
-                                }}
-                            />
-                        </View>
-                    }
-                    {/* <View>
-                        <TouchableOpacity onPress={() => {
-                            props.navigation.navigate('PrescriptionImageScreen')
-                        }} >
-                            <Image source={Images.FabIcon} style={{ height: 60, width: 60, position: 'absolute', left: Dimensions.get('window').width * 0.77, bottom: Dimensions.get('window').width * 0.6, }} />
-                        </TouchableOpacity>
-                    </View> */}
+                     {/* If There is no data  */}
+                            {PrescriptionData.length === 0 ?
 
+                                <View style={{ alignItems: 'center', paddingTop: 50, }}>
+                                    <Image source={Images.EmptyPlacholder} style={{ height: 200, width: 300, }} />
+                                    <View>
+                                        <Text style={{ textAlign: 'center', padding: 10, fontWeight: 'bold', color: 'black', fontSize: 25 }}>
+                                            Looks empty!
+                                        </Text>
+                                        <Text style={{ textAlign: 'center', color: 'grey', fontSize: 15 }}>
+                                            Tap the Upload button to
+                                        </Text>
+                                        <Text style={{ textAlign: 'center', color: 'grey', fontSize: 15 }}>
+                                            create new post
+                                        </Text>
+                                    </View>
+
+
+                                    <View>
+                                        <Image source={Images.Nav} style={{
+                                            height: 130, width: 70,
+                                            left: Dimensions.get('window').width * 0.20,
+                                            bottom: Dimensions.get('window').width * 0.001,
+                                        }} />
+                                    </View>
+                                </View>
+                                : <FlatList
+                                    data={PrescriptionData}
+                                    renderItem={({ item }) => {
+                                        return (
+                                            <View key={item.id} >
+                                                <PrescriptionScreenData
+                                                    image={item.PrescriptionImg}
+                                                    name={item.PrescriptionName}
+                                                    details={item.Details}
+                                                    quotes={item.Quotes}
+                                                    onClick={() => { props.navigation.navigate('PastPrescriptionScreen_Data', { id: item.id }) }}
+                                                />
+                                            </View>
+                                        )
+                                    }}
+                                />
+                            }
+                        </View>
+
+                    }
                 </SafeAreaView>
 
             </View>
 
 
             <View >
-                <TouchableOpacity onPress={()=>{props.navigation.navigate('PrescriptionImageScreen') 
+                <TouchableOpacity onPress={() => {
+                    props.navigation.navigate('PrescriptionImageScreen')
                     console.log('123')
-            }}  >
-                    <Image source={Images.FabIcon} style={{ height: 60, width: 60, position: 'absolute', left: Dimensions.get('window').width * 0.77, bottom: Dimensions.get('window').width * 0.1, }} />
+                }} style={{
+                    position: 'absolute',
+                    left: Dimensions.get('window').width * 0.77,
+                    bottom: Dimensions.get('window').width * 0.1,
+                }} >
+                    <Image source={Images.FabIcon} style={styles.addImageIcon} />
                 </TouchableOpacity>
             </View>
 
@@ -177,11 +221,11 @@ const styles = StyleSheet.create({
     screen1: {
         backgroundColor: 'white',
         flex: 1,
-        paddingBottom : 200
+        paddingBottom: 200
     },
     screen2: {
         backgroundColor: 'white',
-        elevation:2
+        elevation: 2
     },
     line: {
         borderWidth: 1,
@@ -194,6 +238,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderWidth: 0.5,
         borderColor: Colors.Gray
+    },
+    addImageIcon: {
+        height: 60,
+        width: 60,
+
     }
 });
 export default PrescriptionScreen;

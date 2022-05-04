@@ -18,8 +18,7 @@ const SignUpValidationSchemaCustomer =yup.object().shape({
                             .required()
                             .oneOf([yup.ref('password')], 'Passwords does not match'),
                         gender: yup
-                        .string()
-                        
+                        .string(),
                         
                         
                        

@@ -14,7 +14,7 @@ const AppNavigator = props => {
             <AppStack.Navigator headerMode='none'>
                 <AppStack.Screen name='Auth' component={AuthStackScreen} />
                 <AppStack.Screen name ='Drawer' component={DrawerNavigator}/> 
-                
+                <AppStack.Screen name="Home" component={DrawerNavigator}/>
             </AppStack.Navigator>
         </NavigationContainer>
     )

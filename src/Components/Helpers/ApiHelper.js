@@ -69,14 +69,44 @@ export const postRequest = async (url, data) => {
         };
     });
 }
+// export const getPreLogin = async( url) => {
+//   return await axios
+//   .get( BASE_URL + url , {
+//       headers: {
+//           'Content-Type': 'application/json',
+       
+//         } 
+//   })
+//   .then( (response) => {
+//       if(response.data.status===1) {
+//           return {
+//             success: true,
+//             data: response.data,
+//             statusCode: response.status,
+//           };
+//       } else {
+//           return {
+//             success: false,
+//             data: response.data,
+//             statusCode: response.status,
+//           };
+//       }
+//   })
+//   .catch((error) => {
+//         return {
+//           success: false,
+//           data: error.response.data,
+//           statusCode: error.response.status,
+//       };
+//   });
+// }
   
 export const getRequest = async (url) => {
-
   return await axios
-    .get( apiBaseUrl + url, {
+    .get( BASE_URL + url, {
         headers:{
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
+            Authorization: 'Bearer' + ( await AsyncStorage.getItem('token') )
         }
     })
     .then( (response) => {
@@ -101,4 +131,36 @@ export const getRequest = async (url) => {
             statusCode: error.response.status,
         };
     });
+}
+
+
+export const refreshToken = async(data) => {
+  return await axios
+  .post( BASE_URL + 'refreshToken' , data,{
+      headers: {
+          'Content-Type': 'application/json',
+        } 
+  })
+  .then( (response) => {
+      if(response.data.status===1) {
+          return {
+            success: true,
+            data: response.data,
+            statusCode: response.status,
+          };
+      } else {
+          return {
+            success: false,
+            data: response.data,
+            statusCode: response.status,
+          };
+      }
+  })
+  .catch((error) => {
+        return {
+          success: false,
+          data: error.response.data,
+          statusCode: error.response.status,
+      };
+  });
 }

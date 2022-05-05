@@ -1,4 +1,25 @@
+
 {
-  "name": "Mobile_Pharmacy",
-  "displayName": "Mobile_Pharmacy"
-}
+    "name": "Mobile_Pharmacy",
+    "slug": "CERV",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./Assets/Icons/AppIcon/appIcon.png",
+    "splash": {
+      "image": "./Assets/Icons/AppIcon/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    
+    
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./Assets/Icons/AppIcon/appIcon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    }
+    
+  }

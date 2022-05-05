@@ -6,6 +6,7 @@ import { Images, Colors } from '../../CommonConfig';
 import Pharamacies from '../../Components/Shop/Pharamacies';
 import PharamaciesData from '../../DummyData/DummyData';
 import { getRequest } from '../../Components/Helpers/ApiHelper';
+
 import Toast from 'react-native-simple-toast';
 
 
@@ -13,13 +14,16 @@ import Toast from 'react-native-simple-toast';
 
 const HomeScreen = props =>{
     const [ pharmacyList, setPharmacyList ] = useState([])
+    const [ isLoading, setIsLoading ] = useState(true)
     useEffect(()=>{
         getNearByPharmacy();
+        setIsLoading(false)
     },[])
-    const getNearByPharmacy= async()=>{
-        const response = await getRequest('customer/getNearByPharmacy')
+    const getNearByPharmacy = async()=>{
+        const response = await getRequest('customer/getNearByPharmacy/1')
+        console.log(response);
         if(response.success) {
-            setPharmacyList(response.data.getNearByPharmacy)
+            setPharmacyList(response.data.data)
         } else {
             Toast.show('No NearByPharmacy available currently!')
         }
@@ -59,7 +63,7 @@ const HomeScreen = props =>{
 
 
                     {/* Dtabase */}
-                    <View style={styles.screen1} >
+                    <View >
                     <View style={{alignItems:'center'}}>
                         <Text style={{color:'#717D7E', fontSize:17, padding:10}}>
                             Near By Pharmacies
@@ -68,15 +72,16 @@ const HomeScreen = props =>{
                        <View>
                             <FlatList
                             data={pharmacyList}
-                            renderItem={({item})=> {
+                            renderItem={({user})=> {
+                                console.log(pharmacyList)
                                 return(
-                                    <View key={item.id} >
+                                    <View key={user.id} >
                                     <Pharamacies 
-                                    pimage={item.simg}
-                                    pname={item.sname}
-                                    paddress={item.address}
-                                    pdistance={item.distance}
-                                    onClick={()=>{props.navigation.navigate('Pharamacies_Detail',{id:item.id})} }
+                                    pimage={user.store_image}
+                                    pname={user.store_name}
+                                    paddress={user.address}
+                                    pdistance={user.distance}
+                                    onClick={()=>{props.navigation.navigate('Pharamacies_Detail',{id:user.id})} }
                                     />
                                      </View>                            
                                 )
@@ -96,6 +101,7 @@ const  styles=StyleSheet. create({
         backgroundColor:'white',
         elevation:5
     },
+    
    
 });
 

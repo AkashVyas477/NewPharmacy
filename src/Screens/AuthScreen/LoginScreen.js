@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     KeyboardAvoidingView,
@@ -10,10 +10,12 @@ import {
     ScrollView,
     Alert
 } from 'react-native';
-import { Images,Colors,Constants } from '../../CommonConfig';
-import {CheckBox,EyeButton,Button} from '../../Components/Common';
+import { Images, Colors, Constants } from '../../CommonConfig';
+import { CheckBox, EyeButton, Button } from '../../Components/Common';
 import { postRequest } from '../../Components/Helpers/ApiHelper';
 import messaging from '@react-native-firebase/messaging';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-simple-toast';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import LoginValidationSchema from '../../ForValidationSchema/LoginValidationSchema'
@@ -29,44 +31,51 @@ const LoginScreen = (props) => {
     useEffect(() => {
         // Get the device token
         messaging()
-          .getToken()
-          .then(token => {
-            deviceToken = token
-          });
-        },[])
-        
+            .getToken()
+            .then(token => {
+                deviceToken = token
+            });
+    }, [])
+
     const [tnc, setTnc] = useState(false);
-    const tncHandler = () => { 
+    const tncHandler = () => {
         setTnc(state => !state);
     };
     const [tnceye, setTncEye] = useState(false);
+    const [isLoading, setisLoading] = useState(false)
 
-    const [isLoading, setisLoading]=useState(false)
     const onPressLogin = async (values) => {
         setisLoading(true);
         const data = {
-          email: values.email.toLowerCase(),
-          password: values.password,
-          device_token:deviceToken
+            email: values.email.toLowerCase(),
+            password: values.password,
+            device_token: deviceToken
+
         };
-            const response = await postRequest('login', data);
-            console.log(response)
-            if(!response.success) {
-                setisLoading(false);
-                let errorMessage = "Something went wrong!";
-                if(response.data.ErrorMessage === "User not exists!"){
-                    errorMessage = "User does not exist!"
-                }
-                if(response.data.ErrorMessage === "Login Failed!") {
-                    errorMessage = "Invalid Password!"
-                }
-                Alert.alert('Error',errorMessage,[{text:"Okay"}])
-            } else {
-                setisLoading(false);
-                props.navigation.navigate('Drawer', { screen: 'Home' }) 
+        const response = await postRequest('login', data);
+        const resData = response.data;
+        console.log(response)
+        if (!response.success) {
+            setisLoading(false);
+            let errorMessage = "Something went wrong!";
+            if (response.data.ErrorMessage === "User not exists!") {
+                errorMessage = "User does not exist!"
             }
+            if (response.data.ErrorMessage === "Login Failed!") {
+                errorMessage = "Invalid Password!"
+            }
+            Alert.alert('Error', errorMessage, [{ text: "Okay" }])
+        } else {
+            // await AsyncStorage.setItem('device_token', resData.token)
+            await AsyncStorage.setItem('token', resData.token)
+            await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+            await AsyncStorage.setItem('user', JSON.stringify(resData.user))
+            await AsyncStorage.setItem('isLogin', "true")
+            setisLoading(false);
+            props.navigation.navigate('Drawer', { screen: 'Home' })
+        }
     }
-    
+
 
     return (
         <KeyboardAwareScrollView>
@@ -129,9 +138,9 @@ const LoginScreen = (props) => {
                                             <Image source={require('../../Assets/Icons/EyeIcon/inactiveEye.png')} style={styles.eyeIcon} />
                                         }
                                     </TouchableOpacity> */}
-                                     <EyeButton
-                                       tnceye={!tnceye}
-                                       onEyePress={ () => {setTncEye(!tnceye)} }/>
+                                    <EyeButton
+                                        tnceye={!tnceye}
+                                        onEyePress={() => { setTncEye(!tnceye) }} />
                                 </View>
 
                                 {touched.password && errors.password &&
@@ -143,7 +152,7 @@ const LoginScreen = (props) => {
                             <View style={styles.checkbox_sty} >
                                 <View style={styles.check}>
                                     {/* Check box and Remember me Start */}
-                                    <CheckBox/>
+                                    <CheckBox />
                                     <Text style={styles.remberme}>
                                         Remember me
                                     </Text>
@@ -166,11 +175,11 @@ const LoginScreen = (props) => {
                                 <View>
                                     {/* Login button start */}
                                     <View style={styles.button_sty}>
-                                        <Button 
-                                        showActivityIndicator={isLoading}
-                                        label="Login"
-                                        onPress={handleSubmit} 
-                                        disabled={!isValid|| isLoading}   
+                                        <Button
+                                            showActivityIndicator={isLoading}
+                                            label="Login"
+                                            onPress={handleSubmit}
+                                            disabled={!isValid || isLoading}
                                         />
                                     </View>
                                     {/* Login button end */}
@@ -216,16 +225,16 @@ const LoginScreen = (props) => {
                 </Formik>
 
 
-                                    {/* Remove this after completing desing */}
+                {/* Remove this after completing desing */}
                 <Button
                     label="Skip Login"
                     onPress={() => { props.navigation.navigate('Drawer', { screen: 'Home' }) }}
                 />
 
-                                     {/* Remove this after completing desing */}
-           
-           
-           
+                {/* Remove this after completing desing */}
+
+
+
             </View>
             {/* Full screen */}
         </KeyboardAwareScrollView>
@@ -291,12 +300,12 @@ const styles = StyleSheet.create({
 
     },
     Button: {
-       color: Colors.ButtonTextColor,
+        color: Colors.ButtonTextColor,
         textAlign: 'center',
 
     },
     buttoncon: {
-        backgroundColor:Colors.PRIMARY,
+        backgroundColor: Colors.PRIMARY,
         borderRadius: 10,
         height: 50,
         width: "100%",

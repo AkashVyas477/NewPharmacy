@@ -16,6 +16,7 @@ import { postRequest } from '../../Components/Helpers/ApiHelper';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
+import { useDispatch } from 'react-redux';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import LoginValidationSchema from '../../ForValidationSchema/LoginValidationSchema'
@@ -26,7 +27,6 @@ import VerificationScreen from './VerificationScreen';
 
 
 const LoginScreen = (props) => {
-
     let deviceToken;
     useEffect(() => {
         // Get the device token
@@ -37,40 +37,39 @@ const LoginScreen = (props) => {
             });
     }, [])
 
+    const dispatch = useDispatch();
     const [tnc, setTnc] = useState(false);
-    const tncHandler = () => {
-        setTnc(state => !state);
-    };
     const [tnceye, setTncEye] = useState(false);
     const [isLoading, setisLoading] = useState(false)
+    const tncHandler = () => {setTnc(state => !state);};
 
+   
     const onPressLogin = async (values) => {
         setisLoading(true);
         const data = {
             email: values.email.toLowerCase(),
             password: values.password,
             device_token: deviceToken
-
         };
+
         const response = await postRequest('login', data);
-        const resData = response.data;
-        console.log(response)
-        if (!response.success) {
-            setisLoading(false);
+        const resData = response.data
+        console.log(response.data);
+        if (!response.success){
+            setisLoading(false)
             let errorMessage = "Something went wrong!";
-            if (response.data.ErrorMessage === "User not exists!") {
+            if (response.data.ErrorMessage === "User not exists!"){
                 errorMessage = "User does not exist!"
             }
-            if (response.data.ErrorMessage === "Login Failed!") {
+            if (response.data.ErrorMessage === "Login Failed!"){
                 errorMessage = "Invalid Password!"
             }
             Alert.alert('Error', errorMessage, [{ text: "Okay" }])
-        } else {
-            // await AsyncStorage.setItem('device_token', resData.token)
-            await AsyncStorage.setItem('token', resData.token)
-            await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-            await AsyncStorage.setItem('user', JSON.stringify(resData.user))
-            await AsyncStorage.setItem('isLogin', "true")
+        } else{
+        await AsyncStorage.setItem('token', resData.token)
+        await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+        await AsyncStorage.setItem('user', JSON.stringify (resData.user))
+        await AsyncStorage.setItem('isLogin', "true")
             setisLoading(false);
             props.navigation.navigate('Drawer', { screen: 'Home' })
         }
@@ -80,7 +79,6 @@ const LoginScreen = (props) => {
     return (
         <KeyboardAwareScrollView>
             {/* Full screen */}
-
             <View style={styles.mainWrapper}>
                 {/* Logo */}
                 <View style={styles.logoScreen}>
@@ -133,11 +131,6 @@ const LoginScreen = (props) => {
                                         autoCapitalize='none'
 
                                     />
-                                    {/* <TouchableOpacity onPress={() => setTncEye(!tnceye)} >
-                                        {tnceye ? <Image source={require('../../Assets/Icons/EyeIcon/activeEye.png')} style={styles.eyeIcon} /> :
-                                            <Image source={require('../../Assets/Icons/EyeIcon/inactiveEye.png')} style={styles.eyeIcon} />
-                                        }
-                                    </TouchableOpacity> */}
                                     <EyeButton
                                         tnceye={!tnceye}
                                         onEyePress={() => { setTncEye(!tnceye) }} />
@@ -179,7 +172,7 @@ const LoginScreen = (props) => {
                                             showActivityIndicator={isLoading}
                                             label="Login"
                                             onPress={handleSubmit}
-                                            disabled={!isValid || isLoading}
+                                            disabled={isValid || !isLoading}
                                         />
                                     </View>
                                     {/* Login button end */}
@@ -223,25 +216,15 @@ const LoginScreen = (props) => {
                         </View>
                     )}
                 </Formik>
-
-
                 {/* Remove this after completing desing */}
                 <Button
                     label="Skip Login"
                     onPress={() => { props.navigation.navigate('Drawer', { screen: 'Home' }) }}
                 />
-
-                {/* Remove this after completing desing */}
-
-
-
-            </View>
+                {/* Remove this after completing desing */}</View>
             {/* Full screen */}
         </KeyboardAwareScrollView>
-
     );
-
-
 };
 
 
@@ -250,17 +233,15 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         padding: 10,
-
-
     },
-    logoScreen: { alignItems: 'center' },
+    logoScreen: { 
+        alignItems: 'center' 
+    },
 
     logo: {
         width: '70%',
         height: 250,
         marginBottom: 20,
-
-
     },
     mainWrapper: {
         paddingLeft: 15,
@@ -284,25 +265,18 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 3.84,
         elevation: 3,
-
-
-    },
-
+     },
     signup: {
         color: Colors.Gray,
         fontSize: 20
-
-
     },
     sp_signup: {
         color: Colors.Sp_Text,
         fontWeight: 'bold'
-
     },
     Button: {
         color: Colors.ButtonTextColor,
         textAlign: 'center',
-
     },
     buttoncon: {
         backgroundColor: Colors.PRIMARY,
@@ -361,11 +335,30 @@ const styles = StyleSheet.create({
         width: '100%',
         marginTop: 5
     },
-    pharmacyUser_sty: { paddingTop: 20 },
-    pharmacyUserBox: { flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginBottom: 10 },
-    pharmacyUserImg: { height: 60, width: 40, overflow: 'hidden' },
-    arrow: { height: 20, width: 20 },
-    signup_sty: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 15 },
+    pharmacyUser_sty: { 
+        paddingTop: 20 
+    },
+    pharmacyUserBox: { 
+        flexDirection: 'row', 
+        justifyContent: 'space-evenly', 
+        alignItems: 'center', 
+        marginBottom: 10 
+    },
+    pharmacyUserImg: { 
+        height: 60, 
+        width: 40, 
+        overflow: 'hidden' 
+    },
+    arrow: { 
+        height: 20, 
+        width: 20 
+    },
+    signup_sty: { 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        padding: 15 
+    },
 });
 
 export default LoginScreen;

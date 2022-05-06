@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, FlatList, ScrollView, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Images, Colors } from '../../CommonConfig';
@@ -6,12 +6,33 @@ import { Button } from '../../Components/Common';
 import PrescriptionData from '../../DummyData/PrescriptoinDummydata';
 import PrescriptionScreenData from '../../Components/Shop/Prescriptionsdata';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { getPostLogin } from '../../Components/Helpers/ApiHelper';
+import Toast from 'react-native-simple-toast';
 
 
 const PrescriptionScreen = props => {
 
+    const [ prescription, setprescription ] = useState([])
+    const [ isLoading, setIsLoading ] = useState(true)
+    useEffect(()=>{
+        getPrescription();
+        setIsLoading(false)
+    },[])
+
+    const getPrescription = async() => {
+        const response = await getPostLogin('customer/getPrescriptionsList/?page=1&state=current')
+        console.log(response.data);
+        if(response.success) {
+            setprescription(response.data)
+        } else {
+            Toast.show('No Records Found !')
+        }
+    }
 
     const [state, setState] = useState('Current');
+
+
+
     return (
         <View style={styles.screen1} >
 
@@ -65,7 +86,7 @@ const PrescriptionScreen = props => {
 
                             {/* If There is no data  */}
 
-                            {PrescriptionData.length === 0 ?
+                            {prescription.length === 0 ?
 
                                 <View style={{ alignItems: 'center', paddingTop: 50, }}>
                                     <Image source={Images.EmptyPlacholder} style={{ height: 200, width: 300, }} />
@@ -89,18 +110,18 @@ const PrescriptionScreen = props => {
                                     </View>
                                 </View>
                                 : <FlatList
-                                    data={PrescriptionData}
-                                    renderItem={({ item }) => {
+                                    data={prescription}
+                                    renderItem={({ user }) => {
                                         return (
                                             // console.log(PrescriptionData),
-                                            <View key={item.id} >
+                                            <View key={user.id} >
                                                 <PrescriptionScreenData
                                                     // id = { item.id }
-                                                    image={item.PrescriptionImg}
-                                                    name={item.PrescriptionName}
-                                                    details={item.Details}
-                                                    quotes={item.Quotes}
-                                                    onClick={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { id: item.id }) }}
+                                                    image={user.PrescriptionImg}
+                                                    name={user.text_note}
+                                                    details={user.createdAt}
+                                                    quotes={user.Quotes}
+                                                    onClick={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { id: user.id }) }}
                                                 />
                                             </View>
                                         )
@@ -111,7 +132,7 @@ const PrescriptionScreen = props => {
                         :
                         <View>
                      {/* If There is no data  */}
-                            {PrescriptionData.length === 0 ?
+                            {prescription.length === 0 ?
 
                                 <View style={{ alignItems: 'center', paddingTop: 50, }}>
                                     <Image source={Images.EmptyPlacholder} style={{ height: 200, width: 300, }} />
@@ -137,16 +158,16 @@ const PrescriptionScreen = props => {
                                     </View>
                                 </View>
                                 : <FlatList
-                                    data={PrescriptionData}
-                                    renderItem={({ item }) => {
+                                    data={prescription}
+                                    renderItem={({ user }) => {
                                         return (
-                                            <View key={item.id} >
+                                            <View key={user.id} >
                                                 <PrescriptionScreenData
-                                                    image={item.PrescriptionImg}
-                                                    name={item.PrescriptionName}
-                                                    details={item.Details}
-                                                    quotes={item.Quotes}
-                                                    onClick={() => { props.navigation.navigate('PastPrescriptionScreen_Data', { id: item.id }) }}
+                                                    image={user.PrescriptionImg}
+                                                    name={user.text_note}
+                                                    details={user.createdAt}
+                                                    quotes={user.Quotes}
+                                                    onClick={() => { props.navigation.navigate('PastPrescriptionScreen_Data', { id: user.id }) }}
                                                 />
                                             </View>
                                         )
@@ -176,43 +197,7 @@ const PrescriptionScreen = props => {
 
 
             {/* Img */}
-            {/* <View style={{ alignItems: 'center', paddingTop: 20, }}>
-                    <Image source={Images.EmptyPlacholder} style={{ height: 200, width: 300, }} />
-                    <View>
-                        <Text style={{ textAlign: 'center', padding: 10, fontWeight: 'bold', color: 'black', fontSize: 25 }}>
-                            Looks empty!
-                        </Text>
-                        <Text style={{ textAlign: 'center', color: 'grey', fontSize: 15 }}>
-                            Tap the Upload button to
-                        </Text>
-                        <Text style={{ textAlign: 'center', color: 'grey', fontSize: 15 }}>
-                            create new post
-                        </Text>
-                    </View>
-
-
-                    <View>
-                        <Image source={Images.Nav} style={{
-                            height: 120, width: 70,
-                            left: Dimensions.get('window').width * 0.18,
-                            bottom: Dimensions.get('window').width * 0.01,
-                        }} />
-                    </View>
-
-
-                    <View>
-                        <TouchableOpacity>
-                            <Image source={Images.FabIcon} style={{
-                                height: 60, width: 60,
-                                left: Dimensions.get('window').width * 0.34,
-                                bottom: Dimensions.get('window').width * 0.1,
-                            }} />
-                        </TouchableOpacity>
-                    </View>
-                    
-                </View> */}
-
-
+        
         </View>
     );
 };

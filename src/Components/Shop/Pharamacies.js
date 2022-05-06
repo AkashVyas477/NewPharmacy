@@ -6,51 +6,22 @@ const { width } = Dimensions.get('window')
 const height = width * 100 / 0.6
 const Pharamacies = (props) => {
     return (
-       
-            /* <View style={styles.card} >
-
-                    <View style={styles.Card_Sty}>
-                  
-                        <View >
-                        <Image source={props.pimage} style={styles.Image_Sty} />
-                        </View>
-
-                        <View style={styles.Text_sty}>
-                            <View>
-                            <Text>{props.pname}</Text>
-                            </View>
-
-                            <View >
-                            <Text>{props.paddress}</Text>
-                            </View>
-
-
-                            <View>
-                            <Text>{props.pdistance}</Text>
-                            </View>
-
-                        </View>
-                    
-
-                    </View> 
-            </View> */
-
             <View  style={styles.card}>
                  <TouchableOpacity onPress={props.onClick} >
                      <View style={styles.Card_Sty}>
-                 <Image source={props.pimage} style={styles.Image_Sty} />
+                 <Image source={props.store_image} style={styles.Image_Sty} />
                  <View style={styles.Text_sty}>
                             <View >
-                            <Text style={styles.Pname}>{props.pname}</Text>
+                            <Text style={styles.store_name}>{props.pname}</Text>
                             </View>
 
                             <View >
-                            <Text>{props.paddress}</Text>
+                            <Text>{props.address}</Text>
                             </View>
 
 
                             <View>
-                            <Text>{props.pdistance}</Text>
+                            <Text>{props.distance}</Text>
                             </View>
 </View>
 </View>

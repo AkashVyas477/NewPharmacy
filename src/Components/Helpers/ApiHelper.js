@@ -103,6 +103,37 @@ export const getPostLogin = async(url) => {
   });
 }
 
+export const getWithParams = async( url) => {
+  return await axios
+  .get( BASE_URL + url , {
+      headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
+        } 
+  })
+  .then( (response) => {
+      if(response.data.status===1) {
+          return {
+            success: true,
+            data: response.data,
+            statusCode: response.status,
+          };
+      } else {
+          return {
+            success: false,
+            data: response.data,
+            statusCode: response.status,
+          };
+      }
+  })
+  .catch((error) => {
+        return {
+          success: false,
+          data: error.response.data,
+          statusCode: error.response.status,
+      };
+  });
+}
 
 //   export const postFormDataRequest = async( url, data ) => {
 //     console.log("Data: ",data)

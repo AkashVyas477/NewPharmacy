@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ScrollView, StatusBar, Image, Dimensions, TouchableOpacity, ImageBackground } from 'react-native'
-import React, { useState, useRef } from 'react'
-import PharamaciesData from '../../../DummyData/DummyData';
+import React, { useState, useRef, useEffect } from 'react'
+// import PharamaciesData from '../../../DummyData/DummyData';
 import { Colors,Images } from '../../../CommonConfig';
 import { Header, Button , } from '../../../Components/Common';
 
@@ -9,9 +9,6 @@ const { width } = Dimensions.get('window')
 const height = width * 100 / 0.6
 
 const PharamaciesDetail = (props) => {
-    const pid = props.route.params.id
-    const selectedItem =PharamaciesData.find(item => item.id === pid)
-    
 
     const height = width * 100 / 0.6
     const [active, setActive] = useState(0);
@@ -23,13 +20,16 @@ const PharamaciesDetail = (props) => {
         }
     }
 
+    const pid = props.route.params.id
+    // const selectedItem =PharamaciesData.find(item => item.id === pid)
+    
+
     return (
         <View > 
             <View >
             <View style={{ alignItems: 'center', padding:10 }} >   
             <TouchableOpacity onPress={() => { props.navigation.navigate('PharamaciesImagePreview', { id: pid }) }} >
-            <ImageBackground source={selectedItem.simg} resizeMode="cover" style={styles.imageContainer}>
-         
+            <ImageBackground source={{uri:pid.store_image}} resizeMode="cover" style={styles.imageContainer}>
             <View  style={styles.header_sty}>
                 <Header
                 Title="DETAILS"
@@ -48,9 +48,9 @@ const PharamaciesDetail = (props) => {
         <View style={styles.card}>
         <View style={{flexDirection:'row' ,alignItems:'center',justifyContent:'space-between'}}>
         <View>
-        <Text style={styles.text} >{selectedItem.sname}</Text>
-        <Text style={styles.text2}>{selectedItem.address}</Text>
-        <Text style={styles.text3}>{selectedItem.distance}</Text>
+        <Text style={styles.text} >{pid.store_name}</Text>
+        <Text style={styles.text2}>{pid.address}</Text>
+        <Text style={styles.text3}>{pid.distance}</Text>
         </View>
         <View style={{alignItems:'center', }} >
                 <TouchableOpacity style={{alignItems:'flex-end', paddingRight:10}}>

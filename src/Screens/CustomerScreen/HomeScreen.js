@@ -22,33 +22,44 @@ const HomeScreen = props =>{
         setIsLoading(false)
     },[])
 
-    const getNearByPharmacy = () => {
-        getPostLogin('customer/getNearByPharmacy/1')
-        .then( (res) => {
-            console.log(res.data.data)
-            return res.data.data
-        })
-        .then( (array) => {
-            console.log(array)
-            setPharmacyList(array)
-        })
-        .catch((err) => 
-            console.log(err)
-            ) 
+
+    const getNearByPharmacy = async() => {
+        const response = await getPostLogin('customer/getNearByPharmacy/1')
+        // console.log("GET NearByPharmacy     \n\n\n\n",JSON.stringify(response));
+        if(!response.success) {
+            setPharmacyList(response.data.data)
+            console.log("PharmacyList:         ", pharmacyList);
+        } else {
+            Toast.show('No NearByPharmacy available currently!')
+        }
     }
 
 
-    // const renderPharmacyList = itemData => {
-    //     // console.log(itemData.item);
-    //     return (
-    //         <View style={styles.card}>
-    //             <Image source={{uri: itemData.item.store_image}} style={styles.Image_Sty} resizeMode={'stretch'}/>
-    //         </View>
-    //     )
-    // }
 
-// console.log(pharmacyList)
-    // console.log(PharamaciesData)
+// Rendering Data of Near By Pharmacy 
+    const renderPharmacyList = data => {
+        console.log(data.item);
+        return (
+            <View style={styles.card}>
+                 <TouchableOpacity onPress={() => {props.navigation.navigate('Pharamacies_Detail', {id: data.id}) }}>
+                <View style={styles.Card_Sty}>
+                        <Image source={{ uri: data.item.store_image }} style={styles.Image_Sty} resizeMode={'stretch'} />
+                    <View style={styles.Text_sty}>
+                        <View >
+                            <Text style={styles.Pname}>{data.item.store_name}</Text>
+                        </View>
+                        <View >
+                            <Text>{data.item.address}</Text>
+                        </View>
+                        <View>
+                            <Text>{data.item.distance}</Text>
+                        </View>
+                    </View>
+                </View>
+                </TouchableOpacity>
+            </View>
+        )
+    }
     return(
         <View>
             <View>     
@@ -57,7 +68,7 @@ const HomeScreen = props =>{
                  <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
                         <View>
                             <TouchableOpacity onPress={() =>props.navigation.toggleDrawer()}  >
-                                <Image source={Images.Menu} style={{ height: 20, width:25 }} />
+                                <Image source={Images.Menu} style={{ height: 20, width:25 }}  />
                             </TouchableOpacity>
                         </View>
                         <View style={{paddingLeft:100}}>
@@ -82,36 +93,27 @@ const HomeScreen = props =>{
 
 
                     {/* Dtabase */}
-                    <View >
+                 
+                <View>
                     <View style={{alignItems:'center'}}>
                         <Text style={{color:'#717D7E', fontSize:17, padding:10}}>
                             Near By Pharmacies
                         </Text>
-
-                       <View>
+              
+                       <View style={{padding:10}}>
                             <FlatList
+                            // padding={30}
                             data={pharmacyList}
                             keyExtractor={item => item.id}
-                            renderItem={({data})=> {
-                                // console.log(pharmacyList)
-                                console.log("XYZ             ",data);
-                                return(
-                                    <View>
-                                    
-                                    {/* <pharmacyList
-                                    pimage={user.data.store_image}
-                                    pname={user.store_name}
-                                    paddress={user.address}
-                                    pdistance={user.distance}
-                                    onClick={()=>{props.navigation.navigate('Pharamacies_Detail',{id:user.id})} }
-                                    /> */}
-                                     </View>                            
-                                )
-                            }}
+                            renderItem={renderPharmacyList}
+                            // onClick={() => {props.navigation.navigate('Pharamacies_Detail', { id: item.id }) }}
                             />
                        </View>
                     </View>
                     </View>
+                  
+
+                   
                     {/* Dtabase */}
         </View>
         </View>
@@ -147,15 +149,16 @@ const  styles=StyleSheet. create({
      },
 
     Image_Sty:{
-        height: 90, width: 120,
+        height: 90, width: 90,
     },
     Text_sty:{ 
-        flexDirection: 'column', marginLeft: 5
+        flexDirection: 'column', marginLeft: 5, paddingLeft:10
      },
 
      Pname:{
          fontWeight:'bold',
-         color: Colors.Sp_Text
+         color: Colors.Sp_Text,
+         fontSize:17
      }
     
    

@@ -39,23 +39,6 @@ const styles = StyleSheet.create({
     card: {
         paddingLeft:15,
         padding:5,
-        
-    //     backgroundColor:Colors.White,
-    //     // height:100,
-    //     // width: 380,
-    //     justifyContent:'center',
-    //     paddingLeft: 5,
-    //     shadowColor:Colors.White,
-    //     shadowOpacity: 0.26,
-    //     // shadowOffset: { width: 0, height: 2 },
-    //     shadowRadius: 8,
-    //     // elevation: 5,
-    //     borderRadius: 10,
-    //     // backgroundColor: 'white',
-    //    marginBottom:10,
-    //     margin:10,
-    //     // alignItems:'center',
-       
       },
     Card_Sty:{ 
         flexDirection: 'row',

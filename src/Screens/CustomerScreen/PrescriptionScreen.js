@@ -3,11 +3,12 @@ import { View, Text, StyleSheet, Image, Dimensions, FlatList, ScrollView, Toucha
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Images, Colors } from '../../CommonConfig';
 import { Button } from '../../Components/Common';
-// import PrescriptionData from '../../DummyData/PrescriptoinDummydata';
+import PrescriptionData from '../../DummyData/PrescriptoinDummydata';
 // import PrescriptionScreenData from '../../Components/Shop/Prescriptionsdata';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getPostLogin, getWithParams } from '../../Components/Helpers/ApiHelper';
 import Toast from 'react-native-simple-toast';
+import { $CombinedState } from 'redux';
 
 
 const PrescriptionScreen = props => {
@@ -21,9 +22,10 @@ const PrescriptionScreen = props => {
 
     const getPrescriptionList = async () => {
         const response = await getWithParams ('customer/getPrescriptionsList/?page=1&state=current')
-        // console.log(response);
+      
+        // console.log(response.data.data.list);
         if (!response.success) {
-            setprescriptionList(response.data.data)
+            setprescriptionList(response.data.data.list)
             // console.log("GetPrescription:    ",prescriptionList );
         } else {
             Toast.show('No Records Found !')
@@ -32,23 +34,23 @@ const PrescriptionScreen = props => {
     const renderprescription = data => {
         console.log(data.item);
         return (
-                            <View style={styles.card}>
-                                {/* <TouchableOpacity onPress={data.item.onClick}>
-                            <View style={styles.Card_Sty}> */}
-                                    {/* <Image source={{ uri: data.item.image }} style={styles.Image_Sty} resizeMode={'stretch'} /> */}
-                                {/* <View style={styles.Text_sty}>
+                            <View>
+                                <TouchableOpacity onPress={data.item.onClick}>
+                            <View style={styles.Card_Sty}>
+                                    <Image source={{ uri: data.item.image }} style={styles.Image_Sty} resizeMode={'stretch'} />
+                                <View style={styles.Text_sty}>
                                     <View >
                                         <Text style={styles.Pname}>{data.item.id}</Text>
                                     </View>
                                     <View >
-                                        <Text>{data.item.text_note}</Text>
+                                        <Text  style={styles.name}>{data.item.text_note}</Text>
                                     </View>
                                     <View>
-                                        <Text>{data.item.createdAt}</Text>
+                                        <Text  style={styles.name}>{data.item.createdAt}</Text>
                                     </View>
                                 </View>
                             </View>
-                            </TouchableOpacity> */}
+                            </TouchableOpacity>
                         </View>
 
         )
@@ -88,11 +90,25 @@ const PrescriptionScreen = props => {
                 </View>
                 {/* Current And Past Button   */}
                 <View style={{ paddingHorizontal: 30, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 10 }}>
-                    <TouchableOpacity style={{ ...styles.currentPastButton, borderTopLeftRadius: 10, borderBottomLeftRadius: 10, backgroundColor: state === 'Current' ? Colors.PRIMARY : Colors.White }} onPress={() => setState('Current')}>
-                        <Text style={{ color: state === 'Current' ? Colors.White : Colors.Gray }}>Current</Text>
+                    <TouchableOpacity  
+                    style={{ ...styles.currentPastButton, 
+                    borderTopLeftRadius: 10, 
+                    borderBottomLeftRadius: 10, 
+                    backgroundColor: state === 'Current' ? Colors.PRIMARY : Colors.White 
+                    }} 
+                    onPress={() => setState('Current')}
+                    >
+                    <Text style={{ color: state === 'Current' ? Colors.White : Colors.Gray }}>Current</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ ...styles.currentPastButton, borderTopRightRadius: 10, borderBottomRightRadius: 10, backgroundColor: state === 'Past' ? Colors.PRIMARY : Colors.White }} onPress={() => setState('Past')}>
-                        <Text style={{ color: state === 'Past' ? Colors.White : Colors.Gray }}>Past</Text>
+                    <TouchableOpacity 
+                    style={{ ...styles.currentPastButton, 
+                    borderTopRightRadius: 10, 
+                    borderBottomRightRadius: 10, 
+                    backgroundColor: state === 'Past' ? Colors.PRIMARY : Colors.White
+                    }}
+                    onPress={() => setState('Past')}
+                    >
+                    <Text style={{ color: state === 'Past' ? Colors.White : Colors.Gray }}>Past</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -106,7 +122,6 @@ const PrescriptionScreen = props => {
                     {state === 'Current' ?
                         <View>
                             {/* If There is no data  */}
-
                             {prescriptionList.length === 0 ?
 
                                 <View style={{ alignItems: 'center', paddingTop: 50, }}>
@@ -131,13 +146,13 @@ const PrescriptionScreen = props => {
                                     </View>
                                 </View>
                                 :
-                                <View style={{ padding: 10 }}>
+                                <View style={styles.card}>
                                     <FlatList
                                         // padding={30}
                                         data={prescriptionList}
                                         keyExtractor={item => item.id}
                                         renderItem={renderprescription}
-                                        // onClick={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { id: user.id }) }}
+                                        // onPress={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { id: user.id }) }}
                                     />
                                 </View>
                               
@@ -171,7 +186,7 @@ const PrescriptionScreen = props => {
                                     </View>
                                 </View>
                                 :
-                                <View style={{ padding: 10 }}>
+                                <View style={styles.card}>
                                     <FlatList
                                         // padding={30}
                                         data={prescriptionList}
@@ -190,7 +205,7 @@ const PrescriptionScreen = props => {
 
 
             <View >
-                {/* <TouchableOpacity onPress={() => {
+                <TouchableOpacity onPress={() => {
                     props.navigation.navigate('PrescriptionImageScreen')
                     console.log('123')
                 }} style={{
@@ -199,7 +214,7 @@ const PrescriptionScreen = props => {
                     bottom: Dimensions.get('window').width * 0.1,
                 }} >
                     <Image source={Images.FabIcon} style={styles.addImageIcon} />
-                </TouchableOpacity> */}
+                </TouchableOpacity>
             </View>
 
 
@@ -239,7 +254,7 @@ const styles = StyleSheet.create({
     
     card: {
         
-        backgroundColor:Colors.Error_Textcolor,
+        // backgroundColor:Colors.Error_Textcolor,
         height:100,
         width: 380,
         justifyContent:'center',
@@ -250,7 +265,7 @@ const styles = StyleSheet.create({
         shadowRadius: 8,
         elevation: 5,
         borderRadius: 10,
-        // backgroundColor: 'white',
+        backgroundColor: 'white',
         marginBottom:5,
         margin:10,
         // alignItems:'center',
@@ -274,9 +289,15 @@ const styles = StyleSheet.create({
         flexDirection: 'column', marginLeft: 5
      },
 
-     name:{
+     Pname:{
+         padding:5,
          fontWeight:'bold',
          color: Colors.Sp_Text
-     }
+     },
+     name:{
+       padding: 5,
+        color: Colors.Sp_Text
+    },
+    
 });
 export default PrescriptionScreen;

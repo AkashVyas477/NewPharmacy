@@ -1,11 +1,11 @@
 import React,{useState, useEffect, useReducer} from 'react';
-import {View, Text , StyleSheet ,TouchableOpacity, Image ,FlatList,ScrollView } from 'react-native';
+import {View, Text , StyleSheet ,TouchableOpacity, Image ,FlatList,ScrollView, ActivityIndicator } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { Images, Colors } from '../../CommonConfig';
 // import Pharamacies from '../../Components/Shop/Pharamacies';
 // import PharamaciesData from '../../DummyData/DummyData';
-import { getPostLogin, getPreLogin} from '../../Components/Helpers/ApiHelper';
+import { getPostLogin, getWithParams} from '../../Components/Helpers/ApiHelper';
 
 
 import Toast from 'react-native-simple-toast';
@@ -28,7 +28,7 @@ const HomeScreen = props =>{
         // console.log("GET NearByPharmacy     \n\n\n\n",JSON.stringify(response));
         if(!response.success) {
             setPharmacyList(response.data.data)
-            console.log("PharmacyList:         ", pharmacyList);
+            // console.log("PharmacyList:         ", pharmacyList);
         } else {
             Toast.show('No NearByPharmacy available currently!')
         }
@@ -41,7 +41,7 @@ const HomeScreen = props =>{
         console.log(data.item);
         return (
             <View style={styles.card}>
-                 <TouchableOpacity onPress={() => {props.navigation.navigate('Pharamacies_Detail', {id: data.id}) }}>
+                 <TouchableOpacity onPress={() => {props.navigation.navigate('Pharamacies_Detail', {pharmacy:data.item,}) }}>
                 <View style={styles.Card_Sty}>
                         <Image source={{ uri: data.item.store_image }} style={styles.Image_Sty} resizeMode={'stretch'} />
                     <View style={styles.Text_sty}>
@@ -49,10 +49,10 @@ const HomeScreen = props =>{
                             <Text style={styles.Pname}>{data.item.store_name}</Text>
                         </View>
                         <View >
-                            <Text>{data.item.address}</Text>
+                            <Text  style={styles.name}>{data.item.address}</Text>
                         </View>
                         <View>
-                            <Text>{data.item.distance}</Text>
+                            <Text  style={styles.name}>{data.item.distance}</Text>
                         </View>
                     </View>
                 </View>
@@ -93,25 +93,34 @@ const HomeScreen = props =>{
 
 
                     {/* Dtabase */}
-                 
+          
                 <View>
                     <View style={{alignItems:'center'}}>
                         <Text style={{color:'#717D7E', fontSize:17, padding:10}}>
                             Near By Pharmacies
                         </Text>
-              
-                       <View style={{padding:10}}>
-                            <FlatList
-                            // padding={30}
-                            data={pharmacyList}
-                            keyExtractor={item => item.id}
-                            renderItem={renderPharmacyList}
-                            // onClick={() => {props.navigation.navigate('Pharamacies_Detail', { id: item.id }) }}
-                            />
-                       </View>
+
+                        
+                            <View style={{ padding: 10 }}>
+                            { isLoading ?
+                            <View style={styles.loader}>
+                                {/* <StatusBar backgroundColor={Colors.} barStyle='dark-content'/> */}
+                                <ActivityIndicator size={65} color={Colors.PRIMARY} />
+                            </View>
+                            :
+                                <FlatList
+                                    // padding={30}
+                                    data={pharmacyList}
+                                    keyExtractor={item => item.id}
+                                    renderItem={renderPharmacyList}
+                                   
+                                />
+                            }
+                            </View>
+                        
                     </View>
-                    </View>
-                  
+                </View>
+
 
                    
                     {/* Dtabase */}
@@ -152,14 +161,26 @@ const  styles=StyleSheet. create({
         height: 90, width: 90,
     },
     Text_sty:{ 
-        flexDirection: 'column', marginLeft: 5, paddingLeft:10
+        flexDirection: 'column', 
+        marginLeft: 5, 
+        paddingLeft:10,
+        padding: 5
      },
 
      Pname:{
          fontWeight:'bold',
          color: Colors.Sp_Text,
          fontSize:17
-     }
+     },
+     name:{
+        padding:2
+    },
+    loader:{
+        justifyContent:'center',
+        alignItems:'center',
+        flex:1
+    },
+
     
    
 });

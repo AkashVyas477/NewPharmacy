@@ -7,9 +7,11 @@ import PharamaciesData from '../../../DummyData/DummyData';
 
 const PharamaciesImagePreview = props =>{
   
-    const pid = props.route.params.id
-    const selectedItem =PharamaciesData.find(item => item.id === pid)
-    console.log(PharamaciesData)
+    // const pid = props.route.params.id
+    // const selectedItem =PharamaciesData.find(item => item.id === pid)
+    // console.log(PharamaciesData)
+    const currentPharmacy = props.route.params.id
+    console.log(currentPharmacy);
     return(
         <View style={styles.screen}>
                 <View  style={styles.header_sty}>
@@ -19,7 +21,7 @@ const PharamaciesImagePreview = props =>{
                 />
                 </View>
 <View  style={{alignItems:'center'}}>
-<Image source={selectedItem.simg} style={styles.Preview} /> 
+<Image source={currentPharmacy.store_image} style={styles.Preview} /> 
 </View>
 
         </View>

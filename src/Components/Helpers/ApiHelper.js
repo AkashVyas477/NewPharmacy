@@ -110,6 +110,7 @@ export const getWithParams = async( url) => {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
         } 
+    
   })
   .then( (response) => {
       if(response.data.status===1) {

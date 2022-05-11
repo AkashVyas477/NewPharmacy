@@ -28,10 +28,12 @@ const HomeScreen = props =>{
         // console.log("GET NearByPharmacy     \n\n\n\n",JSON.stringify(response));
         if(!response.success) {
             setPharmacyList(response.data.data)
-            // console.log("PharmacyList:         ", pharmacyList);
+            Toast.show(' NearByPharmacy available currently!')
+            console.log("PharmacyList:         ", pharmacyList);
         } else {
-            Toast.show('No NearByPharmacy available currently!')
+            Toast.show('There is no NearByPharmacy available currently!')
         }
+       
     }
 
 
@@ -46,7 +48,7 @@ const HomeScreen = props =>{
                         <Image source={{ uri: data.item.store_image }} style={styles.Image_Sty} resizeMode={'stretch'} />
                     <View style={styles.Text_sty}>
                         <View >
-                            <Text style={styles.Pname}>{data.item.store_name}</Text>
+                            <Text style={styles.Pname}>{data.item.store_name.toUpperCase()}</Text>
                         </View>
                         <View >
                             <Text  style={styles.name}>{data.item.address}</Text>
@@ -170,7 +172,9 @@ const  styles=StyleSheet. create({
      Pname:{
          fontWeight:'bold',
          color: Colors.Sp_Text,
-         fontSize:17
+         fontSize:17,
+         padding:10
+
      },
      name:{
         padding:2

@@ -9,44 +9,73 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { getPostLogin, getWithParams } from '../../Components/Helpers/ApiHelper';
 import Toast from 'react-native-simple-toast';
 import { $CombinedState } from 'redux';
+import moment from 'moment';
+import { getCurrentTimestamp } from 'react-native/Libraries/Utilities/createPerformanceLogger';
 
 
 const PrescriptionScreen = props => {
 
     const [prescriptionList, setprescriptionList] = useState([])
+    const [PastPrescription, setpastprescriptionList]= useState([])
     const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
         getPrescriptionList();
+        getPastPrescription();
         setIsLoading(false)
     }, [])
 
     const getPrescriptionList = async () => {
         const response = await getWithParams ('customer/getPrescriptionsList/?page=1&state=current')
       
-        // console.log(response.data.data.list);
+        // console.log(response.data.prescription);
         if (!response.success) {
-            setprescriptionList(response.data.data.list)
-            // console.log("GetPrescription:    ",prescriptionList );
+            setprescriptionList(response.data.prescription)
+            // console.log(response.data.prescription);
+            Toast.show('Records Found !')
+            // console.log("GetPrescription:    ",prescriptionList);
         } else {
             Toast.show('No Records Found !')
         }
     }
+
+    const getPastPrescription = async () => {
+        const response = await getWithParams ('customer/getPrescriptionsList/?page=1&state=past')
+      
+        // console.log(response.data);
+        if (!response.success) {
+            setpastprescriptionList(response.data.prescription)
+            // console.log(response.data.prescription);
+            Toast.show('Records Found !')
+            // console.log("GetPrescription:    ",prescriptionList);
+        } else {
+            Toast.show('No Records Found !')
+        }
+    }
+
+    // useEffect( () => {
+    //     console.log(prescriptionList);
+    // }, [prescriptionList])
+
+
+
+ 
+
     const renderprescription = data => {
-        console.log(data.item);
+        // console.log("\n\nDATA:       ",data);
         return (
-                            <View>
-                                <TouchableOpacity onPress={data.item.onClick}>
+                            <View >
+                                <TouchableOpacity   onPress={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { prescription: data.item}) }}>
                             <View style={styles.Card_Sty}>
-                                    <Image source={{ uri: data.item.image }} style={styles.Image_Sty} resizeMode={'stretch'} />
+                            <Image source={{ uri: data.item.prescription_images[0].url}} style={styles.Image_Sty} resizeMode={'stretch'} />
                                 <View style={styles.Text_sty}>
                                     <View >
-                                        <Text style={styles.Pname}>{data.item.id}</Text>
+                                        <Text style={styles.Pname}>{data.item.name.toUpperCase()}</Text>
                                     </View>
                                     <View >
-                                        <Text  style={styles.name}>{data.item.text_note}</Text>
+                                        <Text  style={styles.name}>{data.item.quotes.length}</Text>
                                     </View>
                                     <View>
-                                        <Text  style={styles.name}>{data.item.createdAt}</Text>
+                                        <Text  style={styles.name}>{moment(data.item.createdAt).format('DD/MM/YYYY')+' at '+moment(data.item.createdAt).format('hh-mm A')}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -123,7 +152,6 @@ const PrescriptionScreen = props => {
                         <View>
                             {/* If There is no data  */}
                             {prescriptionList.length === 0 ?
-
                                 <View style={{ alignItems: 'center', paddingTop: 50, }}>
                                     <Image source={Images.EmptyPlacholder} style={{ height: 200, width: 300, }} />
                                     <View>
@@ -152,16 +180,17 @@ const PrescriptionScreen = props => {
                                         data={prescriptionList}
                                         keyExtractor={item => item.id}
                                         renderItem={renderprescription}
-                                        // onPress={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { id: user.id }) }}
+                                        // onPress={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { prescription: data.item}) }}
                                     />
-                                </View>
+                                    </View>
+                             
                               
                             }
                         </View>
                         :
                         <View>
                             {/* If There is no data  */}
-                            {prescriptionList.length === 0 ?
+                            {PastPrescription.length === 0 ?
                                 <View style={{ alignItems: 'center', paddingTop: 50, }}>
                                     <Image source={Images.EmptyPlacholder} style={{ height: 200, width: 300, }} />
                                     <View>
@@ -188,13 +217,14 @@ const PrescriptionScreen = props => {
                                 :
                                 <View style={styles.card}>
                                     <FlatList
+                                   
                                         // padding={30}
-                                        data={prescriptionList}
+                                        data={PastPrescription}
                                         keyExtractor={item => item.id}
                                         renderItem={renderprescription}
                                         // onClick={() => { props.navigation.navigate('PastPrescriptionScreen_Data', { id: user.id }) }}
                                     />
-                                </View>
+                              </View>
                             }
                         </View>
 

@@ -1,39 +1,60 @@
 import { StyleSheet, Text, View, ScrollView, StatusBar, Image, Dimensions, TouchableOpacity, ImageBackground, FlatList } from 'react-native'
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import PrescriptionData from '../../../DummyData/PrescriptoinDummydata';
 import { Colors, Images } from '../../../CommonConfig';
 import { Header, Button } from '../../../Components/Common';
-
+import { getWithParams } from '../../../Components/Helpers/ApiHelper';
+import moment from 'moment';
 
 const { width } = Dimensions.get('window')
 const height = width * 100 / 0.6
 
 const CurrentPrescriptionScreen = props => {
+    // const [prescriptionList, setprescriptionList] = useState([])
+    // const [isLoading, setIsLoading] = useState(true)
+    // useEffect(() => {
+    //     getPrescriptionList();
+    //     setIsLoading(false)
+    // }, [])
+    // const getPrescriptionList = async () => {
+    //     const response = await getWithParams ('customer/getPrescriptionsList/?page=1&state=current')
+      
+    //     // console.log(response.data);
+    //     if (!response.success) {
+    //         setprescriptionList(response.data)
+    //         console.log(response.data);
+    //         // Toast.show('Records Found !')
+    //         // console.log("GetPrescription:    ",prescriptionList);
+    //     } else {
+    //         // Toast.show('No Records Found !')
+    //     }
+    // }
 
-    const pid = props.route.params.id
-    const selectedItem = PrescriptionData.find(item => item.id === pid)
+    // const pid = props.route.params.id
+    // const selectedItem = PrescriptionData.find(item => item.id === pid)
 
+    const currentprescription = props.route.params.prescription
+    console.log(currentprescription);
 
     const height = width * 100 / 0.6
     const [active, setActive] = useState(0);
 
-    const change = ({ nativeEvent }) => {
-        const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
-        if (slide !== active) {
-            setActive(slide);
-        }
-    }
+    // const change = ({ nativeEvent }) => {
+    //     const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
+    //     if (slide !== active) {
+    //         setActive(slide);
+    //     }
+    // }
     return (
 
         <View style={{flex:1}} >
-            {/* Header */}
+           
             <View >
                 <View style={{ alignItems: 'center', }} >
-                    <TouchableOpacity onPress={() => { props.navigation.navigate('Preview', { id:pid}) }}
-                    >
-                        <ImageBackground source={selectedItem.PrescriptionImg} resizeMode="cover" style={styles.imageContainer}>
+                    <TouchableOpacity onPress={() => { props.navigation.navigate('Preview', { currentprescription:data}) }}> 
+                        <ImageBackground source={{uri:currentprescription.prescription_images[0].url}} resizeMode="cover" style={styles.imageContainer}>
 
                             <View style={styles.header_sty}>
                                 <Header
@@ -42,56 +63,58 @@ const CurrentPrescriptionScreen = props => {
                                 />
                             </View>
                         </ImageBackground>
-                    </TouchableOpacity>
+                    </TouchableOpacity> 
                 </View>
             </View>
-            {/* Header */}
+            
 
 
-            {/* Body */}
+           
             <ScrollView>
             <View >
            
-                    {/* Shop Name & address*/}
+                    
                     <View style={styles.card}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                             <View>
-                                <Text style={styles.text} >{selectedItem.PrescriptionName}</Text>
-                                <Text style={styles.text2}>{selectedItem.Details}</Text>
-                                <Text style={styles.text3}>{selectedItem.Quotes}</Text>
+                                <Text style={styles.text} >{currentprescription.name.toUpperCase()}</Text>
+                                <Text style={styles.text2}>{currentprescription.quotes.length}</Text>
+                                <Text style={styles.text3}>{moment(currentprescription.createdAt).format('DD/MM/YYYY')+' at '+moment(currentprescription.createdAt).format('hh-mm A')}</Text>
                             </View>
-                            <View style={{ alignItems: 'center', }} >
+                            <View style={{ alignItems: 'center', marginBottom:40}} >
                                 <Text style={{ alignItems: 'flex-end', paddingRight: 10, color: '#F39C12' }}>
-                                    Pending
+                                    { currentprescription.status === 0 ? <Text> Pending</Text>:<Text style={{color:Colors.PRIMARY}}> Completed</Text>  }
+                                     {/* {currentprescription.status}  */}
                                 </Text>
                             </View>
                         </View>
                     </View>
 
-                    {/* Text Note By Pharamacies */}
+                   
 
                     <View style={styles.card2}>
                         <Text style={{ alignItems: 'center', justifyContent: 'flex-start' }}> Text Note By Pharamacies</Text>
-                        <Text style={{ textAlign: 'auto', padding: 10 }}>Detalis By Pharamacies</Text>
+                        <Text style={{ textAlign: 'auto', padding: 10 }}>{currentprescription.text_note}</Text>
                     </View>
 
-                    {/* List of Medicines */}
-                   
+                    
+                
                     <View style={styles.card2}>
                         <Text style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
                             List Of Medicines
                         </Text>
                         <View>
-                            <Text>WellButrin</Text>
+                            {currentprescription.medicines.map( item => {
+                                return(
+                                    <View key={item.id}>
+                                        <Text>{item.name}</Text>
+                                    </View>
+                                )
+                            })}
                         </View>
-                        <View>
-                            <Text>Amitriptyline</Text>
-                        </View>
-                        <View>
-                            <Text>Citalopram</Text>
-                        </View>
+                        
                     </View>
-                    {/* first Pharmacy */}
+                     
                     <View style={styles.card2}>
                         <View>
                             <Text style={{marginBottom:5}}>
@@ -115,7 +138,7 @@ const CurrentPrescriptionScreen = props => {
 
               
             </View>
-            {/* Body */}
+            
             </ScrollView>
         </View>
 

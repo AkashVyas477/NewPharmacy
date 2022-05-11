@@ -1,17 +1,16 @@
 import React from 'react';
-import {View, Text , StyleSheet , Image, ImageBackground, TouchableOpacity} from 'react-native';
+import {View, Text , StyleSheet , Image, ImageBackground, TouchableOpacity, TextInput} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Images, Colors } from '../../CommonConfig';
 
 const LocationScreen = props =>{
     return(
     <View>
-        <KeyboardAwareScrollView> 
             {/* Header And Menu start */}
         <View style={styles.screen}>  
             <View style={styles.Header}>
                 <View>
-                    <TouchableOpacity   >
+                    <TouchableOpacity onPress={() =>props.navigation.toggleDrawer()}  >
                             <Image source={Images.Menu} style={{ height: 20, width:25 }} />
                     </TouchableOpacity>
                 </View>
@@ -21,12 +20,14 @@ const LocationScreen = props =>{
             </View>
         </View>
         {/* Header And Menu end */}
-        <View>
-            <View>
-              
-            </View>
+        
+        <View style={styles.screen2}> 
+              <Text  style={styles.Text}>Current Address</Text>
+              <TextInput 
+              placeholder="Current Address"
+              />
         </View>
-        </KeyboardAwareScrollView>
+       
     </View>
     );
 };
@@ -38,9 +39,20 @@ const  styles=StyleSheet.create({
         padding:10, 
     
     },
+
+    screen2:{
+        flex:1,
+        padding:10,
+        backgroundColor:Colors.Error_Textcolor,
+    },
     Text_Sty:{
         paddingLeft:75,
-        fontSize:20
+    },
+
+    Text:{
+        padding: 10,
+        fontSize:25,
+
     },
     Header:{ 
         flexDirection: 'row', 

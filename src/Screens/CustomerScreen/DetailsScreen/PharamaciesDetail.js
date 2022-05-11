@@ -20,25 +20,6 @@ const PharamaciesDetail = (props) => {
             setActive(slide);
         }
     }
-
-
-    // const [ pharmacyList, setPharmacyList ] = useState([])
-    // const [ isLoading, setIsLoading ] = useState(true)
-    // useEffect(()=>{
-    //     getNearByPharmacy();
-    //     setIsLoading(false)
-    // },[])
-
-    // const getNearByPharmacy = async() => {
-    //     const response = await getWithParams('customer/getNearByPharmacy/1')
-    //     if(!response.success) {
-    //         setPharmacyList(response.data.data)
-    //         // console.log("PharmacyList:         ", pharmacyList);
-    //     } else {
-    //         // Toast.show('No NearByPharmacy available currently!')
-    //     }
-    // }
-    // const id = props.route.params.id
     const currentPharmacy = props.route.params.pharmacy
     console.log(currentPharmacy);
 

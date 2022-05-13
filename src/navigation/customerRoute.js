@@ -15,6 +15,7 @@ import HomeScreen from '../Screens/CustomerScreen/HomeScreen';
 //LogInScren
 import LoginScreen from '../Screens/AuthScreen/LoginScreen'
 
+
 // Prescriptions
 import PrescriptionScreen from '../Screens/CustomerScreen/PrescriptionScreen';
 // Language
@@ -41,6 +42,8 @@ import CustomerProfileScreen from '../Screens/CustomerScreen/CustomerProfileScre
 import CustomerProfileEditScreen from '../Screens/CustomerScreen/CustomerProfileEditScreen '
 //ChangePassword
 import  ChangePassword from '../Screens/CustomerScreen/ChangePassword'
+// orderScreen
+import OrderScreen from '../Screens/CustomerScreen/DetailsScreen/OrderScreen/OrderScreen';
 
 const Drawer = createDrawerNavigator()
 const DrawerNavigator = props => {
@@ -83,7 +86,7 @@ export default DrawerNavigator;
 const Tab = createBottomTabNavigator()
 const getTabBarVisibility = (route) => {
     const routeName = getFocusedRouteNameFromRoute(route);
-    const hideOnScreens = ['Pharamacies_Detail','CurrentPrescriptionScreen_Data','PastPrescriptionScreen_Data','Preview', 'PharamaciesImagePreview', 'Edit_Profile']
+    const hideOnScreens = ['Pharamacies_Detail','CurrentPrescriptionScreen_Data','PastPrescriptionScreen_Data','Preview', 'PharamaciesImagePreview', 'Edit_Profile','OrderScreen']
     if (hideOnScreens.indexOf(routeName) > -1) return false;
     return true;
 };
@@ -123,13 +126,7 @@ const TabNavigator = props => {
                         < Image source={require('../Assets/Icons/HomeIcon/prescriptionIcon.png')} style={{ height: 25, width: 18, marginTop: 15, tintColor: focused ? 'green' : '#cccccc' }} />
                     )
                 })} />
-
-                
-
         </Tab.Navigator>
-
-       
-
     )
 }
 
@@ -144,7 +141,7 @@ const HomeStackScreen = props => {
             <HomeStack.Screen name='PastPrescriptionScreen_Data' component={PastPrescriptionScreen} />
             <HomeStack.Screen name ='Preview'component={Preview}/>
             <HomeStack.Screen name ='PharamaciesImagePreview'component={PharamaciesImagePreview}/>
-
+            {/* <HomeStack.Screen name='OrderScreen' component={OrderScreen}/> */}
             {/* <HomeStack.Screen name ='Edit_Profile'component={CustomerProfileEditScreen}/> */}
         </HomeStack.Navigator>
     )
@@ -160,7 +157,7 @@ const PrescriptionStackScreen = props => {
             <PrescriptionStack.Screen name='PrescriptionImageScreen' component={PrescriptionImageScreen} />
             <PrescriptionStack.Screen name='Preview' component={Preview} />
             <PrescriptionStack.Screen name='PharamaciesImagePreview' component={PharamaciesImagePreview} />
-
+            <PrescriptionStack.Screen name='OrderScreen' component={OrderScreen} />
         </PrescriptionStack.Navigator>
     )
 }
@@ -190,10 +187,12 @@ const UserStackScreen = props => {
         <UserStack.Screen name='Profile'component={CustomerProfileScreen}/>
         <UserStack.Screen name='Edit_Profile'component={CustomerProfileEditScreen}/>
         <UserStack.Screen name='ChangePassword'component={ChangePassword}/>
-        
         </UserStack.Navigator>
     )
 }
+
+
+
 
 
 

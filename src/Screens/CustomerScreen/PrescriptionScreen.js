@@ -18,6 +18,7 @@ const PrescriptionScreen = props => {
     const [prescriptionList, setprescriptionList] = useState([])
     const [PastPrescription, setpastprescriptionList]= useState([])
     const [isLoading, setIsLoading] = useState(true)
+
     useEffect(() => {
         getPrescriptionList();
         getPastPrescription();
@@ -65,6 +66,31 @@ const PrescriptionScreen = props => {
         return (
                             <View >
                                 <TouchableOpacity   onPress={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { prescription: data.item}) }}>
+                            <View style={styles.Card_Sty}>
+                            <Image source={{ uri: data.item.prescription_images[0].url}} style={styles.Image_Sty} resizeMode={'stretch'} />
+                                <View style={styles.Text_sty}>
+                                    <View >
+                                        <Text style={styles.Pname}>{data.item.name.toUpperCase()}</Text>
+                                    </View>
+                                    <View >
+                                        <Text  style={styles.name}>{data.item.quotes.length}</Text>
+                                    </View>
+                                    <View>
+                                        <Text  style={styles.name}>{moment(data.item.createdAt).format('DD/MM/YYYY')+' at '+moment(data.item.createdAt).format('hh-mm A')}</Text>
+                                    </View>
+                                </View>
+                            </View>
+                            </TouchableOpacity>
+                        </View>
+
+        )
+    }
+
+    const Pastrenderprescription = data => {
+        // console.log("\n\nDATA:       ",data);
+        return (
+                            <View >
+                                <TouchableOpacity  onPress={() => { props.navigation.navigate('PastPrescriptionScreen_Data', { prescription: data.item}) }}>
                             <View style={styles.Card_Sty}>
                             <Image source={{ uri: data.item.prescription_images[0].url}} style={styles.Image_Sty} resizeMode={'stretch'} />
                                 <View style={styles.Text_sty}>
@@ -181,6 +207,7 @@ const PrescriptionScreen = props => {
                                         keyExtractor={item => item.id}
                                         renderItem={renderprescription}
                                         // onPress={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { prescription: data.item}) }}
+                                        // onPress={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { prescription: data.item}) }}
                                     />
                                     </View>
                              
@@ -221,7 +248,8 @@ const PrescriptionScreen = props => {
                                         // padding={30}
                                         data={PastPrescription}
                                         keyExtractor={item => item.id}
-                                        renderItem={renderprescription}
+                                        renderItem={Pastrenderprescription}
+                                        // onClick={() => { props.navigation.navigate('PastPrescriptionScreen_Data', { prescription: data.item}) }}
                                         // onClick={() => { props.navigation.navigate('PastPrescriptionScreen_Data', { id: user.id }) }}
                                     />
                               </View>

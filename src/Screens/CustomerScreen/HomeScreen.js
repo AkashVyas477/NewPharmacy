@@ -17,6 +17,7 @@ const HomeScreen = props =>{
 
     const [ pharmacyList, setPharmacyList ] = useState([])
     const [ isLoading, setIsLoading ] = useState(true)
+    const [length, setLength] = useState(0)
     useEffect(()=>{
         getNearByPharmacy();
         setIsLoading(false)
@@ -24,7 +25,7 @@ const HomeScreen = props =>{
 
 
     const getNearByPharmacy = async() => {
-        const response = await getPostLogin('customer/getNearByPharmacy/1')
+        const response = await getPostLogin('customer/getNearByPharmacy')
         // console.log("GET NearByPharmacy     \n\n\n\n",JSON.stringify(response));
         if(!response.success) {
             setPharmacyList(response.data.data)
@@ -109,6 +110,12 @@ const HomeScreen = props =>{
                                 {/* <StatusBar backgroundColor={Colors.} barStyle='dark-content'/> */}
                                 <ActivityIndicator size={65} color={Colors.PRIMARY} />
                             </View>
+                            :
+                            pharmacyList.length== 0?
+                            (<View>
+                                <Text>No Near By Pharmacies found </Text>
+                            </View>
+                            )
                             :
                                 <FlatList
                                     // padding={30}

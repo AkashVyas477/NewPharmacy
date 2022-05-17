@@ -4,6 +4,7 @@ import CheckBox from './CheckBox'
 import RadioButton from './RadioButton'
 import Header from './Header'
 import CheckButton from './CheckButton'
+import CheckRound from './CheckRound'
 
 export{
     Button,
@@ -11,5 +12,6 @@ export{
     CheckBox,
     RadioButton,
     Header, 
-    CheckButton
+    CheckButton,
+    CheckRound,
 };

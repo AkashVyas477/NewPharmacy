@@ -86,7 +86,10 @@ export default DrawerNavigator;
 const Tab = createBottomTabNavigator()
 const getTabBarVisibility = (route) => {
     const routeName = getFocusedRouteNameFromRoute(route);
-    const hideOnScreens = ['Pharamacies_Detail','CurrentPrescriptionScreen_Data','PastPrescriptionScreen_Data','Preview', 'PharamaciesImagePreview', 'Edit_Profile','OrderScreen']
+    const hideOnScreens = ['Pharamacies_Detail','CurrentPrescriptionScreen_Data',
+    'PastPrescriptionScreen_Data','Preview',
+     'PharamaciesImagePreview', 'Edit_Profile',
+     'OrderScreen','PrescriptionImageScreen']
     if (hideOnScreens.indexOf(routeName) > -1) return false;
     return true;
 };

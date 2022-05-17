@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, ScrollView, StatusBar, Image, Dimensions, ImageBackground,TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, StatusBar, Image, Dimensions,FlatList, ImageBackground,TouchableOpacity } from 'react-native'
 import React, {  useState, useRef, useEffect  } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import PrescriptionData from '../../../DummyData/PrescriptoinDummydata';
 import { Colors,Images } from '../../../CommonConfig';
 import { Header, Button , } from '../../../Components/Common';
+import MedicinesImages from '../../../Components/Common/MedicinesImages'
 import moment from 'moment';
 
 
@@ -17,79 +18,44 @@ const PastPrescriptionScreen = props =>{
     // const selectedItem =PrescriptionData.find(item => item.id === pid)
     
     const prescription = props.route.params.prescription
-    console.log(prescription);
+    console.log("\n\nData         ",prescription);
 
     const height = width * 100 / 0.6
     const [active, setActive] = useState(0);
 
-    // const change = ({ nativeEvent }) => {
-    //     const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
-    //     if (slide !== active) {
-    //         setActive(slide);
-    //     }
-    // }
+
+    
     return(
-        // <View > 
-        //     <View style={styles.header_sty} >
-        //         {/* <StatusBar backgroundColor={selectedItem.bgColor} barStyle='light-content' /> */}
-        //         <Header
-        //             Title="DETAILS"
-        //             onPress={() => props.navigation.goBack()}
-        //         />
-        //     </View>
-
-
-        //     {/* Image  */}
-        //     <View>
-        //         <TouchableOpacity  onPress={() => { props.navigation.navigate('Preview', { id: pid }) }}>
-        //     <View style={{ alignItems: 'center', padding: 10 }} >
-        //                 <Image source={selectedItem.PrescriptionImg} style={styles.imageContainer}/>
-        //         </View>
-        //         </TouchableOpacity>
-        //     </View>
-
-        // {/* Shop Name & address*/}
-        // <View style={styles.card}>
-        // <View style={{flexDirection:'row' ,alignItems:'center',justifyContent:'space-between'}}>
-        // <View>
-        // <Text style={styles.text} >{selectedItem.PrescriptionName}</Text>
-        // <Text style={styles.text2}>{selectedItem.Details}</Text>
-        // <Text style={styles.text3}>{selectedItem.Quotes}</Text>
-        // </View>
-        // <View style={{alignItems:'center', }} >
-        //         <TouchableOpacity style={{alignItems:'flex-end', paddingRight:10}}>
-        //             <Image source={Images.MapLocate} style={{height:15,width:11,}} />
-        //         </TouchableOpacity>
-        //      </View>
-        // </View>
-        // </View>
-
-        // {/* Text Note By Pharamacies */}
-
-        // <View style={styles.card2}>
-        // <Text style={{alignItems:'center',justifyContent:'flex-start'}}> Text Note By Pharamacies</Text>
-        // <Text style={{textAlign:'auto', padding:10}}>Detalis By Pharamacies</Text>
-        // </View>
        
-        // </View>
-        
-        <View style={{flex:1}} >
-           
-            <View >
-                <View style={{ alignItems: 'center', }} >
-                    <TouchableOpacity onPress={() => { props.navigation.navigate('Preview', { prescription:data}) }}> 
-                        <ImageBackground source={{uri:prescription.prescription_images[0].url}} resizeMode="cover" style={styles.imageContainer}>
 
-                            <View style={styles.header_sty}>
-                                <Header
-                                    Title="DETAILS"
-                                    onPress={() => props.navigation.goBack()}
-                                />
-                            </View>
-                        </ImageBackground>
-                    </TouchableOpacity> 
-                </View>
+        <View >
+            <View style={styles.header_sty}>
+                <Header
+                    Title="DETAILS"
+                    onPress={() => props.navigation.goBack()}
+                />
             </View>
+            <FlatList
+                data={prescription.prescription_images}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                pagingEnabled
+                renderItem={({ item }) => {
+                    // console.log("\n\ndata         ",item);
+
+                    return (
+                        <View>
+                            <MedicinesImages
+                                image={item.url}
+                                id={item.id}
+                                item={item}
+                                onClick={() => { props.navigation.navigate('Preview', { images: item.id, images123: item, }) }}
+                            />
+                        </View>
+                    )
+                }}
+            />
+                        {/* <ImageBackground source={{uri:prescription.prescription_images[0].url}} resizeMode="cover" style={styles.imageContainer}></ImageBackground> */}
             <ScrollView>
             <View>
            
@@ -171,6 +137,7 @@ const  styles=StyleSheet. create({
         backgroundColor:'white',
     },
     header_sty:{ 
+        backgroundColor:Colors.White,
         flexDirection: 'row', 
         alignItems: 'center', 
         padding: 10 

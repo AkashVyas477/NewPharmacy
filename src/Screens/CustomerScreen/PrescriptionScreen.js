@@ -61,23 +61,30 @@ const PrescriptionScreen = props => {
 
  
 
-    const renderprescription = data => {
-        // console.log("\n\nDATA:       ",data);
+    const renderprescription =data => {
+        console.log("\n\nDATA:       ",data);
         return (
-                            <View >
-                                <TouchableOpacity   onPress={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { prescription: data.item}) }}>
+                            <View style={styles.card} >
+                            <TouchableOpacity  onPress={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { prescription: data.item, }) }}>
                             <View style={styles.Card_Sty}>
-                            <Image source={{ uri: data.item.prescription_images[0].url}} style={styles.Image_Sty} resizeMode={'stretch'} />
-                                <View style={styles.Text_sty}>
+                            {/* <Image source={{ uri:data.item.prescription_images[0].url}} style={styles.Image_Sty} resizeMode={'stretch'} /> */}
+                               <View style={{flexDirection:'row'}}>
+                               <View style={styles.Text_sty}>
                                     <View >
                                         <Text style={styles.Pname}>{data.item.name.toUpperCase()}</Text>
                                     </View>
-                                    <View >
+                                    <View style={{flexDirection:'row',alignItems:'center'}}>
+                                        <Image source={Images.Quotes} style={{height:18,width:20 ,}}/>
                                         <Text  style={styles.name}>{data.item.quotes.length}</Text>
                                     </View>
-                                    <View>
+                                    <View style={{flexDirection:'row',alignItems:'center', marginBottom:1}}>
+                                        <Image source={Images.Calendar} style={{height:20,width:20 ,}}/>
                                         <Text  style={styles.name}>{moment(data.item.createdAt).format('DD/MM/YYYY')+' at '+moment(data.item.createdAt).format('hh-mm A')}</Text>
-                                    </View>
+                                    </View> 
+                                </View>
+                               <View style={{}} >
+                                    {data.item.status === 0 ? <Text style={{ color: Colors.orange }}> Pending</Text> : <Text style={{ color: Colors.PRIMARY }}> Completed</Text>}
+                                </View>
                                 </View>
                             </View>
                             </TouchableOpacity>
@@ -89,21 +96,30 @@ const PrescriptionScreen = props => {
     const Pastrenderprescription = data => {
         // console.log("\n\nDATA:       ",data);
         return (
-                            <View >
+                            <View style={styles.card}>
                                 <TouchableOpacity  onPress={() => { props.navigation.navigate('PastPrescriptionScreen_Data', { prescription: data.item}) }}>
                             <View style={styles.Card_Sty}>
                             <Image source={{ uri: data.item.prescription_images[0].url}} style={styles.Image_Sty} resizeMode={'stretch'} />
-                                <View style={styles.Text_sty}>
+                            <View style={{flexDirection:'row',}}>
+                            <View style={styles.Text_sty}>
                                     <View >
                                         <Text style={styles.Pname}>{data.item.name.toUpperCase()}</Text>
                                     </View>
-                                    <View >
+                                    <View style={{flexDirection:'row',alignItems:'center'}}>
+                                        <Image source={Images.Quotes} style={{height:18,width:20 ,}}/>
                                         <Text  style={styles.name}>{data.item.quotes.length}</Text>
                                     </View>
-                                    <View>
+                                    <View style={{flexDirection:'row',alignItems:'center', marginBottom:1}}>
+                                        <Image source={Images.Calendar} style={{height:20,width:20 ,}}/>
                                         <Text  style={styles.name}>{moment(data.item.createdAt).format('DD/MM/YYYY')+' at '+moment(data.item.createdAt).format('hh-mm A')}</Text>
                                     </View>
                                 </View>
+                                <View style={{}}>
+                                    {data.item.status === 0 ?<Text style={{ color: Colors.orange }}>Pending</Text>:
+                                    <Text style={{ color: Colors.PRIMARY }}>Completed</Text>}
+                                </View>
+                            </View>
+                                
                             </View>
                             </TouchableOpacity>
                         </View>
@@ -200,7 +216,7 @@ const PrescriptionScreen = props => {
                                     </View>
                                 </View>
                                 :
-                                <View style={styles.card}>
+                                <View >
                                     <FlatList
                                         // padding={30}
                                         data={prescriptionList}
@@ -242,9 +258,8 @@ const PrescriptionScreen = props => {
                                     </View>
                                 </View>
                                 :
-                                <View style={styles.card}>
+                                <View >
                                     <FlatList
-                                   
                                         // padding={30}
                                         data={PastPrescription}
                                         keyExtractor={item => item.id}
@@ -313,7 +328,7 @@ const styles = StyleSheet.create({
     card: {
         
         // backgroundColor:Colors.Error_Textcolor,
-        height:100,
+       flexGrow:1,
         width: 380,
         justifyContent:'center',
         paddingLeft: 5,
@@ -339,12 +354,12 @@ const styles = StyleSheet.create({
      },
 
     Image_Sty:{
-        height: 90, width: 120,
-        borderRadius:40,
+        height: 90, width: 90,
+        borderRadius:20,
         overflow: 'hidden'
     },
     Text_sty:{ 
-        flexDirection: 'column', marginLeft: 5
+        flexDirection: 'column',
      },
 
      Pname:{

@@ -30,7 +30,7 @@ const HomeScreen = props =>{
         if(!response.success) {
             setPharmacyList(response.data.data)
             Toast.show(' NearByPharmacy available currently!')
-            console.log("PharmacyList:         ", pharmacyList);
+            // console.log("PharmacyList:         ", pharmacyList);
         } else {
             Toast.show('There is no NearByPharmacy available currently!')
         }

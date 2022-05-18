@@ -1,14 +1,14 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import ForgotPasswordScreen from '../../Screens/AuthScreen/ForgotPasswordScreen';
-import LoginScreen from '../../Screens/AuthScreen/LoginScreen';
-import RollSignUpScreen from '../../Screens/AuthScreen/RollSignUpScreen';
-import PharmacyUserScreen from '../../Screens/AuthScreen/Pharamacist/PharmacyUserScreen';
-import PharmacistSignUpScreen from '../../Screens/AuthScreen/Pharamacist/PharmacistSignUpScreen';
-import CustomerSignupScreen from '../../Screens/AuthScreen/Customer/CustomerSignUpScreen';
-import PhoneNumberScreen from '../../Screens/AuthScreen/PhoneNumberScreen';
-import VerificationScreen from '../../Screens/AuthScreen/VerificationScreen';
-import LocationScreen from '../../Screens/CustomerScreen/Location';
+import ForgotPasswordScreen from './ForgotPasswordScreen';
+import LoginScreen from './LoginScreen';
+import RollSignUpScreen from './RollSignUpScreen';
+import PharmacyUserScreen from './Pharamacist/PharmacyUserScreen';
+import PharmacistSignUpScreen from './Pharamacist/PharmacistSignUpScreen';
+import CustomerSignupScreen from './Customer/CustomerSignUpScreen';
+import PhoneNumberScreen from './PhoneNumberScreen';
+import VerificationScreen from './VerificationScreen';
+import LocationScreen from '../CustomerScreen/Profile/Address/Location';
 
 
 
@@ -17,7 +17,7 @@ import LocationScreen from '../../Screens/CustomerScreen/Location';
 const AuthStack = createStackNavigator();
 const AuthStackScreen = ({ navigation }) => {
     return(
-        <AuthStack.Navigator headerMode='none' >
+        <AuthStack.Navigator headerMode='none' initialRouteName='Login' >
              <AuthStack.Screen name="Login" component={LoginScreen} />
              <AuthStack.Screen name="RollSignUpScreen" component={RollSignUpScreen}/>
             <AuthStack.Screen name="FORGOT PASSWORD" component={ForgotPasswordScreen}  />

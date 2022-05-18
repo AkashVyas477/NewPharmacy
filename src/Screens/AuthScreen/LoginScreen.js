@@ -23,6 +23,7 @@ import LoginValidationSchema from '../../ForValidationSchema/LoginValidationSche
 
 import { Formik } from 'formik'
 import VerificationScreen from './VerificationScreen';
+import { CommonActions } from '@react-navigation/native';
 
 
 
@@ -72,6 +73,51 @@ const LoginScreen = (props) => {
         await AsyncStorage.setItem('isLogin', "true")
             setisLoading(false);
             props.navigation.navigate('Drawer', { screen: 'Home' })
+        
+        // if (response.success) {
+        //     try {
+        //         await AsyncStorage.setItem('token', resData.token)
+        //         await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+        //         await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+        //         await AsyncStorage.setItem('isLogin', "true")
+        //     } catch (error) {
+        //         console.log(error)
+        //     }
+        //     props.navigation.dispatch(
+        //         CommonActions.reset({
+        //             index:0,
+        //             routes: [{ name: 'Home' }]
+        //         })
+        //     )
+        //     setIsLoading(false);
+        // } else {
+        //     if (resData.error === 'User does not exist!') {
+        //         Toast.show(" User does not exist! ");
+        //     } else if (resData.error === 'Invalid Password!') {
+        //         Toast.show("Incorrect Password")
+        //     }
+        //     setIsLoading(false)
+        // }
+        // if (!response.success){
+        //     setisLoading(false)
+        //     let errorMessage = "Something went wrong!";
+        //     if (response.data.ErrorMessage === "User not exists!"){
+        //         errorMessage = "User does not exist!"
+        //     }
+        //     if (response.data.ErrorMessage === "Login Failed!"){
+        //         errorMessage = "Invalid Password!"
+        //     }
+        //     Alert.alert('Error', errorMessage, [{ text: "Okay" }])
+        // } else{
+        // await AsyncStorage.setItem('token', resData.token)
+        // await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+        // await AsyncStorage.setItem('user', JSON.stringify (resData.user))
+        // await AsyncStorage.setItem('isLogin', "true")
+        //     setisLoading(false);
+        //     props.navigation.dispatch(CommonActions.reset({
+        //         index:0,
+        //         routes:[('Drawer', { screen: 'Home' })]
+        //     }))
         }
     }
 

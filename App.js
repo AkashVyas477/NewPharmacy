@@ -2,7 +2,7 @@ import React from 'react';
 import { SafeAreaView} from 'react-native';
 import AppNavigator from './Src/Navigation/navigation';
 import { Provider } from 'react-redux';
-import{ store }from './Src/Redux/Store'
+import{ store }from './Src/Store/Store'
 
 
 const App =()=>{

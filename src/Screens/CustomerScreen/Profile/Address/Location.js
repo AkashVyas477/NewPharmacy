@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text , StyleSheet , Image, ImageBackground, TouchableOpacity, TextInput} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { Images, Colors } from '../../CommonConfig';
+import { Images, Colors } from '../../../../CommonConfig';
 
 const LocationScreen = props =>{
     return(

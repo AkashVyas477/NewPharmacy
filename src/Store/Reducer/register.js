@@ -1,4 +1,4 @@
-import { ADD_DETAILS, ADD_IMAGE, ADD_PHONE, SET_ROLE } from "../Actions/AuthActions";
+import { ADD_DETAILS, ADD_IMAGE, ADD_PHONE, SET_ROLE } from "../Actions/register";
 const initialState = {
     role:'',
     name: '',

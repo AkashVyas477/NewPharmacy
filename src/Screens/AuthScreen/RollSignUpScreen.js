@@ -5,9 +5,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useDispatch } from 'react-redux';
 import {Images, Colors} from '../../CommonConfig'
 import { Button } from '../../Components/Common';
-
-import * as AuthActions from '../../Redux/Actions/AuthActions'
-
+import * as  registerAction from '../../Store/Actions/register'
 
 const RollSignupScreen = props =>{
 

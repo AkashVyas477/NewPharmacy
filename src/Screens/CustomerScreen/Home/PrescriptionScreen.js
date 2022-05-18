@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, FlatList, ScrollView, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Images, Colors } from '../../CommonConfig';
-import { Button } from '../../Components/Common';
-import PrescriptionData from '../../DummyData/PrescriptoinDummydata';
+import { Images, Colors } from '../../../CommonConfig';
+import { Button } from '../../../Components/Common';
+// import PrescriptionData from '../../../DummyData/PrescriptoinDummydata';
 // import PrescriptionScreenData from '../../Components/Shop/Prescriptionsdata';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getPostLogin, getWithParams } from '../../Components/Helpers/ApiHelper';
+import { getPostLogin, getWithParams } from '../../../Components/Helpers/ApiHelper';
 import Toast from 'react-native-simple-toast';
 import { $CombinedState } from 'redux';
 import moment from 'moment';

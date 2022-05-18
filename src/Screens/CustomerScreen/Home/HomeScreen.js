@@ -2,10 +2,10 @@ import React,{useState, useEffect, useReducer} from 'react';
 import {View, Text , StyleSheet ,TouchableOpacity, Image ,FlatList,ScrollView, ActivityIndicator } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Item } from 'react-native-paper/lib/typescript/components/List/List';
-import { Images, Colors } from '../../CommonConfig';
+import { Images, Colors } from '../../../CommonConfig';
 // import Pharamacies from '../../Components/Shop/Pharamacies';
 // import PharamaciesData from '../../DummyData/DummyData';
-import { getPostLogin, getWithParams} from '../../Components/Helpers/ApiHelper';
+import { getPostLogin, getWithParams} from '../../../Components/Helpers/ApiHelper';
 
 
 import Toast from 'react-native-simple-toast';
@@ -111,7 +111,7 @@ const HomeScreen = props =>{
                                 <ActivityIndicator size={65} color={Colors.PRIMARY} />
                             </View>
                             :
-                            pharmacyList.length== 0?
+                            pharmacyList.length === 0 ?
                             (<View>
                                 <Text>No Near By Pharmacies found </Text>
                             </View>

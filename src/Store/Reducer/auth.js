@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from "../Actions/LoginLogoutActions";
+import { LOGIN, LOGOUT } from "../Actions/auth";
 
 
 const initialState = {

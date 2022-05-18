@@ -7,7 +7,7 @@ import SignUpValidationSchemaCustomer from '../../../ForValidationSchema/SignupV
 import { Images , Colors } from '../../../CommonConfig';
 import {CheckBox,EyeButton,Button,RadioButton,Header} from '../../../Components/Common';
 import messaging from '@react-native-firebase/messaging';
-import * as AuthActions from '../../../Redux/Actions/AuthActions'
+import * as registerAction from '../../../Store/Actions/register'
 import { useDispatch } from 'react-redux';
 
 

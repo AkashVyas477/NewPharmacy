@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity ,TextInput,Modal} from 'react-native';
-import { Header, Button, } from '../../Components/Common';
-import { Images, Colors } from '../../CommonConfig';
+import { Header, Button, } from '../../../Components/Common';
+import { Images, Colors } from '../../../CommonConfig';
 import * as ImagePicker from 'react-native-image-crop-picker';
 
 

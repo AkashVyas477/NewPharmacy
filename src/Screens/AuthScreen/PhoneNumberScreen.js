@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Image,TextInput, A
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch } from 'react-redux';
 import  CountryPicker from 'react-native-country-picker-modal';
-import * as AuthActions from '../../Redux/Actions/AuthActions';
+import * as registerAction from '../../Store/Actions/register';
 import{ Colors, Images }from '../../CommonConfig';
 import { Header, Button } from '../../Components/Common';
 import { postRequest } from '../../Components/Helpers/ApiHelper';

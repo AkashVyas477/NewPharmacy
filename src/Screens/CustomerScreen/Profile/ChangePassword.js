@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text , StyleSheet , TextInput} from 'react-native';
-import { Colors} from '../../CommonConfig';
-import { Header, Button } from '../../Components/Common';
+import { Colors} from '../../../CommonConfig';
+import { Header, Button } from '../../../Components/Common';
 
 const ChangePassword = props =>{
     return(

@@ -8,7 +8,7 @@ import {Images,Colors} from '../../../CommonConfig'
 import { Button,EyeButton,CheckBox,RadioButton, Header } from '../../../Components/Common';
 import { postRequest } from '../../../Components/Helpers/ApiHelper';
 import { useDispatch } from 'react-redux';
-import * as AuthActions from '../../../Redux/Actions/AuthActions'
+import * as registerAction from '../../../Store/Actions/register'
 
 const PharmacistSignUpScreen = props =>{
 

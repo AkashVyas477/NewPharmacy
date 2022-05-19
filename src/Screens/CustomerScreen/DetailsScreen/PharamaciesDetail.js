@@ -26,19 +26,15 @@ const PharamaciesDetail = (props) => {
     return (
         <View > 
             <View >
-            <View style={{ alignItems: 'center', padding:10 }} >   
-            {/* <TouchableOpacity onPress={() => { props.navigation.navigate('PharamaciesImagePreview', { currentPharmacy:id}) }} > */}
-            <ImageBackground source={{uri:currentPharmacy.store_image}} style={styles.imageContainer}>
             <View  style={styles.header_sty}>
                 <Header
                 Title="DETAILS"
                 onPress={() => props.navigation.goBack()}
                 />
-           </View>
-                </ImageBackground>
+           </View> 
+            {/* <TouchableOpacity onPress={() => { props.navigation.navigate('PharamaciesImagePreview', { currentPharmacy:id}) }} > */}
+            <ImageBackground source={{uri:currentPharmacy.store_image}} style={styles.imageContainer}></ImageBackground>
                 {/* </TouchableOpacity> */}
-                </View>
-  
             </View>
 
 <View>
@@ -81,6 +77,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row', 
         alignItems: 'center', 
         padding: 10 ,
+        backgroundColor:Colors.White
         
     },
     text:{
@@ -103,7 +100,7 @@ const styles = StyleSheet.create({
         color:Colors.Sp_Text
     },
     imageContainer: {
-        height: width *0.7 ,
+        height: width *1 ,
         width: width * 1,
         opacity: 0.7
     },

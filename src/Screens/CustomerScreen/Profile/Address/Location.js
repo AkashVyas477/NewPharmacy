@@ -5,28 +5,28 @@ import { Images, Colors } from '../../../../CommonConfig';
 
 const LocationScreen = props =>{
     return(
-    <View>
+    <View style={styles.screen}>
             {/* Header And Menu start */}
-        <View style={styles.screen}>  
+        <View >  
             <View style={styles.Header}>
-                <View>
-                    <TouchableOpacity onPress={() =>props.navigation.toggleDrawer()}  >
-                            <Image source={Images.Menu} style={{ height: 20, width:25 }} />
-                    </TouchableOpacity>
-                </View>
+                    <View>
+                        <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}  >
+                            <Image source={Images.Menu} style={{ height: 20, width: 25 }} />
+                        </TouchableOpacity>
+                    </View>
                     <Text style={styles.Text_Sty}>
                         MANAGE ADDRESS
                     </Text>
             </View>
         </View>
         {/* Header And Menu end */}
-        
+{/*         
         <View style={styles.screen2}> 
               <Text  style={styles.Text}>Current Address</Text>
               <TextInput 
               placeholder="Current Address"
               />
-        </View>
+        </View> */}
        
     </View>
     );

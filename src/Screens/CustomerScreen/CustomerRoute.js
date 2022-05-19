@@ -4,53 +4,45 @@ import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Images, Colors } from '../../CommonConfig';
-
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 
-// Home Screens
-import HomeScreen from '../CustomerScreen/Home/HomeScreen';
 //LogInScren
 import LoginScreen from '../AuthScreen/LoginScreen'
 
-
-// Prescriptions
-import PrescriptionScreen from '../CustomerScreen/Home/PrescriptionScreen';
-// Language
+//Screens from Customer 
 import LanguageScreen from '../CustomerScreen/Language';
-// LogoutScreen
 
-//LocationScreen
-import LocationScreen from '../CustomerScreen/Profile/Address/Location';
-//Current Screen
-import CurrentPrescriptionScreen from '../CustomerScreen/DetailsScreen/CurrentPrescriptionScreenDetail';
-//Past Screen
-import PastPrescriptionScreen from '../CustomerScreen/DetailsScreen/PastPrescriptionScreenDetail';
-//PharamaciesDetail
-import PharamaciesDetail from '../CustomerScreen/DetailsScreen/PharamaciesDetail';
-// Create Request
+// Screens from Home in Customer 
+import HomeScreen from '../CustomerScreen/Home/HomeScreen';
+import PrescriptionScreen from '../CustomerScreen/Home/PrescriptionScreen';
 import PrescriptionImageScreen from '../CustomerScreen/Home/PrescriptionImageScreen';
-//ImagePreview
+
+// Screens from Profile in Customer 
+import LocationScreen from '../CustomerScreen/Profile/Address/Location';
+import CustomerProfileScreen from '../CustomerScreen/Profile/CustomerProfileScreen';
+import CustomerProfileEditScreen from '../CustomerScreen/Profile/CustomerProfileEditScreen ';
+import  ChangePassword from '../CustomerScreen/Profile/ChangePassword';
+
+// Screens from Details in Customer 
+import CurrentPrescriptionScreen from '../CustomerScreen/DetailsScreen/CurrentPrescriptionScreenDetail';
+import PastPrescriptionScreen from '../CustomerScreen/DetailsScreen/PastPrescriptionScreenDetail';
+import PharamaciesDetail from '../CustomerScreen/DetailsScreen/PharamaciesDetail';
 import Preview from '../CustomerScreen/DetailsScreen/ImagePreview';
-// PharamaciesIamgePreview
 import PharamaciesImagePreview from '../CustomerScreen/DetailsScreen/PharamaciesImagePreview';
-// Profile
-import CustomerProfileScreen from '../CustomerScreen/Profile/CustomerProfileScreen'
-//EditProfile
-import CustomerProfileEditScreen from '../CustomerScreen/Profile/CustomerProfileEditScreen '
-//ChangePassword
-import  ChangePassword from '../CustomerScreen/Profile/ChangePassword'
-// orderScreen
 import OrderScreen from '../CustomerScreen/DetailsScreen/OrderScreen/OrderScreen';
+
+
+
 import SplashScreen from '../SplashScreen';
+
 import DrawerContent from './CustomerDrawer';
 
 const Drawer = createDrawerNavigator()
 const DrawerNavigator = props => {
     return (
-        <Drawer.Navigator headerMode='none' drawerContent={ ({props}) => <DrawerContent {...props}/>}>
+        <Drawer.Navigator headerMode='none' drawerContent={ props => <DrawerContent {...props}/>}>
             {/* <Drawer.Screen name ='UserStack' component={UserStackScreen} 
             options={{
                 drawerIcon:()=> <Image source={Images.SignupPlaceholder} style={{height:50, width:50, borderRadius:50, overflow:'hidden'}}/>,
@@ -58,20 +50,25 @@ const DrawerNavigator = props => {
             }}
             /> */}
             <Drawer.Screen name='Home' component={TabNavigator} 
-            options={{
-                drawerIcon: () => <Image source={Images.homeIcon} style={{ height: 20, width: 20,  }} />,
-            }} />
+            // options={{
+            //     drawerIcon: () => <Image source={Images.homeIcon} style={{ height: 20, width: 20,  }} />,
+            // }}
+             />
+{/* 
+            <Drawer.Screen name='AddresStack' component={AddresStackScreen} 
+            // options={{
+            //     drawerLabel: 'Manage Address',
+            //     drawerIcon: () => <Image source={Images.LocationPin} style={{ height: 27, width: 20, }} />,
 
-            {/* <Drawer.Screen name='AddresStack' component={AddresStackScreen} options={{
-                drawerLabel: 'Manage Address',
-                drawerIcon: () => <Image source={Images.LocationPin} style={{ height: 27, width: 20, }} />,
+            // }}
+             /> */}
 
-            }} /> */}
-
-            {/* <Drawer.Screen name='Language' component={LanguageScreen} options={{
-                drawerLabel:'Language',
-                drawerIcon:()=> <Image source={Images.Language} style={{height: 30, width: 30,}} />,
-            }} /> */}
+            {/* <Drawer.Screen name='Language' component={LanguageScreen} 
+            // options={{
+            // //     drawerLabel:'Language',
+            // //     drawerIcon:()=> <Image source={Images.Language} style={{height: 30, width: 30,}} />,
+            // // }} 
+            /> */}
 
             {/* <Drawer.Screen name ='LogOut' component={SplashScreen} options={{
                 drawerLabel:'Log Out', 
@@ -153,7 +150,7 @@ const HomeStackScreen = props => {
         </HomeStack.Navigator>
     )
 }
-// export default HomeStackScreen;
+// export  HomeStack;
 
 const PrescriptionStack = createStackNavigator()
 const PrescriptionStackScreen = props => {
@@ -176,7 +173,7 @@ const AddresStack = createStackNavigator()
 const AddresStackScreen = props => {
     return (
         <AddresStack.Navigator headerMode='none'>
-            <AddresStack.Screen name='ManageAddress' component={LocationScreen} />
+            <AddresStack.Screen name='AddresStack' component={LocationScreen} />
         </AddresStack.Navigator>
     )
 }

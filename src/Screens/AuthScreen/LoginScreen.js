@@ -73,51 +73,12 @@ const LoginScreen = (props) => {
         await AsyncStorage.setItem('isLogin', "true")
             setisLoading(false);
             props.navigation.navigate('Drawer', { screen: 'Home' })
-        
-        // if (response.success) {
-        //     try {
-        //         await AsyncStorage.setItem('token', resData.token)
-        //         await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-        //         await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-        //         await AsyncStorage.setItem('isLogin', "true")
-        //     } catch (error) {
-        //         console.log(error)
-        //     }
-        //     props.navigation.dispatch(
-        //         CommonActions.reset({
-        //             index:0,
-        //             routes: [{ name: 'Home' }]
-        //         })
-        //     )
-        //     setIsLoading(false);
-        // } else {
-        //     if (resData.error === 'User does not exist!') {
-        //         Toast.show(" User does not exist! ");
-        //     } else if (resData.error === 'Invalid Password!') {
-        //         Toast.show("Incorrect Password")
-        //     }
-        //     setIsLoading(false)
-        // }
-        // if (!response.success){
-        //     setisLoading(false)
-        //     let errorMessage = "Something went wrong!";
-        //     if (response.data.ErrorMessage === "User not exists!"){
-        //         errorMessage = "User does not exist!"
-        //     }
-        //     if (response.data.ErrorMessage === "Login Failed!"){
-        //         errorMessage = "Invalid Password!"
-        //     }
-        //     Alert.alert('Error', errorMessage, [{ text: "Okay" }])
-        // } else{
-        // await AsyncStorage.setItem('token', resData.token)
-        // await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-        // await AsyncStorage.setItem('user', JSON.stringify (resData.user))
-        // await AsyncStorage.setItem('isLogin', "true")
-        //     setisLoading(false);
-        //     props.navigation.dispatch(CommonActions.reset({
-        //         index:0,
-        //         routes:[('Drawer', { screen: 'Home' })]
-        //     }))
+
+            // props.navigation.dispatch(
+            //     CommonActions.reset({
+            //         index:0,
+            //         routes:[('Drawer', { screen: 'Home' })]
+            //     }))
         }
     }
 
@@ -164,7 +125,7 @@ const LoginScreen = (props) => {
                                 }
                             </View>
 
-                            <View style={{ padding: 10, paddingHorizontal: 2 }} >
+                            <View style={{ padding:1, paddingHorizontal: 2 }} >
                                 <Text style={styles.text}  >Password</Text>
                                 <View style={styles.password_sty}>
                                     <TextInput
@@ -175,13 +136,11 @@ const LoginScreen = (props) => {
                                         onChangeText={handleChange('password')}
                                         secureTextEntry={tnceye ? false : true}
                                         autoCapitalize='none'
-
                                     />
                                     <EyeButton
                                         tnceye={!tnceye}
                                         onEyePress={() => { setTncEye(!tnceye) }} />
                                 </View>
-
                                 {touched.password && errors.password &&
                                     <Text style={styles.errortext}>{errors.password}</Text>
                                 }
@@ -246,28 +205,27 @@ const LoginScreen = (props) => {
                                     </View>
                                     {/* Pharmacy user login end */}
                                 </View>
-                                <View>
+                                <View >
                                     {/* Sing Up start */}
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('RollSignUpScreen') }} >
                                         <View style={styles.signup_sty}>
-                                            <Text style={styles.signup} > Don't have Account? <Text style={styles.sp_signup} > Sign up </Text>   </Text>
+                                            <Text style={styles.signup} > Don't have Account ? <Text style={styles.sp_signup}>Sign up </Text>   </Text>
                                         </View>
-
                                     </TouchableOpacity>
                                     {/* Sing Up start */}
                                 </View>
-
                             </View>
                             {/* Inputs */}
                         </View>
                     )}
                 </Formik>
                 {/* Remove this after completing desing */}
-                <Button
+                {/* <Button
                     label="Skip Login"
                     onPress={() => { props.navigation.navigate('Drawer', { screen: 'Home' }) }}
-                />
-                {/* Remove this after completing desing */}</View>
+                /> */}
+                {/* Remove this after completing desing */}
+                </View>
             {/* Full screen */}
         </KeyboardAwareScrollView>
     );
@@ -286,7 +244,7 @@ const styles = StyleSheet.create({
 
     logo: {
         width: '70%',
-        height: 250,
+        height: 225,
         marginBottom: 20,
     },
     mainWrapper: {
@@ -314,11 +272,12 @@ const styles = StyleSheet.create({
      },
     signup: {
         color: Colors.Gray,
-        fontSize: 20
+        fontSize:15
     },
     sp_signup: {
         color: Colors.Sp_Text,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize:18
     },
     Button: {
         color: Colors.ButtonTextColor,
@@ -333,7 +292,6 @@ const styles = StyleSheet.create({
     },
     text: {
         color: Colors.Sp_Text,
-        marginBottom: 1,
         paddingLeft: 3
     },
     errortext: {
@@ -344,7 +302,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 10,
         borderBottomColor: Colors.borderBottomColor,
         borderBottomWidth: 1,
     },
@@ -386,18 +343,19 @@ const styles = StyleSheet.create({
     },
     pharmacyUserBox: { 
         flexDirection: 'row', 
-        justifyContent: 'space-evenly', 
+        justifyContent: 'space-around', 
         alignItems: 'center', 
-        marginBottom: 10 
+        // marginBottom: 10 
     },
     pharmacyUserImg: { 
-        height: 60, 
-        width: 40, 
+        height: 50, 
+        width: 35, 
         overflow: 'hidden' 
     },
     arrow: { 
-        height: 20, 
-        width: 20 
+        height: 10, 
+        width: 10 ,
+        
     },
     signup_sty: { 
         flexDirection: 'row', 

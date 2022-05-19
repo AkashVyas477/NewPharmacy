@@ -66,10 +66,6 @@ const CurrentPrescriptionScreen = props => {
 
     const onPressDelete = async() => {
         setDelLoader(true)
-        // const data = {
-        //     prescriptionid:currentprescription
-        
-        // }
         const deleteResponse = await deletePostLogin('customer/deletePrescription/8', data)
         if(!deleteResponse.success) {
             console.log(deleteResponse)
@@ -93,15 +89,13 @@ const CurrentPrescriptionScreen = props => {
                 showsHorizontalScrollIndicator={false}
                 pagingEnabled
                 renderItem={({ item }) => {
-                    console.log(item);
+                    // console.log("\n\n image     ",item);
                     return (
                         <View>
                             <MedicinesImages
                                 image={item.url}
                                 id={item.id}
-                                item={item}
-
-                                onClick={() => { props.navigation.navigate('Preview', { images: item.id, images123: item, }) }}
+                                onClick={() => { props.navigation.navigate('Preview', {  images123: item, }) }}
                             />
                         </View>
                     )

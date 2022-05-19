@@ -1,10 +1,11 @@
 import React from 'react';
-import { Image, View, StyleSheet } from 'react-native';
+import { Image, View, StyleSheet,Alert } from 'react-native';
 import {
      createDrawerNavigator ,
      DrawerContentScrollView,
      DrawerItem
     } from '@react-navigation/drawer';
+    import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
     Avatar,
     Title,
@@ -64,7 +65,7 @@ const DrawerContent = (props) => {
                                 />
                             )}
                             label="Manage Address"
-                            onPress={() => { }}
+                            onPress={()=>{props.navigation.navigate('LocationScreen')}}
                         />
                         </Drawer.Section>
                         <Drawer.Section style={styles.drawerSection}>
@@ -75,7 +76,7 @@ const DrawerContent = (props) => {
                         />
                     )}
                     label="Language"
-                    onPress={() => { }}
+                    onPress={() => {props.navigation.navigate('LanguageScreen') }}
                 />
 
                     </Drawer.Section>
@@ -88,7 +89,20 @@ const DrawerContent = (props) => {
                     />
                 )}
                 label="Log Out"
-                onPress={()=>{}}
+                onPress={()=>
+                    Alert.alert(
+                      'Log out',
+                      'Do you want to logout?',
+                      [
+                        {text: 'Cancel', onPress: () => {return null}},
+                        {text: 'Confirm', onPress: () => {
+                          AsyncStorage.clear();
+                          props.navigation.navigate('Login')
+                        }},
+                      ],
+                      { cancelable: false }
+                    )  
+                  }
                 />
             </Drawer.Section>
                 </View>
@@ -105,36 +119,6 @@ const DrawerContent = (props) => {
                 />
             </Drawer.Section> */}
         </>
-        // <Drawer.Navigator headerMode='none'>
-        //     {/* <Drawer.Screen name ='UserStack' component={UserStackScreen} 
-        //     options={{
-        //         drawerIcon:()=> <Image source={Images.SignupPlaceholder} style={{height:50, width:50, borderRadius:50, overflow:'hidden'}}/>,
-        //         drawerLabel:" USer "
-        //     }}
-        //     /> */}
-        //     {/* <Drawer.Screen name='Home' component={TabNavigator} 
-        //     options={{
-        //         drawerIcon: () => <Image source={require('../../Assets/Icons/HomeIcon/homeIcon.png')} style={{ height: 20, width: 20,  }} />,
-        //     }} /> */}
-
-        //     {/* <Drawer.Screen name='AddresStack' component={AddresStackScreen} options={{
-        //         drawerLabel: 'Manage Address',
-        //         drawerIcon: () => <Image source={require('../../Assets/Icons/location/locationPin.png')} style={{ height: 27, width: 20, }} />,
-
-        //     }} /> */}
-
-        //     {/* <Drawer.Screen name='Language' component={LanguageScreen} options={{
-        //         drawerLabel:'Language',
-        //         drawerIcon:()=> <Image source={Images.Language} style={{height: 30, width: 30,}} />,
-        //     }} />
-
-        //     <Drawer.Screen name ='LogOut' component={LoginScreen} options={{
-        //         drawerLabel:'Log Out', 
-        //         drawerIcon:()=> <Image source={Images.Logout} style={{height: 30, width: 27,}} />,
-        //     }}/> */}
-
-        //     {/* <Drawer.Screen name ='Address' component={ManageAddress} /> */}
-        // </Drawer.Navigator>
     )
 }
 

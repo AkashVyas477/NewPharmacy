@@ -102,36 +102,29 @@ const HomeScreen = props =>{
                         <Text style={{color:'#717D7E', fontSize:17, padding:10}}>
                             Near By Pharmacies
                         </Text>
-
-                        
                             <View style={{ padding: 10 }}>
                             { isLoading ?
                             <View style={styles.loader}>
-                                {/* <StatusBar backgroundColor={Colors.} barStyle='dark-content'/> */}
                                 <ActivityIndicator size={65} color={Colors.PRIMARY} />
                             </View>
                             :
-                            pharmacyList.length === 0 ?
-                            (<View>
-                                <Text>No Near By Pharmacies found </Text>
-                            </View>
-                            )
-                            :
+                            // pharmacyList.length === 0 ?
+                            // (<View>
+                            //     <Text>No Near By Pharmacies found </Text>
+                            // </View>
+                            // )
+                            // :
                                 <FlatList
                                     // padding={30}
                                     data={pharmacyList}
                                     keyExtractor={item => item.id}
                                     renderItem={renderPharmacyList}
-                                   
                                 />
                             }
                             </View>
                         
                     </View>
                 </View>
-
-
-                   
                     {/* Dtabase */}
         </View>
         </View>
@@ -144,8 +137,7 @@ const  styles=StyleSheet. create({
         elevation:5
     },
     card: {
-        backgroundColor:Colors.White,
-        height:100,
+        flexGrow:1,
         width: 380,
         justifyContent:'center',
         paddingLeft: 5,
@@ -155,7 +147,7 @@ const  styles=StyleSheet. create({
         shadowRadius: 8,
         elevation: 5,
         borderRadius: 10,
-        // backgroundColor: 'white',
+        backgroundColor: 'white',
         marginBottom:5,
         margin:10,
         // alignItems:'center',
@@ -168,6 +160,7 @@ const  styles=StyleSheet. create({
 
     Image_Sty:{
         height: 90, width: 90,
+        borderRadius: 10,
     },
     Text_sty:{ 
         flexDirection: 'column', 
@@ -180,7 +173,7 @@ const  styles=StyleSheet. create({
          fontWeight:'bold',
          color: Colors.Sp_Text,
          fontSize:17,
-         padding:10
+         padding:5
 
      },
      name:{

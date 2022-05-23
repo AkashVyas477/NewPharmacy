@@ -1,6 +1,6 @@
 // import { FastField } from 'formik';
 import React,{useState} from 'react';
-import {View, Text , StyleSheet, Image, TouchableOpacity ,} from 'react-native';
+import {View, Text , StyleSheet, Image, TouchableOpacity ,StatusBar} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useDispatch } from 'react-redux';
 import {Images, Colors} from '../../CommonConfig'
@@ -31,6 +31,7 @@ const RollSignupScreen = props =>{
     return(
         <KeyboardAwareScrollView>
         <View style={styles.screen}>
+        <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
             {/* Title start */}
             <Text style={styles.text1} >
            Who Are you 
@@ -46,8 +47,8 @@ const RollSignupScreen = props =>{
             {/* Title start */}
 
             {/* RollSelction Start */}
-            <View style={{alignItems:'center',paddingTop:50}}>
-            <View style={{flexDirection:'column', marginTop:5}} >
+            <View style={{alignItems:'center',padding:10}}>
+            <View style={{flexDirection:'column', marginTop:5,alignItems:'center'}} >
                 <TouchableOpacity onPress={customerHandler} >
                     {!customer?<Image source={Images.CustomerInactive} style={styles.customerIcon1} />:
                     <Image source={Images.CustomerActive}  style={styles.customerIcon2 } />}
@@ -57,7 +58,7 @@ const RollSignupScreen = props =>{
                 </Text>
                 </View>
 
-                <View style={{flexDirection:'column', marginTop:20}} >
+                <View style={{flexDirection:'column', marginTop:20,alignItems:'center'}} >
                 <TouchableOpacity onPress={pharmacistHandler} >
                     {!pharamacist?<Image source={Images.PharmistInactive} style={styles.pharmistIcon1} />:
                     <Image source={Images.PharmistActive}  style={styles.pharmistIcon2  }  />}
@@ -86,8 +87,8 @@ const RollSignupScreen = props =>{
                     <View style={{flex:1 ,width:'100%', paddingHorizontal:15, paddingBottom:10,justifyContent:'center'}}>
                     {showButton ?<Button
                         onPress={()=>{
-                            dispatch(AuthActions.setUserRole(customer?1:2))
-                            console.log(AuthActions.setUserRole(customer?1:2));
+                            dispatch(registerAction.setUserRole(customer?1:2))
+                            console.log(registerAction.setUserRole(customer?1:2));
                             customer ? props.navigation.navigate('CustomerSignup') : 
                             props.navigation.navigate('PharmacistSingup') 
                         }}
@@ -160,7 +161,11 @@ const  styles=StyleSheet. create({
     },
     customerText:{
         fontSize:30,
-        paddingLeft:20
+        // paddingLeft:20
+        justifyContent:'center',
+        alignItems:'center',
+        alignContent:'center'
+
     },
     customerIcon1:{
         height:200,

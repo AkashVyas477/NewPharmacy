@@ -45,6 +45,8 @@ const pharmacyuserscreen = props => {
                                         value={values.idNo}
                                         onBlur={() => setFieldTouched('idNO')}
                                         onChangeText={handleChange('idNo')}
+                                        placeholderTextColor={Colors.borderBottomColor}
+                                        color={Colors.Sp_Text}
                                         placeholder="Pharamacy ID Number"
                                         keyboardType='number-pad'
 

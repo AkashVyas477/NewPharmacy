@@ -97,7 +97,7 @@ const DrawerContent = (props) => {
                         {text: 'Cancel', onPress: () => {return null}},
                         {text: 'Confirm', onPress: () => {
                           AsyncStorage.clear();
-                          props.navigation.navigate('Login')
+                          props.navigation.navigate('Auth')
                         }},
                       ],
                       { cancelable: false }

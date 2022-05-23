@@ -5,7 +5,9 @@ import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { Images, Colors } from '../../../CommonConfig';
 // import Pharamacies from '../../Components/Shop/Pharamacies';
 // import PharamaciesData from '../../DummyData/DummyData';
-import { getPostLogin, getWithParams} from '../../../Components/Helpers/ApiHelper';
+import { getPostLogin, getWithParams,refreshtoken} from '../../../Components/Helpers/ApiHelper';
+import GetLocation from 'react-native-get-location'
+import Geolocation from 'react-native-geolocation-service';
 
 
 import Toast from 'react-native-simple-toast';
@@ -18,33 +20,95 @@ const HomeScreen = props =>{
     const [ pharmacyList, setPharmacyList ] = useState([])
     const [ isLoading, setIsLoading ] = useState(true)
     const [length, setLength] = useState(0)
+    const [ addresses, setAddresses ] = useState([])
+    const [ activeAddress, setActiveAddress ] = useState({})
+    
     useEffect(()=>{
-        getNearByPharmacy();
-        setIsLoading(false)
+  
+        setIsLoading(false);
+
+        GetLocation.getCurrentPosition({
+                enableHighAccuracy: true,
+                timeout: 15000,
+            })
+            .then(location => {
+              
+              location.latitude.toFixed()
+              location.longitude.toFixed()
+              console.log(location.longitude);
+              console.log(location.latitude);
+              getNearByPharmacy();
+            })
+            .catch(error => {
+                const { code, message } = error;
+                // console.warn(code, message);
+            })
+        
     },[])
-
-
+   
     const getNearByPharmacy = async() => {
-        const response = await getPostLogin('customer/getNearByPharmacy')
-        // console.log("GET NearByPharmacy     \n\n\n\n",JSON.stringify(response));
-        if(!response.success) {
-            setPharmacyList(response.data.data)
-            Toast.show(' NearByPharmacy available currently!')
-            // console.log("PharmacyList:         ", pharmacyList);
+        const response = await getWithParams('customer/getNearByPharmacy/v1')
+        console.log("\n\nGET NearByPharmacy        ",JSON.stringify(response));
+        // console.log("PharmacyList:         ", pharmacyList);
+        refreshtoken().then(async (res) => {
+        if(response.success) {
+            setPharmacyList(response.data)
+            // Toast.show(' NearByPharmacy available currently!')
+            console.log("PharmacyList:         ", pharmacyList);
         } else {
             Toast.show('There is no NearByPharmacy available currently!')
         }
        
-    }
+        })
+}
 
+
+    // const getNearByPharmacy = async() => {
+    //     const response = await getPostLogin('customer/getNearByPharmacy')
+    //     // console.log("GET NearByPharmacy     \n\n\n\n",JSON.stringify(response));
+    //     if(!response.success) {
+    //         setPharmacyList(response.data.data)
+    //         // Toast.show(' NearByPharmacy available currently!')
+    //         // console.log("PharmacyList:         ", pharmacyList);
+    //     } else {
+    //         Toast.show('There is no NearByPharmacy available currently!')
+    //     }
+       
+    // }
+
+  // const getAddresses = async() => {
+    //     const response = await getPostLogin('getAddress')
+    //     console.log(response.data);
+    //     if(response.success) {
+    //         setAddresses()
+    //         const aAddress = response.data.data.find( item => { return( item.is_active === true ) } )
+    //         setActiveAddress(aAddress)
+    //     } else {
+    //         console.log(response);
+    //     }
+    // }
+
+
+    // GetLocation.getCurrentPosition({
+    //     enableHighAccuracy: true,
+    //     timeout: 15000,
+    // })
+    // .then(location => {
+    //     // console.log(location);
+        
+    // })
+    // .catch(error => {
+    //     const { code, message } = error;
+    //     // console.warn(code, message);
+    // })
 
 
 // Rendering Data of Near By Pharmacy 
     const renderPharmacyList = data => {
-        console.log(data.item);
+        console.log(data);
         return (
             <View style={styles.card}>
-                 <TouchableOpacity onPress={() => {props.navigation.navigate('Pharamacies_Detail', {pharmacy:data.item,}) }}>
+                 {/* <TouchableOpacity onPress={() => {props.navigation.navigate('Pharamacies_Detail', {pharmacy:data.item,}) }}>
                 <View style={styles.Card_Sty}>
                         <Image source={{ uri: data.item.store_image }} style={styles.Image_Sty} resizeMode={'stretch'} />
                     <View style={styles.Text_sty}>
@@ -59,7 +123,7 @@ const HomeScreen = props =>{
                         </View>
                     </View>
                 </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         )
     }
@@ -126,6 +190,7 @@ const HomeScreen = props =>{
                     </View>
                 </View>
                     {/* Dtabase */}
+
         </View>
         </View>
     );
@@ -136,26 +201,40 @@ const  styles=StyleSheet. create({
         backgroundColor:'white',
         elevation:5
     },
-    card: {
+    // card: {
+    //     flexGrow:1,
+    //     width: 380,
+    //     paddingRight: 10,
+    //     justifyContent:'center',
+    //     paddingLeft: 5,
+    //     shadowColor:Colors.White,
+    //     shadowOpacity: 0.26,
+    //     shadowOffset: { width: 0, height: 2 },
+    //     shadowRadius: 8,
+    //     elevation: 5,
+    //     borderRadius: 10,
+    //     backgroundColor: 'white',
+    //     marginBottom:5,
+    //     margin:10,
+    //     // alignItems:'center',
+    //   },
+    card:{
         flexGrow:1,
-        width: 380,
-        justifyContent:'center',
-        paddingLeft: 5,
         shadowColor:Colors.White,
         shadowOpacity: 0.26,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 8,
-        elevation: 5,
         borderRadius: 10,
         backgroundColor: 'white',
         marginBottom:5,
         margin:10,
-        // alignItems:'center',
-       
-      },
+        justifyContent:'center',
+    },
     Card_Sty:{ 
         flexDirection: 'row',
-        padding: 5,
+        padding:5,
+        paddingRight:10,
+        
      },
 
     Image_Sty:{

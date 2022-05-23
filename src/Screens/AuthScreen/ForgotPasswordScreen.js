@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, SafeAreaView, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, SafeAreaView, Alert,StatusBar } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { Formik } from 'formik'
@@ -50,6 +50,7 @@ const ForgotPasswordScreen = props => {
 
         <View style={styles.screen}>
             <KeyboardAwareScrollView>
+            <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
                 {/* Header start */}
                 <View style={styles.header_sty}>
                     {/* <View>
@@ -98,6 +99,8 @@ const ForgotPasswordScreen = props => {
                                         // style={styles.customCss}
                                         onBlur={() => setFieldTouched('email')}
                                         onChangeText={handleChange('email')}
+                                        placeholderTextColor={Colors.borderBottomColor}
+                                        color={Colors.Sp_Text}
                                         placeholder="E-mail"
                                         keyboardType='email-address'
                                         autoCapitalize='none'

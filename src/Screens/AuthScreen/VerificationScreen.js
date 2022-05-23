@@ -1,5 +1,5 @@
 import React,{useRef, useState} from 'react';
-import {View, Text ,TextInput, StyleSheet, TouchableOpacity, Image, ScrollView,Alert} from 'react-native';
+import {View, Text ,TextInput, StyleSheet, TouchableOpacity, Image, ScrollView,Alert,StatusBar} from 'react-native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import { postRequest , postFormDataRequest } from '../../Components/Helpers/ApiHelper';
 import { useSelector } from 'react-redux';
@@ -80,6 +80,7 @@ const [ otp, setOTPValue ] = useState('');
 
     return(
         <View style={styles.screen}>
+           <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
           <ScrollView>
             {/* Header  */}
             <View style={styles.header1}>

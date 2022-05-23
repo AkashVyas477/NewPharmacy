@@ -168,7 +168,8 @@ const CurrentPrescriptionScreen = props => {
                     </View>
                 </View>
             </ScrollView>
-
+            
+{/* Delet Prescription  */}
             <View style={{ flexDirection: 'row', backgroundColor: Colors.PRIMARY, width: '100%', height: 55 }}>
                 <View >
                     <TouchableOpacity onPress={() => setModalVisible(true)} >

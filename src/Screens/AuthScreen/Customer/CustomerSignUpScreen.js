@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions, Modal,StatusBar } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as ImagePicker from 'react-native-image-crop-picker';
 import { Formik } from "formik";
@@ -64,6 +64,7 @@ const dispatch= useDispatch();
 
         <KeyboardAwareScrollView>
         <View style={styles.screen}>
+        <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
 
             {/* SignUp  */}
             <View style={styles.header}>
@@ -135,7 +136,7 @@ const dispatch= useDispatch();
                     }}
                     onSubmit={(values) =>{
                         const data = {username:values.username, email:values.email, password:values.password, gender:values.gender,}
-                        dispatch(AuthActions.addDetails(data));
+                        dispatch(registerAction.addDetails(data));
                         console.log(data)
                         props.navigation.navigate('PhoneNumberScreen')
                     }}
@@ -150,6 +151,8 @@ const dispatch= useDispatch();
                                 <TextInput
                                     value={values.username}
                                     style={styles.customCss}
+                                    placeholderTextColor={Colors.borderBottomColor}
+                                    color={Colors.Sp_Text}
                                     onBlur={() => setFieldTouched('username')}
                                     onChangeText={handleChange('username')} 
                                     placeholder="Username"
@@ -163,6 +166,8 @@ const dispatch= useDispatch();
                                 <TextInput
                                     value={values.email}
                                     style={styles.customCss}
+                                    placeholderTextColor={Colors.borderBottomColor}
+                                    color={Colors.Sp_Text}
                                     onBlur={() => setFieldTouched('email')}
                                     onChangeText={handleChange('email')}
                                     placeholder="E-mail"
@@ -217,6 +222,8 @@ const dispatch= useDispatch();
                                         <TextInput
                                             value={values.password}
                                             style={styles.customCss}
+                                            placeholderTextColor={Colors.borderBottomColor}
+                                            color={Colors.Sp_Text}
                                             placeholder="Password"
                                             onBlur={() => setFieldTouched('password')}
                                             onChangeText={handleChange('password')}
@@ -235,6 +242,8 @@ const dispatch= useDispatch();
                                 <TextInput
                                     value={values.passwordConfirm}
                                     style={styles.customCss}
+                                    placeholderTextColor={Colors.borderBottomColor}
+                                    color={Colors.Sp_Text}
                                     placeholder='confirm Password'
                                     onBlur={() => setFieldTouched('passwordConfirm')}
                                     onChangeText={handleChange('passwordConfirm')}

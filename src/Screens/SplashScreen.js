@@ -41,7 +41,7 @@ const SplashScreen = (props) => {
 
     return (
         <View style={styles.screen}>
-            {/* <StatusBar backgroundColor={Colors.PRIMARY}/> */}
+            <StatusBar backgroundColor={Colors.PRIMARY}/>
             <Image source={Images.AppIcon} resizeMode='cover' style={{width:300,height:300}} />
             <ActivityIndicator color={Colors.PRIMARY}  size={50}/>
            

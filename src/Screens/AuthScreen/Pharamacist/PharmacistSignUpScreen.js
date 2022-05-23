@@ -136,7 +136,7 @@ const dispatch= useDispatch();
                     onSubmit={values =>{
                         const data = {username:values.username, email: values.email, password: values.password,gender: values.gender,storeName: values.storeName,licenseId: values.licenseId}
                         // console.log(dispatch)
-                        dispatch(AuthActions.addDetails(data));
+                        dispatch(registerAction.addDetails(data));
                         props.navigation.navigate('PhoneNumberScreen')
                     }} 
                     validationSchema={SignUpValidationSchema}
@@ -151,6 +151,8 @@ const dispatch= useDispatch();
                                     style={styles.customCss}
                                     onBlur={() => setFieldTouched('username')}
                                     onChangeText={handleChange('username')}
+                                    placeholderTextColor={Colors.borderBottomColor}
+                                    color={Colors.Sp_Text}
                                     placeholder="Username"
                                     autoCapitalize='none'
 
@@ -164,6 +166,8 @@ const dispatch= useDispatch();
                                     style={styles.customCss}
                                     onBlur={() => setFieldTouched('email')}
                                     onChangeText={handleChange('email')}
+                                    placeholderTextColor={Colors.borderBottomColor}
+                                    color={Colors.Sp_Text}
                                     placeholder="E-mail"
                                     keyboardType='email-address'
                                     autoCapitalize='none'
@@ -180,6 +184,8 @@ const dispatch= useDispatch();
                                     style={styles.customCss}
                                     onBlur={() => setFieldTouched('storeName')}
                                     onChangeText={handleChange('storeName')}
+                                    placeholderTextColor={Colors.borderBottomColor}
+                                    color={Colors.Sp_Text}
                                     placeholder="StoreName"
                                     autoCapitalize='none'
                                    
@@ -197,6 +203,8 @@ const dispatch= useDispatch();
                                     style={styles.customCss}
                                     onBlur={() => setFieldTouched('licenseId')}
                                     onChangeText={handleChange('licenseId')}
+                                    placeholderTextColor={Colors.borderBottomColor}
+                                    color={Colors.Sp_Text}
                                     placeholder="License ID "
                                     autoCapitalize='none'
                                    
@@ -251,6 +259,8 @@ const dispatch= useDispatch();
                                         <TextInput
                                             value={values.password}
                                             style={styles.customCss}
+                                            placeholderTextColor={Colors.borderBottomColor}
+                                            color={Colors.Sp_Text}
                                             placeholder="Password"
                                             onBlur={() => setFieldTouched('password')}
                                             onChangeText={handleChange('password')}
@@ -269,6 +279,8 @@ const dispatch= useDispatch();
                                 <TextInput
                                     value={values.passwordConfirm}
                                     style={styles.customCss}
+                                    placeholderTextColor={Colors.borderBottomColor}
+                                    color={Colors.Sp_Text}
                                     placeholder='confirm Password'
                                     onBlur={() => setFieldTouched('passwordConfirm')}
                                     onChangeText={handleChange('passwordConfirm')}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Image,TextInput, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Image,TextInput, Alert,  } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch } from 'react-redux';
 import  CountryPicker from 'react-native-country-picker-modal';
@@ -25,7 +25,7 @@ const PhoneNumberScreen = props => {
             country_code:countryCode,
             phone_number:phoneNumber
         }
-        dispatch(AuthActions.addPhone(data))
+        dispatch(registerAction.addPhone(data))
 
         const OTPData = {
             country_code: countryCode,
@@ -49,6 +49,7 @@ const PhoneNumberScreen = props => {
     return (
         <View style={styles.screen}>
             <KeyboardAwareScrollView>
+            <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
                 {/* <StatusBar backgroundColor={Colors.ORANGE} barStyle='light-content' /> */}
                 {/* HEADER */}
                 <View style={styles.header1}>

@@ -8,7 +8,8 @@ import {
     StyleSheet,
     TouchableOpacity,
     ScrollView,
-    Alert
+    Alert,
+    StatusBar
 } from 'react-native';
 import { Images, Colors, Constants } from '../../CommonConfig';
 import { CheckBox, EyeButton, Button } from '../../Components/Common';
@@ -56,38 +57,60 @@ const LoginScreen = (props) => {
         const response = await postRequest('login', data);
         const resData = response.data
         console.log(response.data);
-        if (!response.success){
-            setisLoading(false)
-            let errorMessage = "Something went wrong!";
-            if (response.data.ErrorMessage === "User not exists!"){
-                errorMessage = "User does not exist!"
-            }
-            if (response.data.ErrorMessage === "Login Failed!"){
-                errorMessage = "Invalid Password!"
-            }
-            Alert.alert('Error', errorMessage, [{ text: "Okay" }])
-        } else{
-        await AsyncStorage.setItem('token', resData.token)
-        await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-        await AsyncStorage.setItem('user', JSON.stringify (resData.user))
-        await AsyncStorage.setItem('isLogin', "true")
-            setisLoading(false);
-            props.navigation.navigate('Drawer', { screen: 'Home' })
+        // if (!response.success){
+        //     setisLoading(false)
+        //     let errorMessage = "Something went wrong!";
+        //     if (response.data.ErrorMessage === "User not exists!"){
+        //         errorMessage = "User does not exist!"
+        //     }
+        //     if (response.data.ErrorMessage === "Login Failed!"){
+        //         errorMessage = "Invalid Password!"
+        //     }
+        //     Alert.alert('Error', errorMessage, [{ text: "Okay" }])
+        // } else{
+        // await AsyncStorage.setItem('token', resData.token)
+        // await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+        // await AsyncStorage.setItem('user', JSON.stringify (resData.user))
+        // await AsyncStorage.setItem('isLogin', "true")
+        //     setisLoading(false);
+        //     props.navigation.navigate('Drawer', { screen: 'Home' })
+        // }
 
-            // props.navigation.dispatch(
-            //     CommonActions.reset({
-            //         index:0,
-            //         routes:[('Drawer', { screen: 'Home' })]
-            //     }))
+        if (response.success) {
+            try {
+                await AsyncStorage.setItem('token', resData.token)
+                await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+                await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+                await AsyncStorage.setItem('isLogin', "true")
+            } catch (error) {
+                console.log(error)
+            }
+            props.navigation.dispatch(
+                CommonActions.reset({
+                    index:0,
+                    routes: [{name: 'Drawer'}]
+                })
+            )
+            setIsLoading(false);
+        } else {
+            if (resData.ErrorMessage === 'User does not exist!') {
+                Toast.show(" User does not exist! ");
+            } else if (resData.ErrorMessage === 'Invalid Password!') {
+                Toast.show("Incorrect Password")
+            }
+            setIsLoading(false)
         }
     }
 
 
     return (
         <KeyboardAwareScrollView>
+           
             {/* Full screen */}
             <View style={styles.mainWrapper}>
+            <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
                 {/* Logo */}
+
                 <View style={styles.logoScreen}>
                     <Image source={Images.AppIcon} style={styles.logo} resizeMode="cover" />
                 </View>
@@ -112,7 +135,9 @@ const LoginScreen = (props) => {
                                     <TextInput
                                         value={values.email}
                                         style={styles.customCss}
-                                        onBlur={() => setFieldTouched('email')}
+                                        placeholderTextColor={Colors.borderBottomColor}
+                                        color={Colors.Sp_Text}
+                                        onBlur={() => setFieldTouched('email')} 
                                         onChangeText={handleChange('email')}
                                         placeholder="E-mail"
                                         keyboardType='email-address'
@@ -130,6 +155,8 @@ const LoginScreen = (props) => {
                                 <View style={styles.password_sty}>
                                     <TextInput
                                         value={values.password}
+                                        placeholderTextColor={Colors.borderBottomColor}
+                                        color={Colors.Sp_Text}
                                         style={styles.customCss}
                                         placeholder="Password"
                                         onBlur={() => setFieldTouched('password')}

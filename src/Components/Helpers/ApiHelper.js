@@ -39,7 +39,6 @@ export const postRequest = async (url, data) => {
 
 
 
-
 export const getPreLogin = async( url) => {
   return await axios
   .get( BASE_URL + url , {
@@ -103,71 +102,83 @@ export const getPostLogin = async(url) => {
   });
 }
 
-export const getWithParams = async( url) => {
-  return await axios
-  .get( BASE_URL + url , {
-      headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
-        } 
+// export const getWithParams = async(url) => {
+//   return await axios
+//   .get( BASE_URL + url , {
+//       headers: {
+//           'Content-Type': 'application/json',
+//           Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
+//         } 
     
-  })
-  .then( (response) => {
-      if(response.data.status===1) {
-          return {
-            success: true,
-            data: response.data,
-            statusCode: response.status,
-          };
-      } else {
-          return {
-            success: false,
-            data: response.data,
-            statusCode: response.status,
-          };
-      }
-  })
-  .catch((error) => {
-        return {
-          success: false,
-          data: error.response.data,
-          statusCode: error.response.status,
-      };
-  });
-}
-
-//   export const postFormDataRequest = async( url, data ) => {
-//     console.log("Data: ",data)
-//     return await axios
-//     .post( BASE_URL + url,{
-//         headers:{          
-//             'Content-Type': 'multipart/form-data',
-//         },
-//         body:data
-//     })
-//     .then( (response) => {
-//         if(response.data.status===1) {
-//             return {
-//               success: true,
-//               data: response.data,
-//               statusCode: response.status,
-//             };
-//         } else {
-//             return {
-//               success: '123',
-//               data: response.data,
-//               statusCode: response.status,
-//             };
-//         }
-//     })
-//     .catch((error) => {
+//   })
+//   .then( (response) => {
+//       if(response.data.status===1) {
+//           return {
+//             success: true,
+//             data: response.data,
+//             statusCode: response.status,
+//           };
+//       } else {
 //           return {
 //             success: false,
-//             data: error.response.data,
-//             statusCode: error.response.status,
-//         };
-//     });
+//             data: response.data,
+//             statusCode: response.status,
+//           };
+//       }
+//   })
+//   .catch((error) => {
+//         return {
+//           success: false,
+//           data: error.response.data,
+//           statusCode: error.response.status,
+//       };
+//   });
 // }
+
+
+export const getWithParams = async (url) => {
+  
+  return await axios
+    .get(BASE_URL + url, {  
+       headers:  {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
+          },
+    })
+    .then((response) => {
+      return {
+        success: true,
+        data: response.data.data,
+        statusCode: response.status,
+      };
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
+};
+
+
+// export const getWithParams = async (url) => {
+//   return await axios
+//   .get( BASE_URL + url , {
+//       headers: {
+//           'Content-Type': 'application/json',
+//           Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
+//         }
+//     })
+//     .then((response) => {
+//       return {
+//         success: true,
+//         data: response.data.data,
+//         statusCode: response.status,
+//       };
+//     })
+//     .catch((error) => {
+//       return error.response.data;
+//     });
+// };
+
+
 
 export const refreshtoken = async(data) => {
   return await axios
@@ -200,7 +211,7 @@ export const refreshtoken = async(data) => {
   });
 }
 
-export const deletePostLogin = async( url, data) => {
+export const deletePost = async( url, data) => {
   return await axios
   .delete( BASE_URL + url ,{
   headers: {

@@ -65,7 +65,7 @@ const DrawerContent = (props) => {
                                 />
                             )}
                             label="Manage Address"
-                            onPress={()=>{props.navigation.navigate('LocationScreen')}}
+                            // onPress={()=>{props.navigation.navigate('LocationScreen')}}
                         />
                         </Drawer.Section>
                         <Drawer.Section style={styles.drawerSection}>

@@ -1,114 +1,67 @@
 import React,{useState, useEffect, useReducer} from 'react';
-import {View, Text , StyleSheet ,TouchableOpacity, Image ,FlatList,ScrollView, ActivityIndicator } from 'react-native';
+import {View, Text , StyleSheet ,TouchableOpacity, Image ,FlatList,ScrollView, ActivityIndicator, PermissionsAndroid,  Platform,} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { Images, Colors } from '../../../CommonConfig';
 // import Pharamacies from '../../Components/Shop/Pharamacies';
 // import PharamaciesData from '../../DummyData/DummyData';
-import { getPostLogin, getWithParams,refreshtoken} from '../../../Components/Helpers/ApiHelper';
+import { getPostLogin, getWithParams,refreshtoken,getParams} from '../../../Components/Helpers/ApiHelper';
 import GetLocation from 'react-native-get-location'
 import Geolocation from 'react-native-geolocation-service';
-
-
+import Geocoder from 'react-native-geocoding';
+import moment from 'moment';
 import Toast from 'react-native-simple-toast';
+import { getCurrentPosition } from 'react-native-geolocation-service';
 
-
-
-
-const HomeScreen = props =>{
-
+const HomeScreen = props =>{  
     const [ pharmacyList, setPharmacyList ] = useState([])
     const [ isLoading, setIsLoading ] = useState(true)
     const [length, setLength] = useState(0)
     const [ addresses, setAddresses ] = useState([])
-    const [ activeAddress, setActiveAddress ] = useState({})
-    
+    const [ activeAddress, setActiveAddress ] = useState({})    
     useEffect(()=>{
-  
-        setIsLoading(false);
-
-        GetLocation.getCurrentPosition({
-                enableHighAccuracy: true,
-                timeout: 15000,
-            })
-            .then(location => {
-              
-              location.latitude.toFixed()
-              location.longitude.toFixed()
-              console.log(location.longitude);
-              console.log(location.latitude);
-              getNearByPharmacy();
-            })
-            .catch(error => {
-                const { code, message } = error;
-                // console.warn(code, message);
-            })
         
+        GetLocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            timeout: 15000,
+        })
+        .then(location => {
+            getNearByPharmacy(location.latitude,location.longitude);
+        //   console.log(location.longitude);
+        //   console.log(location.latitude);
+        })
+        .catch(error => {
+            const { code, message } = error;
+            // console.warn(code, message);
+        })
+        setIsLoading(false);
+        
+
     },[])
    
-    const getNearByPharmacy = async() => {
-        const response = await getWithParams('customer/getNearByPharmacy/v1')
-        console.log("\n\nGET NearByPharmacy        ",JSON.stringify(response));
-        // console.log("PharmacyList:         ", pharmacyList);
-        refreshtoken().then(async (res) => {
+    const getNearByPharmacy = async(latitude,longitude) => {
+        // console.log(latitude,longitude ,"loca")
+        const response = await getParams(`customer/getNearByPharmacy/v1?latitude=${latitude}&longitude=${longitude}`)
+        // console.log("\n\nGET NearByPharmacy        ",JSON.stringify(response));
+        // console.log("GET NearByPharmacy:         ", response);
         if(response.success) {
-            setPharmacyList(response.data)
-            // Toast.show(' NearByPharmacy available currently!')
-            console.log("PharmacyList:         ", pharmacyList);
+            setPharmacyList(response.data.data)
+            setIsLoading(false)
+            Toast.show(' NearByPharmacy available currently!')
+            // console.log("PharmacyList:         ", response.data.data)
         } else {
+            // console.log(response)
             Toast.show('There is no NearByPharmacy available currently!')
-        }
-       
-        })
+        }  
+      
 }
-
-
-    // const getNearByPharmacy = async() => {
-    //     const response = await getPostLogin('customer/getNearByPharmacy')
-    //     // console.log("GET NearByPharmacy     \n\n\n\n",JSON.stringify(response));
-    //     if(!response.success) {
-    //         setPharmacyList(response.data.data)
-    //         // Toast.show(' NearByPharmacy available currently!')
-    //         // console.log("PharmacyList:         ", pharmacyList);
-    //     } else {
-    //         Toast.show('There is no NearByPharmacy available currently!')
-    //     }
-       
-    // }
-
-  // const getAddresses = async() => {
-    //     const response = await getPostLogin('getAddress')
-    //     console.log(response.data);
-    //     if(response.success) {
-    //         setAddresses()
-    //         const aAddress = response.data.data.find( item => { return( item.is_active === true ) } )
-    //         setActiveAddress(aAddress)
-    //     } else {
-    //         console.log(response);
-    //     }
-    // }
-
-
-    // GetLocation.getCurrentPosition({
-    //     enableHighAccuracy: true,
-    //     timeout: 15000,
-    // })
-    // .then(location => {
-    //     // console.log(location);
-        
-    // })
-    // .catch(error => {
-    //     const { code, message } = error;
-    //     // console.warn(code, message);
-    // })
-
 
 // Rendering Data of Near By Pharmacy 
     const renderPharmacyList = data => {
-        console.log(data);
+//   console.log("data             ",data)
         return (
             <View style={styles.card}>
-                 {/* <TouchableOpacity onPress={() => {props.navigation.navigate('Pharamacies_Detail', {pharmacy:data.item,}) }}>
+                 <TouchableOpacity onPress={() => {props.navigation.navigate('Pharamacies_Detail', {pharmacy:data.item,}) }}>
                 <View style={styles.Card_Sty}>
                         <Image source={{ uri: data.item.store_image }} style={styles.Image_Sty} resizeMode={'stretch'} />
                     <View style={styles.Text_sty}>
@@ -116,14 +69,17 @@ const HomeScreen = props =>{
                             <Text style={styles.Pname}>{data.item.store_name.toUpperCase()}</Text>
                         </View>
                         <View >
-                            <Text  style={styles.name}>{data.item.address}</Text>
+                            <Text  style={styles.name}>{data.item.address.primary_address}</Text>
                         </View>
                         <View>
-                            <Text  style={styles.name}>{data.item.distance}</Text>
+                            <Text  style={styles.name}>{data.item.address.addition_address_info}</Text>
+                        </View>
+                        <View>
+                        <Text  style={styles.name}>{data.item.distance} Km</Text>
                         </View>
                     </View>
                 </View>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
             </View>
         )
     }
@@ -146,14 +102,17 @@ const HomeScreen = props =>{
                {/* Location  */}
                         <View>
                             <View>
-                            <TouchableOpacity  onPress={() => { props.navigation.navigate('LocationScreen' ) }}>
-                            <Text style={{padding:10}}>
-                                Location
+                            {/* <TouchableOpacity  onPress={() => { props.navigation.navigate('LocationScreen' ) }}> */}
+                            {/* <Text style={{padding:10}}>
+                                Current Location
                             </Text>
-                            <View >
+                                <View>
+                            
+                                </View> */}
+                            {/* <View >
                             <Text style={{color:'#0DC314', paddingLeft:7, marginBottom:10}}> 374  WIlliam S Canning Blvd <Image source={Images.Pencil} style={{ height:15 ,  width:15,}} /> </Text>
-                            </View>
-                            </TouchableOpacity>
+                            </View> */}
+                            {/* </TouchableOpacity> */}
                             </View>
                         </View>
                         </View>
@@ -161,34 +120,65 @@ const HomeScreen = props =>{
 
                     {/* Dtabase */}
           
-                <View>
+                <View style={{ padding: 10 }}>
                     <View style={{alignItems:'center'}}>
-                        <Text style={{color:'#717D7E', fontSize:17, padding:10}}>
-                            Near By Pharmacies
-                        </Text>
-                            <View style={{ padding: 10 }}>
+                            <View >
                             { isLoading ?
+                            (
                             <View style={styles.loader}>
                                 <ActivityIndicator size={65} color={Colors.PRIMARY} />
                             </View>
+                            )
                             :
-                            // pharmacyList.length === 0 ?
-                            // (<View>
-                            //     <Text>No Near By Pharmacies found </Text>
-                            // </View>
-                            // )
-                            // :
+                            pharmacyList.length === 0 ?
+                            (<View>
+                                <Text style={{color:'#717D7E', fontSize:17, padding:10, textAlign:'center'}}>No Near By Pharmacies found </Text>
+                            </View>
+                            )
+                            :
+                            <>
+                            <Text style={{color:'#717D7E', fontSize:17, padding:10, textAlign:'center'}}>
+                            Near By Pharmacies
+                            </Text>
                                 <FlatList
                                     // padding={30}
                                     data={pharmacyList}
                                     keyExtractor={item => item.id}
                                     renderItem={renderPharmacyList}
                                 />
+                                </>
                             }
                             </View>
                         
                     </View>
                 </View>
+
+
+
+                {/* <View style={{ flex: 10, padding: 10 }} >
+                    {isLoading ?
+                        (
+                            <View style={styles.loader}>
+                                <ActivityIndicator size={65} color={Colors.PRIMARY} />
+                            </View>
+                        )
+                        :
+                        pharmacyList.length === 0 ?
+                            (
+                                <View>
+                                    <Text>No Near By Pharmacies found </Text>
+                                </View>
+                            )
+                            :
+                            <FlatList
+                                // padding={30}
+                                data={pharmacyList}
+                                keyExtractor={item => item.id}
+                                renderItem={renderPharmacyList}
+                            />
+
+                    }
+                </View> */}
                     {/* Dtabase */}
 
         </View>

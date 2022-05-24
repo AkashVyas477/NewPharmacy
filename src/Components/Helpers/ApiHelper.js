@@ -102,69 +102,46 @@ export const getPostLogin = async(url) => {
   });
 }
 
-// export const getWithParams = async(url) => {
-//   return await axios
-//   .get( BASE_URL + url , {
-//       headers: {
-//           'Content-Type': 'application/json',
-//           Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
-//         } 
-    
-//   })
-//   .then( (response) => {
-//       if(response.data.status===1) {
-//           return {
-//             success: true,
-//             data: response.data,
-//             statusCode: response.status,
-//           };
-//       } else {
-//           return {
-//             success: false,
-//             data: response.data,
-//             statusCode: response.status,
-//           };
-//       }
-//   })
-//   .catch((error) => {
-//         return {
-//           success: false,
-//           data: error.response.data,
-//           statusCode: error.response.status,
-//       };
-//   });
-// }
-
-
-export const getWithParams = async (url) => {
-  
+export const getParams = async(url) => {
   return await axios
-    .get(BASE_URL + url, {  
-       headers:  {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
-          },
-    })
-    .then((response) => {
+  .get( BASE_URL + url , {
+      headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
+        } 
+  })
+  .then((response) => {
+    if (response.status === 200) {
       return {
         success: true,
-        data: response.data.data,
+        data: response.data,
         statusCode: response.status,
       };
-    })
-    .catch((error) => {
-      return error.response.data;
-    });
+    } else {
+      return {
+        success: false,
+        data: response.data,
+        statusCode: response.status,
+      };
+    }
+  })
+  .catch((error) => {
+    return {
+      success: false,
+      data: error.response.data,
+      statusCode: error.response.status,
+    };
+  });
+
 };
-
-
 // export const getWithParams = async (url) => {
+//   // console.log(url);
 //   return await axios
-//   .get( BASE_URL + url , {
-//       headers: {
-//           'Content-Type': 'application/json',
-//           Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
-//         }
+//     .get(BASE_URL + url, {  
+//        headers:  {
+//             'Content-Type': 'application/json',
+//             Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
+//           },
 //     })
 //     .then((response) => {
 //       return {
@@ -180,36 +157,39 @@ export const getWithParams = async (url) => {
 
 
 
+
 export const refreshtoken = async(data) => {
+  console.log(data);
   return await axios
   .post( BASE_URL + 'refreshToken' , data,{
       headers: {
           'Content-Type': 'application/json',
         } 
   })
-  .then( (response) => {
-      if(response.data.status===1) {
-          return {
-            success: true,
-            data: response.data,
-            statusCode: response.status,
-          };
-      } else {
-          return {
-            success: false,
-            data: response.data,
-            statusCode: response.status,
-          };
-      }
+  .then((response) => {
+    if (response.status === 200) {
+      return {
+        success: true,
+        data: response.data,
+        statusCode: response.status,
+      };
+    } else {
+      return {
+        success: false,
+        data: response.data,
+        statusCode: response.status,
+      };
+    }
   })
   .catch((error) => {
-        return {
-          success: false,
-          data: error.response.data,
-          statusCode: error.response.status,
-      };
+    return {
+      success: false,
+      data: error.response.data,
+      statusCode: error.response.status,
+    };
   });
-}
+
+};
 
 export const deletePost = async( url, data) => {
   return await axios
@@ -219,26 +199,27 @@ export const deletePost = async( url, data) => {
       Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
   } , data
 })
-  .then( (response) => {
-      if(response.data.status===1) {
-          return {
-            success: true,
-            data: response.data,
-            statusCode: response.status,
-          };
-      } else {
-          return {
-            success: false,
-            data: response.data,
-            statusCode: response.status,
-          };
-      }
-  })
-  .catch((error) => {
-        return {
-          success: false,
-          data: error.response.data,
-          statusCode: error.response.status,
-      };
-  });
-}
+.then((response) => {
+  if (response.status === 200) {
+    return {
+      success: true,
+      data: response.data,
+      statusCode: response.status,
+    };
+  } else {
+    return {
+      success: false,
+      data: response.data,
+      statusCode: response.status,
+    };
+  }
+})
+.catch((error) => {
+  return {
+    success: false,
+    data: error.response.data,
+    statusCode: error.response.status,
+  };
+});
+
+};

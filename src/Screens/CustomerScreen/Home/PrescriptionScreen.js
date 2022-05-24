@@ -6,7 +6,7 @@ import { Button } from '../../../Components/Common';
 // import PrescriptionData from '../../../DummyData/PrescriptoinDummydata';
 // import PrescriptionScreenData from '../../Components/Shop/Prescriptionsdata';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getPostLogin, getWithParams } from '../../../Components/Helpers/ApiHelper';
+import { getPostLogin, getWithParams, getParams } from '../../../Components/Helpers/ApiHelper';
 import Toast from 'react-native-simple-toast';
 import { $CombinedState } from 'redux';
 import moment from 'moment';
@@ -26,10 +26,10 @@ const PrescriptionScreen = props => {
     }, [])
 
     const getPrescriptionList = async () => {
-        const response = await getWithParams ('customer/getPrescriptionsList/?page=1&state=current')
+        const response = await getParams ('customer/getPrescriptionsList/?page=1&state=current')
       
-        // console.log(response.data.prescription);
-        if (!response.success) {
+        // console.log(response,"current");
+        if (response.success) {
             setprescriptionList(response.data.prescription)
             // console.log(response.data.prescription);
             Toast.show('Records Found !')
@@ -40,10 +40,10 @@ const PrescriptionScreen = props => {
     }
 
     const getPastPrescription = async () => {
-        const response = await getWithParams ('customer/getPrescriptionsList/?page=1&state=past')
+        const response = await getParams ('customer/getPrescriptionsList/?page=1&state=past')
       
-        // console.log(response.data);
-        if (!response.success) {
+        // console.log(response,"past");
+        if (response.success) {
             setpastprescriptionList(response.data.prescription)
             // console.log(response.data.prescription);
             Toast.show('Records Found !')
@@ -97,7 +97,7 @@ const PrescriptionScreen = props => {
         // console.log("\n\nDATA:       ",data);
         return (
                             <View style={styles.card}>
-                                <TouchableOpacity  onPress={() => { props.navigation.navigate('PastPrescriptionScreen_Data', { prescription: data.item}) }}>
+                                {/* <TouchableOpacity  onPress={() => { props.navigation.navigate('PastPrescriptionScreen_Data', { prescription: data.item}) }}>
                             <View style={styles.Card_Sty}>
                             <Image source={{ uri: data.item.prescription_images[0].url}} style={styles.Image_Sty} resizeMode={'stretch'} />
                             <View style={{flexDirection:'row',}}>
@@ -121,7 +121,7 @@ const PrescriptionScreen = props => {
                             </View>
                                 
                             </View>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                         </View>
 
         )

@@ -8,7 +8,7 @@ import { Header, Button, RadioButton, CheckRound } from '../../../Components/Com
 import { getWithParams } from '../../../Components/Helpers/ApiHelper';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import MedicinesImages from '../../../Components/Common/MedicinesImages'
-import { deletePostLogin } from '../../../Components/Helpers/ApiHelper';
+import { deletePost } from '../../../Components/Helpers/ApiHelper';
 import moment from 'moment';
 import { set } from 'react-native-reanimated';
 
@@ -58,17 +58,21 @@ const CurrentPrescriptionScreen = props => {
 
     // const prescriptionid = props.route.params.prescriptionid
     const currentprescription = props.route.params.prescription
-    // console.log(currentprescription);
+    // console.log(currentprescription.id);
     // console.log(prescriptionid)
     const [modalVisible, setModalVisible] = useState(false);
     const height = width * 100 / 0.6
     // const [active, setActive] = useState(0);
 
     const onPressDelete = async() => {
+        const data ={
+            PrescriptionId: currentprescription.id
+        }
+        console.log(currentprescription      ,"delet");
         setDelLoader(true)
-        const deleteResponse = await deletePostLogin('customer/deletePrescription/8', data)
-        if(!deleteResponse.success) {
-            console.log(deleteResponse)
+        const deleteResponse = await deletePost('customer/deletePrescription/8', data)
+        if(deleteResponse.success) {
+            console.log(deleteResponse.data)
         } else {
             props.navigation.goBack()
         }
@@ -172,8 +176,8 @@ const CurrentPrescriptionScreen = props => {
 {/* Delet Prescription  */}
             <View style={{ flexDirection: 'row', backgroundColor: Colors.PRIMARY, width: '100%', height: 55 }}>
                 <View >
-                    <TouchableOpacity onPress={() => setModalVisible(true)} >
-                        <Text style={{ padding: 10, marginLeft: 45, color: Colors.White, marginTop: 10 }}>
+                    <TouchableOpacity onPress={() => {setModalVisible(true)} } >
+                       <Text style={{ padding: 10, marginLeft: 45, color: Colors.White, marginTop: 10 }}>
                             DELETE REQUEST
                         </Text>
                         <Modal
@@ -228,8 +232,8 @@ const CurrentPrescriptionScreen = props => {
                                     </View>
                                     <TouchableOpacity
                                         style={[styles.buttonModal, styles.buttonClose]}
-                                        onPress={() => {setModalVisible(false)}}
-                                        // onPress={onPressDelete}
+                                        onPress={() => {onPressDelete,setModalVisible(false)}}
+                                        // onPress={}
                                     >
                                         {delLoader ? <ActivityIndicator size={25}color={Colors.White}/>:<Text style={styles.textStyle}>Submit</Text>}
                                     </TouchableOpacity>

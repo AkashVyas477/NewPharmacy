@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { Images, Colors, Constants } from '../../CommonConfig';
 import { CheckBox, EyeButton, Button } from '../../Components/Common';
-import { postRequest } from '../../Components/Helpers/ApiHelper';
+import { postRequest,} from '../../Components/Helpers/ApiHelper';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
@@ -57,25 +57,7 @@ const LoginScreen = (props) => {
         const response = await postRequest('login', data);
         const resData = response.data
         console.log(response.data);
-        // if (!response.success){
-        //     setisLoading(false)
-        //     let errorMessage = "Something went wrong!";
-        //     if (response.data.ErrorMessage === "User not exists!"){
-        //         errorMessage = "User does not exist!"
-        //     }
-        //     if (response.data.ErrorMessage === "Login Failed!"){
-        //         errorMessage = "Invalid Password!"
-        //     }
-        //     Alert.alert('Error', errorMessage, [{ text: "Okay" }])
-        // } else{
-        // await AsyncStorage.setItem('token', resData.token)
-        // await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-        // await AsyncStorage.setItem('user', JSON.stringify (resData.user))
-        // await AsyncStorage.setItem('isLogin', "true")
-        //     setisLoading(false);
-        //     props.navigation.navigate('Drawer', { screen: 'Home' })
-        // }
-
+       
         if (response.success) {
             try {
                 await AsyncStorage.setItem('token', resData.token)
@@ -100,6 +82,7 @@ const LoginScreen = (props) => {
             }
             setIsLoading(false)
         }
+
     }
 
 

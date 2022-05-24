@@ -44,7 +44,8 @@ const PharamaciesDetail = (props) => {
         <View style={{flexDirection:'row' ,alignItems:'center',justifyContent:'space-between'}}>
         <View>
         <Text style={styles.text} >{currentPharmacy.store_name}</Text>
-        <Text style={styles.text2}>{currentPharmacy.address}</Text>
+        <Text style={styles.text2}>{currentPharmacy.address.primary_address}</Text>
+        <Text style={styles.text2}>{currentPharmacy.address.addition_address_info}</Text>
         <Text style={styles.text3}>{currentPharmacy.distance}</Text>
         </View>
         <View style={{alignItems:'center', }} >
@@ -105,9 +106,10 @@ const styles = StyleSheet.create({
         opacity: 0.7
     },
     card: {
+        flexGrow:1,
         backgroundColor:Colors.White,
-        height:100,
-        width: 380,
+        // height:100,
+        // width: 380,
         justifyContent:'center',
         paddingLeft: 5,
         shadowColor:Colors.White,

@@ -43,39 +43,9 @@ const Drawer = createDrawerNavigator()
 const DrawerNavigator = props => {
     return (
         <Drawer.Navigator headerMode='none' drawerContent={ props => <DrawerContent {...props}/>}>
-            {/* <Drawer.Screen name ='UserStack' component={UserStackScreen} 
-            options={{
-                drawerIcon:()=> <Image source={Images.SignupPlaceholder} style={{height:50, width:50, borderRadius:50, overflow:'hidden'}}/>,
-                drawerLabel:" USer "
-            }}
-            /> */}
-            <Drawer.Screen name='Home' component={TabNavigator} 
-            // options={{
-            //     drawerIcon: () => <Image source={Images.homeIcon} style={{ height: 20, width: 20,  }} />,
-            // }}
-             />
-{/* 
-            <Drawer.Screen name='AddresStack' component={AddresStackScreen} 
-            // options={{
-            //     drawerLabel: 'Manage Address',
-            //     drawerIcon: () => <Image source={Images.LocationPin} style={{ height: 27, width: 20, }} />,
-
-            // }}
-             /> */}
-
-            {/* <Drawer.Screen name='Language' component={LanguageScreen} 
-            // options={{
-            // //     drawerLabel:'Language',
-            // //     drawerIcon:()=> <Image source={Images.Language} style={{height: 30, width: 30,}} />,
-            // // }} 
-            /> */}
-
-            {/* <Drawer.Screen name ='LogOut' component={SplashScreen} options={{
-                drawerLabel:'Log Out', 
-                drawerIcon:()=> <Image source={Images.Logout} style={{height: 30, width: 27,}} />,
-            }}/> */}
-
-            {/* <Drawer.Screen name ='Address' component={ManageAddress} /> */}
+          
+            <Drawer.Screen name='Home' component={TabNavigator} />
+            <Drawer.Screen name='Profile' component={UserStackScreen}/>
         </Drawer.Navigator>
     )
 }
@@ -201,7 +171,7 @@ const UserStackScreen = props => {
         </UserStack.Navigator>
     )
 }
-// export default UserStackScreen;
+// export UserStackScreen;
 
 
 

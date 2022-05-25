@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import { Images } from '../../CommonConfig';
 
 
-const EyeButton = ({onEyePress,tnceye,style}) => {   
+const EyeButton = ({onEyePress,tnceye ,style}) => {   
     return (
         <TouchableOpacity onPress={onEyePress} style={style}>
             {tnceye ? <Image source={Images.InactiveEye}  style={styles.eyeIcon} /> :

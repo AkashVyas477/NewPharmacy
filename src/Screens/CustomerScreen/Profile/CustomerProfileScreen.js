@@ -1,27 +1,41 @@
-import React, {useState} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions, Modal, } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions, Modal,Alert } from 'react-native';
 import { Header, Button } from '../../../Components/Common';
 import {Images,Colors} from '../../../CommonConfig'
 import * as ImagePicker from 'react-native-image-crop-picker';
 import  CountryPicker from 'react-native-country-picker-modal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getPreLogin } from '../../../Components/Helpers/ApiHelper';
 
+import { useDispatch, useSelector } from 'react-redux';
+import Toast from 'react-native-simple-toast'
 
 const CustomerProfileScreen = props =>{
-    const [show, setShow] = useState(false);
-    const [isLoading, setisLoading]=useState(false)
-    const [countryCode, setCountryCode] = useState('IN');
-    const [callingCode, setcallingCode]= useState('+91')
-    const [phoneNumber, setPhoneNumber ] = useState('');
-    // const pressHandler = async(countryCode, phoneNumber) => { props.navigation.navigate( ) }
-        
 
+    const [user, setUser] = useState({});
+    const [isLoading, setIsLoading] = useState(false)
+
+    useEffect(()=>{
+        getProfile()
+    },[])
+
+    const getProfile = async() => {
+        const response = await getPreLogin('getProfile')
+    //    console.log("GET PROFILE     \n\n\n\n",JSON.stringify(response.data.data));
+
+        if(response.success) {
+            setUser(response.data.data)
+            console.log("Profile:   ", response.data.data);
+        } else {
+            console.log(response);
+        }
+    }
     return(
         <View style={styles.screen}>
              <KeyboardAwareScrollView>
     {/* Header */}
             <View style={styles.header}>
-              
             <TouchableOpacity  onPress={() =>props.navigation.toggleDrawer()}>
             <Image source={Images.Menu}  style={styles.MenuStyle} />
             </TouchableOpacity>
@@ -31,102 +45,101 @@ const CustomerProfileScreen = props =>{
             </View>
     {/* Body */}
 
+{/* Image */}
              <View style={styles.SignupPlaceholder_Style}>
-          <Image source={Images.SignupPlaceholder} style={styles.profileImg} />
+             {/* <Image source={Images.SignupPlaceholder} style={styles.profileImg} /> */}
+             {/* {selectedImage ? <Image source={{uri:user.image}} style={{height:100,width:100,}}/> :<Image source={Images.SignupPlaceholder} style={styles.profileImg} />} */}
+          <Image source={{uri:user.image}} style={styles.profileImg} />
             </View>
                 <View>
-                    <TouchableOpacity style={styles.addIcon}   onPress={()=> props.navigation.navigate('Edit_Profile')} >
+                    <TouchableOpacity style={styles.addIcon}   onPress={()=> props.navigation.navigate('Edit_Profile',{user})} >
                         <Image source={Images.EditPencil} style={styles.addIconImg} />
                     </TouchableOpacity>
                 </View>
 
+{/* User Name */}
                 <View>
                     <Text style={{paddingHorizontal:5, marginLeft:20, fontSize:17}}> 
                         Username
                     </Text>
                     <View >
-                    <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor}}>
-                    <TextInput 
-                    placeholder="UserName" 
-                    />
+                    <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor,marginTop:10}}>
+                     <Text style={styles.value}>
+                         {user.name}
+                         </Text> 
                     </View>
                     </View>
                 </View>
-
+{/* Email */}
                 <View >
                     <Text style={{ paddingTop:15,paddingHorizontal:5, marginLeft:20, fontSize:17}}> 
                         Email Id
                     </Text>
                     <View >
-                    <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor}}>
-                    <TextInput 
-                    placeholder="Email" 
-                    />
+                    <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor,marginTop:10}}>
+                    <Text style={styles.value}>
+                         {user.email}
+                         </Text> 
                     </View>
                     </View>
                 </View>
-
-
-
+{/* Phone Number */}
                 <View >
-                    <View style={styles.body}>                     
-                        <Text style={styles.textPhoneNo} >Phone Number</Text>
-                        <View style={styles.action} >
-                            <Text style={{flex:0.5, fontWeight:'bold'}}>{callingCode}</Text>
-                            <TouchableOpacity onPress={() => setShow(true)} style={{flex: 0.5}}>
-                                {/* <Image source={Images.DropDown} style={{height:10,width:10}}  /> */}
-                                <CountryPicker
-                                    withFilter
-                                    countryCode={countryCode}
-                                    withFlag
-                                    withAlphaFilter={false}
-                                    withCallingCode
-                                    onSelect={country => {
-                                        console.log('country', country);
-                                        const { cca2, callingCode } = country;
-                                        setCountryCode(cca2);
-                                        setcallingCode(callingCode[0]);
-                                    }}
-                                    containerButtonStyle={{ alignItems: 'center',}}
-                                />
-                                </TouchableOpacity>
-                            <View style={{width:0, borderColor: Colors.borderBottomColor, borderWidth:0.5, height:30, marginRight:10}} ></View>
-                            <TextInput 
-                                style={{flex:3.5}}
-                                keyboardType= "phone-pad"
-                                maxLength={10}
-                                onChangeText = { (val) => {setPhoneNumber(val)} }
-                            />
+                    <Text style={{ paddingTop: 15, paddingHorizontal: 5, marginLeft: 20, fontSize: 17 }}>
+                        Phone Number
+                    </Text>
+                    <View >
+                        <View style={{ paddingHorizontal: 1, marginLeft: 20, marginRight: 20, fontSize: 17, borderBottomWidth: 1, borderColor: Colors.borderBottomColor, marginTop: 10 }}>
+                            <Text style={styles.value}>
+                                {user.phone}
+                            </Text>
                         </View>
-                        </View>   
-                        </View> 
-
-                        <View >
-                    <Text style={{paddingHorizontal:10, marginLeft:15, fontSize:17}}> 
+                    </View>
+                </View>
+                
+{/* Gender */}
+                <View >
+                    <Text style={{ paddingTop: 15, paddingHorizontal: 5, marginLeft: 20, fontSize: 17 }}>
                         Gender
                     </Text>
                     <View >
-                    <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor}}>
-                    <TextInput 
-                    placeholder="Gender" 
-                    />
-                    </View>
+                        <View style={{ paddingHorizontal: 1, marginLeft: 20, marginRight: 20, fontSize: 17, borderBottomWidth: 1, borderColor: Colors.borderBottomColor, marginTop: 10 }}>
+                            <Text style={styles.value}>
+                                {user.gender}
+                            </Text>
+                        </View>
                     </View>
                 </View>
+                   
+{/* Change Password Button  */}
 
                         <View style={{marginTop:20}}>
                             <Button
-                            disabled={ phoneNumber.length === 10 ? false : true } 
-                            // onPress={() => pressHandler(callingCode, phoneNumber)}
                             onPress ={()=> props.navigation.navigate('ChangePassword')} 
                             label="Change Password"
                             />
                             </View>
 
+
+{/* Logout Button  */}
                             <View style={{marginTop:20}}>
                             <Button
-                            disabled={ phoneNumber.length === 10 ? false : true } 
-                            onPress={() =>{props.navigation.navigate('Login')}}
+                            onPress={() =>
+                                Alert.alert(
+                                  'Log out',
+                                  'Do you want to logout?',
+                                  [
+                                    { text: 'Cancel', onPress: () => { return null } },
+                                    {
+                                      text: 'Confirm', onPress: () => {
+                                        AsyncStorage.clear();
+                                        props.navigation.navigate('Auth')
+                                      }
+                                    },
+                                  ],
+                                  { cancelable: false }
+                                )
+                              }
                             label="Log Out"
                             />
                             </View>
@@ -141,7 +154,11 @@ const  styles=StyleSheet.create({
         flex:1,
         backgroundColor:'white',
     },
-
+    value:{
+        
+        fontSize:17,
+        fontWeight:'700'
+    },
     header:{ 
         flexDirection: 'row', 
         alignItems: 'center', 
@@ -151,6 +168,7 @@ const  styles=StyleSheet.create({
     profileImg:{ 
         height: 145, 
         width: 145,
+        borderRadius:68
        
     },
     addIcon: {

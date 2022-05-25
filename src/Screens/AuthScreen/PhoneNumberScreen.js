@@ -49,8 +49,7 @@ const PhoneNumberScreen = props => {
     return (
         <View style={styles.screen}>
             <KeyboardAwareScrollView>
-            <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
-                {/* <StatusBar backgroundColor={Colors.ORANGE} barStyle='light-content' /> */}
+            <StatusBar  barStyle='light-content' />
                 {/* HEADER */}
                 <View style={styles.header1}>
                     <Header 

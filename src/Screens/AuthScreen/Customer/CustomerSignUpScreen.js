@@ -64,7 +64,7 @@ const dispatch= useDispatch();
 
         <KeyboardAwareScrollView>
         <View style={styles.screen}>
-        <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
+        <StatusBar barStyle='light-content' />
 
             {/* SignUp  */}
             <View style={styles.header}>

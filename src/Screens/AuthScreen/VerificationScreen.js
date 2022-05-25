@@ -80,7 +80,7 @@ const [ otp, setOTPValue ] = useState('');
 
     return(
         <View style={styles.screen}>
-           <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
+           <StatusBar  barStyle='light-content' />
           <ScrollView>
             {/* Header  */}
             <View style={styles.header1}>

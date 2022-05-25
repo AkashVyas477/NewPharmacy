@@ -31,7 +31,7 @@ const RollSignupScreen = props =>{
     return(
         <KeyboardAwareScrollView>
         <View style={styles.screen}>
-        <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
+        <StatusBar barStyle='light-content' />
             {/* Title start */}
             <Text style={styles.text1} >
            Who Are you 

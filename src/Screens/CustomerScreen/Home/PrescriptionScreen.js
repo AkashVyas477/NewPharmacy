@@ -6,7 +6,7 @@ import { Button } from '../../../Components/Common';
 // import PrescriptionData from '../../../DummyData/PrescriptoinDummydata';
 // import PrescriptionScreenData from '../../Components/Shop/Prescriptionsdata';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getPostLogin, getWithParams, getParams } from '../../../Components/Helpers/ApiHelper';
+import {  getWithParams, getParams } from '../../../Components/Helpers/ApiHelper';
 import Toast from 'react-native-simple-toast';
 import { $CombinedState } from 'redux';
 import moment from 'moment';

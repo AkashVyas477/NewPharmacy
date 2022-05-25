@@ -36,7 +36,7 @@ const PrescriptionImageScreen = props => {
         
         <View style={styles.main}>
             <View style={styles.header_sty} >
-                {/* <StatusBar backgroundColor={selectedItem.bgColor} barStyle='light-content' /> */}
+               
                 <Header
                     Title="CREATE REQUEST"
                     onPress={() => props.navigation.goBack()}

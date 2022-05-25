@@ -5,7 +5,7 @@ import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { Images, Colors } from '../../../CommonConfig';
 // import Pharamacies from '../../Components/Shop/Pharamacies';
 // import PharamaciesData from '../../DummyData/DummyData';
-import { getPostLogin, getWithParams,refreshtoken,getParams} from '../../../Components/Helpers/ApiHelper';
+import { getWithParams,refreshtoken,getParams} from '../../../Components/Helpers/ApiHelper';
 import GetLocation from 'react-native-get-location'
 import Geolocation from 'react-native-geolocation-service';
 import Geocoder from 'react-native-geocoding';

@@ -91,7 +91,7 @@ const LoginScreen = (props) => {
            
             {/* Full screen */}
             <View style={styles.mainWrapper}>
-            <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
+            <StatusBar barStyle='light-content' />
                 {/* Logo */}
 
                 <View style={styles.logoScreen}>

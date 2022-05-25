@@ -50,7 +50,7 @@ const ForgotPasswordScreen = props => {
 
         <View style={styles.screen}>
             <KeyboardAwareScrollView>
-            <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
+            <StatusBar  barStyle='light-content' />
                 {/* Header start */}
                 <View style={styles.header_sty}>
                     {/* <View>

@@ -1,5 +1,5 @@
 import React,{useState, useEffect, useReducer} from 'react';
-import {View, Text , StyleSheet ,TouchableOpacity, Image ,FlatList,ScrollView, ActivityIndicator, PermissionsAndroid,  Platform,} from 'react-native';
+import {View, Text , StyleSheet ,TouchableOpacity, Image ,FlatList,ScrollView, ActivityIndicator, PermissionsAndroid,  Platform,StatusBar} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { Images, Colors } from '../../../CommonConfig';
@@ -34,7 +34,7 @@ const HomeScreen = props =>{
             const { code, message } = error;
             // console.warn(code, message);
         })
-        setIsLoading(false);
+        setIsLoading(false)
         
 
     },[])
@@ -84,8 +84,8 @@ const HomeScreen = props =>{
         )
     }
     return(
-        <View>
-            <View>     
+       
+               <View>
             <View style={styles.screen}>     
               {/*Logo + Icon  */}
                  <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
@@ -98,91 +98,51 @@ const HomeScreen = props =>{
                         <Image source={Images.HeaderAppIcon} style={{ height:60 ,  width:130,}} />
                         </View>
                         </View>
-               {/*Logo + Icon  */}
-               {/* Location  */}
-                        <View>
+{/*Logo + Icon  */}
+{/* Location  */}
+                        {/* <View>
                             <View>
-                            {/* <TouchableOpacity  onPress={() => { props.navigation.navigate('LocationScreen' ) }}> */}
-                            {/* <Text style={{padding:10}}>
+                            <TouchableOpacity  onPress={() => { props.navigation.navigate('LocationScreen' ) }}>
+                            <Text style={{padding:10}}>
                                 Current Location
                             </Text>
                                 <View>
                             
-                                </View> */}
-                            {/* <View >
-                            <Text style={{color:'#0DC314', paddingLeft:7, marginBottom:10}}> 374  WIlliam S Canning Blvd <Image source={Images.Pencil} style={{ height:15 ,  width:15,}} /> </Text>
-                            </View> */}
-                            {/* </TouchableOpacity> */}
-                            </View>
-                        </View>
-                        </View>
-
-
-                    {/* Dtabase */}
-          
-                <View style={{ padding: 10 }}>
-                    <View style={{alignItems:'center'}}>
+                                </View>
                             <View >
-                            { isLoading ?
-                            (
-                            <View style={styles.loader}>
-                                <ActivityIndicator size={65} color={Colors.PRIMARY} />
+                            <Text style={{color:'#0DC314', paddingLeft:7, marginBottom:10}}> 374  WIlliam S Canning Blvd <Image source={Images.Pencil} style={{ height:15 ,  width:15,}} /> </Text>
                             </View>
-                            )
-                            :
-                            pharmacyList.length === 0 ?
-                            (<View>
-                                <Text style={{color:'#717D7E', fontSize:17, padding:10, textAlign:'center'}}>No Near By Pharmacies found </Text>
+                            </TouchableOpacity>
                             </View>
-                            )
-                            :
-                            <>
-                            <Text style={{color:'#717D7E', fontSize:17, padding:10, textAlign:'center'}}>
-                            Near By Pharmacies
-                            </Text>
-                                <FlatList
-                                    // padding={30}
-                                    data={pharmacyList}
-                                    keyExtractor={item => item.id}
-                                    renderItem={renderPharmacyList}
-                                />
-                                </>
-                            }
-                            </View>
-                        
+                        </View> */}
+                        </View>
+
+                    <View style={{ padding: 10 }}>
+                    <View style={{alignItems:'center'}}>
+
+                    {isLoading ?
+                    <View style={styles.loader}>
+                        <ActivityIndicator size={65} color={Colors.PRIMARY} style={{padding:20}} />
                     </View>
+                    :
+                    <>
+                    <Text style={{color:'#717D7E', fontSize:17, padding:10, textAlign:'center'}}>
+                     Near By Pharmacies
+                    </Text>
+                     <FlatList
+                     // padding={30}
+                    data={pharmacyList}
+                    keyExtractor={item => item.id}
+                    renderItem={renderPharmacyList}
+                    />
+                    </>
+}
                 </View>
 
+                </View>
 
-
-                {/* <View style={{ flex: 10, padding: 10 }} >
-                    {isLoading ?
-                        (
-                            <View style={styles.loader}>
-                                <ActivityIndicator size={65} color={Colors.PRIMARY} />
-                            </View>
-                        )
-                        :
-                        pharmacyList.length === 0 ?
-                            (
-                                <View>
-                                    <Text>No Near By Pharmacies found </Text>
-                                </View>
-                            )
-                            :
-                            <FlatList
-                                // padding={30}
-                                data={pharmacyList}
-                                keyExtractor={item => item.id}
-                                renderItem={renderPharmacyList}
-                            />
-
-                    }
-                </View> */}
-                    {/* Dtabase */}
-
-        </View>
-        </View>
+            </View>
+      
     );
 };
 

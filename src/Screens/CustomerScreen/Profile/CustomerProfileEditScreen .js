@@ -3,9 +3,11 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions,
 import { Header, Button, RadioButton } from '../../../Components/Common';
 import { Images, Colors } from '../../../CommonConfig'
 import * as ImagePicker from 'react-native-image-crop-picker';
+
+// import CountryPicker from "react-native-country-codes-picker";
 import CountryPicker from 'react-native-country-picker-modal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { putPostLogin } from '../../../Components/Helpers/ApiHelper';
+import { postPostLogin  } from '../../../Components/Helpers/ApiHelper';
 
 import { Formik } from "formik";
 import * as yup from 'yup';
@@ -13,9 +15,28 @@ import * as yup from 'yup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 
+
+
 const CustomerProfileEditScreen = props => {
+
+    const user = props.route.params.user
+console.log("         ", user);
     const [selectedImage, setSelectedImage] = useState(null)
     const [modalVisible, setModalVisible] = useState(false);
+
+    const [isLoading, setIsLoading] = useState(false)
+    const [show, setShow] = useState(false);
+    const [countryCode, setCountryCode] = useState('IN');
+    const [callingCode, setcallingCode] = useState('')
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const pressHandler = async (countryCode, phoneNumber) => { props.navigation.navigate() }
+
+    const [male, setMale] = useState(false);
+    const maleHandler = () => {
+        setMale(state => !state);
+        setFemale(false);
+    };
+
     const takeFromCamera = () => {
         ImagePicker.openCamera({
             width: 100,
@@ -39,18 +60,7 @@ const CustomerProfileEditScreen = props => {
         });
     }
 
-    const [show, setShow] = useState(false);
-    const [isLoading, setIsLoading] = useState(false)
-    const [countryCode, setCountryCode] = useState('IN');
-    const [callingCode, setcallingCode] = useState('+91')
-    const [phoneNumber, setPhoneNumber] = useState('');
-    // const pressHandler = async (countryCode, phoneNumber) => { props.navigation.navigate() }
-
-    const [male, setMale] = useState(false);
-    const maleHandler = () => {
-        setMale(state => !state);
-        setFemale(false);
-    };
+    
 
     const [female, setFemale] = useState(false);
     const femaleHandler = () => {
@@ -63,15 +73,18 @@ const CustomerProfileEditScreen = props => {
         setIsLoading(true)
         const data = {
             name: values.name,
-            email: values.email
+            email: values.email,
+            country_code:values.country_code,
+            phone: values.phone,
+            gender: values.gender
         }
         // console.log(data);
-        const response = await putPostLogin('updateProfile', data)
-        console.log(response);
-        if(response.success) {
-            console.log(("Put Request Error"));
+        const response = await postPostLogin ('updateProfile', data)
+        console.log("on save       ",response);
+        if(!response.success) {
+            console.log(("Post Request Error"));
         } else {
-            AsyncStorage.setItem('userInfo', JSON.stringify(response.data.data))
+           await AsyncStorage.setItem('userInfo', JSON.stringify(response.data))
             Toast.show('Profile updated successfully!')
             props.navigation.goBack();
         }
@@ -95,7 +108,7 @@ const CustomerProfileEditScreen = props => {
                 {/* Body */}
 
                 <View style={styles.profileImg_Style}>
-                    {selectedImage ? <Image source={{ uri: selectedImage }} style={{ height: 100, width: 100, }} /> : <Image source={Images.SignupPlaceholder} style={styles.profileImg} />}
+                    {selectedImage ? <Image source={{ uri: selectedImage }} style={styles.profileImg}/> : <Image source={{uri:user.image}} style={styles.profileImg} />}
                 </View>
                 <View>
                     <TouchableOpacity style={styles.addIcon} onPress={() => setModalVisible(true)} >
@@ -137,17 +150,23 @@ const CustomerProfileEditScreen = props => {
                     {/* </View> */}
                 </View>
 
-                {/* Body */}
+                {/* Details */}
 
                 <Formik
                     initialValues={{
-                        name: '',
-                        email: ''
+                        name: user.name,
+                        email: user.email,
+                        phone: user.phone,
+                        country_code:user.country_code,
+                        gender:user.gender
                     }}
                     onSubmit={(values) => onPressSave(values)}
                     validationSchema={yup.object().shape({
                         name: yup.string(),
-                        email: yup.string().email('Please enter a valid email.')
+                        email: yup.string().email('Please enter a valid email.'),
+                        phone: yup.string().min(10,'Phone number should be ten number '),
+                        country_code: yup.string(),
+                        gender:yup.string()
                     })}
                 >
                     {({ values, handleChange, isValid, handleSubmit, setFieldTouched }) => (
@@ -176,24 +195,14 @@ const CustomerProfileEditScreen = props => {
                                     style={styles.textInput}
                                 />
                             </View>
-                            {/* <TouchableOpacity 
-                                    style={{width:'100%', justifyContent:'center', marginTop:25}}    
-                                    onPress={ handleSubmit } 
-                                    disabled={!isValid}
-                                >
-                                    { isLoading ? <ActivityIndicator size={25} color={Colors.ORANGE}/> : 
-                                    <View style={styles.button}>
-                                        <Text style={styles.editText}>Save</Text>
-                                    </View>}
-                                </TouchableOpacity> */}
 {/* PhoneNumber */}
                             <View>
                                 <View >
                                     <Text style={{ ...styles.text_footer, marginTop: 15 }} >Phone Number</Text>
                                     <View style={styles.action} >
-                                        <Text style={{ flex: 0.5, fontWeight: 'bold' }}>{callingCode}</Text>
+                                        <Text style={{ marginLeft:8, fontWeight: 'bold' }}>{callingCode}</Text>
                                         <TouchableOpacity onPress={() => setShow(true)} style={{ flex: 0.5 }}>
-                                            {/* <Image source={Images.DropDown} style={{height:10,width:10}}  /> */}
+                                            {/* <Image source={Images.DropDown} style={{height:10,width:10}}  />  */}
                                             <CountryPicker
                                                 withFilter
                                                 countryCode={countryCode}
@@ -201,7 +210,6 @@ const CustomerProfileEditScreen = props => {
                                                 withAlphaFilter={false}
                                                 withCallingCode
                                                 onSelect={country => {
-                                                    console.log('country', country);
                                                     const { cca2, callingCode } = country;
                                                     setCountryCode(cca2);
                                                     setcallingCode(callingCode[0]);
@@ -211,10 +219,11 @@ const CustomerProfileEditScreen = props => {
                                         </TouchableOpacity>
                                         <View style={{ width: 0, borderColor: Colors.borderBottomColor, borderWidth: 0.5, height: 30, marginRight: 10 }} ></View>
                                         <TextInput
+                                        value={values.phone}
                                             style={{ flex: 3.5 }}
                                             keyboardType="phone-pad"
                                             maxLength={10}
-                                            onChangeText={(val) => { setPhoneNumber(val) }}
+                                            onChangeText={handleChange('phone')}
                                         />
                                     </View>
                                 </View>
@@ -227,12 +236,14 @@ const CustomerProfileEditScreen = props => {
                                     <View style={{ paddingHorizontal: 1,  fontSize: 17, borderBottomWidth: 1, borderColor: Colors.borderBottomColor }}>
                                             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 8 }}>
                                                     <RadioButton
+                                                   value={values.gender}
                                                         label="Male"
                                                         onPress={maleHandler}
                                                         state={male}
                                                     />
                                                 <View style={{ marginLeft: 125 }}>
                                                     <RadioButton
+                                                  value={values.gender}
                                                         label="Female"
                                                         onPress={femaleHandler}
                                                         state={female}
@@ -243,11 +254,12 @@ const CustomerProfileEditScreen = props => {
                             </View>
 {/* Save Button  */}
                             <View style={{ marginTop: 20 }}>
-                            { isLoading ? <ActivityIndicator size={25} color={Colors.ORANGE}/> : <Button
+                            { isLoading ? <ActivityIndicator size={25} color={Colors.White}/> 
+                            : <Button
                                     label="Save"
                                     // onPress={() => { props.navigation.navigate('Profile') }}
                                     onPress={ handleSubmit } 
-                                    disabled={!isValid}
+                                   disabled={isValid || !isLoading}
                                 /> }
                             </View>
                         </View>
@@ -270,10 +282,11 @@ const styles = StyleSheet.create({
         marginTop: 5,
         padding: 10
     },
-    profileImg: {
-        height: 150,
-        width: 150,
-
+    profileImg:{ 
+        height: 145, 
+        width: 145,
+        borderRadius:68
+       
     },
     profileImg_Style: {
         borderRadius: 50,

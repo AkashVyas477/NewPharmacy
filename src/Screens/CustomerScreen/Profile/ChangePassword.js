@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import {View, Text , StyleSheet , TextInput , TouchableOpacity,Alert} from 'react-native';
 import { Header, Button,EyeButton } from '../../../Components/Common';
 import { Colors} from '../../../CommonConfig';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { Formik } from "formik";
 import * as yup from 'yup';
@@ -13,58 +14,38 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const ChangePassword = props => {
-    const [tnceye, setTncEye] = useState(false);
     const [cuEye, setCuEye] = useState(true)
     const [newEye, setNewEye] = useState(true)
     const [conEye, setConEye] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
 
     const onPressSave = async(values) => {
+        setIsLoading(true)
         const data = {
             currentPassword : values.currentPass,
             newPassword : values.newPass
         }
-        const response = await postPostLogin('changePassword', data)
-        if(response.success) { //Change Password Fail
-            
-            // Token Expired Error
-            if(response.data.error === 'User not Authenticated') { 
-                const refToken = await AsyncStorage.getItem('refreshToken') 
-                const refreshData = {
-                    refreshToken: refToken
-                }
-                const refreshResponse = await refreshToken(refreshData)
-                if(refreshResponse.success) {
-                    //Refresh Fail
-                    // LOG OUT IF THIS ERROR RISES
+        const response = await postPostLogin('changePassword',data)
+        // console.log(response);
+        console.log( "\n\n\n\nPassword  Show in Console     ", data );
+        console.log("\n\n\n\nPassword                  ", response);
 
-                    console.log("REFRESH FAIL     ",refreshResponse)
-                } else {
-                    // Refresh Success
-                    await AsyncStorage.setItem('token', refreshResponse.data.token)
-                    const reResponse = await postPostLogin('changePassword', data)
-                    if(reResponse.success){
-                        if(reResponse.data.error === 'Invalid Current password!' ){
-                            Toast.show('Invalid Password entered')
-                        }
-                    } else {
-                        Toast.show('Password changed successfully!')
-                        props.navigation.goBack();
-                    }
-                }
+        if (!response.success){
+            let errorMessage="Wrong Current Password";
+            if(response.data.error ==="Invalid Password" ){
+                errorMessage="Check Current Password "
             }
-
-            //Invalid Password entered Error
-            if(response.data.error === 'Invalid Current password!') {
-                Toast.show('Invalid Password entered')
-            }
-
-        } else { // Change Password Success
+            Alert.alert('Error',errorMessage,[{text:'Okay'}])
+            setIsLoading(false)
+        }else{
             Toast.show('Password changed successfully!')
             props.navigation.goBack();
+           
         }
     }
-
+    
     return (
+        <KeyboardAwareScrollView>
         <View style={styles.screen}>
 {/* Header  */}
             <View style={styles.header}>
@@ -99,6 +80,7 @@ const ChangePassword = props => {
                                     onBlur={() => setFieldTouched('currentPass')}
                                     onChangeText={handleChange('currentPass')}
                                     placeholder="Current Password"
+                                    autoCapitalize='none'
                                     // secureTextEntry={cuEye}
                                     secureTextEntry={cuEye ? true : false}
                                 />
@@ -116,6 +98,7 @@ const ChangePassword = props => {
                                     onBlur={() => setFieldTouched('newPass')}
                                     onChangeText={handleChange('newPass')}
                                     placeholder="New Password"
+                                    autoCapitalize='none'
                                     // secureTextEntry={newEye}
                                     secureTextEntry={newEye ? true : false}
                                 />
@@ -133,6 +116,7 @@ const ChangePassword = props => {
                                     onBlur={() => setFieldTouched('confirmPass')}
                                     onChangeText={handleChange('confirmPass')}
                                     placeholder="Confirm Password"
+                                    autoCapitalize='none'
                                     // secureTextEntry={conEye}
                                     secureTextEntry={conEye ? true : false}
                                 />
@@ -149,9 +133,10 @@ const ChangePassword = props => {
                             <Text style={styles.saveText}>Save</Text>
                         </TouchableOpacity> */}
                         <Button
-                        disabled={!isValid}
+                        showActivityIndicator={isLoading}
                          label="Save"
                          onPress={handleSubmit}
+                         disabled={isValid || !isLoading}
                         />
 
                     </View>
@@ -160,6 +145,7 @@ const ChangePassword = props => {
             </View>
 
         </View>
+        </KeyboardAwareScrollView>
     )
 };
 

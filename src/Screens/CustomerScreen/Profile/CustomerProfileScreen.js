@@ -20,17 +20,10 @@ const CustomerProfileScreen = props =>{
         getProfile()
     },[])
 
-    const getProfile = async() => {
-        const response = await getPreLogin('getProfile')
-    //    console.log("GET PROFILE     \n\n\n\n",JSON.stringify(response.data.data));
-
-        if(response.success) {
-            setUser(response.data.data)
-            console.log("Profile:   ", response.data.data);
-        } else {
-            console.log(response);
-        }
+    const getProfile = async()=>{
+        setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
     }
+
     return(
         <View style={styles.screen}>
              <KeyboardAwareScrollView>
@@ -47,15 +40,13 @@ const CustomerProfileScreen = props =>{
 
 {/* Image */}
              <View style={styles.SignupPlaceholder_Style}>
-             {/* <Image source={Images.SignupPlaceholder} style={styles.profileImg} /> */}
-             {/* {selectedImage ? <Image source={{uri:user.image}} style={{height:100,width:100,}}/> :<Image source={Images.SignupPlaceholder} style={styles.profileImg} />} */}
           <Image source={{uri:user.image}} style={styles.profileImg} />
             </View>
-                <View>
+                {/* <View>
                     <TouchableOpacity style={styles.addIcon}   onPress={()=> props.navigation.navigate('Edit_Profile',{user})} >
                         <Image source={Images.EditPencil} style={styles.addIconImg} />
                     </TouchableOpacity>
-                </View>
+                </View> */}
 
 {/* User Name */}
                 <View>
@@ -91,7 +82,7 @@ const CustomerProfileScreen = props =>{
                     <View >
                         <View style={{ paddingHorizontal: 1, marginLeft: 20, marginRight: 20, fontSize: 17, borderBottomWidth: 1, borderColor: Colors.borderBottomColor, marginTop: 10 }}>
                             <Text style={styles.value}>
-                                {user.phone}
+                               {user.country_code}{user.phone}
                             </Text>
                         </View>
                     </View>
@@ -110,19 +101,23 @@ const CustomerProfileScreen = props =>{
                         </View>
                     </View>
                 </View>
-                   
-{/* Change Password Button  */}
 
-                        <View style={{marginTop:20}}>
+{/* Edit Profile Button   */}
+                <View style={{ marginTop: 20 }}>
+                    <Button
+                        onPress={()=> props.navigation.navigate('Edit_Profile',{user})}
+                        label="Edit Profile"
+                    />
+                </View>
+{/* Change Password Button  */}
+                        <View style={{marginTop:10}}>
                             <Button
                             onPress ={()=> props.navigation.navigate('ChangePassword')} 
                             label="Change Password"
                             />
                             </View>
-
-
 {/* Logout Button  */}
-                            <View style={{marginTop:20}}>
+                            <View style={{marginTop:10}}>
                             <Button
                             onPress={() =>
                                 Alert.alert(
@@ -144,7 +139,6 @@ const CustomerProfileScreen = props =>{
                             />
                             </View>
                             </KeyboardAwareScrollView>
-
         </View>
     );
 };
@@ -193,7 +187,8 @@ const  styles=StyleSheet.create({
         borderRadius:50,
         overflow:'hidden',
         alignItems:'center', 
-        paddingTop:10
+        paddingTop:10,
+        paddingBottom:20
     },
 
   body:{

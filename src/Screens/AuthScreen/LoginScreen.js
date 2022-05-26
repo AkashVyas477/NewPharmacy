@@ -11,53 +11,68 @@ import {
     Alert,
     StatusBar
 } from 'react-native';
+
 import { Images, Colors, Constants } from '../../CommonConfig';
 import { CheckBox, EyeButton, Button } from '../../Components/Common';
-import { postRequest,} from '../../Components/Helpers/ApiHelper';
-import messaging from '@react-native-firebase/messaging';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Toast from 'react-native-simple-toast';
-import { useDispatch } from 'react-redux';
-
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import LoginValidationSchema from '../../ForValidationSchema/LoginValidationSchema'
+import messaging from '@react-native-firebase/messaging';
 
-import { Formik } from 'formik'
-import VerificationScreen from './VerificationScreen';
+import LoginValidationSchema from '../../ForValidationSchema/LoginValidationSchema'
+import { postRequest,} from '../../Components/Helpers/ApiHelper';
 import { CommonActions } from '@react-navigation/native';
 
+import {Formik } from 'formik'
+import { useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-simple-toast';
 
 
+
+const LOGIN = 'LOGIN';
 const LoginScreen = (props) => {
-    let deviceToken;
-    useEffect(() => {
-        // Get the device token
-        messaging()
-            .getToken()
-            .then(token => {
-                deviceToken = token
-            });
-    }, [])
 
-    const dispatch = useDispatch();
-    const [tnc, setTnc] = useState(false);
+  
     const [tnceye, setTncEye] = useState(false);
-    const [isLoading, setisLoading] = useState(false)
-    const tncHandler = () => {setTnc(state => !state);};
-
-   
+    const [isLoading, setIsLoading] = useState(false)
+    
     const onPressLogin = async (values) => {
-        setisLoading(true);
+        setIsLoading(true)
         const data = {
             email: values.email.toLowerCase(),
             password: values.password,
-            device_token: deviceToken
+            device_token: JSON.stringify(AsyncStorage.getItem('deviceToken'))
         };
-
+        //  console.log("LOGIN SCREEN:   ",typeof(data.device_token));
         const response = await postRequest('login', data);
-        const resData = response.data
-        console.log(response.data);
-       
+        const resData = response.data;
+        console.log(response)
+
+        // if (response.success){
+        //     setIsLoading(false);
+        //     let errorMessage="SomeThing Went Wrong!";
+        //     if(resData.ErrorMessage ==="User does not exist!"){
+        //         ErrorMessage = "User Does Not Exit !"
+        //     }
+        //     if(resData.ErrorMessage === "Invalid Password!"){
+        //         ErrorMessage = "Invalid PAsssword !"
+        //     }
+        //     Alert.alert('Error',errorMessage,[{text:"Okay"}])
+        // }else{
+        //     setIsLoading(false);
+        //     await AsyncStorage.setItem('token',resData.token)
+        //     // console.log("\n\n\n\n\ALL DATA             ", response.data);
+        //     // console.log("\n\n\n\n\nACCESS             ", response.data.access_token) 
+        //     await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+        //     await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+        //     await AsyncStorage.setItem('isLogin', "true")
+           
+        //     props.navigation.dispatch(
+        //         CommonActions.reset({
+        //             index:0,
+        //             routes: [{name: 'Drawer'}]
+        //         })
+        //     )
+        // }
         if (response.success) {
             try {
                 await AsyncStorage.setItem('token', resData.token)
@@ -77,7 +92,7 @@ const LoginScreen = (props) => {
         } else {
             if (resData.ErrorMessage === 'User does not exist!') {
                 Toast.show(" User does not exist! ");
-            } else if (resData.ErrorMessage === 'Invalid Password!') {
+            } else if (resData.ErrorMessage === 'Login Failed!') {
                 Toast.show("Incorrect Password")
             }
             setIsLoading(false)

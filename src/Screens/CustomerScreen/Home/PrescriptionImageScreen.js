@@ -131,9 +131,7 @@ const PrescriptionImageScreen = props => {
                 <Text style={{marginLeft: 15, fontSize:17}}>
                     Medicine Name
                 </Text>
-                
                 </View>
-
                 <View>
                 <TouchableOpacity>
                 <Text style={{color:Colors.orange , marginRight:10 , fontSize:15, fontWeight:'bold'}}>
@@ -142,8 +140,6 @@ const PrescriptionImageScreen = props => {
                 </TouchableOpacity>
                 </View>  
                 </View>
-
-
                 <View style={{width:"100%",padding:5,paddingLeft:10,paddingRight:10}} >
                
                 <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', borderBottomWidth:0.5}}>

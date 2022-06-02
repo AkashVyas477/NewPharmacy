@@ -48,12 +48,13 @@ const LoginScreen = (props) => {
     const [tnceye, setTncEye] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
     const tncHandler = () => {setTnc(state => !state);};
-
+   
    
     const onPressLogin = async (values) => {
         setIsLoading(true);
         const data = {
             email: values.email.toLowerCase(),
+           
             password: values.password,
             device_token: deviceToken
         };
@@ -67,7 +68,7 @@ const LoginScreen = (props) => {
                 await AsyncStorage.setItem('token', resData.token)
                 await AsyncStorage.setItem('refreshToken', resData.refreshToken)
                 await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-                await AsyncStorage.setItem('isLogin', "true")
+                await AsyncStorage.setItem('isLogin', "abc")
             } catch (error) {
                 console.log(error)
             }

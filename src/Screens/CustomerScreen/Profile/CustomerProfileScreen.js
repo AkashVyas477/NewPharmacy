@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions, Modal, Alert} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions, Modal, Alert,ActivityIndicator} from 'react-native';
 // import { Header, Button } from '../../../Components/Common';
 import Header from '../../../Components/Common/Header'
 import  Button  from '../../../Components/Common/Button';
@@ -13,17 +13,29 @@ import { getPreLogin } from '../../../Components/Helpers/ApiHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import Toast from 'react-native-simple-toast'
 
+
 const CustomerProfileScreen = props =>{
 
     const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(()=>{
+        const updateList = props.navigation.addListener('focus',()=>{
         getProfile()
-    },[])
+        setIsLoading(false)
+    });
+    return updateList; 
+    },[ props.navigation])
 
     const getProfile = async()=>{
         setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
+    }
+    if (isLoading){
+        return(
+            <View style={{...styles.screen, justifyContent:'center'}}>
+                <ActivityIndicator size={60} color={Colors.PRIMARY} />
+            </View>
+        )
     }
 
     return(

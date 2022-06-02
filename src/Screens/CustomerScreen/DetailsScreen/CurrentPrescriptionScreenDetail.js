@@ -76,6 +76,7 @@ const CurrentPrescriptionScreen = props => {
             console.log(deleteResponse.data)
         } else {
             props.navigation.goBack()
+
         }
         setDelLoader(false)
     }

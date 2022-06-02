@@ -29,10 +29,13 @@ const PrescriptionScreen = props => {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        getPrescriptionList();
-        getPastPrescription();
-       
-    }, [])
+        const updateList = props.navigation.addListener('focus',()=>{
+            getPrescriptionList();
+            getPastPrescription(); 
+        });
+
+     return updateList;  
+    }, [props.navigation])
 
     const getPrescriptionList = async () => {
         const response = await getParams ('customer/getPrescriptionsList/?page=1&state=current')
@@ -68,7 +71,7 @@ const PrescriptionScreen = props => {
                             <View style={styles.card} >
                             <TouchableOpacity  onPress={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { prescription: data.item, }) }}>
                             <View style={styles.Card_Sty}>
-                            {/* <Image source={{ uri:data.item.prescription_images[0].url}} style={styles.Image_Sty} resizeMode={'stretch'} /> */}
+                            <Image source={{ uri:data.item.prescription_images[0].url}} style={styles.Image_Sty} resizeMode={'stretch'} />
                                <View style={{flexDirection:'row'}}>
                                <View style={styles.Text_sty}>
                                     <View >

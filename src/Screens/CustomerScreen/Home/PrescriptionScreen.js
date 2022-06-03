@@ -27,6 +27,7 @@ const PrescriptionScreen = props => {
     const [prescriptionList, setprescriptionList] = useState([])
     const [PastPrescription, setpastprescriptionList]= useState([])
     const [isLoading, setIsLoading] = useState(true)
+    // const [page, setPage]= useState(1)
 
     useEffect(() => {
         const updateList = props.navigation.addListener('focus',()=>{
@@ -38,7 +39,7 @@ const PrescriptionScreen = props => {
     }, [props.navigation])
 
     const getPrescriptionList = async () => {
-        const response = await getParams ('customer/getPrescriptionsList/?page=1&state=current')
+        const response = await getParams (`customer/getPrescriptionsList/?page=1&state=current`)
       
         // console.log(response,"current");
         if (response.success) {
@@ -235,6 +236,8 @@ const PrescriptionScreen = props => {
                                         keyExtractor={item => item.id}
                                         renderItem={renderprescription}
                                         setIsLoading='false'
+                                        // onEndReachedThreshold={0.5}
+                                        // onEndReached={()=>setPage(page+1)}
                                         // onPress={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { prescription: data.item}) }}
                                         // onPress={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { prescription: data.item}) }}
                                     />

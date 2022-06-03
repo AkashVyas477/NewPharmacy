@@ -12,6 +12,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { postFormData } from '../../../Components/Helpers/ApiHelper';
 // import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux';
+import { Method } from 'ionicons/dist/types/stencil-public-runtime';
+import { string } from 'prop-types';
 
 
 
@@ -61,38 +64,34 @@ const PrescriptionImageScreen = props => {
     const [isLoading, setisLoading] = useState(false)
 
 // From Data 
-    // const submit = async () => {
-    //     const formdata = new FormData();
-    //     formdata.append('file', {
-    //         uri: images[0].path,
-    //         type: images[0].mime,
-    //         name: "1234",
-    //     })
-    //     formdata.append('string',)
-
-    //     let response = await fetch('https://mobile-pharmacy.herokuapp.com/customer/createPrescription', {
-    //         method: 'post',
-    //         headers: {
-    //             'Content-Type': 'multipart/form-data',
-    //             Authorization: 'Bearer ' + (await AsyncStorage.getItem('token'))
-    //         },
-    //         body: formdata
-    //     }).then(response => {
-    //         console.log("image uploaded")
-    //         props.navigation.goBack();
-    //     }).catch(err => {
-    //         console.log(err)
-    //     })
-
-    //     console.log("data       ", formdata._parts)
-    // };
-//   const formdata = new FormData();
-//   formdata.append("mediciens",)
-
-
+    const submit = async () => {
+        // const {mediciens,text_note} =this.state;
+        const formdata = new FormData();
+        formdata.append('file', JSON.stringify({
+            uri: images[0].path,
+            type: images[0].mime,
+            name: "1234",
+        }))
+           
+           
+        formdata.append('text_note',string)
+        // formdata.append('Medicine',JSON.stringify([]));
+        console.log("data       ", formdata._parts)   
+let res = await fetch('https://mobile-pharmacy.herokuapp.com/customer/createPrescription',
+{
+    method:'post',
+    body: formdata,
+    headers:{
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token'))
+    }
+})
+let responseJson = await res.json();
+console.log(responseJson,"ResponseJson")
+    };
 
     return (
-        <KeyboardAwareScrollView >
+      
             <View style={styles.main}>
                 <View style={styles.header_sty} >
                     {/* <StatusBar backgroundColor={selectedItem.bgColor} barStyle='light-content' /> */}
@@ -204,7 +203,7 @@ const PrescriptionImageScreen = props => {
                 <View style={styles.navBar}>
                 </View>
                 {/* divideing Screen   */}
-
+                <ScrollView>
                 <View style={styles.main}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10, marginTop: 15 }}>
 
@@ -224,19 +223,17 @@ const PrescriptionImageScreen = props => {
                         </View>
                     </View>
 
-
+            <ScrollView>
                     <View style={{ width: "100%", padding: 5, paddingLeft: 10, paddingRight: 10 }}>
                         <View>
                             {[...Array(numTextInputs).keys()].map(key => {
-                                console.log(key);
+                                console.log(" id  ",key);
                                 return (
 
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', ...styles.textInput }}>
                                         <TextInput
-                                            key={key}
+                                            key={id}
                                             placeholder="Medicine name"
-
-                                        // style={styles.textInput} 
                                         />
                                         <TouchableOpacity onPress={() => setNumTextInputs(val => val - 1)} >
                                             <Image source={Images.Delet} style={{ width: 20, height: 25 }} />
@@ -247,7 +244,7 @@ const PrescriptionImageScreen = props => {
                             })}
                         </View>
                     </View>
-
+                    </ScrollView>
                     {/* Text Note */}
                     <View style={{ marginLeft: 15, fontSize: 17, padding: 10, marginTop: 15 }}>
                         <Text>
@@ -258,8 +255,7 @@ const PrescriptionImageScreen = props => {
                         <View style={{ borderBottomWidth: 0.5 }}>
                             <TextInput
                                 placeholder='Text Note'
-
-                            // onChangeText={text=>this.setState({text_note:text})}
+                                // onChangeText={}
                             />
                         </View>
                     </View>
@@ -267,14 +263,12 @@ const PrescriptionImageScreen = props => {
                 <View>
                     <Button
                         label="Submit"
-                        // onPress={submit}
+                        onPress={submit}
                     />
                 </View>
-
-
-
+                </ScrollView>
             </View>
-        </KeyboardAwareScrollView >
+       
     );
 };
 

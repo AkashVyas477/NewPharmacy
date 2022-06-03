@@ -39,38 +39,40 @@ export const postRequest = async (url, data) => {
 
 
 
-export const postFormData = async( url, data ) => {
-  console.log("Data: ",data)
-  return await axios
-  .post( BASE_URL + url,{
-      headers:{          
-          'Content-Type': 'multipart/form-data',
-      },
-      body:data
-  })
-  .then( (response) => {
-      if(response.data.status===200) {
-          return {
-            success: true,
-            data: response.data,
-            statusCode: response.status,
-          };
-      } else {
-          return {
-            success: '123',
-            data: response.data,
-            statusCode: response.status,
-          };
-      }
-  })
-  .catch((error) => {
-        return {
-          success: false,
-          data: error.response.data,
-          statusCode: error.response.status,
-      };
-  });
-}
+// export const postFormData = async( url,formdata) => {
+
+//   return await axios
+//   .post( BASE_URL + url,{
+//       headers:{          
+//           'Content-Type': 'multipart/form-data',
+//           Authorization: 'Bearer ' + (await AsyncStorage.getItem('token'))
+//       },
+//       body:formdata
+//   })
+//   .then((response) => {
+//     if (response.status === 200) {
+//       return {
+//         success: true,
+//         formdata: response.formdata,
+//         statusCode: response.status,
+//       };
+//     } else {
+//       return {
+//         success: false,
+//         formdata: response.formdata,
+//         statusCode: response.status,
+//       };
+//     }
+//   })
+//   .catch((error) => {
+//     return {
+//       success: false,
+//       formdata: error.response.formdata,
+//       statusCode: error.response.status,
+//     };
+//   });
+
+// };
 
 
 export const postPostLogin = async(url,data) => {

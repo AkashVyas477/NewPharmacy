@@ -66,9 +66,8 @@ const PrescriptionScreen = props => {
     }
 
     const renderprescription =data => {
-        // console.log("\n\nDATA:       ",data);
+        // console.log("\n\nDATA:       ",data.item.prescription_images);
         return (
-           
                             <View style={styles.card} >
                             <TouchableOpacity  onPress={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { prescription: data.item, }) }}>
                             <View style={styles.Card_Sty}>
@@ -94,10 +93,8 @@ const PrescriptionScreen = props => {
                             </View>
                             </TouchableOpacity>
                         </View>
-
         )
     }
-
     const Pastrenderprescription = data => {
         // console.log("\n\nDATA:       ",data);
         return (

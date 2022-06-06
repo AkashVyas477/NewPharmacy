@@ -19,8 +19,13 @@ import { string } from 'prop-types';
 
 
 const PrescriptionImageScreen = props => {
+
+    
+
+
     // const row = 2 
     const [numTextInputs, setNumTextInputs] = React.useState(0);
+
     const [selectedImage, setSelectedImage] = useState(null)
     const [images, setImages] = useState([])
     const [visible, setVisible] = React.useState(false);
@@ -65,17 +70,15 @@ const PrescriptionImageScreen = props => {
 
 // From Data 
     const submit = async () => {
-        // const {mediciens,text_note} =this.state;
         const formdata = new FormData();
-        formdata.append('file', JSON.stringify({
+        formdata.append('image', {
             uri: images[0].path,
             type: images[0].mime,
             name: "1234",
-        }))
-           
-           
-        formdata.append('text_note',string)
-        // formdata.append('Medicine',JSON.stringify([]));
+        }
+        )
+        formdata.append("medicine",JSON.stringify(name))
+        formdata.append("text_note",text_note)
         console.log("data       ", formdata._parts)   
 let res = await fetch('https://mobile-pharmacy.herokuapp.com/customer/createPrescription',
 {
@@ -83,12 +86,36 @@ let res = await fetch('https://mobile-pharmacy.herokuapp.com/customer/createPres
     body: formdata,
     headers:{
         'Content-Type': 'multipart/form-data',
-        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token'))
+        Authorization: 'Bearer '+(await AsyncStorage.getItem('token'))
     }
 })
 let responseJson = await res.json();
+
 console.log(responseJson,"ResponseJson")
-    };
+};
+
+const[text_note, setText_note]=useState('')
+const [name, setname]= useState([''])
+const [inputs, setInputs] = useState([{key: '', value: ''}]);
+
+    const addHandler = ()=>{
+      const _inputs = [...inputs];
+      _inputs.push({key: '', value: ''});
+      setInputs(_inputs);
+    }
+    
+    const deleteHandler = (key)=>{
+      const _inputs = inputs.filter((inputs,index) => index != key);
+      setInputs(_inputs);
+    }
+  
+    const inputHandler = (text, key)=>{
+        const _inputs = [...inputs];
+        _inputs[key].value = text;
+        _inputs[key].key   = key;
+        setInputs(_inputs);
+        
+      }
 
     return (
       
@@ -215,7 +242,10 @@ console.log(responseJson,"ResponseJson")
                         </View>
 
                         <View>
-                            <TouchableOpacity onPress={() => setNumTextInputs(val => val + 1)}>
+                            <TouchableOpacity 
+                            // onPress={() => setNumTextInputs(val => val + 1)}
+                            onPress={addHandler}
+                              >
                                 <Text style={{ color: Colors.orange, marginRight: 10, fontSize: 15, fontWeight: 'bold' }}>
                                     ADD
                                 </Text>
@@ -223,28 +253,78 @@ console.log(responseJson,"ResponseJson")
                         </View>
                     </View>
 
-            <ScrollView>
+                    {/* <View style={{...styles.textInput,marginLeft:8, marginRight:8,padding:5 }}>
+                        <TextInput
+                           
+                            placeholder="Medicine name"
+                            onChangeText={e=> setname (e)}
+                            value={name}
+                        />
+                    </View> */}
+
+                    {/* <View  >
+                        <View style={{flexDirection:'row', ...styles.textInput1,marginLeft:8, marginRight:8}} >
+                                         <TextInput
+                                            key={id}
+                                            placeholder="Medicine name"
+                                            onChangeText={e=> setname (e)}
+                                            value={name}
+                                        />
+                    <View style={{ flexDirection: 'row',padding:5, }}>
+                                        <TouchableOpacity onPress={() => setNumTextInputs(val => val + 1)} style={{paddingRight:10}} >
+                                           <Image source={Images.EditTools} style={{ width: 25, height: 25 }} />
+                                       </TouchableOpacity>
+
+                                       <TouchableOpacity onPress={() => setNumTextInputs(val => val - 1)} >
+                                           <Image source={Images.Delet} style={{ width: 20, height: 25 }} />
+                                       </TouchableOpacity>
+                                   </View>
+                                        </View>
+                     </View> */}
+
+
+            {/* <ScrollView>
                     <View style={{ width: "100%", padding: 5, paddingLeft: 10, paddingRight: 10 }}>
                         <View>
-                            {[...Array(numTextInputs).keys()].map(key => {
+                            {[...Array(numTextInputs).keys()].map(key=> {
                                 console.log(" id  ",key);
                                 return (
-
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', ...styles.textInput }}>
                                         <TextInput
                                             key={id}
                                             placeholder="Medicine name"
+                                            onChangeText={e => setname(e)}
+                                            value={name}
                                         />
                                         <TouchableOpacity onPress={() => setNumTextInputs(val => val - 1)} >
                                             <Image source={Images.Delet} style={{ width: 20, height: 25 }} />
                                         </TouchableOpacity>
-
                                     </View>
                                 )
                             })}
                         </View>
                     </View>
+                    </ScrollView> */}
+
+                    <ScrollView >
+                        <View style={{ width: "100%", padding: 5, paddingLeft: 10, paddingRight: 10 }}>
+                        {inputs.map((input, key) => (
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', ...styles.textInput }}>
+                                <TextInput 
+                                placeholder={"Enter Name"} 
+                                value={input.value} 
+                                onChangeText={(text) => inputHandler(text,key)} 
+                                // onChangeText={e => setname(e)}
+                                />
+                                <TouchableOpacity onPress={() => deleteHandler(key)}>
+                                <Image source={Images.Delet} style={{ width: 20, height: 25 }} />
+                                    {/* <Text style={{ color: "red", fontSize: 13 }}>Delete</Text> */}
+                                </TouchableOpacity>
+                            </View>
+                        ))}
+                        </View>
                     </ScrollView>
+
                     {/* Text Note */}
                     <View style={{ marginLeft: 15, fontSize: 17, padding: 10, marginTop: 15 }}>
                         <Text>
@@ -255,7 +335,8 @@ console.log(responseJson,"ResponseJson")
                         <View style={{ borderBottomWidth: 0.5 }}>
                             <TextInput
                                 placeholder='Text Note'
-                                // onChangeText={}
+                               onChangeText={e => setText_note(e)}
+                               value={text_note}
                             />
                         </View>
                     </View>
@@ -344,7 +425,8 @@ const styles = StyleSheet.create({
 
     parent: { justifyContent: "flex-start", alignItems: "flex-start", },
 
-    textInput: { alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 0.5 },
+    textInput: { alignItems:'center', justifyContent: 'space-between', borderBottomWidth: 0.5,paddingLeft: 10, paddingRight: 10 },
+    textInput1: { justifyContent: 'space-between', borderBottomWidth: 0.5 , alignItems:'center', paddingLeft: 10, paddingRight: 10,},
 });
 
 export default PrescriptionImageScreen;

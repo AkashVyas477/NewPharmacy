@@ -18,6 +18,8 @@ import { useDispatch } from 'react-redux';
 
 
 const CustomerSignupScreen = props => {
+    const role = props.route.params.role
+
     const [tnc, setTnc] = useState(false);
     const tncHandler = () => {
         setTnc(state => !state);
@@ -39,6 +41,7 @@ const CustomerSignupScreen = props => {
 
 const [selectedImage, setSelectedImage] = useState(null)
    const [modalVisible, setModalVisible] = useState(false);
+
    const takeFromCamera = () => {
     ImagePicker.openCamera({
             width: 100,
@@ -141,10 +144,10 @@ const dispatch= useDispatch();
                         
                     }}
                     onSubmit={(values) =>{
-                        const data = {username:values.username, email:values.email, password:values.password, gender:values.gender,}
-                        dispatch(registerAction.addDetails(data));
+                        const data = {username:values.username, email:values.email, password:values.password, gender:values.gender, role ,selectedImage}
+                        // dispatch(registerAction.addDetails(data));
                         console.log(data)
-                        props.navigation.navigate('PhoneNumberScreen')
+                        props.navigation.navigate('PhoneNumberScreen',{data})
                     }}
                     // onSubmit={onPressRegister}
                     validationSchema={SignUpValidationSchemaCustomer}

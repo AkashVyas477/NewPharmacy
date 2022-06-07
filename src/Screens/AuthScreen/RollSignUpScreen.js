@@ -89,9 +89,10 @@ const RollSignupScreen = props =>{
                     {showButton ?<Button
                         onPress={()=>{
                             dispatch(registerAction.setUserRole(customer?1:2))
+                            customer ? props.navigation.navigate('CustomerSignup',{role:customer ? 1:2}) : 
+                            props.navigation.navigate('PharmacistSingup',{role:customer?1:2}) 
+
                             console.log(registerAction.setUserRole(customer?1:2));
-                            customer ? props.navigation.navigate('CustomerSignup') : 
-                            props.navigation.navigate('PharmacistSingup') 
                         }}
                         label={customer ? "I'm Customer": "I'm Pharmacist"}    />
                 : null}

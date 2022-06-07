@@ -13,6 +13,8 @@ import { postRequest } from '../../Components/Helpers/ApiHelper';
 
 
 const PhoneNumberScreen = props => {
+    const params = props.route.params.data
+
     const [isLoading, setisLoading]=useState(false)
     const [show, setShow] = useState(false);
     const [countryCode, setCountryCode] = useState('IN');
@@ -40,8 +42,7 @@ const PhoneNumberScreen = props => {
         let errorMsg = 'Something went wrong!';
         if (response.success) {
             setisLoading(false);
-            
-            props.navigation.navigate('VerificationScreen',{countryCode: countryCode, phoneNumber: phoneNumber})
+            props.navigation.navigate('VerificationScreen',{countryCode: countryCode, phoneNumber: phoneNumber,params})
         } else {
             setisLoading(false);
             Alert.alert("Error",errorMsg,[{text:"Okay"}])

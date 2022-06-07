@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Modal, ScrollView, Dimensions, FlatList, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Modal, ScrollView, ActivityIndicator, Dimensions, FlatList, Alert } from 'react-native';
 // import { Header, Button, } from '../../../Components/Common';
 import Header from '../../../Components/Common/Header';
 import Button from '../../../Components/Common/Button';
@@ -20,12 +20,12 @@ import { string } from 'prop-types';
 
 const PrescriptionImageScreen = props => {
 
-    
+
 
 
     // const row = 2 
-    const [numTextInputs, setNumTextInputs] = React.useState(0);
-
+    // const [numTextInputs, setNumTextInputs] = React.useState(0);
+    const [isLoading, setIsLoading] = useState(false)
     const [selectedImage, setSelectedImage] = useState(null)
     const [images, setImages] = useState([])
     const [visible, setVisible] = React.useState(false);
@@ -66,10 +66,11 @@ const PrescriptionImageScreen = props => {
     };
 
     const [show, setShow] = useState(false);
-    const [isLoading, setisLoading] = useState(false)
 
-// From Data 
+
+    // From Data 
     const submit = async () => {
+        // if (responseJson.sucess) {
         const formdata = new FormData();
         formdata.append('image', {
             uri: images[0].path,
@@ -77,160 +78,174 @@ const PrescriptionImageScreen = props => {
             name: "1234",
         }
         )
-        formdata.append("medicine",JSON.stringify(name))
-        formdata.append("text_note",text_note)
-        console.log("data       ", formdata._parts)   
-let res = await fetch('https://mobile-pharmacy.herokuapp.com/customer/createPrescription',
-{
-    method:'post',
-    body: formdata,
-    headers:{
-        'Content-Type': 'multipart/form-data',
-        Authorization: 'Bearer '+(await AsyncStorage.getItem('token'))
-    }
-})
-let responseJson = await res.json();
+        formdata.append("medicine", JSON.stringify(inputs))
+        formdata.append("text_note", text_note)
+        console.log("data       ", formdata._parts)
+       let res = await fetch('https://mobile-pharmacy.herokuapp.com/customer/createPrescription',
+            {
+                method: 'post',
+                body: formdata,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: 'Bearer ' + (await AsyncStorage.getItem('token'))
+                }
+            })
+            // .then(response => {
+            //     console.log("image uploaded")
+            //     props.navigation.goBack()
 
-console.log(responseJson,"ResponseJson")
-};
+            // }).catch(err => {
+            //     console.log(err)
+            // })
 
-const[text_note, setText_note]=useState('')
-const [name, setname]= useState([''])
-const [inputs, setInputs] = useState([{key: '', value: ''}]);
+        let responseJson = await res.json()
+            props.navigation.goBack()
+            Alert.alert("Prescription created Successfully")
+            // setIsLoading(false)
 
-    const addHandler = ()=>{
-      const _inputs = [...inputs];
-      _inputs.push({key: '', value: ''});
-      setInputs(_inputs);
-    }
-    
-    const deleteHandler = (key)=>{
-      const _inputs = inputs.filter((inputs,index) => index != key);
-      setInputs(_inputs);
-    }
-  
-    const inputHandler = (text, key)=>{
-        const _inputs = [...inputs];
-        _inputs[key].value = text;
-        _inputs[key].key   = key;
-        setInputs(_inputs);
+        console.log(responseJson,"ResponseJson")
         
-      }
+        
+    };
+
+    const [text_note, setText_note] = useState('')
+    // const [name, setname]= useState([''])
+    const [inputs, setInputs] = useState([{ key: '', name: '' }]);
+
+    const addHandler = () => {
+        const _inputs = [...inputs];
+        _inputs.push({ key: '', name: '' });
+        setInputs(_inputs);
+    }
+
+    const deleteHandler = (key) => {
+        const _inputs = inputs.filter((inputs, index) => index != key);
+        setInputs(_inputs);
+    }
+
+    const inputHandler = (text, key) => {
+        const _inputs = [...inputs];
+        _inputs[key].name = text;
+        _inputs[key].key = key;
+        console.log(_inputs)
+        setInputs(_inputs);
+
+    }
 
     return (
-      
-            <View style={styles.main}>
-                <View style={styles.header_sty} >
-                    {/* <StatusBar backgroundColor={selectedItem.bgColor} barStyle='light-content' /> */}
-                    <Header
-                        Title="CREATE REQUEST"
-                        onPress={() => props.navigation.goBack()}
+
+        <View style={styles.main}>
+            <View style={styles.header_sty} >
+                {/* <StatusBar backgroundColor={selectedItem.bgColor} barStyle='light-content' /> */}
+                <Header
+                    Title="CREATE REQUEST"
+                    onPress={() => props.navigation.goBack()}
+                />
+            </View>
+
+            <View style={{ marginLeft: 20, marginTop: 20 }} >
+                <Text style={{ color: Colors.Sp_Text, fontSize: 15, fontWeight: 'bold' }}>
+                    Upload Prescription details
+                </Text>
+            </View>
+
+            {/* Image  */}
+
+            <View style={{ flexDirection: 'row', marginTop: 22, }} >
+
+                <View style={{ marginLeft: 10, marginBottom: 20, marginTop: 22, justifyContent: 'flex-start' }}  >
+                    <TouchableOpacity onPress={() => setModalVisible(true)}>
+                        <Image source={Images.Placeholder} style={{ height: 100, width: 100, }} />
+                    </TouchableOpacity>
+                    {/* MOdal for add image */}
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            setModalVisible(!modalVisible);
+                        }}
+                    >
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>Choose option: </Text>
+                                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                    <View style={{ margin: 5 }}>
+                                        <TouchableOpacity onPress={takeFromCamera}>
+                                            <Image source={Images.Camera} style={{ height: 100, width: 100 }} />
+                                        </TouchableOpacity>
+                                        <View style={{ marginTop: 5 }}>
+                                            <Text style={{ textAlign: 'center' }} >
+                                                Capture new photo
+                                            </Text>
+                                            <Text style={{ textAlign: 'center' }}>
+                                                of prescription
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={{ margin: 5 }}>
+                                        <TouchableOpacity onPress={pickFromGallery} >
+                                            <Image source={Images.Gallery} style={{ height: 100, width: 100 }} />
+                                        </TouchableOpacity>
+                                        <View style={{ marginTop: 5 }}>
+                                            <Text style={{ textAlign: 'center' }}>
+                                                Upload
+                                            </Text>
+                                            <Text style={{ textAlign: 'center' }}>
+                                                prescription
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </View>
+
+                                <TouchableOpacity
+                                    style={[styles.buttonModal, styles.buttonClose]}
+                                    onPress={() => { setModalVisible(false) }}
+                                >
+                                    <Text style={styles.textStyle}>Close</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
+                </View>
+
+
+                <View style={{ marginLeft: 20, flexDirection: 'row', }}>
+
+                    <FlatList
+                        numColumns={2}
+                        data={images}
+                        renderItem={(image) => {
+                            //   console.log("Images       ",image);
+
+                            return (
+                                <View>
+                                    <View style={{
+                                        top: Dimensions.get('window').width * 0.01,
+                                        left: Dimensions.get('window').width * 0.23,
+                                    }} >
+                                        <TouchableOpacity
+                                            onPress={handleRemoveImgClick}
+                                        >
+                                            <Image source={Images.Remove} style={{ height: 15, width: 15, }} />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View key={image.id} style={{ flexGrow: 1, marginLeft: 5, padding: 5 }}>
+                                        <Image source={{ uri: image.item.path }} style={{ height: 100, width: 100, borderRadius: 10 }} />
+                                    </View>
+                                </View>
+                            )
+                        }}
                     />
                 </View>
 
-                <View style={{ marginLeft: 20, marginTop: 20 }} >
-                    <Text style={{ color: Colors.Sp_Text, fontSize: 15, fontWeight: 'bold' }}>
-                        Upload Prescription details
-                    </Text>
-                </View>
-
                 {/* Image  */}
-
-                <View style={{ flexDirection: 'row', marginTop: 22, }} >
-
-                    <View style={{ marginLeft: 10, marginBottom: 20, marginTop: 22, justifyContent: 'flex-start' }}  >
-                        <TouchableOpacity onPress={() => setModalVisible(true)}>
-                            <Image source={Images.Placeholder} style={{ height: 100, width: 100, }} />
-                        </TouchableOpacity>
-                        {/* MOdal for add image */}
-                        <Modal
-                            animationType="slide"
-                            transparent={true}
-                            visible={modalVisible}
-                            onRequestClose={() => {
-                                setModalVisible(!modalVisible);
-                            }}
-                        >
-                            <View style={styles.centeredView}>
-                                <View style={styles.modalView}>
-                                    <Text style={styles.modalText}>Choose option: </Text>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                        <View style={{ margin: 5 }}>
-                                            <TouchableOpacity onPress={takeFromCamera}>
-                                                <Image source={Images.Camera} style={{ height: 100, width: 100 }} />
-                                            </TouchableOpacity>
-                                            <View style={{ marginTop: 5 }}>
-                                                <Text style={{ textAlign: 'center' }} >
-                                                    Capture new photo
-                                                </Text>
-                                                <Text style={{ textAlign: 'center' }}>
-                                                    of prescription
-                                                </Text>
-                                            </View>
-                                        </View>
-                                        <View style={{ margin: 5 }}>
-                                            <TouchableOpacity onPress={pickFromGallery} >
-                                                <Image source={Images.Gallery} style={{ height: 100, width: 100 }} />
-                                            </TouchableOpacity>
-                                            <View style={{ marginTop: 5 }}>
-                                                <Text style={{ textAlign: 'center' }}>
-                                                    Upload
-                                                </Text>
-                                                <Text style={{ textAlign: 'center' }}>
-                                                    prescription
-                                                </Text>
-                                            </View>
-                                        </View>
-                                    </View>
-
-                                    <TouchableOpacity
-                                        style={[styles.buttonModal, styles.buttonClose]}
-                                        onPress={() => { setModalVisible(false) }}
-                                    >
-                                        <Text style={styles.textStyle}>Close</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </Modal>
-                    </View>
-
-
-                    <View style={{ marginLeft: 20, flexDirection: 'row', }}>
-
-                        <FlatList
-                            numColumns={2}
-                            data={images}
-                            renderItem={(image) => {
-                                //   console.log("Images       ",image);
-
-                                return (
-                                    <View>
-                                        <View style={{
-                                            top: Dimensions.get('window').width * 0.01,
-                                            left: Dimensions.get('window').width * 0.23,
-                                        }} >
-                                            <TouchableOpacity
-                                                onPress={handleRemoveImgClick}
-                                            >
-                                                <Image source={Images.Remove} style={{ height: 15, width: 15, }} />
-                                            </TouchableOpacity>
-                                        </View>
-                                        <View key={image.id} style={{ flexGrow: 1, marginLeft: 5, padding: 5 }}>
-                                            <Image source={{ uri: image.item.path }} style={{ height: 100, width: 100, borderRadius: 10 }} />
-                                        </View>
-                                    </View>
-                                )
-                            }}
-                        />
-                    </View>
-
-                    {/* Image  */}
-                </View>
-                {/* divideing Screen   */}
-                <View style={styles.navBar}>
-                </View>
-                {/* divideing Screen   */}
-                <ScrollView>
+            </View>
+            {/* divideing Screen   */}
+            <View style={styles.navBar}>
+            </View>
+            {/* divideing Screen   */}
+            <ScrollView>
                 <View style={styles.main}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10, marginTop: 15 }}>
 
@@ -242,86 +257,33 @@ const [inputs, setInputs] = useState([{key: '', value: ''}]);
                         </View>
 
                         <View>
-                            <TouchableOpacity 
-                            // onPress={() => setNumTextInputs(val => val + 1)}
-                            onPress={addHandler}
-                              >
+                            <TouchableOpacity
+                                // onPress={() => setNumTextInputs(val => val + 1)}
+                                onPress={addHandler}
+                            >
                                 <Text style={{ color: Colors.orange, marginRight: 10, fontSize: 15, fontWeight: 'bold' }}>
                                     ADD
                                 </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-
-                    {/* <View style={{...styles.textInput,marginLeft:8, marginRight:8,padding:5 }}>
-                        <TextInput
-                           
-                            placeholder="Medicine name"
-                            onChangeText={e=> setname (e)}
-                            value={name}
-                        />
-                    </View> */}
-
-                    {/* <View  >
-                        <View style={{flexDirection:'row', ...styles.textInput1,marginLeft:8, marginRight:8}} >
-                                         <TextInput
-                                            key={id}
-                                            placeholder="Medicine name"
-                                            onChangeText={e=> setname (e)}
-                                            value={name}
-                                        />
-                    <View style={{ flexDirection: 'row',padding:5, }}>
-                                        <TouchableOpacity onPress={() => setNumTextInputs(val => val + 1)} style={{paddingRight:10}} >
-                                           <Image source={Images.EditTools} style={{ width: 25, height: 25 }} />
-                                       </TouchableOpacity>
-
-                                       <TouchableOpacity onPress={() => setNumTextInputs(val => val - 1)} >
-                                           <Image source={Images.Delet} style={{ width: 20, height: 25 }} />
-                                       </TouchableOpacity>
-                                   </View>
-                                        </View>
-                     </View> */}
-
-
-            {/* <ScrollView>
-                    <View style={{ width: "100%", padding: 5, paddingLeft: 10, paddingRight: 10 }}>
-                        <View>
-                            {[...Array(numTextInputs).keys()].map(key=> {
-                                console.log(" id  ",key);
-                                return (
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', ...styles.textInput }}>
-                                        <TextInput
-                                            key={id}
-                                            placeholder="Medicine name"
-                                            onChangeText={e => setname(e)}
-                                            value={name}
-                                        />
-                                        <TouchableOpacity onPress={() => setNumTextInputs(val => val - 1)} >
-                                            <Image source={Images.Delet} style={{ width: 20, height: 25 }} />
-                                        </TouchableOpacity>
-                                    </View>
-                                )
-                            })}
-                        </View>
-                    </View>
-                    </ScrollView> */}
-
                     <ScrollView >
                         <View style={{ width: "100%", padding: 5, paddingLeft: 10, paddingRight: 10 }}>
-                        {inputs.map((input, key) => (
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', ...styles.textInput }}>
-                                <TextInput 
-                                placeholder={"Enter Name"} 
-                                value={input.value} 
-                                onChangeText={(text) => inputHandler(text,key)} 
-                                // onChangeText={e => setname(e)}
-                                />
-                                <TouchableOpacity onPress={() => deleteHandler(key)}>
-                                <Image source={Images.Delet} style={{ width: 20, height: 25 }} />
-                                    {/* <Text style={{ color: "red", fontSize: 13 }}>Delete</Text> */}
-                                </TouchableOpacity>
-                            </View>
-                        ))}
+                            {inputs.map((input, key) => (
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', ...styles.textInput }}>
+                                    <TextInput
+                                        placeholder={"Enter Name"}
+                                        value={input.name}
+                                        onChangeText={(text) => inputHandler(text, key)}
+                                    // value={name}
+                                    // onChangeText={e => setname(e)}
+                                    />
+                                    <TouchableOpacity onPress={() => deleteHandler(key)}>
+                                        <Image source={Images.Delet} style={{ width: 20, height: 25 }} />
+                                        {/* <Text style={{ color: "red", fontSize: 13 }}>Delete</Text> */}
+                                    </TouchableOpacity>
+                                </View>
+                            ))}
                         </View>
                     </ScrollView>
 
@@ -335,21 +297,27 @@ const [inputs, setInputs] = useState([{key: '', value: ''}]);
                         <View style={{ borderBottomWidth: 0.5 }}>
                             <TextInput
                                 placeholder='Text Note'
-                               onChangeText={e => setText_note(e)}
-                               value={text_note}
+                                onChangeText={e => setText_note(e)}
+                                value={text_note}
                             />
                         </View>
                     </View>
                 </View>
+
                 <View>
-                    <Button
+                   <Button
                         label="Submit"
                         onPress={submit}
+                        // showActivityIndicator={isLoading}
+                        // disabled={!isLoading}
+                        
                     />
+
                 </View>
-                </ScrollView>
-            </View>
-       
+
+            </ScrollView>
+        </View>
+
     );
 };
 
@@ -425,8 +393,8 @@ const styles = StyleSheet.create({
 
     parent: { justifyContent: "flex-start", alignItems: "flex-start", },
 
-    textInput: { alignItems:'center', justifyContent: 'space-between', borderBottomWidth: 0.5,paddingLeft: 10, paddingRight: 10 },
-    textInput1: { justifyContent: 'space-between', borderBottomWidth: 0.5 , alignItems:'center', paddingLeft: 10, paddingRight: 10,},
+    textInput: { alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 0.5, paddingLeft: 10, paddingRight: 10 },
+    textInput1: { justifyContent: 'space-between', borderBottomWidth: 0.5, alignItems: 'center', paddingLeft: 10, paddingRight: 10, },
 });
 
 export default PrescriptionImageScreen;

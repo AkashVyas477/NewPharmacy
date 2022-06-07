@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux';
 import * as registerAction from '../../../Store/Actions/register'
 
 const PharmacistSignUpScreen = props =>{
+    const role = props.route.params.role
 
     const [tnc, setTnc] = useState(false);
     const tncHandler = () => {
@@ -139,10 +140,10 @@ const dispatch= useDispatch();
 
                     }}
                     onSubmit={values =>{
-                        const data = {username:values.username, email: values.email, password: values.password,gender: values.gender,storeName: values.storeName,licenseId: values.licenseId}
+                        const data = {username:values.username, email: values.email, password: values.password,gender: values.gender,storeName: values.storeName,licenseId: values.licenseId ,role ,selectedImage}
                         // console.log(dispatch)
                         dispatch(registerAction.addDetails(data));
-                        props.navigation.navigate('PhoneNumberScreen')
+                        props.navigation.navigate('PhoneNumberScreen',{data})
                     }} 
                     validationSchema={SignUpValidationSchema}
                 >

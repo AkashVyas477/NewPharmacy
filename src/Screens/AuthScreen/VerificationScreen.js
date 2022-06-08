@@ -49,37 +49,56 @@ const VerificationScreen = props => {
       otp: otp,
       country_code: countryCode,
       phone_number: phoneNumber,
-      // channel:"sms"
+      channel:"sms"
     }
     const response = await postRequest('verifyOTP', verifyOTP);
     console.log(response)
     const resData = response.data;
     let errorMsg = 'Something went wrong!';
     if (response.success) {
+
       const user = new FormData();
-      user.append('image', { uri: data.selectedImage.path, type: data.selectedImage.mime, name: makeid(10) })
+      user.append('role', data.role)
+      user.append('name', data.username)
       user.append('email', data.email)
       user.append('password', data.password)
-      user.append('role', data.role)
+      user.append('gender',data.gender)
       user.append("country_code", countryCode)
       user.append("phone_number", phoneNumber)
-      user.append('name', data.username.trim())
+      user.append('image', { 
+        uri: data.selectedImage.path, 
+        type: data.selectedImage.mime, 
+        name: makeid(10)
+      })
+      user.append('store_name',data.storeName)
+      user.append('licenseId',data.licenseId)
+      console.log("FormData      ",user)
+     
+      //  user.append('image', { uri: data.selectedImage.path, type: data.selectedImage.mime, name: makeid(10) })
+      // user.append('email', data.email)
+      // user.append('password', data.password)
+      // // user.append('role', data.role)
+      // user.append("country_code", countryCode)
+      // user.append("phone_number", phoneNumber)
+      // user.append('name', data.username.trim())
+      // user.append('store_name',data.storeName)
+      // user.append('licenseId',data.licenseId)
+      // console.log("FormData      ",user)
+    
       //image, email, password, role, phone & cc , username
-
-      const res = await fetch('https://mobile-pharmacy.herokuapp.com/register', 
+      let res = await fetch('https://mobile-pharmacy.herokuapp.com/register', 
       {
         method: 'post',
+        body: user,
         headers: {
           "Content-Type": "multipart/form-data"
-        },
-        body: user
+        }
+        
       })
-
-      const registerResponse = await res.json()
-      console.log(registerResponse)
+     let registerResponse = await res.json()
+      console.log("123   ",registerResponse)
      
-
-      if (registerResponse.status === 1) {
+      if (registerResponse.status === 200) {
         //SUCCESS
         const loginData = {
           email: data.email,
@@ -90,28 +109,53 @@ const VerificationScreen = props => {
 
         const response = await postPreLogin('login', loginData)
         const resData = response.data
+
         if (response.success) {
           try {
-            await AsyncStorage.setItem('token', resData.token)
-            await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-            await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-            await AsyncStorage.setItem('isLogin', "abc")
+              await AsyncStorage.setItem('token', resData.token)
+              await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+              await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+              await AsyncStorage.setItem('isLogin', "abc")
           } catch (error) {
-            console.log(error)
+              console.log(error)
           }
           props.navigation.dispatch(
-            CommonActions.reset({
-              index: 0,
-              routes: [{ name: 'Drawer' }]
-            })
+              CommonActions.reset({
+                  index:0,
+                  routes: [{name: 'Drawer'}]
+              })
           )
-        } else {
-          if (resData.error === 'User does not exist!') {
-            Toast.show(" User does not exist! ");
-          } else if (resData.error === 'Invalid Password!') {
-            Toast.show("Incorrect Password")
+          setIsLoading(false);
+      } else {
+          if (resData.ErrorMessage === 'User does not exist!') {
+              Toast.show(" User does not exist! ");
+          } else if (resData.ErrorMessage === 'Invalid Password!') {
+              Toast.show("Incorrect Password")
           }
-        }
+          setIsLoading(false)
+      }
+        // if (response.success) {
+        //   try {
+        //     await AsyncStorage.setItem('token', resData.token)
+        //     await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+        //     await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+        //     await AsyncStorage.setItem('isLogin', "abc")
+        //   } catch (error) {
+        //     console.log(error)
+        //   }
+        //   props.navigation.dispatch(
+        //     CommonActions.reset({
+        //       index: 0,
+        //       routes: [{ name: 'Drawer' }]
+        //     })
+        //   )
+        // } else {
+        //   if (resData.error === 'User does not exist!') {
+        //     Toast.show(" User does not exist! ");
+        //   } else if (resData.error === 'Invalid Password!') {
+        //     Toast.show("Incorrect Password")
+        //   }
+        // }
 
       } else {
         console.log(registerResponse)

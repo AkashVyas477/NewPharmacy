@@ -50,6 +50,7 @@ const [selectedImage, setSelectedImage] = useState(null)
         }).then(image => {
            
             setSelectedImage(image.path)
+            console.log(image)
             setModalVisible(!modalVisible)
       });
 }
@@ -61,6 +62,7 @@ const pickFromGallery = () => {
         }).then(image => {
            
             setSelectedImage(image.path)
+            console.log(image)
             setModalVisible(!modalVisible)
         });
 }

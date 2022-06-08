@@ -13,24 +13,19 @@ import { postRequest } from '../../Components/Helpers/ApiHelper';
 
 
 const PhoneNumberScreen = props => {
-    const params = props.route.params.data
 
+    const params = props.route.params.data
+   console.log("userdata    ",params)
     const [isLoading, setisLoading]=useState(false)
     const [show, setShow] = useState(false);
     const [countryCode, setCountryCode] = useState('IN');
     const [callingCode, setcallingCode]= useState('+91')
     const [phoneNumber, setPhoneNumber ] = useState('');
     
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
     const pressHandler = async(countryCode, phoneNumber) => {
         setisLoading(true);
-        const data = {
-            country_code:countryCode,
-            phone_number:phoneNumber
-        }
-        dispatch(registerAction.addPhone(data))
-
         const OTPData = {
             country_code: countryCode,
             phone_number: phoneNumber,

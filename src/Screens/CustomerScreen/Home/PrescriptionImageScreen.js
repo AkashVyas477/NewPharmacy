@@ -90,14 +90,7 @@ const PrescriptionImageScreen = props => {
                     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token'))
                 }
             })
-            // .then(response => {
-            //     console.log("image uploaded")
-            //     props.navigation.goBack()
-
-            // }).catch(err => {
-            //     console.log(err)
-            // })
-
+           
         let responseJson = await res.json()
             props.navigation.goBack()
             Alert.alert("Prescription created Successfully")

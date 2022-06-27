@@ -27,7 +27,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import LoginValidationSchema from '../../ForValidationSchema/LoginValidationSchema'
 
 import { Formik } from 'formik'
-import VerificationScreen from './VerificationScreen';
 import { CommonActions } from '@react-navigation/native';
 
 
@@ -54,21 +53,19 @@ const LoginScreen = (props) => {
         setIsLoading(true);
         const data = {
             email: values.email.toLowerCase(),
-           
             password: values.password,
-            device_token: deviceToken
+            device_token: JSON.stringify(AsyncStorage.getItem('deviceToken'))
         };
 
         const response = await postRequest('login', data);
         const resData = response.data
-        console.log(response.data);
-       
+        // console.log(response.data);
         if (response.success) {
             try {
                 await AsyncStorage.setItem('token', resData.token)
                 await AsyncStorage.setItem('refreshToken', resData.refreshToken)
                 await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-                await AsyncStorage.setItem('isLogin', "abc")
+                await AsyncStorage.setItem('isLogin', "1")
             } catch (error) {
                 console.log(error)
             }
@@ -80,9 +77,11 @@ const LoginScreen = (props) => {
             )
             setIsLoading(false);
         } else {
-            if (resData.ErrorMessage === 'User does not exist!') {
-                Toast.show(" User does not exist! ");
-            } else if (resData.ErrorMessage === 'Invalid Password!') {
+            if (resData.ErrorMessage == 'User not exist!') {
+                // Toast.show(" User does not exist!")
+                console.log("hsh")
+              
+            } else if (resData.ErrorMessage == 'Login Faild!') {
                 Toast.show("Incorrect Password")
             }
             setIsLoading(false)

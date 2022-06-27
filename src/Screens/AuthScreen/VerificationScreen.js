@@ -34,16 +34,6 @@ const VerificationScreen = props => {
   console.log(data)
 
   const [otp, setOTPValue] = useState('');
-
-  // const pressHandler = async(otp) => {
-  //     const verifyOTP = {
-  //         otp: otp,
-  //         country_code: countryCode,
-  //         phone_number: phoneNumber,
-  //         // channel:"sms"
-  //     }
-
-
   const pressHandler = async (otp) => {
     const verifyOTP = {
       otp: otp,
@@ -56,7 +46,6 @@ const VerificationScreen = props => {
     const resData = response.data;
     let errorMsg = 'Something went wrong!';
     if (response.success) {
-
       const user = new FormData();
       user.append('role', data.role)
       user.append('name', data.username)
@@ -72,23 +61,12 @@ const VerificationScreen = props => {
       })
       user.append('store_name',data.storeName)
       user.append('licenseId',data.licenseId)
+      // console.log("Form_Image       ",)
       console.log("FormData      ",user)
-     
-      //  user.append('image', { uri: data.selectedImage.path, type: data.selectedImage.mime, name: makeid(10) })
-      // user.append('email', data.email)
-      // user.append('password', data.password)
-      // // user.append('role', data.role)
-      // user.append("country_code", countryCode)
-      // user.append("phone_number", phoneNumber)
-      // user.append('name', data.username.trim())
-      // user.append('store_name',data.storeName)
-      // user.append('licenseId',data.licenseId)
-      // console.log("FormData      ",user)
-    
-      //image, email, password, role, phone & cc , username
+
       let res = await fetch('https://mobile-pharmacy.herokuapp.com/register', 
       {
-        method: 'post',
+        method: 'POST',
         body: user,
         headers: {
           "Content-Type": "multipart/form-data"
@@ -134,29 +112,6 @@ const VerificationScreen = props => {
           }
           setIsLoading(false)
       }
-        // if (response.success) {
-        //   try {
-        //     await AsyncStorage.setItem('token', resData.token)
-        //     await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-        //     await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-        //     await AsyncStorage.setItem('isLogin', "abc")
-        //   } catch (error) {
-        //     console.log(error)
-        //   }
-        //   props.navigation.dispatch(
-        //     CommonActions.reset({
-        //       index: 0,
-        //       routes: [{ name: 'Drawer' }]
-        //     })
-        //   )
-        // } else {
-        //   if (resData.error === 'User does not exist!') {
-        //     Toast.show(" User does not exist! ");
-        //   } else if (resData.error === 'Invalid Password!') {
-        //     Toast.show("Incorrect Password")
-        //   }
-        // }
-
       } else {
         console.log(registerResponse)
       }

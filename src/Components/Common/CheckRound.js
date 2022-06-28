@@ -14,7 +14,7 @@ const CheckRound = ({
     return (
         <TouchableOpacity onPress={tncHandler}>
             {tnc ?
-                <Image source={Images.ActiveRoundCheck} style={styles.checkIcon} /> :
+                <Image source={Images.ActiveRoundCheck} style={styles.acheckIcon} /> :
                 <Image source={Images.InactiveCheckBox} style={styles.checkIcon} />
             }
         </TouchableOpacity>
@@ -24,8 +24,12 @@ const CheckRound = ({
 
 const styles = StyleSheet.create({
     checkIcon: {
-        height: 24,
-        width: 24
+        height: 25,
+        width: 25
+    },
+    acheckIcon: {
+        height: 26,
+        width: 25
     },
 })
 export default CheckRound;

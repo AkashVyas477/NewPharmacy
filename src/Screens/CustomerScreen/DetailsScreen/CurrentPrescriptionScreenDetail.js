@@ -53,6 +53,12 @@ const CurrentPrescriptionScreen = props => {
         setthird(false);
     };
 
+    // const [optionTouched, setOptionTouched] = useState(false)
+    // const tncHandler = () => {
+    //     setOptionTouched(true)
+        
+    // };
+
 
     const [delLoader, setDelLoader] = useState(false)
     const [CheckPharamcist, setCheckPharamcist] = useState(false);
@@ -114,7 +120,7 @@ const CurrentPrescriptionScreen = props => {
                 renderItem={({ item }) => {
                     // console.log("\n\n image     ",item);
                     return (
-                        <View>
+                        <View >
                             <MedicinesImages
                                 image={item.url}
                                 id={item.id}
@@ -131,13 +137,19 @@ const CurrentPrescriptionScreen = props => {
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                             <View>
                                 <Text style={styles.text} >{currentprescription.name.toUpperCase()}</Text>
-                                <Text style={styles.text3}>{moment(currentprescription.createdAt).format('DD/MM/YYYY') + ' at ' + moment(currentprescription.createdAt).format('hh-mm A')}</Text>
-                                <Text style={styles.text2}>{currentprescription.quotes.length}</Text>
+                                <View style={{flexDirection:'row',alignItems:'center', marginBottom:3}}>
+                                        <Image source={Images.Calendar} style={{height:20,width:20 ,}}/>
+                                        <Text style={styles.text3}>{moment(currentprescription.createdAt).format('DD/MM/YYYY') + ' at ' + moment(currentprescription.createdAt).format('hh:mm A')}</Text>
+                                    </View> 
+
+                                    <View style={{flexDirection:'row',alignItems:'center', marginBottom:1}}>
+                                    <Image source={Images.Quotes} style={{height:18,width:20 ,}}/>
+                                        <Text style={styles.text2}>{currentprescription.quotes.length}</Text>
+                                    </View> 
+                                {/* <Text style={styles.text2}>{currentprescription.quotes.length}</Text> */}
                             </View>
                             <View style={{ alignItems: 'center', marginBottom: 40 }} >
                                 <Text style={{ alignItems: 'flex-end', paddingRight: 10, color: '#F39C12' }}>
-                                    {/* {currentprescription.status === 0 ? <Text style={{ color: Colors.orange }}> Pending</Text> : <Text style={{ color: Colors.PRIMARY }}> Completed</Text>} */}
-                                    {/* {currentprescription.status}  */}
                                     <Text style={{ color: currentprescription.status === 1 ? Colors.PRIMARY : Colors.orange, fontWeight: 'bold', marginTop: 10 }}>{statusText(currentprescription.status)}</Text>
                                 </Text>
                             </View>
@@ -150,13 +162,14 @@ const CurrentPrescriptionScreen = props => {
                         <Text style={{ textAlign: 'auto', padding: 10 }}>{currentprescription.text_note}</Text>
                     </View>
                     <View style={styles.card2}>
-                        <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
-                            List Of Medicines
-                        </Text>
+
                         <View>
                             {currentprescription.medicines.map(item => {
                                 return (
                                     <View key={item.id}>
+                            <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
+                            List Of Medicines
+                            </Text>
                                         <Text style={{ borderBottomWidth: 0.5, width: '95%', margin: 5, fontSize: 15, fontWeight: 'bold' }}>
                                             {item.name.toUpperCase()}
                                         </Text>
@@ -166,14 +179,15 @@ const CurrentPrescriptionScreen = props => {
                         </View>
                     </View>
                     <View style={styles.card2}>
-                        <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', fontSize: 15, color: Colors.Sp_Text, marginBottom: 8 }}>
-                            Pharamacist Replied
-                        </Text>
-                        <View >
+                        <View  >
                             {currentprescription.quotes.map(item => {
                                 return (
+                                    
                                     <View key={item.id} >
-                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 15 }}>
+                                        <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', fontSize: 15, color: Colors.Sp_Text, marginBottom: 8 }}>
+                                         Pharamacist Replied
+                                        </Text>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 15,}}>
                                             <Text style={{ fontWeight: 'bold', color: Colors.Sp_Text }}>{item.store_name.toUpperCase()}</Text>
                                             <CheckRound
                                                 onPress={() => {
@@ -184,7 +198,7 @@ const CurrentPrescriptionScreen = props => {
                                         </View>
                                         <Text>{moment(item.createdAt).format('DD/MM/YYYY') + ' at ' + moment(currentprescription.createdAt).format('hh-mm A')}</Text>
                                         <Text style={{ color: Colors.PRIMARY, marginBottom: 18 }}>${item.price}</Text>
-                                        <Text style={{ marginBottom: 10, borderBottomWidth: 0.5, paddingBottom: 10 }}>{item.text_note}</Text>
+                                        <Text style={{ marginBottom: 10, borderBottomWidth: 0.5, borderRadius: 10,paddingBottom: 10,}}>{item.text_note}</Text>
                                     </View>
                                 )
                             })}
@@ -197,7 +211,7 @@ const CurrentPrescriptionScreen = props => {
             <View style={{ flexDirection: 'row', backgroundColor: Colors.PRIMARY, width: '100%', height: 55 }}>
                 <View >
                     <TouchableOpacity onPress={() => { setModalVisible(true) }} >
-                        <Text style={{ padding: 10, marginLeft: 45, color: Colors.White, marginTop: 10 }}>
+                        <Text style={{ padding: 10, marginLeft: 45, color: Colors.White, marginTop: 10 ,fontWeight:'bold'}}>
                             DELETE REQUEST
                         </Text>
                         <Modal
@@ -214,6 +228,7 @@ const CurrentPrescriptionScreen = props => {
                                         <RadioButton
                                             onPress={() => {
                                                 firstHandler()
+
                                             }}
                                             state={first}
                                         />
@@ -270,9 +285,8 @@ const CurrentPrescriptionScreen = props => {
                 <View style={{ marginLeft: 20, borderRightWidth: 0.5, borderColor: Colors.White }}></View>
                 <View>
                     <TouchableOpacity onPress={() => props.navigation.navigate('OrderScreen')}  >
-
-                        <Text style={{ padding: 10, marginLeft: 45, color: Colors.White, marginTop: 10 }}>
-                            Buy Now
+                        <Text style={{ padding: 10, marginLeft: 45, color: Colors.White, marginTop: 10,fontWeight:'bold' }}>
+                            BUY NOW
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -324,8 +338,8 @@ const styles = StyleSheet.create({
     },
     card: {
         backgroundColor: Colors.White,
-        height: 90,
-        width: 390,
+        // height: 90,
+        // width: 390,
         justifyContent: 'center',
         paddingLeft: 5,
         shadowColor: Colors.White,
@@ -340,8 +354,7 @@ const styles = StyleSheet.create({
     card2: {
         flexGrow: 1,
         backgroundColor: Colors.White,
-
-        width: 390,
+        // width: 390,
         paddingLeft: 5,
         shadowColor: Colors.White,
         shadowOpacity: 0.26,
@@ -351,6 +364,19 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         margin: 10,
     },
+    // card3: {
+    //     flexGrow: 1,
+    //     backgroundColor: Colors.White,
+    //     // width: 390,
+    //     paddingLeft: 5,
+    //     shadowColor: Colors.White,
+    //     shadowOpacity: 0.26,
+    //     shadowOffset: { width: 0, height: 1 },
+    //     shadowRadius: 8,
+    //     elevation: 5,
+    //     borderRadius: 10,
+    //     margin: 10,
+    // },
 
     centeredView: {
         flex: 1,

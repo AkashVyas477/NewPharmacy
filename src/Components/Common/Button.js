@@ -19,6 +19,7 @@ const Button =({
       delayPressIn={0}
       style={{ padding: 10 }} 
       onPress={onPress} 
+      
       >
       <View style={styles.buttoncon}>
       {showActivityIndicator ? (

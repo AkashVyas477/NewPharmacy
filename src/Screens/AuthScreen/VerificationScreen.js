@@ -47,6 +47,11 @@ const VerificationScreen = props => {
     let errorMsg = 'Something went wrong!';
     if (response.success) {
       const user = new FormData();
+      user.append('image', { 
+        uri: data.selectedImage.path, 
+        type: data.selectedImage.mime, 
+        name: makeid(10)
+      })
       user.append('role', data.role)
       user.append('name', data.username)
       user.append('email', data.email)
@@ -54,28 +59,20 @@ const VerificationScreen = props => {
       user.append('gender',data.gender)
       user.append("country_code", countryCode)
       user.append("phone_number", phoneNumber)
-      user.append('image', { 
-        uri: data.selectedImage.path, 
-        type: data.selectedImage.mime, 
-        name: makeid(10)
-      })
       user.append('store_name',data.storeName)
       user.append('licenseId',data.licenseId)
       // console.log("Form_Image       ",)
       console.log("FormData      ",user)
 
-      let res = await fetch('https://mobile-pharmacy.herokuapp.com/register', 
-      {
+      const  res = await fetch('https://mobile-pharmacy.herokuapp.com/register',{
         method: 'POST',
         body: user,
         headers: {
           "Content-Type": "multipart/form-data"
         }
-        
       })
-     let registerResponse = await res.json()
-      console.log("123   ",registerResponse)
-     
+     const  registerResponse = await res.json()
+      // console.log("123   ",registerResponse)
       if (registerResponse.status === 200) {
         //SUCCESS
         const loginData = {

@@ -21,7 +21,9 @@ const CustomerSignupScreen = props => {
     const role = props.route.params.role
 
     const [tnc, setTnc] = useState(false);
+    const [tncTouched, setTncTouched] = useState(false)
     const tncHandler = () => {
+        setTncTouched(true)
         setTnc(state => !state);
     };
     const [male, setMale] = useState(false);
@@ -50,6 +52,7 @@ const [selectedImage, setSelectedImage] = useState(null)
         }).then(image => {
            
             setSelectedImage(image.path)
+            setSelectedImage(image.mime)
             console.log(image)
             setModalVisible(!modalVisible)
       });
@@ -62,6 +65,7 @@ const pickFromGallery = () => {
         }).then(image => {
            
             setSelectedImage(image.path)
+            setSelectedImage(image.mime)
             console.log(image)
             setModalVisible(!modalVisible)
         });
@@ -275,15 +279,14 @@ const dispatch= useDispatch();
                             {/* Terms & conditions */}
                             <View  >
                                 <View style={styles.terms_sty} >
-                                    <TouchableOpacity onPress={tncHandler} style={{paddingRight:5}} >
+                                    <TouchableOpacity onPress={tncHandler} style={{paddingRight:5,marginTop:5}} >
                                         {tnc ? <Image source={Images.CheckBoxActive} style={styles.checkbox} /> :
                                             <Image source={Images.CheckBoxInactive} style={styles.checkbox} />}
                                     </TouchableOpacity>
-                                    <View style={styles.textAlign} >
-                                        <Text style={styles.tandc} >Accept to<Text style={styles.sp_tandc} >Terms and Conditions</Text> and <Text style={styles.sp_tandc}>Privacy Policy</Text>
-                                            <Text style={styles.tandc} > for this app</Text></Text>
-                                    </View>
+                                            <Text style={styles.tandc} >Accept to <Text style={styles.sp_tandc} >Terms {'&'} Conditions</Text> and <Text style={styles.sp_tandc}>Privacy Policy </Text>for       this app </Text>
                                 </View>
+                                {tncTouched ? (tnc ? null : <Text style={styles.errortext}>Please check the terms and conditions.</Text>) : null}
+
                             </View>
                             {/* Terms & conditions */}
                             {/* Next Button */}
@@ -293,7 +296,8 @@ const dispatch= useDispatch();
                                 </TouchableOpacity> */}
                                 <Button
                                 label="Next"
-                                onPress={handleSubmit}
+                                disabled={!isValid }
+                                onPress={tnc ? handleSubmit: null}
                                 />
                                  {/* Next Button */}
                                  </View>
@@ -421,7 +425,7 @@ const styles = StyleSheet.create({
     },
    terms_sty:{ 
        flexDirection: 'row',
-       marginTop:15, 
+       marginTop:12, 
        marginBottom: 15,
        paddingRight:5 
     },

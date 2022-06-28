@@ -19,7 +19,9 @@ const PharmacistSignUpScreen = props =>{
     const role = props.route.params.role
 
     const [tnc, setTnc] = useState(false);
+    const [tncTouched, setTncTouched] = useState(false)
     const tncHandler = () => {
+        setTncTouched(true)
         setTnc(state => !state);
     };
 
@@ -134,13 +136,14 @@ const dispatch= useDispatch();
                         username: '',
                         email: '',
                         password: '',
+                        passwordConfirm:"",
                         gender:'',
                         licenseId:'',
                         storeName:'',
 
                     }}
                     onSubmit={values =>{
-                        const data = {username:values.username, email: values.email, password: values.password,gender: values.gender,storeName: values.storeName,licenseId: values.licenseId ,role ,selectedImage}
+                        const data = {username:values.username, email: values.email, password: values.password,passwordConfirm:values.passwordConfirm , gender: values.gender,storeName: values.storeName,licenseId: values.licenseId ,role ,selectedImage}
                         // console.log(dispatch)
                         dispatch(registerAction.addDetails(data));
                         props.navigation.navigate('PhoneNumberScreen',{data})
@@ -276,7 +279,7 @@ const dispatch= useDispatch();
                                         <EyeButton style={styles.eye_sty} tnceye={!tnceye} onEyePress={ () => {setTncEye(!tnceye)} }/>
                                     </View>
                                     {touched.password && errors.password &&
-                                        <Text style={styles.errortext}>{errors.password}</Text>
+                                        <Text style={styles.errorText}>{errors.password}</Text>
                                     }
                                 </View>
                                     <View  >
@@ -298,24 +301,22 @@ const dispatch= useDispatch();
 
                                 </View>
                                 {touched.passwordConfirm && errors.passwordConfirm &&
-                                    <Text style={styles.errortext}>{errors.passwordConfirm}</Text>
+                                    <Text style={styles.errorText}>{errors.passwordConfirm}</Text>
                                 }
                                 </View>
                                 {/* Password end */}  
                             </View>
                             {/* /* Terms & conditions */}
-                            <View  >
-                                <View style={{ flexDirection: 'row',marginTop:15, marginBottom: 15, }} >
-                                    <TouchableOpacity onPress={tncHandler} style={{paddingRight:5}} >
+                            
+                                <View style={styles.terms_sty} >
+                                    <TouchableOpacity onPress={tncHandler} style={{paddingRight:5, marginTop:5}} >
                                         {tnc ? <Image source={Images.CheckBoxActive} style={styles.checkbox} /> :
                                             <Image source={Images.CheckBoxInactive} style={styles.checkbox} />}
                                     </TouchableOpacity>
-                                    <View style={{}}>
-                                        <Text style={styles.tandc} >Accept to<Text style={styles.sp_tandc} >Terms and Conditions</Text> and <Text style={styles.sp_tandc}>Privacy Policy</Text>
-                                            <Text style={styles.tandc} > for this app</Text></Text>
-                                    </View>
-                                </View>
-                            </View>
+                                  <Text style={styles.tandc} >Accept to <Text style={styles.sp_tandc} >Terms {'&'} Conditions</Text> and <Text style={styles.sp_tandc}>Privacy Policy </Text>for       this app </Text>
+                               </View>
+                           
+                            {tncTouched ? (tnc ? null : <Text style={styles.errorText}>Please check the terms and conditions.</Text>) : null}
                             {/* Terms & conditions */}
                             {/* Next Button */}
                             <View>
@@ -332,7 +333,8 @@ const dispatch= useDispatch();
 
                                 <Button 
                                  label="Next"
-                                 onPress={handleSubmit}
+                                 disabled={!isValid }
+                                 onPress={tnc ? handleSubmit: null}
                                  />
                                 <View style={styles.signup_sty}>
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('Login') }} >
@@ -421,10 +423,12 @@ const styles = StyleSheet.create({
     },
     errorText:{ 
         fontSize: 11, 
-        color: 'red' 
+        color:Colors.Error_Textcolor
     },
     tandc: {
-        color: Colors.Sp_Text
+        color: Colors.Sp_Text,
+        textAlign:'auto',
+
 
     },
     sp_tandc: {
@@ -464,7 +468,12 @@ const styles = StyleSheet.create({
          alignItems: 'center', 
          paddingLeft:15
         },
-     
+
+      terms_sty:{ 
+        flexDirection: 'row',
+        marginTop:10,
+         marginBottom:5, 
+    },
         centeredView: {
             flex: 1,
             justifyContent: "center",

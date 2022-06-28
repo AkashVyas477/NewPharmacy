@@ -294,7 +294,7 @@ const PrescriptionScreen = props => {
                 }} style={{
                     position: 'absolute',
                     left: Dimensions.get('window').width * 0.77,
-                    bottom: Dimensions.get('window').width * 0.01,
+                    bottom: Dimensions.get('window').width * -0.1,
                 }} >
                     <Image source={Images.FabIcon} style={styles.addImageIcon} />
                 </TouchableOpacity>

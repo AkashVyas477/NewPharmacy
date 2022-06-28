@@ -73,8 +73,8 @@ const TabNavigator = props => {
             style: {
                 height:65,
                 paddingBottom: 10,
-                borderBottomColor: 'green',
-                borderBottomWidth: 1,
+                // borderBottomColor: 'green',
+                // borderBottomWidth: 1,
                 overflow: 'scroll',
                 
             }

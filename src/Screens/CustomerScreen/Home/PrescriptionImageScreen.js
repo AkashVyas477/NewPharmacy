@@ -25,6 +25,7 @@ const PrescriptionImageScreen = props => {
 
     // const row = 2 
     // const [numTextInputs, setNumTextInputs] = React.useState(0);
+    // const [selectedImage, setSelectedImage] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [selectedImage, setSelectedImage] = useState(null)
     const [images, setImages] = useState([])
@@ -40,6 +41,9 @@ const PrescriptionImageScreen = props => {
         }).then(image => {
             // images.push(image.path)
             setImages([...images, image])
+            // setSelectedImage(images.path)
+            // setSelectedImage(images.mime)
+            // console.log("imagesMulltipal      ",setSelectedImage)
             console.log("Selected Images        ", image.path);
             // setSelectedImage(image.path)
             setModalVisible(false)
@@ -54,6 +58,9 @@ const PrescriptionImageScreen = props => {
             cropping: true,
         }).then(image => {
             setImages([...images, image])
+            // setSelectedImage(images.path)
+            // setSelectedImage(images.mime)
+            // console.log("imagesMulltipal      ",image.path)
             console.log("Selected Images        ", image);
             setModalVisible(false)
         }).finally(close)

@@ -60,65 +60,69 @@ const LoginScreen = (props) => {
         const response = await postRequest('login', data);
         const resData = response.data
         console.log("hiii        ",response);
-        if (!response.success) {
-            setIsLoading(false);
-            // let errorMessage = "Something went wrong!";
-            if (resData.ErrorMessage === "User not exists!") {
-                // errorMessage = "User does not exist!"
-                // console.log("hii")
-                Toast.show(" User does not exist!")
+
+       
+
+        if (response.success) 
+        {
+            try {
+                await AsyncStorage.setItem('token', resData.token)
+                await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+                await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+                await AsyncStorage.setItem('isLogin', "1")
+            } catch (error) {
+                // console.log("hii");
+                console.log(error)
             }
-            if (resData.ErrorMessage === "Login Failed!") {
-                // errorMessage = "Invalid Password!"
-                // console.log("hii")
-                Toast.show("Incorrect Password")
-            }
-            // Alert.alert('Error', errorMessage, [{ text: "Okay" }])
-        } else {
-            
-            await AsyncStorage.setItem('token', resData.token)
-            await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-            await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-            await AsyncStorage.setItem('isLogin', "1")
-            // props.navigation.navigate('MainTab', { screen: 'Drawer' })
-                props.navigation.dispatch(
+            props.navigation.dispatch(
                 CommonActions.reset({
                     index:0,
                     routes: [{name: 'Drawer'}]
                 })
             )
             setIsLoading(false);
+        } else {
+            if (resData.ErrorMessage == "User not exists!") {
+                Toast.show(" User does not exist!")
+                  console.log("User not exists!")
+              
+            } else if (resData.ErrorMessage == "Login Failed!") {
+                Toast.show("Incorrect Password")
+        console.log("Login Faild!")
+            }
+            setIsLoading(false)
         }
-        // if (response.success) 
-        // {
-        //     try {
-        //         await AsyncStorage.setItem('token', resData.token)
-        //         await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-        //         await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-        //         await AsyncStorage.setItem('isLogin', "1")
-        //     } catch (error) {
-        //         // console.log("hii");
-        //         console.log(error)
+    }
+
+     // if (!response.success) {
+        //     setIsLoading(false);
+        //     // let errorMessage = "Something went wrong!";
+        //     if (resData.ErrorMessage === "User not exists!") {
+        //         // errorMessage = "User does not exist!"
+        //         // console.log("hii")
+        //         Toast.show(" User does not exist!")
         //     }
-        //     props.navigation.dispatch(
+        //     if (resData.ErrorMessage === "Login Failed!") {
+        //         // errorMessage = "Invalid Password!"
+        //         // console.log("hii")
+        //         Toast.show("Incorrect Password")
+        //     }
+        //     // Alert.alert('Error', errorMessage, [{ text: "Okay" }])
+        // } else {
+            
+        //     await AsyncStorage.setItem('token', resData.token)
+        //     await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+        //     await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+        //     await AsyncStorage.setItem('isLogin', "1")
+        //     // props.navigation.navigate('MainTab', { screen: 'Drawer' })
+        //         props.navigation.dispatch(
         //         CommonActions.reset({
         //             index:0,
         //             routes: [{name: 'Drawer'}]
         //         })
         //     )
         //     setIsLoading(false);
-        // } else {
-        //     if (resData.ErrorMessage == 'User not exist!') {
-        //         Toast.show(" User does not exist!")
-        //           console.log("User not exists!")
-              
-        //     } else if (resData.ErrorMessage == 'Login Faild!') {
-        //         Toast.show("Incorrect Password")
-        // console.log("Login Faild!")
-        //     }
-        //     setIsLoading(false)
         // }
-    }
 
 
     return (

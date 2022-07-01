@@ -69,7 +69,7 @@ const DrawerContent = (props) => {
 
                     <DrawerItem
                 icon={({color, size})=>(
-                    <Image source={Images.homeIcon}
+                    <Image source={Images.Homemenu}
                     style={{height:30,width:30}}
                     />
                 )}

@@ -164,12 +164,12 @@ const CurrentPrescriptionScreen = props => {
                     <View style={styles.card2}>
 
                         <View>
+                        <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
+                            List Of Medicines
+                            </Text>
                             {currentprescription.medicines.map(item => {
                                 return (
                                     <View key={item.id}>
-                            <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
-                            List Of Medicines
-                            </Text>
                                         <Text style={{ borderBottomWidth: 0.5, width: '95%', margin: 5, fontSize: 15, fontWeight: 'bold' }}>
                                             {item.name.toUpperCase()}
                                         </Text>
@@ -179,14 +179,16 @@ const CurrentPrescriptionScreen = props => {
                         </View>
                     </View>
                     <View style={styles.card2}>
-                        <View  >
+                      { currentprescription.quotes.length >0 &&
+                       <View  >
+                        <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', fontSize: 15, color: Colors.Sp_Text, marginBottom: 8 }}>
+                                         Pharamacist Replied
+                                        </Text>
                             {currentprescription.quotes.map(item => {
                                 return (
                                     
                                     <View key={item.id} >
-                                        <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', fontSize: 15, color: Colors.Sp_Text, marginBottom: 8 }}>
-                                         Pharamacist Replied
-                                        </Text>
+                                        
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 15,}}>
                                             <Text style={{ fontWeight: 'bold', color: Colors.Sp_Text }}>{item.store_name.toUpperCase()}</Text>
                                             <CheckRound
@@ -202,7 +204,7 @@ const CurrentPrescriptionScreen = props => {
                                     </View>
                                 )
                             })}
-                        </View>
+                        </View>}
                     </View>
                 </View>
             </ScrollView>

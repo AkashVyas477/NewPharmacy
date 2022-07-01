@@ -25,6 +25,19 @@ const PastPrescriptionScreen = props =>{
     const height = width * 100 / 0.6
     const [active, setActive] = useState(0);
 
+    const statusText = (status) => {
+        switch (status) {
+            case 0:
+                return "Pending"
+            case 1:
+                return "Completed"
+            case 2:
+                return "Rejected"
+            default:
+                return 'Past Order!'
+        }
+    }
+
 
     
     return(

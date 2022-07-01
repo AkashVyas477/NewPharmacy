@@ -11,6 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { postFormData } from '../../../Components/Helpers/ApiHelper';
 // import axios from 'axios';
+import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector } from 'react-redux';
 import { Method } from 'ionicons/dist/types/stencil-public-runtime';
@@ -77,6 +78,7 @@ const PrescriptionImageScreen = props => {
 
     // From Data 
     const submit = async () => {
+        setIsLoading(true);
         // if (responseJson.sucess) {
         const formdata = new FormData();
         formdata.append('image', {
@@ -100,8 +102,9 @@ const PrescriptionImageScreen = props => {
            
         let responseJson = await res.json()
             props.navigation.goBack()
-            Alert.alert("Prescription created Successfully")
-            // setIsLoading(false)
+            Toast.show("Prescription created Successfully")
+            // Alert.alert("Prescription created Successfully")
+            setIsLoading(false)
 
         console.log(responseJson,"ResponseJson")
         
@@ -308,6 +311,7 @@ const PrescriptionImageScreen = props => {
                    <Button
                         label="Submit"
                         onPress={submit}
+                        showActivityIndicator={isLoading}
                         // showActivityIndicator={isLoading}
                         // disabled={!isLoading}
                         

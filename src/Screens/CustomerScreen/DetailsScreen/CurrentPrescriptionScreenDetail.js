@@ -22,7 +22,8 @@ const { width: screenWidth } = Dimensions.get('window')
 
 const CurrentPrescriptionScreen = props => {
 
-    const [first, setfirst] = useState(false);
+    // const []
+    const [first, setfirst] = useState(true);
     const firstHandler = () => {
         setfirst(state => !state);
         setsecond(false);
@@ -43,6 +44,7 @@ const CurrentPrescriptionScreen = props => {
         setthird(state => !state);
         setfirst(false);
         setsecond(false);
+        setfourth(false)
     };
 
     const [fourth, setfourth] = useState(false);
@@ -210,10 +212,10 @@ const CurrentPrescriptionScreen = props => {
             </ScrollView>
 
             {/* Delet Prescription  */}
-            <View style={{ flexDirection: 'row', backgroundColor: Colors.PRIMARY, width: '100%', height: 55 }}>
-                <View >
-                    <TouchableOpacity onPress={() => { setModalVisible(true) }} >
-                        <Text style={{ padding: 10, marginLeft: 45, color: Colors.White, marginTop: 10 ,fontWeight:'bold'}}>
+            <View style={{ flexDirection: 'row',alignContent:'center',justifyContent:'space-evenly', backgroundColor: Colors.PRIMARY, width: '100%', height: 55 }}>
+                {/* <View > */}
+                    <TouchableOpacity onPress={() => { setModalVisible(true) }} style={{flex:1,borderRightWidth: 0.5,borderColor: Colors.White,justifyContent:'center',alignItems:'center'}} >
+                        <Text style={{  color: Colors.White,fontWeight:'bold',}}>
                             DELETE REQUEST
                         </Text>
                         <Modal
@@ -226,11 +228,12 @@ const CurrentPrescriptionScreen = props => {
                                 <View style={styles.modalView}>
                                     <Text style={styles.modalText}>Choose option: </Text>
                                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                                        <Text style={{ marginRight: 5 }}>Product is Missing in the Package</Text>
+                                       
+
+                                        <Text style={{ marginRight: 85 }}>Receive Wrong Items </Text>
                                         <RadioButton
                                             onPress={() => {
                                                 firstHandler()
-
                                             }}
                                             state={first}
                                         />
@@ -256,7 +259,7 @@ const CurrentPrescriptionScreen = props => {
                                         />
                                     </View>
                                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                                        <Text style={{ marginRight: 85 }}>Receive Wrong Items </Text>
+                                    <Text style={{ marginRight: 5 }}>Product is Missing in the Package</Text>
                                         <RadioButton
                                             onPress={() => {
                                                 fourthHandler()
@@ -283,19 +286,17 @@ const CurrentPrescriptionScreen = props => {
                             </View>
                         </Modal>
                     </TouchableOpacity>
-                </View>
-                <View style={{ marginLeft: 20, borderRightWidth: 0.5, borderColor: Colors.White }}></View>
-                <View>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('OrderScreen')}  >
-                        <Text style={{ padding: 10, marginLeft: 45, color: Colors.White, marginTop: 10,fontWeight:'bold' }}>
+                {/* </View> */}
+                
+                {/* <View style={{borderRightWidth: 0.5,borderColor: Colors.White }}></View> */}
+              
+                    <TouchableOpacity onPress={() => props.navigation.navigate('OrderScreen')} style={{flex:1,borderLeftWidth: 0.5,borderColor: Colors.White,justifyContent:'center',alignItems:'center'}} >
+                        <Text style={{ color: Colors.White,fontWeight:'bold', }}>
                             BUY NOW
                         </Text>
                     </TouchableOpacity>
-                </View>
             </View>
         </View>
-
-
     );
 };
 

@@ -10,6 +10,7 @@ import Toast from 'react-native-simple-toast';
 import { $CombinedState } from 'redux';
 import moment from 'moment';
 import { getCurrentTimestamp } from 'react-native/Libraries/Utilities/createPerformanceLogger';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const PrescriptionScreen = props => {
@@ -18,65 +19,68 @@ const PrescriptionScreen = props => {
     const [PastPrescription, setpastprescriptionList] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
-    // const [page, setPage]= useState(1)
-
+    const [isMoreItem, setIsMoreItem] = useState(false)
 
     let renderLoader = () => {
         return (
-            isLoading ?
-                <View style={styles.loaderStyle}>
-                    <ActivityIndicator size="large" color="#aaa" />
-                </View> : null
-                
+            <View style={styles.loaderStyle}>
+                {isMoreItem ?
+                    (
+                        <ActivityIndicator size="large" />
+                    ) : null}
+            </View>
         );
-
     }
 
     const loadMoreItem = () => {
-        console.log("loadMore")
+        // console.log("currentpage       ",setCurrentPage)
         setCurrentPage(currentPage + 1)
-        setIsLoading(false)
+        console.log("loadMore  ", currentPage)
+        // getPrescriptionList();
+        // getPastPrescription();
     };
 
     useEffect(() => {
-        const updateList = props.navigation.addListener('focus', () => {
+        update();
+        //  getPrescriptionList();
+        //  getPastPrescription();
+    }, [currentPage])
+
+    const update = async () => {
+        props.navigation.addListener('focus', () => {
             getPrescriptionList();
             getPastPrescription();
-            // console.log("updatelist")
-            // console.log("loadmore")
-             // console.log("getPastPrescription")
-
         });
-
-        return updateList;
-    }, [props.navigation, currentPage])
+    }
 
     const getPrescriptionList = async () => {
-        const response = await getParams(`customer/getPrescriptionsList/?page=${currentPage}&state=current&page_size=7`)
+        // console.log("getPrescriptionList")
+
+        const response = await getParams(`customer/getPrescriptionsList/?page=${currentPage}&state=current&page_size=6`)
 
         // console.log(response,"current");
         if (response.success) {
-            setprescriptionList(response.data.prescription)
+            setprescriptionList([...prescriptionList, ...response.data.prescription])
+            //    setIsMoreItem(false)
             setIsLoading(false)
-            // console.log(response.data.prescription);
-            // Toast.show('Records Found !')
-            // console.log("GetPrescription:    ",prescriptionList);
         } else {
-            console.log(response);
-            Toast.show('No Records Found !')
+            // console.log("Current    ",response);
+            setIsLoading(false)
+
+
         }
     }
 
     const getPastPrescription = async () => {
-        const response = await getParams(`customer/getPrescriptionsList/?page=${currentPage}&state=past&page_size=7`)
 
-
+        const response = await getParams(`customer/getPrescriptionsList/?page=${currentPage}&state=past&page_size=6`)
         if (response.success) {
-            setpastprescriptionList(response.data.prescription)
-            setIsLoading(false)
+            setpastprescriptionList([...PastPrescription, ...response.data.prescription])
+            // console.log(setpastprescriptionList.data)
+
         } else {
-            console.log(response);
-            Toast.show('No Records Found !')
+            // console.log("Past    ",response);
+
         }
     }
 
@@ -236,8 +240,8 @@ const PrescriptionScreen = props => {
                                                 keyExtractor={item => item.id}
                                                 renderItem={renderprescription}
                                                 ListFooterComponent={renderLoader}
-                                                // onEndReached={loadMoreItem}
-                                                onEndReached={()=>{console.log(loadMoreItem)}}
+                                                onEndReached={loadMoreItem}
+                                                // onEndReached={()=>{console.log(loadMoreItem)}}
                                                 onEndReachedThreshold={0.1}
 
                                             />
@@ -278,9 +282,9 @@ const PrescriptionScreen = props => {
                                             keyExtractor={item => item.id}
                                             renderItem={Pastrenderprescription}
                                             ListFooterComponent={renderLoader}
-                                            // onEndReached={loadMoreItem}
+                                            onEndReached={loadMoreItem}
                                             // onEndReached={()=>{console.log("hi")}}
-                                            onEndReachedThreshold={0}
+                                            onEndReachedThreshold={0.1}
                                         />
                                     </View>
                                 }
@@ -295,7 +299,7 @@ const PrescriptionScreen = props => {
             <View >
                 <TouchableOpacity onPress={() => {
                     props.navigation.navigate('PrescriptionImageScreen')
-                    console.log('123')
+                    console.log('Upload new prescription')
                 }} style={{
                     position: 'absolute',
                     left: Dimensions.get('window').width * 0.77,
@@ -377,7 +381,14 @@ const styles = StyleSheet.create({
     loaderStyle: {
         marginVertical: 16,
         alignItems: "center",
+        color: Colors.PRIMARY
     },
+    headerStyle: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        marginBottom: 20,
+    }
 
 });
 export default PrescriptionScreen;

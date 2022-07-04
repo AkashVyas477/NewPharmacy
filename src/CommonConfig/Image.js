@@ -108,5 +108,9 @@ export default {
         Amitriptyline:require('../assets/Icons/amitriptyline.png'),
         Atorvastatin:require('../assets/Icons/Atorvastatin.jpeg'),
 
-        Remove:require('../assets/Icons/remove.png')
+        Remove:require('../assets/Icons/remove.png'),
+
+
+        Right:require('../assets/Icons/chevron_right_gray.png'),
+        Left:require('../assets/Icons/chevron_left_gray.png'),
 }

@@ -60,9 +60,6 @@ const LoginScreen = (props) => {
         const response = await postRequest('login', data);
         const resData = response.data
         console.log("hiii        ",response);
-
-       
-
         if (response.success) 
         {
             try {
@@ -93,7 +90,6 @@ const LoginScreen = (props) => {
             setIsLoading(false)
         }
     }
-
      // if (!response.success) {
         //     setIsLoading(false);
         //     // let errorMessage = "Something went wrong!";

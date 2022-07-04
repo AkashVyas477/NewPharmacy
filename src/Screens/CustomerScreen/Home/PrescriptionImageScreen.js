@@ -21,13 +21,11 @@ import { string } from 'prop-types';
 
 const PrescriptionImageScreen = props => {
 
-
-
-
     // const row = 2 
     // const [numTextInputs, setNumTextInputs] = React.useState(0);
     // const [selectedImage, setSelectedImage] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
+    
     const [selectedImage, setSelectedImage] = useState(null)
     const [images, setImages] = useState([])
     const [visible, setVisible] = React.useState(false);
@@ -40,13 +38,8 @@ const PrescriptionImageScreen = props => {
             height: 100,
             cropping: true,
         }).then(image => {
-            // images.push(image.path)
-            setImages([...images, image])
-            // setSelectedImage(images.path)
-            // setSelectedImage(images.mime)
-            // console.log("imagesMulltipal      ",setSelectedImage)
-            console.log("Selected Images        ", image.path);
-            // setSelectedImage(image.path)
+         setImages([...images, image])
+         console.log("Selected Images        ", image.path);
             setModalVisible(false)
         }).finally(close)
     }
@@ -119,6 +112,7 @@ const PrescriptionImageScreen = props => {
         const _inputs = [...inputs];
         _inputs.push({ key: '', name: '' });
         setInputs(_inputs);
+        // console.log(_inputs);
     }
 
     const deleteHandler = (key) => {
@@ -130,8 +124,8 @@ const PrescriptionImageScreen = props => {
         const _inputs = [...inputs];
         _inputs[key].name = text;
         _inputs[key].key = key;
-        console.log(_inputs)
         setInputs(_inputs);
+        console.log(_inputs)
 
     }
 
@@ -276,7 +270,9 @@ const PrescriptionImageScreen = props => {
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', ...styles.textInput }}>
                                     <TextInput
                                         placeholder={"Enter Name"}
+                                        placeholderTextColor={Colors.placeHolder}
                                         value={input.name}
+                                        color={Colors.Sp_Text}
                                         onChangeText={(text) => inputHandler(text, key)}
                                     // value={name}
                                     // onChangeText={e => setname(e)}
@@ -297,9 +293,11 @@ const PrescriptionImageScreen = props => {
                         </Text>
                     </View>
                     <View style={{ width: "100%", padding: 5, paddingLeft: 10, paddingRight: 10 }}>
-                        <View style={{ borderBottomWidth: 0.5 }}>
+                        <View style={{ borderBottomWidth: 0.5,...styles.textInput1 }}>
                             <TextInput
                                 placeholder='Text Note'
+                                placeholderTextColor={Colors.placeHolder}
+                                color={Colors.Sp_Text}
                                 onChangeText={e => setText_note(e)}
                                 value={text_note}
                             />
@@ -398,7 +396,7 @@ const styles = StyleSheet.create({
     parent: { justifyContent: "flex-start", alignItems: "flex-start", },
 
     textInput: { alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 0.5, paddingLeft: 10, paddingRight: 10 },
-    textInput1: { justifyContent: 'space-between', borderBottomWidth: 0.5, alignItems: 'center', paddingLeft: 10, paddingRight: 10, },
+    textInput1: { justifyContent: 'space-between', borderBottomWidth: 0.5, paddingLeft: 10, paddingRight: 10, },
 });
 
 export default PrescriptionImageScreen;

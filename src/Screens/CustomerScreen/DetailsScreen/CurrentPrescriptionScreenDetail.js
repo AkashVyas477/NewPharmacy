@@ -14,6 +14,9 @@ import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import MedicinesImages from '../../../Components/Common/MedicinesImages'
 import { deletePost } from '../../../Components/Helpers/ApiHelper';
 import moment from 'moment';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 
 const { width } = Dimensions.get('window')
@@ -22,51 +25,17 @@ const { width: screenWidth } = Dimensions.get('window')
 
 const CurrentPrescriptionScreen = props => {
 
-    // const []
-    const [first, setfirst] = useState(true);
-    const firstHandler = () => {
-        setfirst(state => !state);
-        setsecond(false);
-        setthird(false);
-        setfourth(false);
-    };
-
-    const [second, setsecond] = useState(false);
-    const secondHandler = () => {
-        setsecond(state => !state);
-        setfirst(false);
-        setthird(false);
-        setfourth(false);
-    };
-
-    const [third, setthird] = useState(false);
-    const thirdHandler = () => {
-        setthird(state => !state);
-        setfirst(false);
-        setsecond(false);
-        setfourth(false)
-    };
-
-    const [fourth, setfourth] = useState(false);
-    const fourthHandler = () => {
-        setfourth(state => !state);
-        setfirst(false);
-        setsecond(false);
-        setthird(false);
-    };
-
-    // const [optionTouched, setOptionTouched] = useState(false)
-    // const tncHandler = () => {
-    //     setOptionTouched(true)
-        
-    // };
-
-
+    const [deleteOption, setDeleteOption] = useState(1);
+    
     const [delLoader, setDelLoader] = useState(false)
     const [CheckPharamcist, setCheckPharamcist] = useState(false);
     const CheckRoundHandler = () => {
         setCheckPharamcist(state => !state);
     };
+    const [activeQuotes ,setActiveQuotes]=useState('')
+     console.log("selected pharamacist id  ",activeQuotes)
+    //  const [Quotesdetails, setQuotesDetails]=useState()
+
     const currentprescription = props.route.params.prescription
     const [modalVisible, setModalVisible] = useState(false);
     const height = width * 100 / 0.6
@@ -188,20 +157,22 @@ const CurrentPrescriptionScreen = props => {
                                         </Text>
                             {currentprescription.quotes.map(item => {
                                 return (
-                                    
                                     <View key={item.id} >
-                                        
-                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 15,}}>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 17,}}>
                                             <Text style={{ fontWeight: 'bold', color: Colors.Sp_Text }}>{item.store_name.toUpperCase()}</Text>
-                                            <CheckRound
-                                                onPress={() => {
-                                                    CheckRoundHandler()
-                                                }}
-                                                state={setCheckPharamcist}
-                                            />
+                                            <TouchableOpacity onPress={() => {setActiveQuotes(item)}}  >
+                                            { activeQuotes === item ?
+                                                 // Green Tick
+                                                <Image source={Images.ActiveRoundCheck} style={{height:21.9,width:21.5}}/>
+                                                :
+                                                //Grey Tick
+                                                <Image source={Images.InactiveRoundCheck} style={{height:21.8,width:21.9,tintColor:Colors.Gray}} />
+                                               
+                                            }
+                                            </TouchableOpacity>
                                         </View>
-                                        <Text>{moment(item.createdAt).format('DD/MM/YYYY') + ' at ' + moment(currentprescription.createdAt).format('hh-mm A')}</Text>
-                                        <Text style={{ color: Colors.PRIMARY, marginBottom: 18 }}>${item.price}</Text>
+                                        <Text>{moment(item.createdAt).format('DD/MM/YYYY') + ' at ' + moment(currentprescription.createdAt).format('hh:mm A')}</Text>
+                                        <Text style={{ color: Colors.PRIMARY, marginBottom: 18 }}>${parseFloat(item.price)}</Text>
                                         <Text style={{ marginBottom: 10, borderBottomWidth: 0.5, borderRadius: 10,paddingBottom: 10,}}>{item.text_note}</Text>
                                     </View>
                                 )
@@ -232,40 +203,40 @@ const CurrentPrescriptionScreen = props => {
 
                                         <Text style={{ marginRight: 85 }}>Receive Wrong Items </Text>
                                         <RadioButton
-                                            onPress={() => {
-                                                firstHandler()
+                                            onPress={() => {setDeleteOption(1)
+                                                
                                             }}
-                                            state={first}
+                                            state={deleteOption===1}
                                         />
                                     </View>
                                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
                                         <Text style={{ marginRight: 15 }}>Don't want the product anymore </Text>
                                         <RadioButton
                                             onPress={() => {
-                                                secondHandler()
+                                             setDeleteOption(2)
                                             }}
-                                            state={second}
-                                        // state={'second'}
+                                            state={deleteOption===2}
+                                        
                                         />
                                     </View>
                                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
                                         <Text style={{ marginRight: 15 }}>Don't like the size of thr Product </Text>
                                         <RadioButton
                                             onPress={() => {
-                                                thirdHandler()
+                                                setDeleteOption(3)
                                             }}
-                                            state={third}
-                                        // state={'third'}
+                                            state={deleteOption===3}
+                                        
                                         />
                                     </View>
                                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
                                     <Text style={{ marginRight: 5 }}>Product is Missing in the Package</Text>
                                         <RadioButton
                                             onPress={() => {
-                                                fourthHandler()
+                                                setDeleteOption(4)
                                             }}
-                                            state={fourth}
-                                        // state={'fourth'}
+                                            state={deleteOption===4}
+                                        
                                         />
                                     </View>
 
@@ -290,7 +261,8 @@ const CurrentPrescriptionScreen = props => {
                 
                 {/* <View style={{borderRightWidth: 0.5,borderColor: Colors.White }}></View> */}
               
-                    <TouchableOpacity onPress={() => props.navigation.navigate('OrderScreen')} style={{flex:1,borderLeftWidth: 0.5,borderColor: Colors.White,justifyContent:'center',alignItems:'center'}} >
+                    <TouchableOpacity disabled={!activeQuotes}
+                    onPress={() => props.navigation.navigate('OrderScreen',{activeQuotes,currentprescription})} style={{flex:1,borderLeftWidth: 0.5,borderColor: Colors.White,justifyContent:'center',alignItems:'center'}} >
                         <Text style={{ color: Colors.White,fontWeight:'bold', }}>
                             BUY NOW
                         </Text>

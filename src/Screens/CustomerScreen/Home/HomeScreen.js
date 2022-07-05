@@ -44,6 +44,7 @@ const HomeScreen = props =>{
             setIsLoading(false)
             // Toast.show(' NearByPharmacy available currently!')
          } else {
+            setIsLoading(false) 
             Toast.show('There is no NearByPharmacy available currently!')
         }  
       

@@ -3,10 +3,7 @@ import React, { useState } from 'react';
 import { Images } from '../../CommonConfig';
 
 
-const CheckRound = ({
-    style,
-    onPress
-}) => {
+const CheckRound = ({style,onPress }) => {
     const [tnc, setTnc] = useState(false);
     const tncHandler = () => {
         setTnc(state => !state);

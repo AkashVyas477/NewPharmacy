@@ -102,7 +102,7 @@ const PrescriptionScreen = props => {
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 1 }}>
                                     <Image source={Images.Calendar} style={{ height: 20, width: 20, }} />
-                                    <Text style={styles.name}>{moment(data.item.createdAt).format('DD/MM/YYYY') + ' at ' + moment(data.item.createdAt).format('hh-mm A')}</Text>
+                                    <Text style={styles.name}>{moment(data.item.createdAt).format('DD/MM/YYYY') + ' at ' + moment(data.item.createdAt).format('hh:mm A')}</Text>
                                 </View>
                             </View>
                             <View style={{}} >

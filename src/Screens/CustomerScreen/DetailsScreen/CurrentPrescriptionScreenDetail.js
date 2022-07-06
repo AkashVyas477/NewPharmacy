@@ -262,7 +262,7 @@ const CurrentPrescriptionScreen = props => {
                 {/* <View style={{borderRightWidth: 0.5,borderColor: Colors.White }}></View> */}
               
                     <TouchableOpacity disabled={!activeQuotes}
-                    onPress={() => props.navigation.navigate('OrderScreen',{activeQuotes,currentprescription})} style={{flex:1,borderLeftWidth: 0.5,borderColor: Colors.White,justifyContent:'center',alignItems:'center'}} >
+                    onPress={() => props.navigation.navigate('OrderScreen',{activeQuotes,currentprescription,})} style={{flex:1,borderLeftWidth: 0.5,borderColor: Colors.White,justifyContent:'center',alignItems:'center'}} >
                         <Text style={{ color: Colors.White,fontWeight:'bold', }}>
                             BUY NOW
                         </Text>

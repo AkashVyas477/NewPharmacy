@@ -113,4 +113,7 @@ export default {
 
         Right:require('../assets/Icons/chevron_right_gray.png'),
         Left:require('../assets/Icons/chevron_left_gray.png'),
+        Visa:require('../assets/Icons/visa.png'),
+        AmericanExpress:require('../assets/Icons/americanexpress.png'),
+        Maestro:require('../assets/Icons/maestro.png')
 }

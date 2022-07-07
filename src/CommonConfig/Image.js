@@ -115,5 +115,13 @@ export default {
         Left:require('../assets/Icons/chevron_left_gray.png'),
         Visa:require('../assets/Icons/visa.png'),
         AmericanExpress:require('../assets/Icons/americanexpress.png'),
-        Maestro:require('../assets/Icons/maestro.png')
+        Maestro:require('../assets/Icons/maestro.png'),
+        PayPal:require('../assets/Icons/paypal.png'),
+        ApplePay:require('../assets/Icons/ApplePay.png'),
+        GooglePay:require('../assets/Icons/GooglePay.png') ,
+        CreditCard:require('../assets/Icons/credit-card.png'),
+
+        ChevronLeft:require('../assets/Icons/chevron_left_gray.png'),
+        ChevronRight:require('../assets/Icons/chevron_right_gray.png'),
+
 }

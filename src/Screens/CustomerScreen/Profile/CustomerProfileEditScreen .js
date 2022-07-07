@@ -8,7 +8,8 @@ import RadioButton from '../../../Components/Common/RadioButton'
 import { Images, Colors } from '../../../CommonConfig'
 import * as ImagePicker from 'react-native-image-crop-picker';
 
-import CountryPicker from 'react-native-country-picker-modal';
+import CountryPicker from 'react-native-country-codes-picker';
+// import CountryPicker from 'react-native-country-picker-modal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { postPostLogin } from '../../../Components/Helpers/ApiHelper';
 
@@ -17,22 +18,24 @@ import * as yup from 'yup';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
+import Ionicon from 'react-native-vector-icons';
 
 import PropTypes from 'prop-types';
+import from from 'react-native-country-codes-picker';
 
 
 const CustomerProfileEditScreen = props => {
 
     const user = props.route.params.user
-console.log("         ", user);
+// console.log("    user     ", user);
     const [selectedImage, setSelectedImage] = useState(null)
     const [modalVisible, setModalVisible] = useState(false);
-
     const [isLoading, setIsLoading] = useState(false)
     const [show, setShow] = useState(false);
-    const [countryCode, setCountryCode] = useState('IN');
+    const [countryCode, setCountryCode] = useState('+91');
     const [callingCode, setcallingCode] = useState('')
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [images, setImages] = useState([])
     const pressHandler = async (countryCode, phoneNumber) => { props.navigation.navigate() }
 
     const [male, setMale] = useState(false);
@@ -47,7 +50,8 @@ console.log("         ", user);
             height: 100,
             cropping: true,
         }).then(image => {
-
+            setImages([...images, image])
+            console.log("Selected Images        ", image.path);
             setSelectedImage(image.path)
             setModalVisible(!modalVisible)
         });
@@ -58,7 +62,8 @@ console.log("         ", user);
             height: 100,
             cropping: true
         }).then(image => {
-
+            setImages([...images, image])
+            console.log("Selected Images        ", image);
             setSelectedImage(image.path)
             setModalVisible(!modalVisible)
         });
@@ -73,29 +78,76 @@ console.log("         ", user);
     };
 
 
-    const onPressSave = async (values) => {
-        setIsLoading(true)
-        const data = {
-            name: values.name,
-            email: values.email,
-            country_code:values.country_code,
-            phone: values.phone,
-            gender: values.gender
-        }
-        // console.log(data);
-        const response = await postPostLogin ('updateProfile', data)
-        console.log("on save       ",response);
-        if(!response.success) {
-            console.log(("Post Request Error"));
-        } else {
-           await AsyncStorage.setItem('userInfo', JSON.stringify(response.data))
-            Toast.show('Profile updated successfully!')
-            props.navigation.goBack();
-        }
-        setIsLoading(false)
-    }
+    // const onPressSave = async (values) => {
+    //     setIsLoading(true)
+    //     const data = {
+    //         name: values.name,
+    //         email: values.email,
+    //         country_code:values.country_code,
+    //         phone: values.phone,
+    //         gender: values.gender
+    //     }
+    //     // console.log(data);
+    //     const response = await postPostLogin ('updateProfile', data)
+    //     console.log("on save       ",response);
+    //     if(!response.success) {
+    //         console.log(("Post Request Error"));
+    //     } else {
+    //        await AsyncStorage.setItem('userInfo', JSON.stringify(response.data))
+    //         Toast.show('Profile updated successfully!')
+    //         props.navigation.goBack();
+    //     }
+    //     setIsLoading(false)
+    // }
+        const onPressSave =async(values)=>{
+            // setIsLoading(true);
+            const formdata = new FormData();
+            formdata.append("name",values.name)
+            // formdata.append("email",values.email)
+            formdata.append("country_code",values.country_code)
+            formdata.append("gender",values.gender)
+            formdata.append("phone",values.phone)
+            formdata.append("image",{
+                uri:images[0].path,
+                type:images[0].mime,
+                name:"image",
+            })
+            console.log("data       ", formdata._parts)
+            const res= await fetch('https://mobile-pharmacy.herokuapp.com/updateProfile',
+            {
+                method:'POST',
+                body:formdata,
+                headers:{
+                    'content-Type':'multipart/form-data',
+                    Authorization: 'Bearer ' + (await AsyncStorage.getItem('token'))
+                }
+            })
+            const response = await res.json()
+            // const resData= response.data
+            console.log(response)
+            await AsyncStorage.setItem('userInfo', JSON.stringify(response.user))
+            
+            Toast.show("Profile Update Successfully")
+            props.navigation.goBack()
 
-
+            // if (response.status===200){
+            //     try{
+            //         AsyncStorage.setItem('userInfo', JSON.stringify(response.data))
+            //     }catch(error){
+            //         console.log(error)
+            //     }
+            //     props.navigation.goBack()
+            //     Toast.show("Profile Update Successfully")
+            //     // setIsLoading(false)
+            // }else{
+            //     console.log(response)
+            // }
+           
+            // Toast.show("Profile Update Successfully")
+            // props.navigation.goBack()
+            // // setIsLoading(false)
+            // console.log(responseJson,"ResponseJson")
+        }
 
 
     return (
@@ -157,6 +209,7 @@ console.log("         ", user);
                 {/* Details */}
 
                 <Formik
+                
                     initialValues={{
                         name: user.name,
                         email: user.email,
@@ -164,6 +217,7 @@ console.log("         ", user);
                         country_code:user.country_code,
                         gender:user.gender
                     }}
+                    
                     onSubmit={(values) => onPressSave(values)}
                     validationSchema={yup.object().shape({
                         name: yup.string(),
@@ -209,9 +263,29 @@ console.log("         ", user);
                                 <View >
                                     <Text style={{ ...styles.text_footer, marginTop: 15 }} >Phone Number</Text>
                                     <View style={styles.action} >
+                                        {/* <Ionicon name="call" color={Colors.PRIMARY} size={20} style={{ flex: 0.5 }} /> */}
+                                        <Text style={{ marginLeft:10, flex: 0.5, fontWeight: 'bold' }}>{countryCode}</Text>
+                                        <TouchableOpacity onPress={() => setShow(true)} style={{ flex: 0.4 }}>
+                                            <Image source={Images.DropDown} style={{height:10,width:10}}  /> 
+                                            {/* <Ionicon name="caret-down-outline" size={20} color={Colors.Sp_Text} /> */}
+                                            </TouchableOpacity>
+                                        <View style={{ width: 0, borderColor: Colors.Gray, borderWidth: 0.7, height: 30, marginRight: 10 }} ></View>
+                                        <TextInput
+                                        //   value={values.phone}
+                                            style={{ flex: 3.5 }}
+                                            keyboardType="phone-pad"
+                                            maxLength={10}
+                                            placeholderTextColor={Colors.placeHolder}
+                                            color={Colors.Sp_Text}
+                                            onChangeText={handleChange('phone')}
+                                            placeholder="Phone Number "
+                                        />
+                                    </View>
+
+                                    {/* <View style={styles.action} >
                                         <Text style={{ marginLeft:8, fontWeight: 'bold' }}>{callingCode}</Text>
                                         <TouchableOpacity onPress={() => setShow(true)} style={{ flex: 0.5 }}>
-                                            {/* <Image source={Images.DropDown} style={{height:10,width:10}}  />  */}
+                                           
                                             <CountryPicker
                                                 withFilter
                                                 countryCode={countryCode}
@@ -237,8 +311,9 @@ console.log("         ", user);
                                             onChangeText={handleChange('phone')}
                                             placeholder="Phone Number "
                                         />
-                                    </View>
-                                </View>
+                                    </View>*/}
+
+                                </View> 
                             </View>
 {/* Gender */}
                             <View>
@@ -252,6 +327,7 @@ console.log("         ", user);
                                                         label="Male"
                                                         onPress={maleHandler}
                                                         state={male}
+                                                        
                                                     />
                                                 <View style={{ marginLeft: 125 }}>
                                                     <RadioButton
@@ -259,6 +335,7 @@ console.log("         ", user);
                                                         label="Female"
                                                         onPress={femaleHandler}
                                                         state={female}
+                                                      
                                                     />
                                                 </View>
                                             </View>
@@ -275,9 +352,38 @@ console.log("         ", user);
                                 /> }
                             </View>
                         </View>
+                    
+
                     )}
                 </Formik>
+                
             </KeyboardAwareScrollView>
+            <CountryPicker
+                show={show}
+                style={{
+                    modal:{
+                        height:500,
+                        backgroundColor:Colors.LIGHTER_GREY,
+                    },
+                    countryButtonStyles:{
+                        height:80
+                    },
+                    flag: {
+                        fontSize:30
+                    },
+                    dialCode: {
+                        fontSize:20,
+                        fontWeight:'bold'
+                    },
+                    countryName: {
+                        fontSize:20
+                    }
+                }}
+                pickerButtonOnPress={(item) => {
+                    setCountryCode(item.dial_code);
+                    setShow(false);
+                }}
+            />
         </View>
     );
 };

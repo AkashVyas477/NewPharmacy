@@ -149,7 +149,16 @@ if(resData.ErrorMessage==="Order already exisity!"){
                 </View>  
             </View>
 
-            :  
+            :  <View>
+             <View style={{flexDirection:'row',paddingLeft:30,marginBottom:10,alignContent:'center',alignItems:'center'}}>
+                <Text>
+                    Add New card
+                </Text>
+                <TouchableOpacity onPress={()=>{props.navigation.navigate('AddCard')}}>
+                    <Image source={Images.AddIcon} style={{height:30,width:30}}/>
+                </TouchableOpacity>
+             </View>
+           
             <FlatList
             horizontal
             keyExtractor={item => item.id}
@@ -170,7 +179,7 @@ if(resData.ErrorMessage==="Order already exisity!"){
             )
         }}
             />
-
+ </View>
             
             // <View>
             //     <Text>

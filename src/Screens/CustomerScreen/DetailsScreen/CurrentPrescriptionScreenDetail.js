@@ -33,7 +33,7 @@ const CurrentPrescriptionScreen = props => {
         setCheckPharamcist(state => !state);
     };
     const [activeQuotes ,setActiveQuotes]=useState('')
-     console.log("selected pharamacist id  ",activeQuotes)
+    //  console.log("selected pharamacist id  ",activeQuotes)
     //  const [Quotesdetails, setQuotesDetails]=useState()
 
     const currentprescription = props.route.params.prescription

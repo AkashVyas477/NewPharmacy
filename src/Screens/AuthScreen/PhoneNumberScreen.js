@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Image,TextInput, Alert,  } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch } from 'react-redux';
-import  CountryPicker from 'react-native-country-picker-modal';
+import CountryPicker from 'react-native-country-codes-picker';
+// import  CountryPicker from 'react-native-country-picker-modal';
 import * as registerAction from '../../Store/Actions/register';
 import{ Colors, Images }from '../../CommonConfig';
 // import { Header, Button } from '../../Components/Common';
@@ -18,8 +19,8 @@ const PhoneNumberScreen = props => {
    console.log("userdata    ",params)
     const [isLoading, setisLoading]=useState(false)
     const [show, setShow] = useState(false);
-    const [countryCode, setCountryCode] = useState('IN');
-    const [callingCode, setcallingCode]= useState('+91')
+    const [countryCode, setCountryCode] = useState('+91');
+    // const [callingCode, setcallingCode]= useState('+91')
     const [phoneNumber, setPhoneNumber ] = useState('');
     
     // const dispatch = useDispatch()
@@ -70,9 +71,29 @@ const PhoneNumberScreen = props => {
                     <View style={styles.body}>                     
                         <Text style={styles.textPhoneNo} >Phone Number</Text>
                         <View style={styles.action} >
+                                        {/* <Ionicon name="call" color={Colors.PRIMARY} size={20} style={{ flex: 0.5 }} /> */}
+                                        <Text style={{ flex: 0.7, fontWeight: 'bold' }}>{countryCode}</Text>
+                                        <TouchableOpacity onPress={() => setShow(true)} style={{ flex: 0.4 }}>
+                                            <Image source={Images.DropDown} style={{height:10,width:10}}  /> 
+                                            {/* <Ionicon name="caret-down-outline" size={20} color={Colors.Sp_Text} /> */}
+                                            </TouchableOpacity>
+                                        <View style={{ width: 0, borderColor: Colors.Gray, borderWidth: 0.7, height: 30, marginRight: 10 }} ></View>
+                                        <TextInput
+                                        //   value={values.phone}
+                                            style={{ flex: 3.5 }}
+                                            keyboardType="phone-pad"
+                                            maxLength={10}
+                                            placeholderTextColor={Colors.placeHolder}
+                                            color={Colors.Sp_Text}
+                                            // onChangeText={handleChange('phone')}
+                                            placeholder="Phone Number "
+                                        />
+                                    </View>
+
+                        {/* <View style={styles.action} >
                             <Text style={{flex:0.5, fontWeight:'bold'}}>{countryCode}</Text>
                             <TouchableOpacity onPress={() => setShow(true)} style={{flex: 0.5}}>
-                                {/* <Image source={Images.DropDown} style={{height:10,width:10}}/> */}
+                                
                                 <CountryPicker
                                     withFilter
                                     countryCode={countryCode}
@@ -95,7 +116,7 @@ const PhoneNumberScreen = props => {
                                 maxLength={10}
                                 onChangeText = { (val) => {setPhoneNumber(val)} }
                             />
-                        </View>
+                        </View> */}
 
                             <View style={{marginTop:20}}>
                             <Button
@@ -113,6 +134,32 @@ const PhoneNumberScreen = props => {
                     </View>
                 </View>
             </KeyboardAwareScrollView>
+            <CountryPicker
+                show={show}
+                style={{
+                    modal:{
+                        height:500,
+                        backgroundColor:Colors.LIGHTER_GREY,
+                    },
+                    countryButtonStyles:{
+                        height:80
+                    },
+                    flag: {
+                        fontSize:30
+                    },
+                    dialCode: {
+                        fontSize:20,
+                        fontWeight:'bold'
+                    },
+                    countryName: {
+                        fontSize:20
+                    }
+                }}
+                pickerButtonOnPress={(item) => {
+                    setCountryCode(item.dial_code);
+                    setShow(false);
+                }}
+            />
            
         </View>
     );

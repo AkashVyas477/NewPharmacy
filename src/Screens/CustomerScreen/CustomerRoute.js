@@ -9,6 +9,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 
 //LogInScren
+
 import LoginScreen from '../AuthScreen/LoginScreen'
 
 //Screens from Customer 
@@ -74,9 +75,7 @@ const TabNavigator = props => {
             style: {
                 height:65,
                 paddingBottom: 10,
-                // borderBottomColor: 'green',
-                // borderBottomWidth: 1,
-                // overflow:'hidden'
+               
                 
             }
         }}>

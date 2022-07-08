@@ -68,7 +68,7 @@ const PrescriptionImageScreen = props => {
 
     const [show, setShow] = useState(false);
 
-    onst makeid = (length) => {
+    const makeid = (length) => {
         var result = '';
         var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         var charactersLength = characters.length;

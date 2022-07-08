@@ -20,9 +20,6 @@ const AppNavigator = props => {
             <AppStack.Screen name="Splash" component={SplashScreen}/>
                 <AppStack.Screen name='Auth' component={AuthStackScreen} />
                 <AppStack.Screen name ='Drawer' component={DrawerNavigator}/> 
-                {/* <AppStack.Screen name="Home" component={CustomerDrawer}/> */}
-                {/* <AppStack.Screen name ='Drawer' component={CustomerRoute}/>  */}
-                {/* <AppStack.Screen name="Home" component={CustomerRoute}/> */}
             </AppStack.Navigator>
         </NavigationContainer>
     )

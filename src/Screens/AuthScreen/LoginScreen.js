@@ -48,12 +48,13 @@ const LoginScreen = (props) => {
     const [isLoading, setIsLoading] = useState(false)
     const tncHandler = () => {setTnc(state => !state);};
    
-   
+   const role = props.route.params.role
     const onPressLogin = async (values) => {
         setIsLoading(true);
         const data = {
             email: values.email.toLowerCase(),
             password: values.password,
+            role:role
             device_token:JSON.stringify(AsyncStorage.getItem('deviceToken'))
         };
 
@@ -63,6 +64,7 @@ const LoginScreen = (props) => {
         if (response.success) 
         {
             try {
+                await AsyncStorage.setItem('role', resData.user.role.toString())
                 await AsyncStorage.setItem('token', resData.token)
                 await AsyncStorage.setItem('refreshToken', resData.refreshToken)
                 await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
@@ -71,12 +73,21 @@ const LoginScreen = (props) => {
                 // console.log("hii");
                 console.log(error)
             }
+            if(resData.user.role ===0){
             props.navigation.dispatch(
                 CommonActions.reset({
                     index:0,
                     routes: [{name: 'Drawer'}]
                 })
             )
+            }else{
+                props.navigation.dispatch(
+                    CommonActions.reset({
+                        index:0,
+                        routes: [{name: 'Auth'}]
+                    })
+                )
+            }
             setIsLoading(false);
         } else {
             if (resData.ErrorMessage == "User not exists!") {

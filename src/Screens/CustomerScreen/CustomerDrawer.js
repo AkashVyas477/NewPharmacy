@@ -17,36 +17,29 @@ import {
     Switch 
 } from 'react-native-paper';
 import { Images, Colors } from '../../CommonConfig';
+// import TabNavigator from '../../Screens/CustomerScreen/CustomerRoute'
 import TabNavigator from '../../Screens/CustomerScreen/CustomerRoute'
 
-// import UserStackScreen from '../../Screens/CustomerScreen/CustomerRoute'
-// import AddresStackScreen from '../../Screens/CustomerScreen/CustomerRoute'
-// import LanguageStackScreen from '../../Screens/CustomerScreen/CustomerRoute'
-// import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-// const Drawer = createDrawerNavigator()
 const DrawerContent = (props) => {
-
-
 
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
 
-  useEffect(()=>{
-      getProfile()
-  },[props.navigation])
+//   useEffect(()=>{
+//       getProfile()
+//   },[props.navigation])
 
   
-  const update = async () => {
-    props.navigation.addListener('focus', () => {
-       getProfile()
-    });
-}
+//   const update = async () => {
+//     props.navigation.addListener('focus', () => {
+//        getProfile()
+//     });
+// }
 
-  const getProfile = async()=>{
-      setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
-  }
+//   const getProfile = async()=>{
+//       setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
+//   }
 
     return (
         <>
@@ -135,17 +128,7 @@ const DrawerContent = (props) => {
             </Drawer.Section>
                 </View>
             </DrawerContentScrollView>
-            {/* <Drawer.Section>
-                <DrawerItem
-                icon={({color, size})=>(
-                    <Image source={Images.Logout}
-                    style={{height:30,width:30}}
-                    />
-                )}
-                label="Log Out"
-                onPress={()=>{}}
-                />
-            </Drawer.Section> */}
+
         </>
     )
 }

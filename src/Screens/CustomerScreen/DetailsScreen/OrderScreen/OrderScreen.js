@@ -12,6 +12,7 @@ import Cards from '../../../../Components/Common/Cards';
 import CreditCardDisplay from '../../../../Components/Common/CardComp';
 import Toast from 'react-native-simple-toast'
 import { CommonActions } from '@react-navigation/native';
+// import { StripeProvider,useStripe } from '@stripe/stripe-react-native';
 
 
 const OrderScreen = props => {
@@ -102,6 +103,9 @@ if(resData.ErrorMessage==="Order already exisity!"){
 
     
     return (
+        // // <StripeProvider  
+        // publishableKey='pk_test_51LJB1QSJWWE3gag7FyLXJOvJns8jegO08SGsgjeCGNDLt5RxdB1ZO7xgb04KoO8Uk95fWcXiDisrb8ZS2Kyh3LyE00nme3lKsk'
+        // >
         <View style={styles.screen}>
             <View style={styles.screen1} >
                 <View style={styles.header_sty}>
@@ -288,6 +292,7 @@ if(resData.ErrorMessage==="Order already exisity!"){
             </View> */}
             </ScrollView>
         </View>
+        // </StripeProvider>
     );
 };
 

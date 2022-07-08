@@ -68,12 +68,23 @@ const PrescriptionImageScreen = props => {
 
     const [show, setShow] = useState(false);
 
+    onst makeid = (length) => {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+      }
+
 
     // From Data 
     const submit = async () => {
         setIsLoading(true);
         // if (responseJson.sucess) {
         const formdata = new FormData();
+        
         formdata.append('image', {
             uri: images[0].path,
             type: images[0].mime,

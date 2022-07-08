@@ -30,9 +30,14 @@ const OrderScreen = props => {
     const [newCard,setNewCard]=useState([])
     const [isLoading, setIsLoading] = useState({});
 
-    useEffect(()=>{
-        getcard()
-    },[])
+   
+    useEffect(() => {
+        const update = props.navigation.addListener('focus', () => {
+            getCards()
+        });
+        return update;
+    }, [props.navigation])
+
 
   const getcard =async()=>{
     const response = await getPreLogin('customer/getCard')

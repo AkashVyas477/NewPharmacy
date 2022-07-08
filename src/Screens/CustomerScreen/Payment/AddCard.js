@@ -18,7 +18,7 @@ import Toast from "react-native-simple-toast"
 
 
 const AddCard = props =>{
-    const[type,setType]= useState('');
+    const[type,setType]= useState('card');
     const [isLoading, setIsLoading]= useState(false)
 
 
@@ -30,12 +30,17 @@ const AddCard = props =>{
     const onPressCard = async(details) => {
         setIsLoading(true)
         // console.log(details);
+        const arr= details.expiryDate.split('/')
+        console.log(arr)
+        const year= arr[1].substring()
         const data = {
             number : details.cardNumber,
-            expire: details.expiryDate,
+            exp_month: arr[0],
+            exp_year:year,
             cvc: details.cvv,
             name: details.name
         }
+        console.log(data)
         const response = await postPostLogin('customer/addCard', data)
         console.log(response);
         if(!response.success) {
@@ -138,9 +143,9 @@ const AddCard = props =>{
 
                                     {/* Expiry Date */}
                                     <Text style={styles.title}>EXPIRY DATE</Text>
-                                    <View style={styles.container}>
+                                    <View style={styles.containerexp}>
                                         <TouchableOpacity onPress={() => toggleOpen(true)} style={{padding:5}}>
-                                            <Text>{value ? moment(value).format('MM/YYYY') : placeholder}</Text>
+                                            <Text>{value ? moment(value).format('MM-YYYY') : placeholder}</Text>
                                         </TouchableOpacity>
                                     </View>
                                     <Modal
@@ -151,19 +156,20 @@ const AddCard = props =>{
                                             toggleOpen(false)
                                         }}>
                                         <View style={styles.contentContainer}>
-                                        <View style={styles.content}>
+                                        <View style={styles.contentexp}>
                                             <MonthPicker
                                                 selectedDate={value || new Date()}
                                                 onMonthChange={onChange}
                                                 minDate = {moment('04-2022', 'MM-YYYY')}
                                                 maxDate = {moment('04-2030', 'MM-YYYY')}
-                                                nextIcon = {<Image source={Images.ChevronRight} style={{height:30,width:30,color:Colors.Sp_Text}}/>}
-                                                prevIcon = {<Image source={Images.ChevronLeft} style={{height:30,width:30,color:Colors.Sp_Text}}/>}
+                                                nextIcon = {<Image source={Images.ChevronRight} style={{height:30,width:30,}}/>}
+                                                prevIcon = {<Image source={Images.ChevronLeft} style={{height:30,width:30,}}/>}
                                             />
                                             <TouchableOpacity style={styles.confirmButton} onPress={() => {
                                                 toggleOpen(false);
                                                 setFieldTouched('expiryDate');
                                                 setFieldValue('expiryDate',moment(value).format('MM/YYYY'));
+                                               
                                             }}>
                                                 <Text>Confirm</Text>
                                             </TouchableOpacity>
@@ -262,14 +268,14 @@ const AddCard = props =>{
                             <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
                                 {/* GPAY */}
                                 <View style={{flexDirection:'row'}}>
-                                    <TouchableOpacity style={{alignItems:'center',justifyContent:'center', padding:10,borderRadius:50, borderWidth:1, borderColor: values.type === 'gpay' ? Colors.BLACK : 'transparent'}} onPress={ () => setFieldValue('type', 'gpay') }>
+                                    <TouchableOpacity style={{alignItems:'center',justifyContent:'center', padding:10,borderRadius:50, borderWidth:1, borderColor: values.type === 'gpay' ? Colors.Sp_Text : 'transparent'}} onPress={ () => setFieldValue('type', 'gpay') }>
                                         <Image source={Images.GooglePay} style={{height:75, width:75}} />
                                     </TouchableOpacity>
                                 </View>
 
                                 {/* GPAY */}
                                 <View style={{flexDirection:'row'}}>
-                                    <TouchableOpacity style={{alignItems:'center',justifyContent:'center', padding:10,borderRadius:50, borderWidth:1, borderColor: values.type === 'applepay' ? Colors.BLACK : 'transparent'}} onPress={ () => setFieldValue('type', 'applepay') }>
+                                    <TouchableOpacity style={{alignItems:'center',justifyContent:'center', padding:10,borderRadius:50, borderWidth:1, borderColor: values.type === 'applepay' ? Colors.Sp_Text : 'transparent'}} onPress={ () => setFieldValue('type', 'applepay') }>
                                         <Image source={Images.ApplePay} style={{height:75, width:75}} />
                                     </TouchableOpacity>
                                 </View>
@@ -324,6 +330,15 @@ const styles = StyleSheet.create({
         borderRadius:5, 
         marginTop:10
     },
+    containerexp:{
+        flexDirection:'row', 
+        borderColor:Colors.Sp_Text, 
+        borderWidth:1, 
+        justifyContent:'space-between', 
+        padding:15, 
+        borderRadius:5, 
+        marginTop:10
+    },
     input: {
         backgroundColor: 'white',
         paddingVertical: 12,
@@ -346,7 +361,18 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: 'rgba(0,0,0,0.5)',
     },
+    contentContainerexp: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
     content: {
+        backgroundColor: '#fff',
+        marginHorizontal: 20,
+        marginVertical: 70,
+    },
+    contentexp: {
         backgroundColor: '#fff',
         marginHorizontal: 20,
         marginVertical: 70,
@@ -368,9 +394,9 @@ const styles = StyleSheet.create({
         marginTop:50
     },
     buttonText:{
-        fontSize:20,
+        fontSize:18,
         color:Colors.White,
-        fontWeight:'700'
+        fontWeight:"bold"
     }
 })
 

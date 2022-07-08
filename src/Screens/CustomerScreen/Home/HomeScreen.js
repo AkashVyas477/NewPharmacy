@@ -19,7 +19,12 @@ const HomeScreen = props =>{
     const [length, setLength] = useState(0)
     const [ addresses, setAddresses ] = useState([])
     const [ activeAddress, setActiveAddress ] = useState({})  
+    
     useEffect(()=>{
+
+            const update = props.navigation.addListener('focus', () => {
+            getNearByPharmacy()
+        });
         
         GetLocation.getCurrentPosition({
             enableHighAccuracy: true,
@@ -34,7 +39,9 @@ const HomeScreen = props =>{
             const { code, message } = error;
             // console.warn(code, message);
         })
-    },[isLoading])
+        return update;
+    },[isLoading,props.navigation])
+
    
     const getNearByPharmacy = async(latitude,longitude) => {
         const response = await getParams(`customer/getNearByPharmacy/v1?latitude=${latitude}&longitude=${longitude}`)

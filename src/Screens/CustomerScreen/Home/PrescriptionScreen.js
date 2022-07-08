@@ -35,23 +35,15 @@ const PrescriptionScreen = props => {
     const loadMoreItem = () => {
         setCurrentPage(currentPage + 1)
         // console.log("loadMore  ", currentPage)
-        update();
-        // getPrescriptionList();
-        // getPastPrescription();
     };
 
     useEffect(() => {
-        update();
-        //  getPrescriptionList();
-        //  getPastPrescription();
-    }, [props.navigation])
-
-    const update = async () => {
-        props.navigation.addListener('focus', () => {
-            getPrescriptionList();
-            getPastPrescription();
+        const update = props.navigation.addListener('focus', () => {
+            getPrescriptionList()
+            getPastPrescription()
         });
-    }
+        return update;
+    }, [props.navigation])
 
     const getPrescriptionList = async () => {
         // console.log("getPrescriptionList")

@@ -34,6 +34,7 @@ import Preview from '../CustomerScreen/DetailsScreen/ImagePreview';
 import PharamaciesImagePreview from '../CustomerScreen/DetailsScreen/PharamaciesImagePreview';
 import OrderScreen from '../CustomerScreen/DetailsScreen/OrderScreen/OrderScreen';
 import AddCard from '../CustomerScreen/Payment/AddCard';
+// import CheckoutScreen from '../CustomerScreen/DetailsScreen/OrderScreen/CheckOutScreen';
 
 
 
@@ -61,7 +62,7 @@ const getTabBarVisibility = (route) => {
     const hideOnScreens = ['Pharamacies_Detail','CurrentPrescriptionScreen_Data',
     'PastPrescriptionScreen_Data','Preview',
      'PharamaciesImagePreview', 'Edit_Profile',
-     'OrderScreen','PrescriptionImageScreen','AddCard']
+     'OrderScreen','CheckoutScreen','PrescriptionImageScreen','AddCard']
     if (hideOnScreens.indexOf(routeName) > -1) return false;
     return true;
 };
@@ -134,6 +135,7 @@ const PrescriptionStackScreen = props => {
             <PrescriptionStack.Screen name='Preview' component={Preview} />
             <PrescriptionStack.Screen name='PharamaciesImagePreview' component={PharamaciesImagePreview} />
             <PrescriptionStack.Screen name='OrderScreen' component={OrderScreen} />
+            {/* <PrescriptionStack.Screen name='CheckoutScreen' component={CheckoutScreen} /> */}
             <PrescriptionStack.Screen name='AddCard' component={AddCard}/>
         </PrescriptionStack.Navigator>
     )

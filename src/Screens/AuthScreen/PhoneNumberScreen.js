@@ -121,7 +121,7 @@ const PhoneNumberScreen = props => {
                             <View style={{marginTop:20}}>
                             <Button
                             disabled={ phoneNumber.length === 10 ? false : true } 
-                            onPress={() => pressHandler(callingCode, phoneNumber)}
+                            onPress={() => pressHandler(countryCode, phoneNumber)}
                             showActivityIndicator={isLoading}
                             // disabled={isLoading}   
                             label="Next"

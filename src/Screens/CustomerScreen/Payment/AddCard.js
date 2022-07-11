@@ -40,10 +40,11 @@ const AddCard = props =>{
             cvc: details.cvv,
             name: details.name
         }
-        console.log(data)
+        // console.log(data)
         const response = await postPostLogin('customer/addCard', data)
-        console.log(response);
+        // console.log(response);
         if(!response.success) {
+            console.log(response)
             console.log("Error in adding card!");
         } else {
             Toast.show('Card added successfully!')

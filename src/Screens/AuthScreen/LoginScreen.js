@@ -48,23 +48,63 @@ const LoginScreen = (props) => {
     const [isLoading, setIsLoading] = useState(false)
     const tncHandler = () => {setTnc(state => !state);};
    
-   const role = props.route.params.role
+//    const role = props.route.params.role
     const onPressLogin = async (values) => {
         setIsLoading(true);
         const data = {
             email: values.email.toLowerCase(),
             password: values.password,
-            role:role
+            // role:role,
             device_token:JSON.stringify(AsyncStorage.getItem('deviceToken'))
         };
 
         const response = await postRequest('login', data);
         const resData = response.data
         console.log("hiii        ",response);
-        if (response.success) 
+    //     if (response.success) 
+    //     {
+    //         try {
+    //             // await AsyncStorage.setItem('role', resData.user.role.toString())
+    //             await AsyncStorage.setItem('token', resData.token)
+    //             await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+    //             await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+    //             await AsyncStorage.setItem('isLogin', "1")
+    //         } catch (error) {
+    //             // console.log("hii");
+    //             console.log(error)
+    //         }
+    //         if(resData.user.role ===0){
+    //         props.navigation.dispatch(
+    //             CommonActions.reset({
+    //                 index:0,
+    //                 routes: [{name: 'Drawer'}]
+    //             })
+    //         )
+    //         }else{
+    //             props.navigation.dispatch(
+    //                 CommonActions.reset({
+    //                     index:0,
+    //                     routes: [{name: 'Auth'}]
+    //                 })
+    //             )
+    //         }
+    //         setIsLoading(false);
+    //     } else {
+    //         if (resData.ErrorMessage == "User not exists!") {
+    //             Toast.show(" User does not exist!")
+    //               console.log("User not exists!")
+              
+    //         } else if (resData.ErrorMessage == "Login Failed!") {
+    //             Toast.show("Incorrect Password")
+    //     console.log("Login Faild!")
+    //         }
+    //         setIsLoading(false)
+    //     }
+    // }
+        
+    if (response.success) 
         {
             try {
-                await AsyncStorage.setItem('role', resData.user.role.toString())
                 await AsyncStorage.setItem('token', resData.token)
                 await AsyncStorage.setItem('refreshToken', resData.refreshToken)
                 await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
@@ -73,21 +113,12 @@ const LoginScreen = (props) => {
                 // console.log("hii");
                 console.log(error)
             }
-            if(resData.user.role ===0){
             props.navigation.dispatch(
                 CommonActions.reset({
                     index:0,
                     routes: [{name: 'Drawer'}]
                 })
             )
-            }else{
-                props.navigation.dispatch(
-                    CommonActions.reset({
-                        index:0,
-                        routes: [{name: 'Auth'}]
-                    })
-                )
-            }
             setIsLoading(false);
         } else {
             if (resData.ErrorMessage == "User not exists!") {
@@ -101,35 +132,36 @@ const LoginScreen = (props) => {
             setIsLoading(false)
         }
     }
-     // if (!response.success) {
-        //     setIsLoading(false);
-        //     // let errorMessage = "Something went wrong!";
-        //     if (resData.ErrorMessage === "User not exists!") {
-        //         // errorMessage = "User does not exist!"
-        //         // console.log("hii")
-        //         Toast.show(" User does not exist!")
-        //     }
-        //     if (resData.ErrorMessage === "Login Failed!") {
-        //         // errorMessage = "Invalid Password!"
-        //         // console.log("hii")
-        //         Toast.show("Incorrect Password")
-        //     }
-        //     // Alert.alert('Error', errorMessage, [{ text: "Okay" }])
-        // } else {
+    
+    //  // if (!response.success) {
+    //     //     setIsLoading(false);
+    //     //     // let errorMessage = "Something went wrong!";
+    //     //     if (resData.ErrorMessage === "User not exists!") {
+    //     //         // errorMessage = "User does not exist!"
+    //     //         // console.log("hii")
+    //     //         Toast.show(" User does not exist!")
+    //     //     }
+    //     //     if (resData.ErrorMessage === "Login Failed!") {
+    //     //         // errorMessage = "Invalid Password!"
+    //     //         // console.log("hii")
+    //     //         Toast.show("Incorrect Password")
+    //     //     }
+    //     //     // Alert.alert('Error', errorMessage, [{ text: "Okay" }])
+    //     // } else {
             
-        //     await AsyncStorage.setItem('token', resData.token)
-        //     await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-        //     await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-        //     await AsyncStorage.setItem('isLogin', "1")
-        //     // props.navigation.navigate('MainTab', { screen: 'Drawer' })
-        //         props.navigation.dispatch(
-        //         CommonActions.reset({
-        //             index:0,
-        //             routes: [{name: 'Drawer'}]
-        //         })
-        //     )
-        //     setIsLoading(false);
-        // }
+    //     //     await AsyncStorage.setItem('token', resData.token)
+    //     //     await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+    //     //     await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+    //     //     await AsyncStorage.setItem('isLogin', "1")
+    //     //     // props.navigation.navigate('MainTab', { screen: 'Drawer' })
+    //     //         props.navigation.dispatch(
+    //     //         CommonActions.reset({
+    //     //             index:0,
+    //     //             routes: [{name: 'Drawer'}]
+    //     //         })
+    //     //     )
+    //     //     setIsLoading(false);
+    //     // }
 
 
     return (

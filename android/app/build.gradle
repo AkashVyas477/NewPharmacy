@@ -126,9 +126,13 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 def nativeArchitectures = project.getProperties().get("reactNativeDebugArchitectures")
 
 android {
-    ndkVersion rootProject.ext.ndkVersion
-
+    
     compileSdkVersion rootProject.ext.compileSdkVersion
+
+     compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId "com.mobile_pharmacy"
@@ -190,8 +194,12 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+
+
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'com.stripe:stripe-android:20.7.0'
+    implementation(project(':stripe_stripe-react-native')) { exclude module: 'appcompat' } // stripe
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

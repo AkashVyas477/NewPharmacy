@@ -22,8 +22,8 @@ const HomeScreen = props =>{
     
     useEffect(()=>{
 
-            const update = props.navigation.addListener('focus', () => {
-            getNearByPharmacy()
+            const update = props.navigation.addListener('focus',async() => {
+           setIsLoading(true)
         });
         
         GetLocation.getCurrentPosition({
@@ -186,31 +186,16 @@ const HomeScreen = props =>{
 
 const  styles=StyleSheet. create({
     screen:{
+      
         backgroundColor:'white',
         elevation:5
     },
-    // card: {
-    //     flexGrow:1,
-    //     width: 380,
-    //     paddingRight: 10,
-    //     justifyContent:'center',
-    //     paddingLeft: 5,
-    //     shadowColor:Colors.White,
-    //     shadowOpacity: 0.26,
-    //     shadowOffset: { width: 0, height: 2 },
-    //     shadowRadius: 8,
-    //     elevation: 5,
-    //     borderRadius: 10,
-    //     backgroundColor: 'white',
-    //     marginBottom:5,
-    //     margin:10,
-    //     // alignItems:'center',
-    //   },
     card:{
+        flex: 1,
         flexGrow:1,
         shadowColor:Colors.White,
         shadowOpacity: 0.26,
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: { width: 0, height:2 },
         shadowRadius: 8,
         borderRadius: 10,
         backgroundColor: 'white',
@@ -221,7 +206,7 @@ const  styles=StyleSheet. create({
     Card_Sty:{ 
         flexDirection: 'row',
         padding:5,
-        paddingRight:10,
+        // paddingRight:10,
         
      },
 

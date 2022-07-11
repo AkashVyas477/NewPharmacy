@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react';
-import { View, Text, StyleSheet, Image,FlatList, ImageBackground, TouchableOpacity,Alert, TextInput,ActivityIndicator,ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image,FlatList, ImageBackground, TouchableOpacity,Alert, TextInput,ActivityIndicator,ScrollView ,} from 'react-native';
 // import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 // import { Header, RadioButton, CheckButton,Button } from '../../../../Components/Common';
 import Header from '../../../../Components/Common/Header';
@@ -12,11 +12,13 @@ import Cards from '../../../../Components/Common/Cards';
 import CreditCardDisplay from '../../../../Components/Common/CardComp';
 import Toast from 'react-native-simple-toast'
 import { CommonActions } from '@react-navigation/native';
-// import { StripeProvider,useStripe } from '@stripe/stripe-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StripeProvider,useStripe } from '@stripe/stripe-react-native';
 
 
 const OrderScreen = props => {
 
+    const { initPaymentSheet, presentPaymentSheet } = useStripe();
     const selectedQuotes= props.route.params.activeQuotes
     const currentprescription=props.route.params.currentprescription
     const quoteId = selectedQuotes.id
@@ -30,82 +32,102 @@ const OrderScreen = props => {
     const [card, setCard]=useState([])
     const [newCard,setNewCard]=useState([])
     const [isLoading, setIsLoading] = useState({});
+    const [paymentLoader, setPaymentLoader] = useState(false)
+    const [ selectedCard, setSelectedCard ] = useState()
 
    
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
-            getCards()
+            setIsLoading(true)
+            getcard()
+            // getPaymentMethod()
+            setIsLoading(false)
         });
         return update;
     }, [props.navigation])
 
 
-  const getcard =async()=>{
-    const response = await getPreLogin('customer/getCard')
-    // setIsLoading(true)
-    //    console.log(response.data.message.data)
-    let errorMsg='No Credit Cards to Show!';
-    if(response.success){
-        setCard(response.data.message.data)
-        // setIsLoading(false)
-    }else{
-        console.log(response)
+
+    const getcard =async()=>{
+        const response = await getPreLogin('customer/getCard')
+        // setIsLoading(true)
+           console.log(response.data.message.data)
+        let errorMsg='No Credit Cards to Show!';
+        if(response.success){
+            setCard(response.data.message.data)
+            // setIsLoading(false)
+        }else{
+            console.log(response)
+        }
+      }
+    
+
+
+  const onPressPayment= async()=>{
+    const data = {
+        quoteId: quoteId ,
+        delivery_charge:Deliverycharge ,
+        payment_method :PaymentType ,
+        checkout_type : checkOutType,
     }
-  }
-
-const onPressPayment= async()=>{
-const data = {
-    quoteId: quoteId ,
-    delivery_charge:Deliverycharge ,
-    payment_method :PaymentType ,
-    checkout_type : checkOutType,
-}
-console.log("data",data)
-
-const response=await postPostLogin ('customer/checkout',data)
-console.log(" Data",response)
-const resData = response.data
-if(!response.success){
-if(resData.ErrorMessage==="Order already exisity!"){
-    Toast.show("Order already exisity")
-}if(resData.ErrorMessage==="Quote not found!"){
-    Toast.show("Quote not found")
-}if(resData.ErrorMessage==="Data truncated for column 'delivery_charge' at row 1"){
-    Toast.show("Delivery charge issue")
-}
-}else{
-    Toast.show("Order palced successfully..")
-    props.navigation.dispatch(
-        CommonActions.reset({
-            index:0,
-            routes: [{name: 'Prescription'}]
-        })
-    )
+    console.log("data",data)
+    const response = await postPostLogin('customer/checkout',data)
+    console.log("data",response)
+    
+    // const response=await postPostLogin ('customer/checkout',data)
+    // console.log(" Data",response)
+    // const resData = response.data
+    // if(!response.success){
+    // if(resData.ErrorMessage==="Order already exisity!"){
+    //     Toast.show("Order already exisity")
+    // }if(resData.ErrorMessage==="Quote not found!"){
+    //     Toast.show("Quote not found")
+    // }if(resData.ErrorMessage==="Data truncated for column 'delivery_charge' at row 1"){
+    //     Toast.show("Delivery charge issue")
+    // }
+    // }else{
+    //     Toast.show("Order palced successfully..")
+    //     props.navigation.dispatch(
+    //         CommonActions.reset({
+    //             index:0,
+    //             routes: [{name: 'Prescription'}]
+    //         })
+    //     )
+    
+    // }
 
 }
 
-
-// if(response.success){
-//     Toast.show("order success")
-//     props.navigation.dispatch(
-//         CommonActions.reset({
-//             index:0,
-//             routes: [{name: 'Prescription'}]
-//         })
-//     )
-// }else{
-//     console.log(response)
-//     Toast.show("order failed")
-// }
+            // const onPressPayment=props=>{
+            //     const data = {
+            //         quoteId: quoteId,
+            //         delivery_charge: Deliverycharge,
+            //         payment_method: PaymentType,
+            //         checkout_type: checkOutType,
+            //     }
+            //     console.log("data", data)
+            // }
 
 
-}
+    //  const   onPressPayment = async()=>{
+    //         const response= await fetch ('https://mobile-pharmacy.herokuapp.com/customer/checkout',{
+    //             method:'POST',
+    //             headers:{
+    //                 'Content-Type':'application/json',
+    //             },
+    //             body: JSON.stringify({
+    //                 currency: 'usd',
+    //               }),
+    //         });
+    //         const {clientSecret} = await response.json();
+    // return clientSecret;
+    //  }    
 
     
     return (
-        // // <StripeProvider  
-        // publishableKey='pk_test_51LJB1QSJWWE3gag7FyLXJOvJns8jegO08SGsgjeCGNDLt5RxdB1ZO7xgb04KoO8Uk95fWcXiDisrb8ZS2Kyh3LyE00nme3lKsk'
-        // >
+        <StripeProvider  
+        publishableKey='pk_test_51KYm9ASJ7crToGEYDadpzSGseBGOmjOfGKCFvTbGWSXJAGvwOGrQTXu3ZnJBKTKNXjYfgsgQTHX6q0WTdxaKrQfj003pXSAxAh'
+        >
         <View style={styles.screen}>
             <View style={styles.screen1} >
                 <View style={styles.header_sty}>
@@ -174,7 +196,7 @@ if(resData.ErrorMessage==="Order already exisity!"){
             showsHorizontalScrollIndicator={false}
             data={card}
             renderItem={({item,index})=>{
-            console.log("details       ",item )
+            // console.log("details       ",item )
             return(
                 <View>
                     <Cards
@@ -183,6 +205,9 @@ if(resData.ErrorMessage==="Order already exisity!"){
                         number={item.last4}
                         image={item.image}
                         brand={item.brand}
+                        exp_month = { item.exp_month }
+                        exp_year = { item.exp_year }
+
                     />
                 </View>
             )
@@ -282,6 +307,7 @@ if(resData.ErrorMessage==="Order already exisity!"){
                 <Button 
                 label="PAYMENT"
                 onPress={onPressPayment}
+                // onPress={()=>{props.navigation.navigate('CheckoutScreen')}}
                 />
             </View>
             </View>
@@ -292,7 +318,7 @@ if(resData.ErrorMessage==="Order already exisity!"){
             </View> */}
             </ScrollView>
         </View>
-        // </StripeProvider>
+        </StripeProvider>
     );
 };
 

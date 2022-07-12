@@ -31,7 +31,7 @@ const AddCard = props =>{
         setIsLoading(true)
         // console.log(details);
         const arr= details.expiryDate.split('/')
-        console.log(arr)
+        // console.log(arr)
         const year= arr[1].substring()
         const data = {
             number : details.cardNumber,

@@ -198,7 +198,7 @@ dependencies {
 
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation 'com.stripe:stripe-android:20.7.0'
+    // implementation 'com.stripe:stripe-android:20.7.0'
     implementation(project(':stripe_stripe-react-native')) { exclude module: 'appcompat' } // stripe
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"

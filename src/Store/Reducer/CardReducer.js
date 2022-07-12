@@ -15,7 +15,7 @@ export default (state = initialState, action ) => {
             }
             case ADD_CARD:
                 const data = action.data
-                //console.log(data);
+                console.log(data);
     
                 const cardObj = {
                     brand: data.brand,

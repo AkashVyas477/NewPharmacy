@@ -9,59 +9,70 @@ import Button from '../../../../Components/Common/Button';
 import { Colors, Images } from '../../../../CommonConfig';
 import { postPostLogin,getPreLogin } from '../../../../Components/Helpers/ApiHelper';
 import Cards from '../../../../Components/Common/Cards';
-import CreditCardDisplay from '../../../../Components/Common/CardComp';
+import CreditCardDisplay from '../../../../Components/Common/CardComp'
+// import CreditCardDisplay from '../../../../Components/Common/CardComp';
 import Toast from 'react-native-simple-toast'
 import { CommonActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StripeProvider,useStripe } from '@stripe/stripe-react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useDispatch } from 'react-redux';
+// import * as CardAction from '../../../../Store/Actions/CardAction'
 
 
 const OrderScreen = props => {
+
+    const dispatch = useDispatch()
 
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
     const selectedQuotes= props.route.params.activeQuotes
     const currentprescription=props.route.params.currentprescription
     const quoteId = selectedQuotes.id
-    // console.log(abc)
-    // console.log("selected prescription  ",currentprescription)
-    // console.log("Quotes id     ",selectedQuotes)
     const Deliverycharge = 5.00
     const [PaymentType, setPaymentType] = useState(1);
     const [state,setState]=useState('cash')
     const [checkOutType, setcheckOutType] = useState();
-    const [card, setCard]=useState([])
+    
     const [newCard,setNewCard]=useState([])
-    const [isLoading, setIsLoading] = useState({});
-    const [paymentLoader, setPaymentLoader] = useState(false)
-    const [ selectedCard, setSelectedCard ] = useState()
+    const [isLoading, setIsLoading] = useState(true);
+    const [ selectedCard, setSelectedCard ] = useState({})
 
    
-    useEffect(() => {
-        const update = props.navigation.addListener('focus', () => {
-            setIsLoading(true)
-            getcard()
-            // getPaymentMethod()
-            setIsLoading(false)
+
+    useEffect( () => {
+        const refresh = props.navigation.addListener('focus',()=>{
+          getcard()
+          getPaymentMethod()
         });
-        return update;
-    }, [props.navigation])
+        return refresh 
+    }, [ props.navigation ] )
 
 
+const getPaymentMethod=async()=>{
+    setSelectedCard(JSON.parse(await AsyncStorage.getItem('activateCard')))
+    console.log("getting cards\n",selectedCard)
+}
+
+  
+    const [card, setCard]=useState([])
 
     const getcard =async()=>{
         const response = await getPreLogin('customer/getCard')
-        // setIsLoading(true)
-           console.log(response.data.message.data)
+        //    console.log("\n\n\n\ncard details   ",response.data.message.data)
         let errorMsg='No Credit Cards to Show!';
         if(response.success){
+            // await AsyncStorage.setItem('activeCard', JSON.stringify(props.item))
             setCard(response.data.message.data)
-            // setIsLoading(false)
         }else{
+            Alert.alert("Error", errorMsg, [{ text: "Okay" }])
             console.log(response)
+            setIsLoading(false)
         }
       }
-    
 
+
+    
+      const [paymentLoader, setPaymentLoader] = useState(false)     
 
   const onPressPayment= async()=>{
     const data = {
@@ -69,10 +80,39 @@ const OrderScreen = props => {
         delivery_charge:Deliverycharge ,
         payment_method :PaymentType ,
         checkout_type : checkOutType,
+        activateCard:selectedCard.id
     }
-    console.log("data",data)
-    const response = await postPostLogin('customer/checkout',data)
-    console.log("data",response)
+    // const params = {
+    //     card:selectedCard.id,
+    // }
+    console.log("data\n",data)
+
+    setPaymentLoader(false)
+    const getPayment =await postPostLogin('customer/checkout',data)
+    console.log(getPayment.data)
+    setPaymentLoader(false)
+   const {error}= await initPaymentSheet({
+    // customerId:getPayment.data.data.customerId,
+    // paymentIntentClientSecret: getPayment.data.data.client_secret,
+    // customerEphemeralKeySecret: getPayment.data.data.ephemeralKey
+   })
+   console.log("Init Successful!");
+   setTimeout(async() => {
+    try {
+        const { error } = await presentPaymentSheet()
+    } catch (e) {
+        console.log(e)
+    }
+}, 1000)
+
+    
+    // console.log("data\n",params)
+    // const params = { 
+    //     card : selectedCard.id
+    // }
+    // console.log("data\n",data)
+    // const response = await postPostLogin('customer/checkout',data)
+    // console.log("data",response)
     
     // const response=await postPostLogin ('customer/checkout',data)
     // console.log(" Data",response)
@@ -180,48 +220,42 @@ const OrderScreen = props => {
                 </View>  
             </View>
 
-            :  <View>
-             <View style={{flexDirection:'row',paddingLeft:30,marginBottom:10,alignContent:'center',alignItems:'center'}}>
-                <Text>
-                    Add New card
-                </Text>
-                <TouchableOpacity onPress={()=>{props.navigation.navigate('AddCard')}}>
-                    <Image source={Images.AddIcon} style={{height:30,width:30}}/>
-                </TouchableOpacity>
-             </View>
-           
-            <FlatList
-            horizontal
-            keyExtractor={item => item.id}
-            showsHorizontalScrollIndicator={false}
-            data={card}
-            renderItem={({item,index})=>{
-            // console.log("details       ",item )
-            return(
-                <View>
-                    <Cards
-                        item={item}
-                        id={item.id}
-                        number={item.last4}
-                        image={item.image}
-                        brand={item.brand}
-                        exp_month = { item.exp_month }
-                        exp_year = { item.exp_year }
+            :   <View>
+            <View style={{flexDirection:'row',paddingLeft:30,marginBottom:10,alignContent:'center',alignItems:'center'}}>
+               <Text>
+                   Add New card
+               </Text>
+               <TouchableOpacity onPress={()=>{props.navigation.navigate('AddCard')}}>
+                   <Image source={Images.AddIcon} style={{height:30,width:30}}/>
+               </TouchableOpacity>
+            </View>
+          
+           <FlatList
+           horizontal
+           keyExtractor={item => item.id}
+           showsHorizontalScrollIndicator={false}
+           data={card}
+           renderItem={({item,index})=>{
+           // console.log("details       ",item )
+           return(
+               <View>
+                   <Cards
+                       item={item}
+                       id={item.id}
+                       number={item.last4}
+                       image={item.image}
+                       brand={item.brand}
+                       exp_month = { item.exp_month }
+                       exp_year = { item.exp_year }
 
-                    />
-                </View>
-            )
-        }}
-            />
- </View>
-            
-            // <View>
-            //     <Text>
-            //         Hi
-            //     </Text>
-            // </View>
-           
-            }
+                   />
+               </View>
+           )
+       }}
+           />
+
+         </View>
+    }
 
 
             <View style={styles.screen_divide}>
@@ -377,5 +411,43 @@ const styles = StyleSheet.create({
         fontSize: 19,
         color: Colors.Gray
     },
+
+    cardItemContainer:{
+        // flex:1,
+        flexDirection:'row',
+        alignItems:'center',
+        paddingHorizontal: 15,
+        padding:10,
+        marginLeft: 15,
+        elevation:10,
+        overflow:'hidden',
+        borderRadius:10, 
+        backgroundColor:Colors.White,
+        // marginVertical:5,
+      },
+      detailContainer:{
+        flex:3,
+        marginLeft:20,
+        justifyContent:'space-evenly',
+        height:'100%'
+      },
+      imageStyle:{
+          height: 80,
+          width: 80
+      },
+      // cardnum:{
+      //     fontSize: 18,
+      //     color: Colors.Gray
+      // },
+      cardNumber:{
+        fontSize:18,
+        fontWeight:'bold',
+        marginRight:10
+      },
+      expiry:{
+        fontWeight:'600',
+        fontSize:16,
+        color: Colors.GREY
+      }
 });
 export default OrderScreen;

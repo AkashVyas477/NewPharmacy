@@ -5,7 +5,8 @@ import RadioButton from './RadioButton'
 import Header from './Header'
 import CheckButton from './CheckButton'
 import CheckRound from './CheckRound'
-import CardsComp from './CardComp'
+// import CardsComp from './CardComp'
+import CreditCardDisplay from './CardComp'
 import Cards from './Cards'
 // import Refresh from './RefreshControl'
 
@@ -19,6 +20,6 @@ export{
     CheckButton,
     CheckRound,
     Cards,
-    CardsComp
+    CreditCardDisplay
     // Refresh
 };

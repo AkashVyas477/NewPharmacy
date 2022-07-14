@@ -17,7 +17,7 @@ import EyeButton from '../../Components/Common/EyeButton'
 import Button from '../../Components/Common/Button'
 
 // import { CheckBox, EyeButton, Button} from '../../Components/Common';
-import { postRequest,} from '../../Components/Helpers/ApiHelper';
+import { postRequest, } from '../../Components/Helpers/ApiHelper';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
@@ -46,64 +46,63 @@ const LoginScreen = (props) => {
     const [tnc, setTnc] = useState(false);
     const [tnceye, setTncEye] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
-    const tncHandler = () => {setTnc(state => !state);};
-   
-//    const role = props.route.params.role
+    const tncHandler = () => { setTnc(state => !state); };
+
+    //    const role = props.route.params.role
     const onPressLogin = async (values) => {
         setIsLoading(true);
         const data = {
             email: values.email.toLowerCase(),
             password: values.password,
             // role:role,
-            device_token:JSON.stringify(AsyncStorage.getItem('deviceToken'))
+            device_token: JSON.stringify(AsyncStorage.getItem('deviceToken'))
         };
 
         const response = await postRequest('login', data);
         const resData = response.data
-        console.log("hiii        ",response);
-    //     if (response.success) 
-    //     {
-    //         try {
-    //             // await AsyncStorage.setItem('role', resData.user.role.toString())
-    //             await AsyncStorage.setItem('token', resData.token)
-    //             await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-    //             await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-    //             await AsyncStorage.setItem('isLogin', "1")
-    //         } catch (error) {
-    //             // console.log("hii");
-    //             console.log(error)
-    //         }
-    //         if(resData.user.role ===0){
-    //         props.navigation.dispatch(
-    //             CommonActions.reset({
-    //                 index:0,
-    //                 routes: [{name: 'Drawer'}]
-    //             })
-    //         )
-    //         }else{
-    //             props.navigation.dispatch(
-    //                 CommonActions.reset({
-    //                     index:0,
-    //                     routes: [{name: 'Auth'}]
-    //                 })
-    //             )
-    //         }
-    //         setIsLoading(false);
-    //     } else {
-    //         if (resData.ErrorMessage == "User not exists!") {
-    //             Toast.show(" User does not exist!")
-    //               console.log("User not exists!")
-              
-    //         } else if (resData.ErrorMessage == "Login Failed!") {
-    //             Toast.show("Incorrect Password")
-    //     console.log("Login Faild!")
-    //         }
-    //         setIsLoading(false)
-    //     }
-    // }
-        
-    if (response.success) 
-        {
+        console.log("hiii        ", response);
+        //     if (response.success) 
+        //     {
+        //         try {
+        //             // await AsyncStorage.setItem('role', resData.user.role.toString())
+        //             await AsyncStorage.setItem('token', resData.token)
+        //             await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+        //             await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+        //             await AsyncStorage.setItem('isLogin', "1")
+        //         } catch (error) {
+        //             // console.log("hii");
+        //             console.log(error)
+        //         }
+        //         if(resData.user.role ===0){
+        //         props.navigation.dispatch(
+        //             CommonActions.reset({
+        //                 index:0,
+        //                 routes: [{name: 'Drawer'}]
+        //             })
+        //         )
+        //         }else{
+        //             props.navigation.dispatch(
+        //                 CommonActions.reset({
+        //                     index:0,
+        //                     routes: [{name: 'Auth'}]
+        //                 })
+        //             )
+        //         }
+        //         setIsLoading(false);
+        //     } else {
+        //         if (resData.ErrorMessage == "User not exists!") {
+        //             Toast.show(" User does not exist!")
+        //               console.log("User not exists!")
+
+        //         } else if (resData.ErrorMessage == "Login Failed!") {
+        //             Toast.show("Incorrect Password")
+        //     console.log("Login Faild!")
+        //         }
+        //         setIsLoading(false)
+        //     }
+        // }
+
+        if (response.success) {
             try {
                 await AsyncStorage.setItem('token', resData.token)
                 await AsyncStorage.setItem('refreshToken', resData.refreshToken)
@@ -115,61 +114,61 @@ const LoginScreen = (props) => {
             }
             props.navigation.dispatch(
                 CommonActions.reset({
-                    index:0,
-                    routes: [{name: 'Drawer'}]
+                    index: 0,
+                    routes: [{ name: 'Drawer' }]
                 })
             )
             setIsLoading(false);
         } else {
             if (resData.ErrorMessage == "User not exists!") {
                 Toast.show(" User does not exist!")
-                  console.log("User not exists!")
-              
+                console.log("User not exists!")
+
             } else if (resData.ErrorMessage == "Login Failed!") {
                 Toast.show("Incorrect Password")
-        console.log("Login Faild!")
+                console.log("Login Faild!")
             }
             setIsLoading(false)
         }
     }
-    
-    //  // if (!response.success) {
-    //     //     setIsLoading(false);
-    //     //     // let errorMessage = "Something went wrong!";
-    //     //     if (resData.ErrorMessage === "User not exists!") {
-    //     //         // errorMessage = "User does not exist!"
-    //     //         // console.log("hii")
-    //     //         Toast.show(" User does not exist!")
-    //     //     }
-    //     //     if (resData.ErrorMessage === "Login Failed!") {
-    //     //         // errorMessage = "Invalid Password!"
-    //     //         // console.log("hii")
-    //     //         Toast.show("Incorrect Password")
-    //     //     }
-    //     //     // Alert.alert('Error', errorMessage, [{ text: "Okay" }])
-    //     // } else {
-            
-    //     //     await AsyncStorage.setItem('token', resData.token)
-    //     //     await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-    //     //     await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-    //     //     await AsyncStorage.setItem('isLogin', "1")
-    //     //     // props.navigation.navigate('MainTab', { screen: 'Drawer' })
-    //     //         props.navigation.dispatch(
-    //     //         CommonActions.reset({
-    //     //             index:0,
-    //     //             routes: [{name: 'Drawer'}]
-    //     //         })
-    //     //     )
-    //     //     setIsLoading(false);
-    //     // }
+
+    //  if (!response.success) {
+    //         setIsLoading(false);
+    //         // let errorMessage = "Something went wrong!";
+    //         if (resData.ErrorMessage == "User not exists!") {
+    //             // errorMessage = "User does not exist!"
+    //             // console.log("hii")
+    //             Toast.show(" User does not exist!")
+    //         }
+    //         if (resData.ErrorMessage == "Login Failed!") {
+    //             // errorMessage = "Invalid Password!"
+    //             // console.log("hii")
+    //             Toast.show("Incorrect Password")
+    //         }
+    //         // Alert.alert('Error', errorMessage, [{ text: "Okay" }])
+    //     } else {
+    //         await AsyncStorage.setItem('token', resData.token)
+    //         await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+    //         await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+    //         await AsyncStorage.setItem('isLogin', "1")
+    //         // props.navigation.navigate('MainTab', { screen: 'Drawer' })
+    //             props.navigation.dispatch(
+    //             CommonActions.reset({
+    //                 index:0,
+    //                 routes: [{name: 'Drawer'}]
+    //             })
+    //         )
+    //         setIsLoading(false);
+    //     }
+    // }
 
 
     return (
         <KeyboardAwareScrollView>
-           
+
             {/* Full screen */}
             <View style={styles.mainWrapper}>
-            <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
+                <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
                 {/* Logo */}
 
                 <View style={styles.logoScreen}>
@@ -198,7 +197,7 @@ const LoginScreen = (props) => {
                                         style={styles.customCss}
                                         placeholderTextColor={Colors.placeHolder}
                                         color={Colors.Sp_Text}
-                                        onBlur={() => setFieldTouched('email')} 
+                                        onBlur={() => setFieldTouched('email')}
                                         onChangeText={handleChange('email')}
                                         placeholder="E-mail"
                                         keyboardType='email-address'
@@ -211,7 +210,7 @@ const LoginScreen = (props) => {
                                 }
                             </View>
 
-                            <View style={{ padding:1, paddingHorizontal: 2 }} >
+                            <View style={{ padding: 1, paddingHorizontal: 2 }} >
                                 <Text style={styles.text}  >Password</Text>
                                 <View style={styles.password_sty}>
                                     <TextInput
@@ -313,7 +312,7 @@ const LoginScreen = (props) => {
                     onPress={() => { props.navigation.navigate('Drawer', { screen: 'Home' }) }}
                 /> */}
                 {/* Remove this after completing desing */}
-                </View>
+            </View>
             {/* Full screen */}
         </KeyboardAwareScrollView>
     );
@@ -326,8 +325,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
     },
-    logoScreen: { 
-        alignItems: 'center' 
+    logoScreen: {
+        alignItems: 'center'
     },
 
     logo: {
@@ -357,15 +356,15 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 3.84,
         elevation: 3,
-     },
+    },
     signup: {
         color: Colors.Gray,
-        fontSize:15
+        fontSize: 15
     },
     sp_signup: {
         color: Colors.Sp_Text,
         fontWeight: 'bold',
-        fontSize:18
+        fontSize: 18
     },
     Button: {
         color: Colors.ButtonTextColor,
@@ -401,7 +400,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop:10,
+        marginTop: 10,
         marginBottom: 25
     },
     check: {
@@ -427,30 +426,30 @@ const styles = StyleSheet.create({
         width: '100%',
         marginTop: 5
     },
-    pharmacyUser_sty: { 
-        paddingTop: 20 
+    pharmacyUser_sty: {
+        paddingTop: 20
     },
-    pharmacyUserBox: { 
-        flexDirection: 'row', 
-        justifyContent: 'space-around', 
-        alignItems: 'center', 
+    pharmacyUserBox: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
         // marginBottom: 10 
     },
-    pharmacyUserImg: { 
-        height: 50, 
-        width: 35, 
-        overflow: 'hidden' 
+    pharmacyUserImg: {
+        height: 50,
+        width: 35,
+        overflow: 'hidden'
     },
-    arrow: { 
-        height: 10, 
-        width: 10 ,
-        
+    arrow: {
+        height: 10,
+        width: 10,
+
     },
-    signup_sty: { 
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        padding: 15 
+    signup_sty: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 15
     },
 });
 

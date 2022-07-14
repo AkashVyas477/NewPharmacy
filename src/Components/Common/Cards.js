@@ -41,9 +41,9 @@ const Cards = (props) => {
 
   const getActiveCard = async()=> {
     setActivateCard(JSON.parse(await AsyncStorage.getItem('activateCard')))
-  
+    console.log("Active card \n",activateCard.id)
   }
-  // console.log("Active card \n",activateCard.id)
+ 
 
 
   return (

@@ -202,6 +202,7 @@ const  styles=StyleSheet. create({
         marginBottom:5,
         margin:10,
         justifyContent:'center',
+        // width: 80
     },
     Card_Sty:{ 
         flexDirection: 'row',
@@ -211,7 +212,8 @@ const  styles=StyleSheet. create({
      },
 
     Image_Sty:{
-        height: 90, width: 90,
+        height: 90, 
+        width: 90,
         borderRadius: 10,
     },
     Text_sty:{ 

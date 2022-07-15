@@ -3,9 +3,9 @@ import React, { useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CommonActions } from '@react-navigation/native';
 import { Colors, Images } from '../CommonConfig'
-import { refreshtoken } from '../Components/Helpers/ApiHelper';
+// import { refreshtoken } from '../Components/Helpers/ApiHelper';
 import messaging from '@react-native-firebase/messaging';
-
+    
 const SplashScreen = (props) => {
     
     useEffect( () => {
@@ -23,28 +23,47 @@ const SplashScreen = (props) => {
         const isLogin = await AsyncStorage.getItem('isLogin');
         const role= await AsyncStorage.getItem('role')
         console.log(isLogin);
-        if (isLogin === "1"){
-            // if(role === "1"){
-            //     props.navigation.dispatch(CommonActions.reset({
-            //         index:0,
-            //         routes: [{name:'Drawer'}]
-            //     }))
-            // } else {
-            //     props.navigation.dispatch(CommonActions.reset({
-            //         index:0,
-            //         routes: [{name:'Auth'}]
-            //     }))
-            // }
-            props.navigation.dispatch(CommonActions.reset({
-                index:0,
-                routes:[{name:'Drawer'}]
-            }))
+        if(isLogin ==="1"){
+            if(role ==="1"){
+                props.navigation.dispatch(CommonActions.reset({
+                    index:0,
+                    routes:[{name:'CustomerDrawer'}]
+                }))
+            }else{
+                props.navigation.dispatch(CommonActions.reset({
+                    index:0,
+                    routes:[{name:'PharamacistDrawer'}]
+                }))
+            }
+
         }else{
             props.navigation.dispatch(CommonActions.reset({
                 index:0,
                 routes:[{name:'Auth'}]
             }))
         }
+        // if (isLogin === "1"){
+        //     // if(role === "1"){
+        //     //     props.navigation.dispatch(CommonActions.reset({
+        //     //         index:0,
+        //     //         routes: [{name:'CustomerDrawer'}]
+        //     //     }))
+        //     // } else {
+        //     //     props.navigation.dispatch(CommonActions.reset({
+        //     //         index:0,
+        //     //         routes: [{name:'Auth'}]
+        //     //     }))
+        //     // }
+        //     props.navigation.dispatch(CommonActions.reset({
+        //         index:0,
+        //         routes:[{name:'CustomerDrawer'}]
+        //     }))
+        // }else{
+        //     props.navigation.dispatch(CommonActions.reset({
+        //         index:0,
+        //         routes:[{name:'Auth'}]
+        //     }))
+        // }
     }
 
     return (

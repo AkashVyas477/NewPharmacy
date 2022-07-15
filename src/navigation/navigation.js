@@ -8,6 +8,8 @@ import CustomerDrawer from '../Screens/CustomerScreen/CustomerDrawer'
 import AuthStackScreen from '../Screens/AuthScreen/AuthStackscreen';
 import SplashScreen from '../Screens/SplashScreen'
 import DrawerNavigator from '../Screens/CustomerScreen/CustomerRoute';
+import PharamaDrawerNavigator from '../Screens/PharamacistScreen/PharamcistRoute';
+
 
 
 const AppStack = createStackNavigator();
@@ -19,7 +21,12 @@ const AppNavigator = props => {
             <AppStack.Navigator headerMode='none' initialRouteName='Splash'>
             <AppStack.Screen name="Splash" component={SplashScreen}/>
                 <AppStack.Screen name='Auth' component={AuthStackScreen} />
-                <AppStack.Screen name ='Drawer' component={DrawerNavigator}/> 
+                {/* DrawerNavigator = CustomerDrawer  */}
+                <AppStack.Screen name ='CustomerDrawer' component={DrawerNavigator}/> 
+                 {/* PharamaDrawerNavigator = PharamacistDrawer  */}
+                <AppStack.Screen name='PharamacistDrawer' component={PharamaDrawerNavigator}/>
+
+
             </AppStack.Navigator>
         </NavigationContainer>
     )

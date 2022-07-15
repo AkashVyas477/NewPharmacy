@@ -17,33 +17,35 @@ import {
     Switch 
 } from 'react-native-paper';
 import { Images, Colors } from '../../CommonConfig';
-// import TabNavigator from '../../Screens/CustomerScreen/CustomerRoute'
-import TabNavigator from '../../Screens/CustomerScreen/CustomerRoute'
+
+
 
 const DrawerContent = (props) => {
+    const [user, setUser] = useState({});
+    const [isLoading, setIsLoading] = useState(false)
+    const [selectedImage, setSelectedImage] = useState(null)
 
-  const [user, setUser] = useState({});
-  const [isLoading, setIsLoading] = useState(false)
-  const [selectedImage, setSelectedImage] = useState(null)
 
-  useEffect(()=>{
-      getProfile()
-  },[props.navigation])
-
+    useEffect(()=>{
+        getProfile()
+    },[props.navigation])
   
-  const update = async () => {
-    props.navigation.addListener('focus', () => {
-       getProfile()
-    });
-}
-
-  const getProfile = async()=>{
-      setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
+    
+    const update = async () => {
+      props.navigation.addListener('focus', () => {
+         getProfile()
+      });
   }
+  
+    const getProfile = async()=>{
+        setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
+    }
 
-    return (
-        <>
-            <DrawerContentScrollView {...props}>
+
+
+return(
+    <>
+    <DrawerContentScrollView {...props}>
                 <View style={styles.drawerContent}>
                     <View style={styles.userInfoSection}>
                     <TouchableOpacity onPress={() => { props.navigation.navigate('Profile') }}>
@@ -74,7 +76,7 @@ const DrawerContent = (props) => {
                     />
                 )}
                 label="Home"
-                onPress={()=>{props.navigation.navigate('Home')}}
+                onPress={()=>{props.navigation.navigate('PharamaHome')}}
                 /> 
                     </Drawer.Section>
 
@@ -97,7 +99,7 @@ const DrawerContent = (props) => {
                         />
                     )}
                     label="Language"
-                    onPress={() => {props.navigation.navigate('LanguageScreen') }}
+                    // onPress={() => {props.navigation.navigate('LanguageScreen') }}
                 />
 
                     </Drawer.Section>
@@ -129,8 +131,11 @@ const DrawerContent = (props) => {
                 </View>
             </DrawerContentScrollView>
 
-        </>
-    )
+    </>
+
+)
+
+
 }
 
 const styles = StyleSheet.create({
@@ -180,4 +185,5 @@ const styles = StyleSheet.create({
     },
   });
 
-export default DrawerContent;
+
+  export default DrawerContent;

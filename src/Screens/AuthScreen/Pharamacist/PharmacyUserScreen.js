@@ -33,7 +33,7 @@ const pharmacyuserscreen = props => {
                     initialValues={{
                         idNo: ''
                     }}
-                    onSubmit={() => { props.navigation.navigate('Drawer', { screen: 'Pharamacist' }) }}
+                    onSubmit={() => { props.navigation.navigate('CustomerDrawer', { screen: 'Pharamacist' }) }}
                     validationSchema={PharmacyUserValidation}
                 >
                     {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (

@@ -61,6 +61,48 @@ const LoginScreen = (props) => {
         const response = await postRequest('login', data);
         const resData = response.data
         console.log("hiii        ", response);
+        if (response.success){
+            try{
+                 await AsyncStorage.setItem('role', resData.user.role.toString())
+                    await AsyncStorage.setItem('token', resData.token)
+                    await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+                    await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+                    await AsyncStorage.setItem('isLogin', "1")
+            }catch (error){
+                console.log(error)
+            }
+            if(resData.user.role ===1){
+                props.navigation.dispatch(
+                    CommonActions.reset({
+                        index:0,
+                        routes:[{name:'CustomerDrawer'}]
+                    })
+                )
+            }else {
+                props.navigation.dispatch(
+                    CommonActions.reset({
+                        index:0,
+                        routes:[{name:'PharamacistDrawer'}]
+                    })
+                )
+            }
+            setIsLoading(false);
+
+        }else{
+            if (resData.ErrorMessage == "User not exists!") {
+                            Toast.show(" User does not exist!")
+                              console.log("User not exists!")
+        
+                        } else if (resData.ErrorMessage == "Login Failed!") {
+                            Toast.show("Incorrect Password")
+                    console.log("Login Faild!")
+                        }
+                        setIsLoading(false)
+            }
+        }
+
+
+
         //     if (response.success) 
         //     {
         //         try {
@@ -77,7 +119,7 @@ const LoginScreen = (props) => {
         //         props.navigation.dispatch(
         //             CommonActions.reset({
         //                 index:0,
-        //                 routes: [{name: 'Drawer'}]
+        //                 routes: [{name: 'CustomerDrawer'}]
         //             })
         //         )
         //         }else{
@@ -102,65 +144,36 @@ const LoginScreen = (props) => {
         //     }
         // }
 
-        if (response.success) {
-            try {
-                await AsyncStorage.setItem('token', resData.token)
-                await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-                await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-                await AsyncStorage.setItem('isLogin', "1")
-            } catch (error) {
-                // console.log("hii");
-                console.log(error)
-            }
-            props.navigation.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [{ name: 'Drawer' }]
-                })
-            )
-            setIsLoading(false);
-        } else {
-            if (resData.ErrorMessage == "User not exists!") {
-                Toast.show(" User does not exist!")
-                console.log("User not exists!")
-
-            } else if (resData.ErrorMessage == "Login Failed!") {
-                Toast.show("Incorrect Password")
-                console.log("Login Faild!")
-            }
-            setIsLoading(false)
-        }
-    }
-
-    //  if (!response.success) {
-    //         setIsLoading(false);
-    //         // let errorMessage = "Something went wrong!";
-    //         if (resData.ErrorMessage == "User not exists!") {
-    //             // errorMessage = "User does not exist!"
-    //             // console.log("hii")
-    //             Toast.show(" User does not exist!")
+    //     if (response.success) {
+    //         try {
+    //             await AsyncStorage.setItem('token', resData.token)
+    //             await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+    //             await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+    //             await AsyncStorage.setItem('isLogin', "1")
+    //         } catch (error) {
+    //             // console.log("hii");
+    //             console.log(error)
     //         }
-    //         if (resData.ErrorMessage == "Login Failed!") {
-    //             // errorMessage = "Invalid Password!"
-    //             // console.log("hii")
-    //             Toast.show("Incorrect Password")
-    //         }
-    //         // Alert.alert('Error', errorMessage, [{ text: "Okay" }])
-    //     } else {
-    //         await AsyncStorage.setItem('token', resData.token)
-    //         await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-    //         await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-    //         await AsyncStorage.setItem('isLogin', "1")
-    //         // props.navigation.navigate('MainTab', { screen: 'Drawer' })
-    //             props.navigation.dispatch(
+    //         props.navigation.dispatch(
     //             CommonActions.reset({
-    //                 index:0,
-    //                 routes: [{name: 'Drawer'}]
+    //                 index: 0,
+    //                 routes: [{ name: 'CustomerDrawer' }]
     //             })
     //         )
     //         setIsLoading(false);
+    //     } else {
+    //         if (resData.ErrorMessage == "User not exists!") {
+    //             Toast.show(" User does not exist!")
+    //             console.log("User not exists!")
+
+    //         } else if (resData.ErrorMessage == "Login Failed!") {
+    //             Toast.show("Incorrect Password")
+    //             console.log("Login Faild!")
+    //         }
+    //         setIsLoading(false)
     //     }
     // }
+
 
 
     return (
@@ -309,7 +322,7 @@ const LoginScreen = (props) => {
                 {/* Remove this after completing desing */}
                 {/* <Button
                     label="Skip Login"
-                    onPress={() => { props.navigation.navigate('Drawer', { screen: 'Home' }) }}
+                    onPress={() => { props.navigation.navigate('CustomerDrawer', { screen: 'Home' }) }}
                 /> */}
                 {/* Remove this after completing desing */}
             </View>

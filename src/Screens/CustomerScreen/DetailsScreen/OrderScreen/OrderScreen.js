@@ -74,100 +74,113 @@ const OrderScreen = props => {
         setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
     }
     const [paymentLoader, setPaymentLoader] = useState(false)
-    const { initPaymentSheet, presentPaymentSheet, confirmPaymentSheetPayment } = useStripe()
+    // const { initPaymentSheet, presentPaymentSheet, confirmPaymentSheetPayment } = useStripe()
+const stripe=useStripe();
+//     const onPressPayment = async () => {
+//         const data = {
+//             quoteId: quoteId,
+//             prescriptionId: currentprescription.id,
+//             delivery_charge: Deliverycharge,
+//             payment_method: PaymentType,
+//             checkout_type: checkOutType,
+//             card_id: selectedCard.id,
 
-    const onPressPayment = async () => {
-        const data = {
-            quoteId: quoteId,
-            prescriptionId: currentprescription.id,
-            delivery_charge: Deliverycharge,
-            payment_method: PaymentType,
-            checkout_type: checkOutType,
-            card_id: selectedCard.id,
+//         }
+//         console.log("data\n", data)
+// // Comment here
+//     //    setPaymentLoader(true)
+//     //     const getPayment = await postPostLogin('customer/checkout', data)
+//     //     console.log("GetPayment\n\n", getPayment)
+//     //     setPaymentLoader(false)
+//     //     const {error} = await initPaymentSheet({
+//     //         customerId: getPayment.data.data.customer_id,
+//     //         customerEphemeralKeySecret: getPayment.data.data.ephemeral_key,
+//     //         paymentIntentClientSecret: getPayment.data.data.payment_intent,
+//     //         // customFlow:true,
+//     //         merchantDisplayName: 'Pradip',
+//     //         testEnv:true,  
+//     //         allowsDelayedPaymentMethods: true,
+//     //         // customFlow: true,
 
-        }
-        // const params = {
-        //     card:selectedCard.id,
-        // }
-        console.log("data\n", data)
-
-        // setPaymentLoader(false)
-        const getPayment = await postPostLogin('customer/checkout', data)
-        console.log("GetPayment\n\n", getPayment)
-        const { error } = await initPaymentSheet({
-            customerEphemeralKeySecret: getPayment.data.data.customer_id,
-            paymentIntentClientSecret: getPayment.data.data.payment_intent,
-            customerEphemeralKeySecret: getPayment.data.data.ephemeral_key,
-            allowsDelayedPaymentMethods: true,
-            // customFlow: true,
-            merchantDisplayName: 'pradip3',
-            // testEnv:true,
-        })
-
-
-        const  errorss  = await presentPaymentSheet({
-            confirmPayment: false,
-            clientSecret: getPayment.data.data.payment_intent
-          })
-          console.log(errorss)
-
-          if (error) {
-            Alert.alert(`Error code: ${error.code}`, error.message);
-        } else {
-            Alert.alert(
-                'Success',
-                'Your order is confirmed!'
-            );
-        }
+//     //     })
 
 
-        setTimeout(async() => {
-            try {
-                const { error } = await presentPaymentSheet()
-            } catch (e) {
-                console.log(e)
-            }
-        }, 1000)
+//     //     // const  {errorr}  = await presentPaymentSheet({
+//     //     //     confirmPayment: false,
+//     //     //     clientSecret: getPayment.data.data.payment_intent
+//     //     //   })
+//     //     //   console.log("Error",errorr)
 
-        // console.log("error",error)
+//     //     //   if (errorr) {
+//     //     //     Alert.alert(errorr.message);
+//     //     // } else {
+//     //     //     Alert.alert(
+//     //     //         'Success',
+//     //     //         'Your order is confirmed!'
+//     //     //     );
+//     //     // }
 
 
+//     //     setTimeout(async() => {
+//     //         try {
+//     //             const { error } = await presentPaymentSheet()
+//     //         } catch (e) {
+//     //             console.log(e)
+//     //         }
+//     //     }, 1000)
+// // uncomment here
+       
+//     }
+ const  onPressPayment = async()=>{
+try {
+//sending request
+const paydata = {
+    quoteId: quoteId,
+    prescriptionId: currentprescription.id,
+    delivery_charge: Deliverycharge,
+    payment_method: PaymentType,
+    checkout_type: checkOutType,
+    card_id: selectedCard.id,
 
+}
+// const response= await fetch('https://mobile-pharmacy.herokuapp.com/customer/checkout',{
+//     method:'POST',
+//     body:paydata,
+//     headers:{
+//         'Content-Type': 'application/json',
+//         Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
+//     }
+// });
+const getPayment = await postPostLogin('customer/checkout', paydata)
+// const data= await getPayment.json();
+console.log("on press \n ",getPayment)
+if(!getPayment.success) return Alert.alert(error.message);
+const clientSecret= getPayment.data.data.payment_intent
+const EphemeralKeySecret= getPayment.data.data.ephemeral_key
+const Displayname=   'Pradip'
+const customersId= getPayment.data.data.customer_id
+const initSheet = await stripe.initPaymentSheet({
+    paymentIntentClientSecret:clientSecret,
+    customerEphemeralKeySecret:EphemeralKeySecret,
+    merchantDisplayName:Displayname,
+    customerId:customersId,
+    allowsDelayedPaymentMethods:true,
+    testEnv:true
+});
+if(initSheet.error) return Alert.alert(initSheet.error.message);
+const presentSheet = await stripe.presentPaymentSheet({
+    clientSecret,
+    confirmPayment :false
+})
+if(presentSheet.error) return Alert.alert(presentSheet.error.message);
+Alert.alert('Payment complete, thank you!');
+}catch(error){
+    console.error(error);
+    Alert.alert('SomethingWent Wrong, try Angain later')
+}
 
-        // setPaymentLoader(false)
+ }
 
-
-        // console.log("data\n",params)
-        // const params = { 
-        //     card : selectedCard.id
-        // }
-        // console.log("data\n",data)
-        // const response = await postPostLogin('customer/checkout',data)
-        // console.log("data",response)
-
-        // const response=await postPostLogin ('customer/checkout',data)
-        // console.log(" Data",response)
-        // const resData = response.data
-        // if(!response.success){
-        // if(resData.ErrorMessage==="Order already exisity!"){
-        //     Toast.show("Order already exisity")
-        // }if(resData.ErrorMessage==="Quote not found!"){
-        //     Toast.show("Quote not found")
-        // }if(resData.ErrorMessage==="Data truncated for column 'delivery_charge' at row 1"){
-        //     Toast.show("Delivery charge issue")
-        // }
-        // }else{
-        //     Toast.show("Order palced successfully..")
-        //     props.navigation.dispatch(
-        //         CommonActions.reset({
-        //             index:0,
-        //             routes: [{name: 'Prescription'}]
-        //         })
-        //     )
-
-        // }
-
-    }
 
 
     return (

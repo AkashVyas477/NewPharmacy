@@ -97,7 +97,7 @@ const VerificationScreen = props => {
           props.navigation.dispatch(
               CommonActions.reset({
                   index:0,
-                  routes: [{name: 'Drawer'}]
+                  routes: [{name: 'CustomerDrawer'}]
               })
           )
           setIsLoading(false);

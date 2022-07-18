@@ -154,23 +154,6 @@ console.log("    user     ", user);
             // props.navigation.goBack()
             setIsLoading(false)
 
-            // if (response.status===200){
-            //     try{
-            //         AsyncStorage.setItem('userInfo', JSON.stringify(response.data))
-            //     }catch(error){
-            //         console.log(error)
-            //     }
-            //     props.navigation.goBack()
-            //     Toast.show("Profile Update Successfully")
-            //     // setIsLoading(false)
-            // }else{
-            //     console.log(response)
-            // }
-           
-            // Toast.show("Profile Update Successfully")
-            // props.navigation.goBack()
-            // // setIsLoading(false)
-            // console.log(responseJson,"ResponseJson")
         }
 
 

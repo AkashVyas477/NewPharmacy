@@ -14,7 +14,7 @@ import CreditCardDisplay from '../../../../Components/Common/CardComp'
 import Toast from 'react-native-simple-toast'
 import { CommonActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StripeProvider, useStripe } from '@stripe/stripe-react-native';
+import { retrievePaymentIntent, StripeProvider, useStripe } from '@stripe/stripe-react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch } from 'react-redux';
 // import * as CardAction from '../../../../Store/Actions/CardAction'
@@ -66,71 +66,12 @@ const OrderScreen = props => {
             setIsLoading(false)
         }
     }
-
-
     const [user, setUser] = useState({})
-
     const getProfile = async () => {
         setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
     }
-    const [paymentLoader, setPaymentLoader] = useState(false)
-    // const { initPaymentSheet, presentPaymentSheet, confirmPaymentSheetPayment } = useStripe()
+const [paymentLoader, setPaymentLoader] = useState(false)
 const stripe=useStripe();
-//     const onPressPayment = async () => {
-//         const data = {
-//             quoteId: quoteId,
-//             prescriptionId: currentprescription.id,
-//             delivery_charge: Deliverycharge,
-//             payment_method: PaymentType,
-//             checkout_type: checkOutType,
-//             card_id: selectedCard.id,
-
-//         }
-//         console.log("data\n", data)
-// // Comment here
-//     //    setPaymentLoader(true)
-//     //     const getPayment = await postPostLogin('customer/checkout', data)
-//     //     console.log("GetPayment\n\n", getPayment)
-//     //     setPaymentLoader(false)
-//     //     const {error} = await initPaymentSheet({
-//     //         customerId: getPayment.data.data.customer_id,
-//     //         customerEphemeralKeySecret: getPayment.data.data.ephemeral_key,
-//     //         paymentIntentClientSecret: getPayment.data.data.payment_intent,
-//     //         // customFlow:true,
-//     //         merchantDisplayName: 'Pradip',
-//     //         testEnv:true,  
-//     //         allowsDelayedPaymentMethods: true,
-//     //         // customFlow: true,
-
-//     //     })
-
-
-//     //     // const  {errorr}  = await presentPaymentSheet({
-//     //     //     confirmPayment: false,
-//     //     //     clientSecret: getPayment.data.data.payment_intent
-//     //     //   })
-//     //     //   console.log("Error",errorr)
-
-//     //     //   if (errorr) {
-//     //     //     Alert.alert(errorr.message);
-//     //     // } else {
-//     //     //     Alert.alert(
-//     //     //         'Success',
-//     //     //         'Your order is confirmed!'
-//     //     //     );
-//     //     // }
-
-
-//     //     setTimeout(async() => {
-//     //         try {
-//     //             const { error } = await presentPaymentSheet()
-//     //         } catch (e) {
-//     //             console.log(e)
-//     //         }
-//     //     }, 1000)
-// // uncomment here
-       
-//     }
  const  onPressPayment = async()=>{
 try {
 //sending request
@@ -143,14 +84,7 @@ const paydata = {
     card_id: selectedCard.id,
 
 }
-// const response= await fetch('https://mobile-pharmacy.herokuapp.com/customer/checkout',{
-//     method:'POST',
-//     body:paydata,
-//     headers:{
-//         'Content-Type': 'application/json',
-//         Authorization: 'Bearer ' + ( await AsyncStorage.getItem('token') )
-//     }
-// });
+
 const getPayment = await postPostLogin('customer/checkout', paydata)
 // const data= await getPayment.json();
 console.log("on press \n ",getPayment)
@@ -167,14 +101,21 @@ const initSheet = await stripe.initPaymentSheet({
     allowsDelayedPaymentMethods:true,
     testEnv:true
 });
+
+
 if(initSheet.error) return Alert.alert(initSheet.error.message);
 const presentSheet = await stripe.presentPaymentSheet({
     clientSecret,
-    confirmPayment :false
+    // confirmPayment :true
 })
+console.log("Sheet\n",presentSheet)
 if(presentSheet.error) return Alert.alert(presentSheet.error.message);
 Alert.alert('Payment complete, thank you!');
-}catch(error){
+}
+// const response = await retrievePaymentIntent(clientSecret)
+// console.log()
+
+catch(error){
     console.error(error);
     Alert.alert('SomethingWent Wrong, try Angain later')
 }

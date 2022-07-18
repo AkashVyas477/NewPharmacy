@@ -12,6 +12,13 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import LoginScreen from '../AuthScreen/LoginScreen'
 import PharamaHomeScreen from '../PharamacistScreen/Home/PharamcistHomeScreen';
+
+// profile
+
+import PharamcistProfileEditScreen from '../PharamacistScreen/Profile/PharamacistProfileEditScreen ';
+import PharamcistProfileScreen from '../PharamacistScreen/Profile/PharamacistProfileScreen';
+import PharamcistChangePassword from '../PharamacistScreen/Profile/PharamacistChangePassword';
+
 import SplashScreen from '../SplashScreen';
 import DrawerContent from './PharamcistDrawer';
 
@@ -20,10 +27,10 @@ const Drawer = createDrawerNavigator()
 
 const PharamaDrawerNavigator = props => {
     return (
-        <Drawer.Navigator headerMode='none' drawerContent={ props => <DrawerContent {...props}/>}>
+        <Drawer.Navigator headerMode='none' drawerStyle={{ width :'70%'}} drawerContent={ props => <DrawerContent {...props}/>}>
             
             <Drawer.Screen name='PharamaHome' component={PharamaHomeStackScreen} />
-            {/* <Drawer.Screen name='PharamaProfile' component={UserStackScreen}/> */}
+            <Drawer.Screen name='PharamaProfile' component={PharamUserStackScreen}/>
             
         </Drawer.Navigator>
     )
@@ -38,13 +45,18 @@ const PharamaHomeStackScreen = props => {
     return (
         <PharamaHomeStack.Navigator headerMode='none'>
             <PharamaHomeStack.Screen name='PharamaHome' component={PharamaHomeScreen} />
-            {/* <HomeStack.Screen name='Pharamacies_Detail' component={PharamaciesDetail} />
-            <HomeStack.Screen name='CurrentPrescriptionScreen_Data' component={CurrentPrescriptionScreen} />
-            <HomeStack.Screen name='PastPrescriptionScreen_Data' component={PastPrescriptionScreen} />
-            <HomeStack.Screen name ='Preview'component={Preview}/>
-            <HomeStack.Screen name ='PharamaciesImagePreview'component={PharamaciesImagePreview}/> */}
-            {/* <HomeStack.Screen name='OrderScreen' component={OrderScreen}/> */}
-            {/* <HomeStack.Screen name ='Edit_Profile'component={CustomerProfileEditScreen}/> */}
         </PharamaHomeStack.Navigator>
+    )
+}
+
+
+const PharamUserStack = createStackNavigator()
+const PharamUserStackScreen = props => {
+    return(
+        <PharamUserStack.Navigator headerMode='none'>
+        <PharamUserStack.Screen name='PharamaProfile'component={PharamcistProfileScreen}/>
+        <PharamUserStack.Screen name='PharamEdit_Profile'component={PharamcistProfileEditScreen}/>
+        <PharamUserStack.Screen name='PharamChangePassword'component={PharamcistChangePassword}/>
+        </PharamUserStack.Navigator>
     )
 }

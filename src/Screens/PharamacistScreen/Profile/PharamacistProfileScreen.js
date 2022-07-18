@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Toast from 'react-native-simple-toast'
 
 
-const CustomerProfileScreen = props =>{
+const PharamcistProfileScreen = props =>{
 
     const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(false)
@@ -45,18 +45,38 @@ const CustomerProfileScreen = props =>{
 
     return(
         <View style={styles.screen}>
-             <KeyboardAwareScrollView>
+            
     {/* Header */}
             <View style={styles.header}>
             <TouchableOpacity  onPress={() =>props.navigation.toggleDrawer()}>
             <Image source={Images.Menu}  style={styles.MenuStyle} />
             </TouchableOpacity>
+            {/* <View style={{}}> */}
             <Text  style={styles.headerText}>
             PROFILE
             </Text>
+            <TouchableOpacity   onPress={() =>
+                                Alert.alert(
+                                  'Log out',
+                                  'Do you want to logout?',
+                                  [
+                                    { text: 'Cancel', onPress: () => { return null } },
+                                    {
+                                      text: 'Confirm', onPress: () => {
+                                        AsyncStorage.clear();
+                                        props.navigation.navigate('Auth')
+                                      }
+                                    },
+                                  ],
+                                  { cancelable: false }
+                                )
+                              }>
+            <Image source={Images.Logout}  style={styles.MenuStyle} />
+            </TouchableOpacity>
+            {/* </View> */}
             </View>
     {/* Body */}
-
+    <KeyboardAwareScrollView>
 {/* Image */}
              <View style={styles.SignupPlaceholder_Style}>
           <Image source={{uri:user.image}} style={styles.profileImg} />
@@ -74,7 +94,7 @@ const CustomerProfileScreen = props =>{
                     </Text>
                     <View >
                     <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor,marginTop:10}}>
-                     <Text style={styles.value}>
+                     <Text style={{...styles.value, textTransform:'capitalize'}}>
                          {user.name}
                          </Text> 
                     </View>
@@ -93,6 +113,46 @@ const CustomerProfileScreen = props =>{
                     </View>
                     </View>
                 </View>
+
+{/* Store name  */}
+                    <View >
+                    <Text style={{ paddingTop:15,paddingHorizontal:5, marginLeft:20, fontSize:17}}> 
+                       Store name
+                    </Text>
+                    <View >
+                    <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor,marginTop:10}}>
+                    <Text style={{...styles.value, textTransform:'capitalize'}}>
+                         {user.store_name}
+                         </Text> 
+                    </View>
+                    </View>
+                </View>
+{/* Pharmacy Id */}
+                    <View >
+                    <Text style={{ paddingTop:15,paddingHorizontal:5, marginLeft:20, fontSize:17}}> 
+                    Pharmacy Id
+                    </Text>
+                    <View >
+                    <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor,marginTop:10}}>
+                    <Text style={{...styles.value, textTransform:'capitalize'}}>
+                         {user.pharmacy_id}
+                         </Text> 
+                    </View>
+                    </View>
+                </View> 
+{/* License Id */}
+                    <View >
+                    <Text style={{ paddingTop:15,paddingHorizontal:5, marginLeft:20, fontSize:17}}> 
+                    License Id
+                    </Text>
+                    <View >
+                    <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor,marginTop:10}}>
+                    <Text style={{...styles.value, textTransform:'capitalize'}}>
+                         {user.license_id}
+                         </Text> 
+                    </View>
+                    </View>
+                </View>                            
 {/* Phone Number */}
                 <View >
                     <Text style={{ paddingTop: 15, paddingHorizontal: 5, marginLeft: 20, fontSize: 17 }}>
@@ -114,7 +174,7 @@ const CustomerProfileScreen = props =>{
                     </Text>
                     <View >
                         <View style={{ paddingHorizontal: 1, marginLeft: 20, marginRight: 20, fontSize: 17, borderBottomWidth: 1, borderColor: Colors.borderBottomColor, marginTop: 10 }}>
-                            <Text style={styles.value}>
+                            <Text style={{...styles.value, textTransform:'capitalize'}}>
                                 {user.gender}
                             </Text>
                         </View>
@@ -124,19 +184,19 @@ const CustomerProfileScreen = props =>{
 {/* Edit Profile Button   */}
                 <View style={{ marginTop: 20 }}>
                     <Button
-                        onPress={()=> props.navigation.navigate('Edit_Profile',{user})}
+                        onPress={()=> props.navigation.navigate('PharamEdit_Profile',{user})}
                         label="Edit Profile"
                     />
                 </View>
 {/* Change Password Button  */}
                         <View style={{marginTop:10}}>
                             <Button
-                            onPress ={()=> props.navigation.navigate('ChangePassword')} 
+                            onPress ={()=> props.navigation.navigate('PharamChangePassword')} 
                             label="Change Password"
                             />
                             </View>
 {/* Logout Button  */}
-                            <View style={{marginTop:10}}>
+                            {/* <View style={{marginTop:10}}>
                             <Button
                             onPress={() =>
                                 Alert.alert(
@@ -156,7 +216,7 @@ const CustomerProfileScreen = props =>{
                               }
                             label="Log Out"
                             />
-                            </View>
+                            </View> */}
                             </KeyboardAwareScrollView>
         </View>
     );
@@ -181,12 +241,6 @@ const  styles=StyleSheet.create({
         marginTop: 5, 
         padding:10
     },
-    // header:{ 
-    //     flexDirection: 'row', 
-    //     alignItems: 'center', 
-    //     marginTop: 5, 
-    //     padding:10
-    // },
     profileImg:{ 
         height: 145, 
         width: 145,
@@ -206,7 +260,7 @@ const  styles=StyleSheet.create({
         width: 25 ,
     },
     headerText:{ 
-        // marginLeft:125, 
+     
         fontSize:20, 
         fontWeight:'bold', 
         color:Colors.Sp_Text,
@@ -241,4 +295,4 @@ const  styles=StyleSheet.create({
 
 });
 
-export default CustomerProfileScreen;
+export default PharamcistProfileScreen;

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions, Modal,ActivityIndicator } from 'react-native';
+import React, { useState,useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions, Modal,ActivityIndicator} from 'react-native';
 // import { Header, Button, RadioButton } from '../../../Components/Common';
 import Header from '../../../Components/Common/Header'
 import Button  from '../../../Components/Common/Button'
@@ -24,11 +24,30 @@ import PropTypes from 'prop-types';
 import from from 'react-native-country-codes-picker';
 
 
-const CustomerProfileEditScreen = props => {
+const PharamcistProfileEditScreen = props => {
+
+    const makeid = (length) => {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+      }
+
+    // useEffect(() => {
+    //     const update = props.navigation.addListener('focus', () => {
+           
+    //     });
+    //     return update;
+    // }, [props.navigation])
+
 
     const user = props.route.params.user
-// console.log("    user     ", user);
+console.log("    user     ", user);
     const [selectedImage, setSelectedImage] = useState(null)
+    console.log("Image\n",selectedImage)
     const [modalVisible, setModalVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
     const [show, setShow] = useState(false);
@@ -38,10 +57,10 @@ const CustomerProfileEditScreen = props => {
     const [images, setImages] = useState([])
     const pressHandler = async (countryCode, phoneNumber) => { props.navigation.navigate() }
 
-    const [male, setMale] = useState(false);
+    const [gender, setGender] = useState(user.gender);
     const maleHandler = () => {
-        setMale(state => !state);
-        setFemale(false);
+        setGender('MALE');
+        
     };
 
     const takeFromCamera = () => {
@@ -50,9 +69,9 @@ const CustomerProfileEditScreen = props => {
             height: 100,
             cropping: true,
         }).then(image => {
-            setImages([...images, image])
-            console.log("Selected Images        ", image.path);
-            setSelectedImage(image.path)
+            // setImages([...images, image])
+            console.log("Selected Images        ", image);
+            setSelectedImage(image)
             setModalVisible(!modalVisible)
         });
     }
@@ -62,19 +81,16 @@ const CustomerProfileEditScreen = props => {
             height: 100,
             cropping: true
         }).then(image => {
-            setImages([...images, image])
+            // setImages([...images, image])
             console.log("Selected Images        ", image);
-            setSelectedImage(image.path)
+            setSelectedImage(image)
             setModalVisible(!modalVisible)
         });
     }
 
     
-
-    const [female, setFemale] = useState(false);
     const femaleHandler = () => {
-        setFemale(state => !state);
-        setMale(false);
+        setGender('FEMALE');
     };
 
 
@@ -100,35 +116,43 @@ const CustomerProfileEditScreen = props => {
     //     setIsLoading(false)
     // }
         const onPressSave =async(values)=>{
-            // setIsLoading(true);
+            setIsLoading(true);
             const formdata = new FormData();
             formdata.append("name",values.name)
             // formdata.append("email",values.email)
             formdata.append("country_code",values.country_code)
             formdata.append("gender",values.gender)
             formdata.append("phone",values.phone)
+            formdata.append("store_name",values.store_name)
+            formdata.append("license_id",values.license_id)
+            formdata.append("pharmacy_id",values.pharmacy_id)
+
+            if(selectedImage){
             formdata.append("image",{
-                uri:images[0].path,
-                type:images[0].mime,
-                name:"image",
+                uri:selectedImage?.path,
+                type:selectedImage?.mime,
+                name:makeid(10),
             })
+        }
             console.log("data       ", formdata._parts)
             const res= await fetch('https://mobile-pharmacy.herokuapp.com/updateProfile',
             {
                 method:'POST',
                 body:formdata,
                 headers:{
-                    'content-Type':'multipart/form-data',
+                    'Content-Type':'multipart/form-data',
                     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token'))
                 }
             })
             const response = await res.json()
             // const resData= response.data
             console.log(response)
-            await AsyncStorage.setItem('userInfo', JSON.stringify(response.user))
             
-            Toast.show("Profile Update Successfully")
-            props.navigation.goBack()
+            // await AsyncStorage.setItem('userInfo', JSON.stringify(response.data))
+            
+            // Toast.show("Profile Update Successfully")
+            // props.navigation.goBack()
+            setIsLoading(false)
 
             // if (response.status===200){
             //     try{
@@ -150,6 +174,7 @@ const CustomerProfileEditScreen = props => {
         }
 
 
+
     return (
 
         <View style={styles.screen}>
@@ -164,7 +189,7 @@ const CustomerProfileEditScreen = props => {
                 {/* Body */}
 
                 <View style={styles.profileImg_Style}>
-                    {selectedImage ? <Image source={{ uri: selectedImage }} style={styles.profileImg}/> : <Image source={{uri:user.image}} style={styles.profileImg} />}
+                    {selectedImage ? <Image source={{ uri: selectedImage?.path }} style={styles.profileImg}/> : <Image source={{uri:user.image}} style={styles.profileImg} />}
                 </View>
                 <View>
                     <TouchableOpacity style={styles.addIcon} onPress={() => setModalVisible(true)} >
@@ -213,18 +238,26 @@ const CustomerProfileEditScreen = props => {
                     initialValues={{
                         name: user.name,
                         email: user.email,
+                        store_name: user.store_name,
+                        pharmacy_id:user.pharmacy_id,
+                        license_id:user.license_id,
                         phone: user.phone,
                         country_code:user.country_code,
-                        gender:user.gender
+                        gender:user.gender, 
+
                     }}
                     
                     onSubmit={(values) => onPressSave(values)}
                     validationSchema={yup.object().shape({
                         name: yup.string(),
                         email: yup.string().email('Please enter a valid email.'),
+                        store_name:yup.string(),
+                        license_id:yup.string(),
+                        pharmacy_id:yup.string(),
                         phone: yup.number().min(10,'Phone number should be ten number '),
                         country_code: yup.string(),
                         gender:yup.string()
+
                     })}
                 >
                     {({ values, handleChange, isValid, handleSubmit, setFieldTouched }) => (
@@ -258,6 +291,51 @@ const CustomerProfileEditScreen = props => {
                                     autoCapitalize="none"
                                 />
                             </View>
+{/* Store name */}
+<Text style={{ ...styles.text_footer, marginTop: 15 }}>Store_name</Text>
+                            <View style={styles.action}>
+                                {/* <FontAwesome name="envelope" color={Colors.ORANGE} size={25}/> */}
+                                <TextInput
+                                    value={values.store_name}
+                                    onBlur={() => setFieldTouched('store_name')}
+                                    onChangeText={handleChange('store_name')}
+                                    placeholderTextColor={Colors.placeHolder}
+                                    color={Colors.Sp_Text}
+                                    placeholder="Store_name"
+                                    style={styles.textInput}
+                                    autoCapitalize="none"
+                                />
+                            </View>     
+{/* Pharmacy Id */}
+<Text style={{ ...styles.text_footer, marginTop: 15 }}>Pharmacy Id</Text>
+                            <View style={styles.action}>
+                                {/* <FontAwesome name="envelope" color={Colors.ORANGE} size={25}/> */}
+                                <TextInput
+                                    value={values.pharmacy_id}
+                                    onBlur={() => setFieldTouched('pharmacy_id')}
+                                    onChangeText={handleChange('pharmacy_id')}
+                                    placeholderTextColor={Colors.placeHolder}
+                                    color={Colors.Sp_Text}
+                                    placeholder="Pharmacy_id"
+                                    style={styles.textInput}
+                                    autoCapitalize="none"
+                                />
+                            </View>  
+{/* License Id */}
+<Text style={{ ...styles.text_footer, marginTop: 15 }}>License Id</Text>
+                            <View style={styles.action}>
+                                {/* <FontAwesome name="envelope" color={Colors.ORANGE} size={25}/> */}
+                                <TextInput
+                                    value={values.license_id}
+                                    onBlur={() => setFieldTouched('license_id')}
+                                    onChangeText={handleChange('license_id')}
+                                    placeholderTextColor={Colors.placeHolder}
+                                    color={Colors.Sp_Text}
+                                    placeholder="License_id"
+                                    style={styles.textInput}
+                                    autoCapitalize="none"
+                                />
+                            </View>                                                     
 {/* PhoneNumber */}
                             <View>
                                 <View >
@@ -271,7 +349,7 @@ const CustomerProfileEditScreen = props => {
                                             </TouchableOpacity>
                                         <View style={{ width: 0, borderColor: Colors.Gray, borderWidth: 0.7, height: 30, marginRight: 10 }} ></View>
                                         <TextInput
-                                          value={values.phone.toString()}
+                                            value={values.phone.toString()}
                                             style={{ flex: 3.5 }}
                                             keyboardType="phone-pad"
                                             maxLength={10}
@@ -281,38 +359,6 @@ const CustomerProfileEditScreen = props => {
                                             placeholder="Phone Number "
                                         />
                                     </View>
-
-                                    {/* <View style={styles.action} >
-                                        <Text style={{ marginLeft:8, fontWeight: 'bold' }}>{callingCode}</Text>
-                                        <TouchableOpacity onPress={() => setShow(true)} style={{ flex: 0.5 }}>
-                                           
-                                            <CountryPicker
-                                                withFilter
-                                                countryCode={countryCode}
-                                                // withFlag
-                                                withAlphaFilter={false}
-                                                withCallingCode
-                                                onSelect={country => {
-                                                    const { cca2, callingCode } = country;
-                                                    setCountryCode(cca2);
-                                                    setcallingCode(callingCode[0]);
-                                                }}
-                                                containerButtonStyle={{ alignItems: 'center', }}
-                                            />
-                                        </TouchableOpacity>
-                                        <View style={{ width: 0, borderColor: Colors.borderBottomColor, borderWidth: 0.5, height: 30, marginRight: 10 }} ></View>
-                                        <TextInput
-                                            // value={values.phone}
-                                            style={{ flex: 3.5 }}
-                                            keyboardType="phone-pad"
-                                            maxLength={10}
-                                            placeholderTextColor={Colors.placeHolder}
-                                            color={Colors.Sp_Text}
-                                            onChangeText={handleChange('phone')}
-                                            placeholder="Phone Number "
-                                        />
-                                    </View>*/}
-
                                 </View> 
                             </View>
 {/* Gender */}
@@ -323,18 +369,19 @@ const CustomerProfileEditScreen = props => {
                                     <View style={{ paddingHorizontal: 1,  fontSize: 17, borderBottomWidth: 1, borderColor: Colors.borderBottomColor }}>
                                             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 8 }}>
                                                     <RadioButton
-                                                   value={values.gender}
+                                                //    value={values.gender}
                                                         label="Male"
                                                         onPress={maleHandler}
-                                                        state={male}
+                                                        state={gender === 'MALE'}
                                                         
                                                     />
+                                                   
                                                 <View style={{ marginLeft: 125 }}>
                                                     <RadioButton
-                                                  value={values.gender}
+                                                //   value={values.gender}
                                                         label="Female"
                                                         onPress={femaleHandler}
-                                                        state={female}
+                                                        state={gender === 'FEMALE'}
                                                       
                                                     />
                                                 </View>
@@ -501,4 +548,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default CustomerProfileEditScreen;
+export default PharamcistProfileEditScreen;

@@ -38,10 +38,10 @@ const CustomerProfileEditScreen = props => {
     const [images, setImages] = useState([])
     const pressHandler = async (countryCode, phoneNumber) => { props.navigation.navigate() }
 
-    const [male, setMale] = useState(false);
+    const [gender, setGender] = useState(user.gender);
     const maleHandler = () => {
-        setMale(state => !state);
-        setFemale(false);
+        setGender('MALE');
+        
     };
 
     const takeFromCamera = () => {
@@ -71,12 +71,9 @@ const CustomerProfileEditScreen = props => {
 
     
 
-    const [female, setFemale] = useState(false);
     const femaleHandler = () => {
-        setFemale(state => !state);
-        setMale(false);
+        setGender('FEMALE');
     };
-
 
     // const onPressSave = async (values) => {
     //     setIsLoading(true)
@@ -326,7 +323,7 @@ const CustomerProfileEditScreen = props => {
                                                    value={values.gender}
                                                         label="Male"
                                                         onPress={maleHandler}
-                                                        state={male}
+                                                        state={gender === 'MALE'}
                                                         
                                                     />
                                                 <View style={{ marginLeft: 125 }}>
@@ -334,7 +331,7 @@ const CustomerProfileEditScreen = props => {
                                                   value={values.gender}
                                                         label="Female"
                                                         onPress={femaleHandler}
-                                                        state={female}
+                                                        state={gender === 'FEMALE'}
                                                       
                                                     />
                                                 </View>

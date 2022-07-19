@@ -42,10 +42,13 @@ const PharamcistProfileEditScreen = props => {
     //     });
     //     return update;
     // }, [props.navigation])
+    useEffect(()=>{
+        console.log("    userINfo     ", user);
+    },[user])
 
 
     const user = props.route.params.user
-console.log("    user     ", user);
+console.log("    userINfo     ", user);
     const [selectedImage, setSelectedImage] = useState(null)
     console.log("Image\n",selectedImage)
     const [modalVisible, setModalVisible] = useState(false);
@@ -140,18 +143,17 @@ console.log("    user     ", user);
                 method:'POST',
                 body:formdata,
                 headers:{
-                    'Content-Type':'multipart/form-data',
+                    'content-Type':'multipart/form-data',
                     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token'))
                 }
             })
             const response = await res.json()
             // const resData= response.data
             console.log(response)
+            await AsyncStorage.setItem('userInfo', JSON.stringify(response.user))
             
-            // await AsyncStorage.setItem('userInfo', JSON.stringify(response.data))
-            
-            // Toast.show("Profile Update Successfully")
-            // props.navigation.goBack()
+            Toast.show("Profile Update Successfully")
+            props.navigation.goBack()
             setIsLoading(false)
 
         }
@@ -376,7 +378,7 @@ console.log("    user     ", user);
                             { isLoading ? <ActivityIndicator size={25} color={Colors.White}/> 
                             : <Button
                                     label="Save"
-                                    // onPress={() => { props.navigation.navigate('Profile') }}
+                                    onPress={() => { props.navigation.navigate('PharamaProfile') }}
                                     onPress={ handleSubmit } 
                                    disabled={isValid || !isLoading}
                                 /> }

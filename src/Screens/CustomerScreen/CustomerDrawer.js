@@ -26,21 +26,21 @@ const DrawerContent = (props) => {
   const [isLoading, setIsLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
 
-  useEffect(()=>{
-      getProfile()
-  },[props.navigation])
+  useEffect(() => {
+    getProfile()
+  }, [props.navigation])
 
-  
+
   const update = async () => {
     props.navigation.addListener('focus', () => {
-       getProfile()
+      getProfile()
     });
-}
-
-  const getProfile = async()=>{
-      setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
   }
 
+  const getProfile = async () => {
+    setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
+   
+  }
     return (
         <>
             <DrawerContentScrollView {...props}>

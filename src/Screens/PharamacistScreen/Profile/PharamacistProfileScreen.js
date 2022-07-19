@@ -19,21 +19,24 @@ const PharamcistProfileScreen = props =>{
     const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(false)
 
-    useEffect(()=>{
- getProfile()
-    },[props.navigation])
-
-    const update = async () => {
-        props.navigation.addListener('focus', () => {
+    useEffect(() => {
+        const update = props.navigation.addListener('focus', () => {
            getProfile()
         });
-    }
-
+        return update;
+      }, [props.navigation])
+    
 
       const getProfile = async() => {
         setUser(JSON.parse(await AsyncStorage.getItem('userInfo')))
-        console.log("userinfo   ", user)
+       
     }
+
+    useEffect(()=>{
+        console.log("userinfo   ", user)
+    },[user])
+
+
     
     if (isLoading){
         return(
@@ -71,7 +74,7 @@ const PharamcistProfileScreen = props =>{
                                   { cancelable: false }
                                 )
                               }>
-            <Image source={Images.Logout}  style={styles.MenuStyle} />
+            <Image source={Images.Logout}  style={styles.MenuStyle2} />
             </TouchableOpacity>
             {/* </View> */}
             </View>
@@ -256,8 +259,12 @@ const  styles=StyleSheet.create({
         width: 45 
     },
     MenuStyle:{
-        height: 25,
-        width: 25 ,
+        height: 20,
+        width: 20 ,
+    },
+    MenuStyle2:{
+        height: 28,
+        width: 27 ,
     },
     headerText:{ 
      

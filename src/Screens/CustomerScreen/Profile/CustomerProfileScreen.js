@@ -47,13 +47,33 @@ const CustomerProfileScreen = props =>{
         <View style={styles.screen}>
              <KeyboardAwareScrollView>
     {/* Header */}
-            <View style={styles.header}>
+             <View style={styles.header}>
             <TouchableOpacity  onPress={() =>props.navigation.toggleDrawer()}>
             <Image source={Images.Menu}  style={styles.MenuStyle} />
             </TouchableOpacity>
+            {/* <View style={{}}> */}
             <Text  style={styles.headerText}>
             PROFILE
             </Text>
+            <TouchableOpacity   onPress={() =>
+                                Alert.alert(
+                                  'Log out',
+                                  'Do you want to logout?',
+                                  [
+                                    { text: 'Cancel', onPress: () => { return null } },
+                                    {
+                                      text: 'Confirm', onPress: () => {
+                                        AsyncStorage.clear();
+                                        props.navigation.navigate('Auth')
+                                      }
+                                    },
+                                  ],
+                                  { cancelable: false }
+                                )
+                              }>
+            <Image source={Images.Logout}  style={styles.MenuStyle2} />
+            </TouchableOpacity>
+            {/* </View> */}
             </View>
     {/* Body */}
 
@@ -74,7 +94,7 @@ const CustomerProfileScreen = props =>{
                     </Text>
                     <View >
                     <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor,marginTop:10}}>
-                     <Text style={styles.value}>
+                     <Text style={{...styles.value, textTransform:'capitalize'}}>
                          {user.name}
                          </Text> 
                     </View>
@@ -114,7 +134,7 @@ const CustomerProfileScreen = props =>{
                     </Text>
                     <View >
                         <View style={{ paddingHorizontal: 1, marginLeft: 20, marginRight: 20, fontSize: 17, borderBottomWidth: 1, borderColor: Colors.borderBottomColor, marginTop: 10 }}>
-                            <Text style={styles.value}>
+                            <Text style={{...styles.value, textTransform:'capitalize'}}>
                                 {user.gender}
                             </Text>
                         </View>
@@ -136,7 +156,7 @@ const CustomerProfileScreen = props =>{
                             />
                             </View>
 {/* Logout Button  */}
-                            <View style={{marginTop:10}}>
+                            {/* <View style={{marginTop:10}}>
                             <Button
                             onPress={() =>
                                 Alert.alert(
@@ -156,7 +176,7 @@ const CustomerProfileScreen = props =>{
                               }
                             label="Log Out"
                             />
-                            </View>
+                            </View> */}
                             </KeyboardAwareScrollView>
         </View>
     );
@@ -204,6 +224,10 @@ const  styles=StyleSheet.create({
     MenuStyle:{
         height: 25,
         width: 25 ,
+    },
+    MenuStyle2:{
+        height: 28,
+        width: 27 ,
     },
     headerText:{ 
         // marginLeft:125, 

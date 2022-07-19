@@ -35,7 +35,8 @@ const OrderScreen = props => {
     const [PaymentType, setPaymentType] = useState(1);
     const [state, setState] = useState('cash')
     const [checkOutType, setcheckOutType] = useState();
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+
     const [selectedCard, setSelectedCard] = useState({})
 
 
@@ -73,6 +74,7 @@ const OrderScreen = props => {
 const [paymentLoader, setPaymentLoader] = useState(false)
 const stripe=useStripe();
  const  onPressPayment = async()=>{
+    setIsLoading(true)
 try {
 //sending request
 const paydata = {
@@ -89,6 +91,7 @@ const getPayment = await postPostLogin('customer/checkout', paydata)
 // const data= await getPayment.json();
 console.log("on press \n ",getPayment)
 if(!getPayment.success) return Alert.alert(error.message);
+setIsLoading(false)
 const clientSecret= getPayment.data.data.payment_intent
 const EphemeralKeySecret= getPayment.data.data.ephemeral_key
 const Displayname=   'Pradip'
@@ -102,23 +105,34 @@ const initSheet = await stripe.initPaymentSheet({
     testEnv:true
 });
 
-
 if(initSheet.error) return Alert.alert(initSheet.error.message);
+setIsLoading(false)
 const presentSheet = await stripe.presentPaymentSheet({
     clientSecret,
     // confirmPayment :true
 })
-console.log("Sheet\n",presentSheet)
+// console.log("Sheet\n",presentSheet)
 if(presentSheet.error) return Alert.alert(presentSheet.error.message);
+setIsLoading(false)
 Alert.alert('Payment complete, thank you!');
-}
-// const response = await retrievePaymentIntent(clientSecret)
-// console.log()
+props.navigation.navigate('Prescription')
 
+const {error, paymentIntent } = await stripe.retrievePaymentIntent(clientSecret)
+if(error){
+    console.log(error);
+    setIsLoading(false)
+}else if(paymentIntent.status==='Succeeded'){
+    console.log("Payment Success!");
+    // onPressPayment()
+}
+}
 catch(error){
+    setIsLoading(false)
     console.error(error);
     Alert.alert('SomethingWent Wrong, try Angain later')
+    
 }
+
 
  }
 
@@ -300,6 +314,7 @@ catch(error){
 
                         <View style={{ marginBottom: 20 }}>
                             <Button
+                                showActivityIndicator={isLoading}
                                 label="PAYMENT"
                                 onPress={onPressPayment}
                             // onPress={()=>{props.navigation.navigate('CheckoutScreen')}}

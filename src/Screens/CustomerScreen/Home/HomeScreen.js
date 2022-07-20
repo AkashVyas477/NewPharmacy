@@ -24,23 +24,24 @@ const HomeScreen = props =>{
 
             const update = props.navigation.addListener('focus',async() => {
            setIsLoading(true)
-        });
-        
+     
         GetLocation.getCurrentPosition({
             enableHighAccuracy: true,
             timeout: 15000,
         })
         .then(location => {
             getNearByPharmacy(location.latitude,location.longitude);
-        //   console.log(location.longitude);
-        //   console.log(location.latitude);
         })
-        .catch(error => {
+        .catch((error) => {
+                // console.log(error)
             const { code, message } = error;
-            // console.warn(code, message);
+            console.log(code, message);
         })
+
+    });
+
         return update;
-    },[isLoading,props.navigation])
+    },[props.navigation])
 
    
     const getNearByPharmacy = async(latitude,longitude) => {

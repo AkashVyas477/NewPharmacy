@@ -67,10 +67,14 @@ const OrderScreen = props => {
             setIsLoading(false)
         }
     }
+
+
     const [user, setUser] = useState({})
     const getProfile = async () => {
         setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
     }
+
+
 const [paymentLoader, setPaymentLoader] = useState(false)
 const stripe=useStripe();
  const  onPressPayment = async()=>{
@@ -90,12 +94,22 @@ const paydata = {
 const getPayment = await postPostLogin('customer/checkout', paydata)
 // const data= await getPayment.json();
 console.log("on press \n ",getPayment)
+if (state==='cash'){
+    Alert.alert('Order complete, thank you!');
+    props.navigation.navigate('Prescription') 
+}
 if(!getPayment.success) return Alert.alert(error.message);
 setIsLoading(false)
 const clientSecret= getPayment.data.data.payment_intent
 const EphemeralKeySecret= getPayment.data.data.ephemeral_key
 const Displayname=   'Pradip'
 const customersId= getPayment.data.data.customer_id
+
+// const clientSecret= "pi_3LNbz7SJ7crToGEY1rVz4s3O_secret_j4pTsd0bfYNn5zurFhJmV4bCn"
+// const EphemeralKeySecret= "ek_test_YWNjdF8xS1ltOUFTSjdjclRvR0VZLEpQdWVrZkRnR0g3dGFOV1laNzEyOFJVcDBZWkhUY20_00xAMfhz79"
+// const Displayname=   'Pradip'
+// const customersId= "cus_M3snPrCRjEoj6o"
+
 const initSheet = await stripe.initPaymentSheet({
     paymentIntentClientSecret:clientSecret,
     customerEphemeralKeySecret:EphemeralKeySecret,
@@ -109,9 +123,8 @@ if(initSheet.error) return Alert.alert(initSheet.error.message);
 setIsLoading(false)
 const presentSheet = await stripe.presentPaymentSheet({
     clientSecret,
-    // confirmPayment :true
 })
-// console.log("Sheet\n",presentSheet)
+
 if(presentSheet.error) return Alert.alert(presentSheet.error.message);
 setIsLoading(false)
 Alert.alert('Payment complete, thank you!');
@@ -130,10 +143,44 @@ catch(error){
     setIsLoading(false)
     console.error(error);
     Alert.alert('SomethingWent Wrong, try Angain later')
-    
 }
 
 
+// if( state === 'cash'){
+//     if(getPayment.success){
+//         Toast.show('Order Created Successfully')
+//         props.navigation.navigate('Prescription')
+//     }else{
+//         if(!getPayment.success) return Alert.alert(error.message);
+// setIsLoading(false)
+// const clientSecret= getPayment.data.data.payment_intent
+// const EphemeralKeySecret= getPayment.data.data.ephemeral_key
+// const Displayname=   'Pradip'
+// const customersId= getPayment.data.data.customer_id
+// const initSheet = await stripe.initPaymentSheet({
+//     paymentIntentClientSecret:clientSecret,
+//     customerEphemeralKeySecret:EphemeralKeySecret,
+//     merchantDisplayName:Displayname,
+//     customerId:customersId,
+//     allowsDelayedPaymentMethods:true,
+//     testEnv:true
+// });
+// if (!initSheet){
+//     const presentResponse = await stripe.presentPaymentSheet({
+//         clientSecret,
+//     })
+//     const {error , paymentIntent} = await stripe.retrievePaymentIntent(clientSecret)
+//     if(error){
+//         console.log(error);
+//     }else if(paymentIntent.status==='Succeeded'){
+//         console.log("payment Success!");
+//     }else{
+//         console.log("Something Went Wrong During Payment!");
+//     }
+
+// }  
+//     }
+// }
  }
 
 

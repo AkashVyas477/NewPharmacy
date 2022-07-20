@@ -126,12 +126,6 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 def nativeArchitectures = project.getProperties().get("reactNativeDebugArchitectures")
 
 android {
-
-    lintOptions { 
-  checkReleaseBuilds false 
-}
-
-    
     compileSdkVersion rootProject.ext.compileSdkVersion
 
      compileOptions {
@@ -169,8 +163,6 @@ android {
                 keyPassword MYAPP_UPLOAD_KEY_PASSWORD
             }
         }
-
-
     }
     buildTypes {
         debug {
@@ -179,9 +171,9 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
 
@@ -209,7 +201,12 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
     // implementation 'com.stripe:stripe-android:20.7.0'
-    implementation(project(':stripe_stripe-react-native')) { exclude module: 'appcompat' } // stripe
+   
+     implementation ("androidx.appcompat:appcompat:1.3.1") {
+        version {
+            strictly '1.3.1'
+        }
+    }
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

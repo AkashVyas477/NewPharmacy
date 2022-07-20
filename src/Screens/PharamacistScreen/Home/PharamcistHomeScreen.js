@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, ScrollView, ActivityIndicator, PermissionsAndroid, Platform, } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, ScrollView, ActivityIndicator, PermissionsAndroid, Platform, Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { Images, Colors } from '../../../CommonConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
+import moment from 'moment';
 import { getParams } from '../../../Components/Helpers/ApiHelper';
 
 
@@ -19,12 +20,13 @@ const PharamaHomeScreen = props => {
     }
 
     useEffect(() => {
-        // console.log("info\n", user)
+        console.log("info\n", user)
     }, [user])
 
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
             getPrescription()
+            getuser()
         });
         return update;
     }, [props.navigation])
@@ -48,12 +50,41 @@ const PharamaHomeScreen = props => {
         return (
             <View style={styles.card}>
                 <TouchableOpacity
-                //  onPress={() => {props.navigation.navigate('Pharamacies_Detail', {pharmacy:data.item,}) }}
+                 onPress={() => {props.navigation.navigate('Add_quotes', {prescription:data.item}) }}
                 >
                     <View style={styles.Card_Sty}>
-                        <Image source={{ uri: data.item.Prescription_image}} style={styles.Image_Sty} resizeMode={'stretch'} />
-                        <View style={styles.Text_sty}>
+                        <View>
+                            <Image source={{ uri: data.item.Prescription_image }} style={styles.Image_Sty} />
+                            <View style={styles.userDisply}>
+                            <Image source={{ uri: data.item.user_image }} style={styles.userImage} /> 
+                            <Text style={styles.userName}>{data.item.user}</Text>
+                            </View>
+                            {/* <Image source={{ uri: data.item.user_image }} style={styles.userImage} />
+                            <Text style={styles.userName}>{data.item.user}</Text> */}
                         </View>
+                        <View style={{flexDirection: 'row' }}>
+                        <View style={styles.Text_sty}>
+                            <View >
+                                <Text style={styles.Pname}>{data.item.prescription_name}</Text>
+                            </View>
+
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 1 }}>
+                                <Image source={Images.Calendar} style={{ height: 20, width: 20, }} />
+                                <Text style={styles.name}>{moment(data.item.createdAt).format('DD/MM/YYYY') + ' at ' + moment(data.item.createdAt).format('hh:mm A')}</Text>
+                            </View>
+
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Image source={Images.Quotes} style={{ height: 18, width: 20, }} />
+                                <Text style={styles.name}>{data.item.total_quotes}</Text>
+                            </View>
+                        </View>
+
+                        {/* <View style={{}} >
+                                {data.item.status === 0 ? <Text style={{ color: Colors.orange }}> Pending</Text> : <Text style={{ color: Colors.PRIMARY }}> Completed</Text>}
+                            </View> */}
+
+                            </View>
+
                     </View>
                 </TouchableOpacity>
             </View>
@@ -61,14 +92,10 @@ const PharamaHomeScreen = props => {
     }
 
 
-
-
-
-
     return (
-        <View>
+        <View style={styles.screen}>
             {/*Logo + Icon  */}
-            <View style={styles.screen}>
+            <View style={styles.screen1}>
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}>
                         <Image source={Images.Menu} style={styles.MenuStyle2} />
@@ -119,6 +146,9 @@ const PharamaHomeScreen = props => {
 
 const styles = StyleSheet.create({
     screen: {
+        flex: 1
+    },
+    screen1: {
         backgroundColor: 'white',
         elevation: 5
     },
@@ -145,6 +175,35 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 20
     },
+    Image_Sty: {
+        height: 170,
+        width: 290,
+        borderRadius: 10,
+        opacity: 0.8
+    },
+    userDisply:{
+        flexDirection:'row',
+        alignItems:'center',
+        width:"100%",
+        position: 'absolute',
+        backgroundColor:'rgba(0,0,0,0.2)',
+        left: Dimensions.get('window').width * 0,
+        top: Dimensions.get('window').width * 0.3,
+    },
+    userImage: {
+        // flex: 3,
+        height:40 ,
+        width: 40,
+        aspectRatio:1,
+        borderRadius: 20,
+    },
+    userName: {
+        flex:7,
+        padding: 10,
+        // backgroundColor: 'rgba(0,0,0,0.4)',
+        color: Colors.White,
+        fontWeight: '600',
+    },
     card: {
         flex: 1,
         flexGrow: 1,
@@ -160,28 +219,22 @@ const styles = StyleSheet.create({
         // width: 80
     },
     Card_Sty: {
-        flexDirection: 'row',
+        // flexDirection: 'row',
         padding: 5,
-        // paddingRight:10,
-
-    },
-    Image_Sty: {
-        height: 90,
-        width: 90,
-        borderRadius: 10,
+        marginBottom: 5
     },
     Text_sty: {
-        flexDirection: 'column',
+        // flexDirection: 'row',
         marginLeft: 5,
         paddingLeft: 10,
-        padding: 5
+        // padding: 5
     },
 
     Pname: {
         fontWeight: 'bold',
         color: Colors.Sp_Text,
         fontSize: 17,
-        padding: 5
+        // padding: 5
 
     },
     name: {

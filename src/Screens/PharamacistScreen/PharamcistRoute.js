@@ -19,6 +19,8 @@ import PharamcistProfileEditScreen from '../PharamacistScreen/Profile/Pharamacis
 import PharamcistProfileScreen from '../PharamacistScreen/Profile/PharamacistProfileScreen';
 import PharamcistChangePassword from '../PharamacistScreen/Profile/PharamacistChangePassword';
 
+import Add_quotes from '../PharamacistScreen/Home/DetailsScreen/Addquotes';
+
 import SplashScreen from '../SplashScreen';
 import DrawerContent from './PharamcistDrawer';
 
@@ -57,6 +59,7 @@ const PharamUserStackScreen = props => {
         <PharamUserStack.Screen name='PharamaProfile'component={PharamcistProfileScreen}/>
         <PharamUserStack.Screen name='PharamEdit_Profile'component={PharamcistProfileEditScreen}/>
         <PharamUserStack.Screen name='PharamChangePassword'component={PharamcistChangePassword}/>
+        <PharamUserStack.Screen name='Add_quotes'component={Add_quotes}/>
         </PharamUserStack.Navigator>
     )
 }

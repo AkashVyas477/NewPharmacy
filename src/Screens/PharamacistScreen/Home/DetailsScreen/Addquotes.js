@@ -187,14 +187,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     userImage: {
-        // flex: 3,
         height: 40,
         width: 40,
         aspectRatio: 1,
         borderRadius: 20,
     },
     userName: {
-        // flex:7,
         padding: 10,
         // backgroundColor: 'rgba(0,0,0,0.4)',
         fontWeight: '600',
@@ -231,6 +229,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
         color: Colors.Sp_Text
     },
+
     centeredView: {
         flexGrow:1,
         justifyContent: "center",

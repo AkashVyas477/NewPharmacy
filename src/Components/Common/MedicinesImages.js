@@ -18,16 +18,10 @@ const MedicinesImages = props =>{
 const  styles=StyleSheet.create({
     screen:{
         flexGrow:1,
-      
-        
-
     },
     imageContainer: {
-        // height: 250,
-        // width:  415,
         height: width * 0.8,
         width: width * 1,
-        // opacity: 0.7
     }
     
 });

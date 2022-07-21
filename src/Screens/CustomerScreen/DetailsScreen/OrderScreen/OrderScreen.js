@@ -100,15 +100,15 @@ if (state==='cash'){
 }
 if(!getPayment.success) return Alert.alert(error.message);
 setIsLoading(false)
-const clientSecret= getPayment.data.data.payment_intent
-const EphemeralKeySecret= getPayment.data.data.ephemeral_key
-const Displayname=   'Pradip'
-const customersId= getPayment.data.data.customer_id
-
-// const clientSecret= "pi_3LNbz7SJ7crToGEY1rVz4s3O_secret_j4pTsd0bfYNn5zurFhJmV4bCn"
-// const EphemeralKeySecret= "ek_test_YWNjdF8xS1ltOUFTSjdjclRvR0VZLEpQdWVrZkRnR0g3dGFOV1laNzEyOFJVcDBZWkhUY20_00xAMfhz79"
+// const clientSecret= getPayment.data.data.payment_intent
+// const EphemeralKeySecret= getPayment.data.data.ephemeral_key
 // const Displayname=   'Pradip'
-// const customersId= "cus_M3snPrCRjEoj6o"
+// const customersId= getPayment.data.data.customer_id
+
+const clientSecret= "pi_3LNrJqSJ7crToGEY0lZvOc5Q_secret_Rm50QtBER4DvtVLE0EX6UiGge"
+const EphemeralKeySecret= "ek_test_YWNjdF8xS1ltOUFTSjdjclRvR0VZLHhmdzBYeUdXbDlrd0taNDJIZHpzQVdXRGtMSzVSUXc_00tpK9VQX8"
+const Displayname=   'Pradip'
+const customersId= "cus_M3snPrCRjEoj6o"
 
 const initSheet = await stripe.initPaymentSheet({
     paymentIntentClientSecret:clientSecret,

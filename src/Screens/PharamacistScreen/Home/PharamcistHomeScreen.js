@@ -20,7 +20,7 @@ const PharamaHomeScreen = props => {
     }
 
     useEffect(() => {
-        console.log("info\n", user)
+        // console.log("info\n", user)
     }, [user])
 
     useEffect(() => {
@@ -46,11 +46,11 @@ const PharamaHomeScreen = props => {
     }
 
     const renderprescriptionList = data => {
-        console.log("data             ", data.item)
+        // console.log("data             ", data.item)
         return (
             <View style={styles.card}>
                 <TouchableOpacity
-                 onPress={() => {props.navigation.navigate('Add_quotes', {prescription:data.item}) }}
+                 onPress={() => {props.navigation.navigate('Addquotes',{prescription:data.item}) }}
                 >
                     <View style={styles.Card_Sty}>
                         <View>

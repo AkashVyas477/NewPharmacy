@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         margin: 10,
         justifyContent: 'center',
-        // width: 80
+        // width: "80%"
     },
     Card_Sty: {
         // flexDirection: 'row',

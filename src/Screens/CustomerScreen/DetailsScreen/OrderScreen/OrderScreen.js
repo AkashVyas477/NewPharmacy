@@ -9,8 +9,6 @@ import Button from '../../../../Components/Common/Button';
 import { Colors, Images } from '../../../../CommonConfig';
 import { postPostLogin, getPreLogin } from '../../../../Components/Helpers/ApiHelper';
 import Cards from '../../../../Components/Common/Cards';
-import CreditCardDisplay from '../../../../Components/Common/CardComp'
-// import CreditCardDisplay from '../../../../Components/Common/CardComp';
 import Toast from 'react-native-simple-toast'
 import { CommonActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -22,6 +20,12 @@ import { useDispatch } from 'react-redux';
 
 const OrderScreen = props => {
 
+
+    useEffect(() => {
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 3000)
+    }, [])
 
     const dispatch = useDispatch()
 
@@ -35,32 +39,41 @@ const OrderScreen = props => {
     const [PaymentType, setPaymentType] = useState(1);
     const [state, setState] = useState('cash')
     const [checkOutType, setcheckOutType] = useState();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState({});
 
     const [selectedCard, setSelectedCard] = useState({})
-
 
 
     useEffect(() => {
         const refresh = props.navigation.addListener('focus', () => {
             getcard()
-            getPaymentMethod()
+        //   getPaymentMethod()
         });
         return refresh
     }, [props.navigation])
 
+
+useEffect(()=>{
+    getPaymentMethod()
+},[])
+
     const getPaymentMethod = async () => {
-        setSelectedCard(JSON.parse(await AsyncStorage.getItem('activateCard')))
-        // console.log("getting cards\n",selectedCard)
+        setSelectedCard (JSON.parse(await AsyncStorage.getItem('activateCard')))
+        console.log("getting cards\n", selectedCard)
     }
+
     const [card, setCard] = useState([])
+
+
     const getcard = async () => {
+        setIsLoading(true)
         const response = await getPreLogin('customer/getCard')
         //    console.log("\n\n\n\ncard details   ",response.data.message.data)
         let errorMsg = 'No Credit Cards to Show!';
         if (response.success) {
-            // await AsyncStorage.setItem('activeCard', JSON.stringify(props.item))
             setCard(response.data.message.data)
+            setIsLoading(false)
+            // await AsyncStorage.setItem('activeCard', JSON.stringify(props.item))
         } else {
             Alert.alert("Error", errorMsg, [{ text: "Okay" }])
             console.log(response)
@@ -100,15 +113,15 @@ if (state==='cash'){
 }
 if(!getPayment.success) return Alert.alert(error.message);
 setIsLoading(false)
-// const clientSecret= getPayment.data.data.payment_intent
-// const EphemeralKeySecret= getPayment.data.data.ephemeral_key
-// const Displayname=   'Pradip'
-// const customersId= getPayment.data.data.customer_id
-
-const clientSecret= "pi_3LNrJqSJ7crToGEY0lZvOc5Q_secret_Rm50QtBER4DvtVLE0EX6UiGge"
-const EphemeralKeySecret= "ek_test_YWNjdF8xS1ltOUFTSjdjclRvR0VZLHhmdzBYeUdXbDlrd0taNDJIZHpzQVdXRGtMSzVSUXc_00tpK9VQX8"
+const clientSecret= getPayment.data.data.payment_intent
+const EphemeralKeySecret= getPayment.data.data.ephemeral_key
 const Displayname=   'Pradip'
-const customersId= "cus_M3snPrCRjEoj6o"
+const customersId= getPayment.data.data.customer_id
+
+// const clientSecret= "pi_3LNrJqSJ7crToGEY0lZvOc5Q_secret_Rm50QtBER4DvtVLE0EX6UiGge"
+// const EphemeralKeySecret= "ek_test_YWNjdF8xS1ltOUFTSjdjclRvR0VZLHhmdzBYeUdXbDlrd0taNDJIZHpzQVdXRGtMSzVSUXc_00tpK9VQX8"
+// const Displayname=   'Pradip'
+// const customersId= "cus_M3snPrCRjEoj6o"
 
 const initSheet = await stripe.initPaymentSheet({
     paymentIntentClientSecret:clientSecret,
@@ -261,6 +274,7 @@ catch(error){
                                     // console.log("details       ",item )
                                     return (
                                         <View>
+                                            {isLoading ? <ActivityIndicator color={Colors.PRIMARY}  size={50}/>:
                                             <Cards
                                                 item={item}
                                                 id={item.id}
@@ -270,7 +284,7 @@ catch(error){
                                                 exp_month={item.exp_month}
                                                 exp_year={item.exp_year}
 
-                                            />
+                                            />}
                                         </View>
                                     )
                                 }}

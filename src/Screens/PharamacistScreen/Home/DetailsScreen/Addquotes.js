@@ -1,25 +1,59 @@
-import { StyleSheet, Text,TextInput, View, ScrollView, StatusBar, Image, Dimensions, TouchableOpacity, ImageBackground, FlatList,Modal } from 'react-native'
+import { StyleSheet, Alert,Text,TextInput, View, ScrollView, StatusBar, Image, Dimensions,ActivityIndicator, TouchableOpacity, ImageBackground, FlatList,Modal } from 'react-native'
 import React, { useState, useRef, useEffect } from 'react'
 // import PharamaciesData from '../../../DummyData/DummyData';
 import { Colors, Images } from '../../../../CommonConfig';
 // import { Header, Button , } from '../../../Components/Common';
 import Header from '../../../../Components/Common/Header';
 import Button from '../../../../Components/Common/Button';
-import { getWithParams } from '../../../../Components/Helpers/ApiHelper';
+import { getWithParams, postPostLogin } from '../../../../Components/Helpers/ApiHelper';
 import MedicinesImages from '../../../../Components/Common/MedicinesImages'
 import moment from 'moment';
+
+import Toast from 'react-native-simple-toast'
 
 
 
 const Addquotes = (props) => {
 
+    // useEffect(() => {
+    //     const update = props.navigation.addListener('focus', () => {
+    //     });
+    //     return update;
+    // }, [props.navigation])
+
     const userRequest = props.route.params.prescription
     const [modalVisible, setModalVisible] = useState(false);
     const [submitLoader, setSubmitLoader] = useState(false)
+    const [ isLoading ,setIsLoading ] = useState(false)
+    const [priceing,setPriceing]=useState('')
+    const [notes,setNote]=useState('')
+    // const [id, setId] = useState()
     console.log("Detail\n", userRequest)
 
+    const onpressSubmit = async ()=> {
+        setSubmitLoader(true)
+        const data = {
+            price : priceing,
+            text_note: notes
+    }
+    console.log("Quote data \n ",data)
+    const response = await postPostLogin(`pharmacist/addQuote?prescriptionId=${userRequest.id}`,data)
+    let errorMessage = "Check Quotes"
+    if (response.success) {
+    console.log("Quotes \n",response.data)
+        Toast.show("Quote created successfully")
+        props.navigation.navigate('PharamaHome')
+    // setModalVisible(false)
+    } else {
+        // Alert.alert(response.error.message);
+        Alert.alert('Error',errorMessage,[{text:"Okay"}])
+        console.log("api\n",response)
+    }
+    setSubmitLoader(false)
+    }
 
     return (
+// ----------> Header <--------------- //
         <View style={styles.screen} > 
             <View  style={styles.header_sty}>
                 <Header
@@ -27,7 +61,9 @@ const Addquotes = (props) => {
                 onPress={() => props.navigation.goBack()}
                 />
            </View>
+          
            <ScrollView>
+{/* Images of Prescription */}
            <FlatList
                 data={userRequest.images_list}
                 horizontal
@@ -47,8 +83,8 @@ const Addquotes = (props) => {
                     )
                 }}
             /> 
-           
-               
+         
+{/*Customer Details   */}          
             <View style={styles.card}>
                         <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:'space-between' ,paddingRight:10}}>
                             <View >
@@ -71,14 +107,14 @@ const Addquotes = (props) => {
                             </View> 
                          </View>
                     </View>
-
+{/*Text Note By Customer  */}
                     <View style={styles.card}>
                         <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
                             Text Note By Customer
                         </Text>
                         <Text style={{ textAlign: 'auto', padding: 10 }}>{userRequest.text_note}</Text>
                     </View>
-
+{/* List Of Medicines */}
                     <View style={styles.card}>
                         <View>
                         <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
@@ -95,7 +131,7 @@ const Addquotes = (props) => {
                             })}
                         </View>
                     </View>
-                  
+{/* Adding Quotes */}
                     <View style={styles.card}>
                         <TouchableOpacity  onPress={() => { setModalVisible(true) }} style={{flexDirection:'row' ,alignItems:'center',}} >
                                 <Image source={Images.GreenAdd} style={{height:20,width:20}} />
@@ -107,6 +143,17 @@ const Addquotes = (props) => {
                        
                     </View>
 
+{/* After adding Quotes  */}
+                    {/* <View style={styles.card}>
+                        <View>
+                        <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
+                          Quote Price 
+                            </Text>
+                        </View>
+                    </View> */}
+
+
+{/* Add Quotes Modal  */}
                     <Modal
                 animationType="fade"
                 transparent={true}
@@ -122,14 +169,21 @@ const Addquotes = (props) => {
                         <View style={{  marginTop: 10,}}>
                             <Text>Price </Text>
                             <TextInput
+                            placeholder=' Price'
+                            keyboardType='number-pad'
                             style={{borderWidth:1, width:"100%"}}
+                            onChangeText={(e) => { setPriceing(e) }}
+
                             />
                         </View>
 
                         <View style={{  marginTop: 10,}}>
                             <Text >Note </Text>
                             <TextInput
+                            placeholder='Notes for Customer '
+                            multiline
                             style={{borderWidth:1, width:"100%"}}
+                            onChangeText={(e) => { setNote(e) }}
                             />
                         </View>
                         </View>
@@ -137,13 +191,18 @@ const Addquotes = (props) => {
 
 
 {/* Submit & close  Button  */}
-                        <View style={{flexDirection:'row-reverse'}}>
+                        <View style={{flexDirection:'row-reverse', marginTop:30}}>
                         <TouchableOpacity
+                        activeOpacity={0.7}
+                        disabled={(!priceing || !notes || submitLoader)? true : false}
                             style={[styles.buttonModal, styles.buttonClose]}
-                            // onPress={onPressDelete}
-                        >
-                            {submitLoader ? <ActivityIndicator size={25} color={Colors.White} /> : <Text style={styles.textStyle}>Submit</Text>}
+                            onPress={onpressSubmit}
+                            // onPress={() => {console.log(priceing, notes);}}
+                             >
+                        {submitLoader ? <ActivityIndicator size={'small'} color={Colors.White} /> : <Text style={styles.textStyle}>Submit</Text>}
                         </TouchableOpacity>
+
+
                         <TouchableOpacity
                             style={[styles.buttonModal, styles.buttonClose]}
                             onPress={() => { setModalVisible(false) }}
@@ -155,9 +214,7 @@ const Addquotes = (props) => {
 
                     </View>
                 </View>
-                </Modal>
-
-                    
+                </Modal>                
             </ScrollView>
 
 
@@ -238,6 +295,7 @@ const styles = StyleSheet.create({
     },
 
     modalView: {
+        width: "90%",
         margin: 20,
         backgroundColor: Colors.White,
         borderRadius: 20,
@@ -266,6 +324,7 @@ const styles = StyleSheet.create({
         padding: 10,
         elevation: 2,
         marginVertical: 5,
+        margin:5
         // width: 200
     },
     buttonOpen: {

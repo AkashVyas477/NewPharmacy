@@ -35,14 +35,14 @@ const Cards = (props) => {
   // },[])
 
 
-  useEffect(()=>{
-  getActiveCard()
-  },[])
+  // useEffect(()=>{
+  // getActiveCard()
+  // },[])
 
-  const getActiveCard = async()=> {
-    setActivateCard(JSON.parse(await AsyncStorage.getItem('activateCard')))
-    console.log("Active card \n",activateCard.id)
-  }
+  // const getActiveCard = async()=> {
+  //   setActivateCard(JSON.parse(await AsyncStorage.getItem('activateCard')))
+  //   console.log("Active card \n",activateCard.id)
+  // }
  
 
 
@@ -62,36 +62,6 @@ const Cards = (props) => {
         <Text style={styles.expiry}>Expires {props.exp_month}/{props.exp_year}</Text>
         </View>
     </TouchableOpacity>
-
-
-          // <TouchableOpacity style={{...styles.cardItemContainer, 
-          //   borderRadius:props.id === activeCard ? 10: 10, 
-          //   borderColor: props.id === activeCard ? Colors.PRIMARY: null, 
-          //   borderWidth: props.id === activeCard ? 1 : 0, 
-          //   elevation: props.id === activeCard ? 0 : 0.01 }} 
-          //   // onPress={async() => {dispatch(CardAction.activatePayment(props.id)),
-          //   // await AsyncStorage.setItem('active', JSON.stringify(props.item))}}
-          //   >
-
-          //     {/* <TouchableOpacity style={{...styles.cardItemContainer, 
-          //   borderRadius:props.id === active?.id? 10: 10, 
-          //   borderColor: props.id === active?.id? Colors.PRIMARY: null, 
-          //   borderWidth: props.id === active?.id? 1 : 0, 
-          //   elevation: props.id === active?.id? 0 : 0.01 }} 
-          //   // onPress={async() => {await AsyncStorage.setItem('active', JSON.stringify(props.item))}}
-          //   // onPress={async()=>{setActive(props.item)}}
-          //   >  */}
-
-          //   <Image  source={logoSelector(props.brand)}  style={styles.imageStyle} />
-          //   <View style={styles.detailContainer}>
-          // <View style={{flexDirection:'row'}}>
-
-          //   <Text style={styles.cardNumber} > **** **** ****{props.number}</Text>
-          //   </View>
-          //   <Text style={styles.expiry}>Expires {props.exp_month}/{props.exp_year}</Text>
-          //   </View>
-          // </TouchableOpacity>
-         
         )
 
 }

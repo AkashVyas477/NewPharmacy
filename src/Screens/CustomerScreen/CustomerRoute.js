@@ -6,6 +6,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Images, Colors } from '../../CommonConfig';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { useTranslation } from 'react-i18next';
 
 
 //LogInScren
@@ -13,7 +14,8 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import LoginScreen from '../AuthScreen/LoginScreen'
 
 //Screens from Customer 
-import LanguageScreen from '../CustomerScreen/Language';
+// import LanguageScreen from '../LanguageScreen';
+import LanguageScreen from '../CustomerScreen/LanguageScreen'
 
 // Screens from Home in Customer 
 import HomeScreen from '../CustomerScreen/Home/HomeScreen';
@@ -41,6 +43,7 @@ import AddCard from '../CustomerScreen/Payment/AddCard';
 import SplashScreen from '../SplashScreen';
 
 import DrawerContent from './CustomerDrawer';
+import navigate from '../../CommonConfig/Translations/en/navigate';
 
 const Drawer = createDrawerNavigator()
 const DrawerNavigator = props => {
@@ -62,12 +65,13 @@ const getTabBarVisibility = (route) => {
     const hideOnScreens = ['Pharamacies_Detail','CurrentPrescriptionScreen_Data',
     'PastPrescriptionScreen_Data','Preview',
      'PharamaciesImagePreview', 'Edit_Profile',
-     'OrderScreen','CheckoutScreen','PrescriptionImageScreen','AddCard']
+     'OrderScreen','CheckoutScreen','PrescriptionImageScreen','AddCard','LanguageScreen']
     if (hideOnScreens.indexOf(routeName) > -1) return false;
     return true;
 };
 
 const TabNavigator = props => {
+    const { t } = useTranslation();
     return (
 
         <Tab.Navigator tabBarOptions={{
@@ -86,7 +90,7 @@ const TabNavigator = props => {
                 component={HomeStackScreen}
                 options={({ route }) => ({
                     tabBarVisible: getTabBarVisibility(route),
-                    tabBarLabel: 'DASHBOARD',
+                    tabBarLabel: t('navigate:DASHBOARD'),
                     tabBarIcon: ({ focused }) => (
                         < Image source={require('../../assets/Icons/HomeIcon/homeIcon.png')} style={{ height: 22, width: 25, marginTop: 15, tintColor: focused ? 'green' : '#cccccc' }} />
                     )
@@ -96,7 +100,7 @@ const TabNavigator = props => {
                 component={PrescriptionStackScreen}
                 options={({ route }) => ({
                     tabBarVisible: getTabBarVisibility(route),
-                    tabBarLabel: 'PRESCRIPTION',
+                    tabBarLabel: t('navigate:PRESCRIPTION'),
                     tabBarIcon: ({ focused }) => (
                         < Image source={require('../../assets/Icons/HomeIcon/prescriptionIcon.png')} style={{ height: 25, width: 18, marginTop: 15, tintColor: focused ? 'green' : '#cccccc' }} />
                     )
@@ -104,7 +108,7 @@ const TabNavigator = props => {
         </Tab.Navigator>
     )
 }
-// export default TabNavigator;
+
 
 
 const HomeStack = createStackNavigator()
@@ -117,12 +121,13 @@ const HomeStackScreen = props => {
             <HomeStack.Screen name='PastPrescriptionScreen_Data' component={PastPrescriptionScreen} />
             <HomeStack.Screen name ='Preview'component={Preview}/>
             <HomeStack.Screen name ='PharamaciesImagePreview'component={PharamaciesImagePreview}/>
+            <HomeStack.Screen name = 'LanguageScreen' component={LanguageScreen}/>
             {/* <HomeStack.Screen name='OrderScreen' component={OrderScreen}/> */}
             {/* <HomeStack.Screen name ='Edit_Profile'component={CustomerProfileEditScreen}/> */}
         </HomeStack.Navigator>
     )
 }
-// export  HomeStack;
+
 
 const PrescriptionStack = createStackNavigator()
 const PrescriptionStackScreen = props => {
@@ -135,12 +140,13 @@ const PrescriptionStackScreen = props => {
             <PrescriptionStack.Screen name='Preview' component={Preview} />
             <PrescriptionStack.Screen name='PharamaciesImagePreview' component={PharamaciesImagePreview} />
             <PrescriptionStack.Screen name='OrderScreen' component={OrderScreen} />
+            <PrescriptionStack.Screen name= 'LanguageScreen' component={LanguageScreen}/>
             {/* <PrescriptionStack.Screen name='CheckoutScreen' component={CheckoutScreen} /> */}
             <PrescriptionStack.Screen name='AddCard' component={AddCard}/>
         </PrescriptionStack.Navigator>
     )
 }
-// export default PrescriptionStackScreen;
+
 
 
 const AddresStack = createStackNavigator()
@@ -151,18 +157,17 @@ const AddresStackScreen = props => {
         </AddresStack.Navigator>
     )
 }
-// export default AddresStackScreen;
 
 
 const LanguageStack = createStackNavigator()
 const LanguageStackScreen = props => {
     return(
         <LanguageStack.Navigator headerMode='none'>
-        <LanguageStack.Screen name='Language' component={LanguageScreen}/>
+        <LanguageStack.Screen name='LanguageScreen' component={LanguageScreen}/>
         </LanguageStack.Navigator>
     )
 }
-// export default LanguageStackScreen;
+
 
 
 const UserStack = createStackNavigator()
@@ -175,7 +180,6 @@ const UserStackScreen = props => {
         </UserStack.Navigator>
     )
 }
-// export default UserStackScreen;
 
 
 

@@ -201,7 +201,8 @@ android {
 dependencies {
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
-
+        compile project(':react-native-localization')
+        compile project(':react-native-i18n')
 
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules

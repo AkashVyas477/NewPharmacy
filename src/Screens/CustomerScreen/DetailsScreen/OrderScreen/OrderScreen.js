@@ -106,7 +106,7 @@ const paydata = {
 
 const getPayment = await postPostLogin('customer/checkout', paydata)
 // const data= await getPayment.json();
-console.log("on press \n ",getPayment)
+// console.log("on press \n ",getPayment)
 if (state==='cash'){
     Alert.alert('Order complete, thank you!');
     props.navigation.navigate('Prescription') 

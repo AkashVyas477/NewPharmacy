@@ -19,8 +19,10 @@ import {
 import { Images, Colors } from '../../CommonConfig';
 // import TabNavigator from '../../Screens/CustomerScreen/CustomerRoute'
 import TabNavigator from '../../Screens/CustomerScreen/CustomerRoute'
+import { useTranslation } from 'react-i18next';
 
 const DrawerContent = (props) => {
+  const {t}= useTranslation();
 
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false)
@@ -73,7 +75,7 @@ const DrawerContent = (props) => {
                     style={{height:30,width:30}}
                     />
                 )}
-                label="Home"
+                label={t('navigate:Home')}
                 onPress={()=>{props.navigation.navigate('Home')}}
                 /> 
                     </Drawer.Section>
@@ -85,7 +87,7 @@ const DrawerContent = (props) => {
                                 style={{height:38,width:28}}
                                 />
                             )}
-                            label="Manage Address"
+                            label={t('navigate:ManageAddress')}
                             // onPress={()=>{props.navigation.navigate('LocationScreen')}}
                         />
                         </Drawer.Section>
@@ -96,7 +98,7 @@ const DrawerContent = (props) => {
                             style={{height:30,width:30}}
                         />
                     )}
-                    label="Language"
+                    label={t('navigate:Language')}
                     onPress={() => {props.navigation.navigate('LanguageScreen') }}
                 />
 
@@ -109,7 +111,7 @@ const DrawerContent = (props) => {
                     style={{height:32,width:30}}
                     />
                 )}
-                label="Log Out"
+                label={t('navigate:LogOut')}
                 onPress={()=>
                     Alert.alert(
                       'Log out',

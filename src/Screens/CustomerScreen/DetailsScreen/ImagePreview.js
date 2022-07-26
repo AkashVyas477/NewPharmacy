@@ -5,12 +5,14 @@ import Header from '../../../Components/Common/Header'
 import { Colors, Images } from '../../../CommonConfig';
 import MedicinesImagesPreview from '../../../Components/Common/MedicinesImagesPreview'
 import Carousel from 'react-native-snap-carousel';
+import { useTranslation } from 'react-i18next';
 
 // import PrescriptionData from '../../../DummyData/PrescriptoinDummydata';
 // import PharamaciesData from '../../../DummyData/DummyData';
 
 
 const Preview = props => {
+    const {t}= useTranslation()
     // const [selectedImage, setSelectedImage] = useState(null)
     // const pid = props.route.params.id
     // const selectedItem =PrescriptionData.find(item => item.id === pid)
@@ -45,7 +47,7 @@ const Preview = props => {
         <View style={styles.screen}>
             <View style={styles.header_sty}>
                 <Header
-                    Title="PREVIEW"
+                    Title={t('common:PREVIEW')}
                     onPress={() => props.navigation.goBack()}
                 />
             </View>

@@ -4,9 +4,11 @@ import {View, Text , StyleSheet , Image, Dimensions} from 'react-native';
 import Header from '../../../Components/Common/Header'
 import {Colors, Images} from '../../../CommonConfig';
 import PharamaciesData from '../../../DummyData/DummyData';
+import { useTranslation } from 'react-i18next';
 
 
 const PharamaciesImagePreview = props =>{
+    const {t}= useTranslation()
   
     // const pid = props.route.params.id
     // const selectedItem =PharamaciesData.find(item => item.id === pid)
@@ -17,7 +19,7 @@ const PharamaciesImagePreview = props =>{
         <View style={styles.screen}>
                 <View  style={styles.header_sty}>
                 <Header
-                Title="PREVIEW"
+                Title={t('common:PREVIEW')}
                 onPress={() => props.navigation.goBack()}
                 />
                 </View>

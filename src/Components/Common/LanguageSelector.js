@@ -3,7 +3,8 @@ import {View ,Text, StyleSheet,TouchableOpacity} from 'react-native';
 import { useTranslation } from 'react-i18next';
 const LANGUAGES = [
     { code: 'en', label: 'English' },
-    { code: 'fr', label: 'Français' }
+    { code: 'fr', label: 'Français' },
+    {code:  'ar', label:'Arabic'}
   ];
   
   const Selector = () => {

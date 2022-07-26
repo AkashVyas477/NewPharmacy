@@ -11,9 +11,11 @@ import { $CombinedState } from 'redux';
 import moment from 'moment';
 import { getCurrentTimestamp } from 'react-native/Libraries/Utilities/createPerformanceLogger';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTranslation } from 'react-i18next';
 
 
 const PrescriptionScreen = props => {
+    const {t}=useTranslation();
 
     const [prescriptionList, setprescriptionList] = useState([])
     const [PastPrescription, setpastprescriptionList] = useState([])
@@ -98,7 +100,7 @@ const PrescriptionScreen = props => {
                                 </View>
                             </View>
                             <View style={{}} >
-                                {data.item.status === 0 ? <Text style={{ color: Colors.orange }}> Pending</Text> : <Text style={{ color: Colors.PRIMARY }}> Completed</Text>}
+                                {data.item.status === 0 ? <Text style={{ color: Colors.orange }}> {t('common:Pending')}</Text> : <Text style={{ color: Colors.PRIMARY }}> {t('common:Completed')}</Text>}
                             </View>
                         </View>
                     </View>
@@ -128,8 +130,8 @@ const PrescriptionScreen = props => {
                                 </View>
                             </View>
                             <View style={{}}>
-                                {data.item.status === 0 ? <Text style={{ color: Colors.orange }}>Pending</Text> :
-                                    <Text style={{ color: Colors.PRIMARY }}>Completed</Text>}
+                                {data.item.status === 0 ? <Text style={{ color: Colors.orange }}>{t('common:Pending')}</Text> :
+                                    <Text style={{ color: Colors.PRIMARY }}>{t('common:Completed')}</Text>}
                             </View>
                         </View>
 
@@ -169,7 +171,7 @@ const PrescriptionScreen = props => {
                         }}
                         onPress={() => setState('Current')}
                     >
-                        <Text style={{ color: state === 'Current' ? Colors.White : Colors.Gray }}>Current</Text>
+                        <Text style={{ color: state === 'Current' ? Colors.White : Colors.Gray }}>{t('common:Current')}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={{
@@ -180,7 +182,7 @@ const PrescriptionScreen = props => {
                         }}
                         onPress={() => setState('Past')}
                     >
-                        <Text style={{ color: state === 'Past' ? Colors.White : Colors.Gray }}>Past</Text>
+                        <Text style={{ color: state === 'Past' ? Colors.White : Colors.Gray }}>{t('common:Past')}</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -207,13 +209,13 @@ const PrescriptionScreen = props => {
                                             <Image source={Images.EmptyPlacholder} style={{ height: 200, width: 300, }} />
                                             <View>
                                                 <Text style={{ textAlign: 'center', padding: 10, fontWeight: 'bold', color: 'black', fontSize: 25 }}>
-                                                    Looks empty!
+                                                    {t('common:Looksempty')}
                                                 </Text>
                                                 <Text style={{ textAlign: 'center', color: 'grey', fontSize: 15 }}>
-                                                    Tap the Upload button to
+                                                    {t('common:TaptheUploadbuttonto')}
                                                 </Text>
                                                 <Text style={{ textAlign: 'center', color: 'grey', fontSize: 15 }}>
-                                                    create new post
+                                                    {t('common:createnewpost')}
                                                 </Text>
                                             </View>
                                             <View>
@@ -248,13 +250,13 @@ const PrescriptionScreen = props => {
                                         <Image source={Images.EmptyPlacholder} style={{ height: 200, width: 300, }} />
                                         <View>
                                             <Text style={{ textAlign: 'center', padding: 10, fontWeight: 'bold', color: 'black', fontSize: 25 }}>
-                                                Looks empty!
+                                            {t('common:Looksempty')}
                                             </Text>
                                             <Text style={{ textAlign: 'center', color: 'grey', fontSize: 15 }}>
-                                                Tap the Upload button to
+                                            {t('common:TaptheUploadbuttonto')}
                                             </Text>
                                             <Text style={{ textAlign: 'center', color: 'grey', fontSize: 15 }}>
-                                                create new post
+                                            {t('common:createnewpost')}
                                             </Text>
                                         </View>
 

@@ -16,10 +16,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector } from 'react-redux';
 import { Method } from 'ionicons/dist/types/stencil-public-runtime';
 import { string } from 'prop-types';
+import { useTranslation} from 'react-i18next';
 
 
 
 const PrescriptionImageScreen = props => {
+    const {t}= useTranslation();
 
     // const row = 2 
     // const [numTextInputs, setNumTextInputs] = React.useState(0);
@@ -146,14 +148,14 @@ const PrescriptionImageScreen = props => {
             <View style={styles.header_sty} >
                 {/* <StatusBar backgroundColor={selectedItem.bgColor} barStyle='light-content' /> */}
                 <Header
-                    Title="CREATE REQUEST"
+                    Title={t('common:CREATEREQUEST')}
                     onPress={() => props.navigation.goBack()}
                 />
             </View>
 
             <View style={{ marginLeft: 20, marginTop: 20 }} >
                 <Text style={{ color: Colors.Sp_Text, fontSize: 15, fontWeight: 'bold' }}>
-                    Upload Prescription details
+                    {t('common:UploadPrescriptiondetails')}
                 </Text>
             </View>
 
@@ -259,7 +261,7 @@ const PrescriptionImageScreen = props => {
 
                         <View>
                             <Text style={{ marginLeft: 15, fontSize: 17 }}>
-                                Medicine Name
+                                {t('common:MedicineName')}
                             </Text>
 
                         </View>
@@ -270,7 +272,7 @@ const PrescriptionImageScreen = props => {
                                 onPress={addHandler}
                             >
                                 <Text style={{ color: Colors.orange, marginRight: 10, fontSize: 15, fontWeight: 'bold' }}>
-                                    ADD
+                                   {t('common:ADD')}
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -280,7 +282,7 @@ const PrescriptionImageScreen = props => {
                             {inputs.map((input, key) => (
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', ...styles.textInput }}>
                                     <TextInput
-                                        placeholder={"Enter Name"}
+                                        placeholder={t('common:EnterName')}
                                         placeholderTextColor={Colors.placeHolder}
                                         value={input.name}
                                         color={Colors.Sp_Text}
@@ -289,7 +291,9 @@ const PrescriptionImageScreen = props => {
                                     // onChangeText={e => setname(e)}
                                     />
                                     <TouchableOpacity onPress={() => deleteHandler(key)}>
-                                        <Image source={Images.Delet} style={{ width: 20, height: 25 }} />
+                                        <Image source={Images.Delet}  style={{...styles.BinIcon,
+                                            // transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]
+                                            }}   />
                                         {/* <Text style={{ color: "red", fontSize: 13 }}>Delete</Text> */}
                                     </TouchableOpacity>
                                 </View>
@@ -300,13 +304,13 @@ const PrescriptionImageScreen = props => {
                     {/* Text Note */}
                     <View style={{ marginLeft: 15, fontSize: 17, padding: 10, marginTop: 15 }}>
                         <Text>
-                            Text Note
+                            {t('common:TextNote')}
                         </Text>
                     </View>
                     <View style={{ width: "100%", padding: 5, paddingLeft: 10, paddingRight: 10 }}>
                         <View style={{ borderBottomWidth: 0.5,...styles.textInput1 }}>
                             <TextInput
-                                placeholder='Text Note'
+                                placeholder= {t('common:TextNote')}
                                 placeholderTextColor={Colors.placeHolder}
                                 color={Colors.Sp_Text}
                                 onChangeText={e => setText_note(e)}
@@ -318,7 +322,7 @@ const PrescriptionImageScreen = props => {
 
                 <View>
                    <Button
-                        label="Submit"
+                        label={t('Submit')}
                         onPress={submit}
                         showActivityIndicator={isLoading}
                         // showActivityIndicator={isLoading}
@@ -339,6 +343,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.White
     },
+    BinIcon:{ width: 20, height: 25 },
     header_sty: {
         flexDirection: 'row',
         alignItems: 'center',

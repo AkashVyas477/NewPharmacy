@@ -9,12 +9,14 @@ import Header from '../../../Components/Common/Header';
 import Button from '../../../Components/Common/Button';
 import MedicinesImages from '../../../Components/Common/MedicinesImages'
 import moment from 'moment';
+import { useTranslation } from 'react-i18next';
 
 
 const { width } = Dimensions.get('window')
 const height = width * 100 / 0.6
 
 const PastPrescriptionScreen = props =>{
+    const {t}= useTranslation()
 
     // const pid = props.route.params.id
     // const selectedItem =PrescriptionData.find(item => item.id === pid)
@@ -28,13 +30,13 @@ const PastPrescriptionScreen = props =>{
     const statusText = (status) => {
         switch (status) {
             case 0:
-                return "Pending"
+                return <Text>{t('common:Pending')}</Text>
             case 1:
-                return "Completed"
+                return <Text>{t('common:Completed')}</Text>
             case 2:
-                return "Rejected"
+                return <Text>{t('common:Rejected')}</Text>
             default:
-                return 'Past Order!'
+                return <Text>{t('common:PastOrder')}</Text>
         }
     }
 
@@ -46,7 +48,7 @@ const PastPrescriptionScreen = props =>{
         <View >
             <View style={styles.header_sty}>
                 <Header
-                    Title="DETAILS"
+                    Title={t('common:DETAILS')}
                     onPress={() => props.navigation.goBack()}
                 />
             </View>
@@ -96,7 +98,7 @@ const PastPrescriptionScreen = props =>{
 
                     <View style={styles.card2}>
                         <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight:'bold', color:Colors.Sp_Text,fontSize:15 }}> 
-                        Text Note 
+                        {t('common:TextNote')}
                         </Text>
                         <Text style={{ textAlign: 'auto', padding: 10 }}>{prescription.text_note}</Text>
                     </View>
@@ -105,7 +107,7 @@ const PastPrescriptionScreen = props =>{
                 
                     <View style={styles.card2}>
                         <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight:'bold', color:Colors.Sp_Text,fontSize:15 }}>
-                            List Of Medicines
+                        {t('common:ListOfMedicines')}
                         </Text>
                         <View>
                             {prescription.medicines.map( item => {

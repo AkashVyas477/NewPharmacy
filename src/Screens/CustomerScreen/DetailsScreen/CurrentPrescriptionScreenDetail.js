@@ -17,6 +17,7 @@ import moment from 'moment';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import { useTranslation } from 'react-i18next';
 
 
 const { width } = Dimensions.get('window')
@@ -24,6 +25,7 @@ const height = width * 100 / 0.6
 const { width: screenWidth } = Dimensions.get('window')
 
 const CurrentPrescriptionScreen = props => {
+    const {t}= useTranslation();
 
     const [deleteOption, setDeleteOption] = useState(1);
     
@@ -64,13 +66,13 @@ const CurrentPrescriptionScreen = props => {
     const statusText = (status) => {
         switch (status) {
             case 0:
-                return "Pending"
+                return <Text>{t('common:Pending')}</Text>
             case 1:
-                return "Completed"
+                return <Text>{t('common:Completed')}</Text>
             case 2:
-                return "Rejected"
+                return <Text>{t('common:Rejected')}</Text>
             default:
-                return 'Past Order!'
+                return <Text>{t('common:PastOrder')}</Text>
         }
     }
 
@@ -79,7 +81,7 @@ const CurrentPrescriptionScreen = props => {
             
             <View style={styles.header_sty}>
                 <Header
-                    Title="DETAILS"
+                    Title={t('common:DETAILS')}
                     onPress={() => props.navigation.goBack()}
                 />
             </View>
@@ -128,7 +130,7 @@ const CurrentPrescriptionScreen = props => {
                     </View>
                     <View style={styles.card2}>
                         <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
-                            Text Note
+                            {t('common:TextNote')}
                         </Text>
                         <Text style={{ textAlign: 'auto', padding: 10 }}>{currentprescription.text_note}</Text>
                     </View>
@@ -136,7 +138,7 @@ const CurrentPrescriptionScreen = props => {
 
                         <View>
                         <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
-                            List Of Medicines
+                            {t('common:ListOfMedicines')}
                             </Text>
                             {currentprescription.medicines.map(item => {
                                 return (
@@ -153,7 +155,7 @@ const CurrentPrescriptionScreen = props => {
                       { currentprescription.quotes.length >0 &&
                        <View  >
                         <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', fontSize: 15, color: Colors.Sp_Text, marginBottom: 8 }}>
-                                         Pharamacist Replied
+                                         {t('common:PharamacistReplied')}
                                         </Text>
                             {currentprescription.quotes.map(item => {
                                 return (
@@ -187,7 +189,7 @@ const CurrentPrescriptionScreen = props => {
                 {/* <View > */}
                     <TouchableOpacity onPress={() => { setModalVisible(true) }} style={{flex:1,borderRightWidth: 0.5,borderColor: Colors.White,justifyContent:'center',alignItems:'center'}} >
                         <Text style={{  color: Colors.White,fontWeight:'bold',}}>
-                            DELETE REQUEST
+                            {t('common:DELETEREQUEST')}
                         </Text>
                         <Modal
                             animationType="fade"
@@ -264,7 +266,7 @@ const CurrentPrescriptionScreen = props => {
                     <TouchableOpacity disabled={!activeQuotes}
                     onPress={() => props.navigation.navigate('OrderScreen',{activeQuotes,currentprescription,})} style={{flex:1,borderLeftWidth: 0.5,borderColor: Colors.White,justifyContent:'center',alignItems:'center'}} >
                         <Text style={{ color: Colors.White,fontWeight:'bold', }}>
-                            BUY NOW
+                            {t('common:BUYNOW')}
                         </Text>
                     </TouchableOpacity>
             </View>

@@ -1,5 +1,5 @@
 import React,{useState, useEffect, useReducer} from 'react';
-import {View, Text , StyleSheet ,TouchableOpacity, Image ,FlatList,ScrollView, ActivityIndicator, PermissionsAndroid,  Platform,} from 'react-native';
+import {View, Text , StyleSheet ,TouchableOpacity, Image ,FlatList,ScrollView, ActivityIndicator, PermissionsAndroid,  Platform, Dimensions,} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { Images, Colors } from '../../../CommonConfig';
@@ -12,8 +12,11 @@ import Geocoder from 'react-native-geocoding';
 import moment from 'moment';
 import Toast from 'react-native-simple-toast';
 import { getCurrentPosition } from 'react-native-geolocation-service';
+import { useTranslation } from 'react-i18next';
 
 const HomeScreen = props =>{  
+
+    const { t }= useTranslation()
     const [ pharmacyList, setPharmacyList ] = useState([])
     const [ isLoading, setIsLoading ] = useState(true)
     const [length, setLength] = useState(0)
@@ -132,13 +135,11 @@ const HomeScreen = props =>{
                             :
                             length === 0 ?
                             <View>
-                            <Text>No Pharmacies found</Text>
+                            <Text>{t('common:NoPharmaciesfound')}</Text>
                         </View>
                             :
                             <View>
-                            <Text style={{color:'#717D7E', fontSize:17, padding:10, textAlign:'center'}}>
-                            Near By Pharmacies
-                            </Text>
+                            <Text style={{color:'#717D7E', fontSize:17, padding:10, textAlign:'center'}}>{t('common:NearByPharmacies')}</Text>
                                 <FlatList
                                     // padding={30}
                                     data={pharmacyList}
@@ -188,27 +189,45 @@ const HomeScreen = props =>{
 const  styles=StyleSheet. create({
     screen:{
       
-        backgroundColor:'white',
+        backgroundColor:Colors.White,
         elevation:5
     },
     card:{
+        // flex: 1,
+        // flexGrow:1,
+        // shadowColor:Colors.White,
+        // shadowOpacity: 0.26,
+        // shadowOffset: { width: 0, height:2 },
+        // shadowRadius: 8,
+        // borderRadius: 10,
+        // backgroundColor: 'white',
+        // marginBottom:5,
+        // margin:10,
+        // justifyContent:'center',
+        // width: "80%"
+
         flex: 1,
-        flexGrow:1,
         shadowColor:Colors.White,
         shadowOpacity: 0.26,
-        shadowOffset: { width: 0, height:2 },
+        shadowOffset: { width: 0, height: 2 },
         shadowRadius: 8,
         borderRadius: 10,
-        backgroundColor: 'white',
-        marginBottom:5,
-        margin:10,
-        justifyContent:'center',
-        // width: 80
+        backgroundColor:Colors.White,
+        marginBottom: 5,
+        margin: 10,
+        justifyContent: 'center',
+        width: Dimensions.get('screen').width *0.9
     },
     Card_Sty:{ 
+
         flexDirection: 'row',
         padding:5,
+        // width: "80%"
         // paddingRight:10,
+
+        // // flexDirection: 'row',
+        // padding: 5,
+        // marginBottom: 5
         
      },
 

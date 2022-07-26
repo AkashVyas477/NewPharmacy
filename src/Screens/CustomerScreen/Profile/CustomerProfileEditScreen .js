@@ -22,9 +22,11 @@ import Ionicon from 'react-native-vector-icons';
 
 import PropTypes from 'prop-types';
 import from from 'react-native-country-codes-picker';
+import { useTranslation } from 'react-i18next';
 
 
 const CustomerProfileEditScreen = props => {
+    const {t}= useTranslation()
 
     const user = props.route.params.user
 // console.log("    user     ", user);
@@ -125,6 +127,7 @@ const CustomerProfileEditScreen = props => {
             await AsyncStorage.setItem('userInfo', JSON.stringify(response.user))
             
             Toast.show("Profile Update Successfully")
+            // Toast.show(`${t('common:ProfileUpdateSuccessfully')}`)
             props.navigation.goBack()
 
             // if (response.status===200){
@@ -154,7 +157,7 @@ const CustomerProfileEditScreen = props => {
                 {/* Header */}
                 <View style={styles.header}>
                     <Header
-                        Title="EDIT PROFILE "
+                        Title={t('common:EDITPROFILE')} 
                         onPress={() => props.navigation.goBack()}
                     />
                 </View>
@@ -227,21 +230,21 @@ const CustomerProfileEditScreen = props => {
                     {({ values, handleChange, isValid, handleSubmit, setFieldTouched }) => (
                         <View style={{ paddingHorizontal: 5, marginLeft: 10, marginRight: 10, fontSize: 17 }} >
 {/* UserName */}
-                            <Text style={styles.text_footer}>Username</Text>
+                            <Text style={styles.text_footer}>{t('common:Username')}</Text>
                             <View style={styles.action}>
                                 {/* <FontAwesome name="user" color={Colors.ORANGE} size={25}/> */}
                                 <TextInput
                                     value={values.name}
                                     onBlur={() => setFieldTouched('name')}
                                     onChangeText={handleChange('name')}
-                                    placeholder="Enter username"
+                                    placeholder={t('common:Enterusername')}
                                     placeholderTextColor={Colors.placeHolder}
                                     color={Colors.Sp_Text}
                                     style={styles.textInput}
                                 />
                             </View>
 {/* Email */}
-                            <Text style={{ ...styles.text_footer, marginTop: 15 }}>Email</Text>
+                            <Text style={{ ...styles.text_footer, marginTop: 15 }}>{t('common:Email')}</Text>
                             <View style={styles.action}>
                                 {/* <FontAwesome name="envelope" color={Colors.ORANGE} size={25}/> */}
                                 <TextInput
@@ -250,7 +253,7 @@ const CustomerProfileEditScreen = props => {
                                     onChangeText={handleChange('email')}
                                     placeholderTextColor={Colors.placeHolder}
                                     color={Colors.Sp_Text}
-                                    placeholder="Enter email"
+                                    placeholder={('common:Enteremail')}
                                     style={styles.textInput}
                                     autoCapitalize="none"
                                 />
@@ -258,7 +261,7 @@ const CustomerProfileEditScreen = props => {
 {/* PhoneNumber */}
                             <View>
                                 <View >
-                                    <Text style={{ ...styles.text_footer, marginTop: 15 }} >Phone Number</Text>
+                                    <Text style={{ ...styles.text_footer, marginTop: 15 }} >{t('common:PhoneNumber')}</Text>
                                     <View style={styles.action} >
                                         {/* <Ionicon name="call" color={Colors.PRIMARY} size={20} style={{ flex: 0.5 }} /> */}
                                         <Text style={{ marginLeft:10, flex: 0.5, fontWeight: 'bold' }}>{countryCode}</Text>
@@ -315,7 +318,7 @@ const CustomerProfileEditScreen = props => {
 {/* Gender */}
                             <View>
                                 <Text style={{ ...styles.text_footer, marginTop: 15, paddingHorizontal: 5, }}>
-                                    Gender
+                                    {t('common:Gender')}
                                 </Text>
                                     <View style={{ paddingHorizontal: 1,  fontSize: 17, borderBottomWidth: 1, borderColor: Colors.borderBottomColor }}>
                                             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 8 }}>
@@ -342,7 +345,7 @@ const CustomerProfileEditScreen = props => {
                             <View style={{ marginTop: 20 }}>
                             { isLoading ? <ActivityIndicator size={25} color={Colors.White}/> 
                             : <Button
-                                    label="Save"
+                                    label={t('common:Save')}
                                     // onPress={() => { props.navigation.navigate('Profile') }}
                                     onPress={ handleSubmit } 
                                    disabled={isValid || !isLoading}

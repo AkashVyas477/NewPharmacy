@@ -6,12 +6,14 @@ import { Colors,Images } from '../../../CommonConfig';
 import Header from '../../../Components/Common/Header';
 import Button from '../../../Components/Common/Button';
 import { getWithParams } from '../../../Components/Helpers/ApiHelper';
+import { useTranslation } from 'react-i18next';
 
 
 const { width } = Dimensions.get('window')
 const height = width * 100 / 0.6
 
 const PharamaciesDetail = (props) => {
+    const {t}= useTranslation()
 
     const height = width * 100 / 0.6
     const [active, setActive] = useState(0);
@@ -30,7 +32,7 @@ const PharamaciesDetail = (props) => {
             <View >
             <View  style={styles.header_sty}>
                 <Header
-                Title="DETAILS"
+                Title={t('common:DETAILS')}
                 onPress={() => props.navigation.goBack()}
                 />
            </View> 

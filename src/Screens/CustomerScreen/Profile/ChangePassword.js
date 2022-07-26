@@ -14,10 +14,12 @@ import { ref } from 'yup';
 import { postPostLogin,refreshtoken } from '../../../Components/Helpers/ApiHelper';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
 // import { Header } from '../../../Components/Common';
 
 
 const ChangePassword = props => {
+    const {t}= useTranslation()
     const [cuEye, setCuEye] = useState(true)
     const [newEye, setNewEye] = useState(true)
     const [conEye, setConEye] = useState(true)
@@ -54,7 +56,7 @@ const ChangePassword = props => {
 {/* Header  */}
             <View style={styles.header}>
                 <Header
-                    Title="CHANGE PASSWORD"
+                    Title={t('common:CHANGEPASSWORD')}
                     onPress={() => props.navigation.goBack()}
                 />
             </View>
@@ -77,13 +79,13 @@ const ChangePassword = props => {
                         
                         {/* Input Fields */}
                         <View>
-                            <Text style={styles.inputLabel}>Current Password</Text>
+                            <Text style={styles.inputLabel}>{t('common:CurrentPassword')}</Text>
                             <View style={styles.inputContainer}>
                                 <TextInput 
                                     value = { values.currentPass }
                                     onBlur={() => setFieldTouched('currentPass')}
                                     onChangeText={handleChange('currentPass')}
-                                    placeholder="Current Password"
+                                    placeholder={t('common:CurrentPassword')}
                                     autoCapitalize='none'
                                     // secureTextEntry={cuEye}
                                     secureTextEntry={cuEye ? true : false}
@@ -95,13 +97,13 @@ const ChangePassword = props => {
                             </View>
                             {touched.currentPass && errors.currentPass && <Text style={styles.error}>{errors.currentPass}</Text>}   
 
-                            <Text style={styles.inputLabel}>New Password</Text>
+                            <Text style={styles.inputLabel}>{t('common:NewPassword')}</Text>
                             <View style={styles.inputContainer}>
                                 <TextInput 
                                     value = { values.newPass }
                                     onBlur={() => setFieldTouched('newPass')}
                                     onChangeText={handleChange('newPass')}
-                                    placeholder="New Password"
+                                    placeholder={t('common:NewPassword')}
                                     autoCapitalize='none'
                                     // secureTextEntry={newEye}
                                     secureTextEntry={newEye ? true : false}
@@ -113,13 +115,13 @@ const ChangePassword = props => {
                             </View>
                             {touched.newPass && errors.newPass && <Text style={styles.error}>{errors.newPass}</Text>}
 
-                            <Text style={styles.inputLabel}>Confirm Password</Text>
+                            <Text style={styles.inputLabel}>{t('common:ConfirmPassword')}</Text>
                             <View style={styles.inputContainer}>
                                 <TextInput 
                                     value = { values.confirmPass }
                                     onBlur={() => setFieldTouched('confirmPass')}
                                     onChangeText={handleChange('confirmPass')}
-                                    placeholder="Confirm Password"
+                                    placeholder={t('common:ConfirmPassword')}
                                     autoCapitalize='none'
                                     // secureTextEntry={conEye}
                                     secureTextEntry={conEye ? true : false}
@@ -138,7 +140,7 @@ const ChangePassword = props => {
                         </TouchableOpacity> */}
                         <Button
                         showActivityIndicator={isLoading}
-                         label="Save"
+                         label={t('common:Save')}
                          onPress={handleSubmit}
                          disabled={isValid || !isLoading}
                         />

@@ -5,10 +5,12 @@ import * as RNLocalize from 'react-native-localize'
 
 import en from './en';
 import fr from './fr';
+import ar from './ar';
 
 const LANGUAGES = {
     en,
-    fr
+    fr,
+    ar
 };
 
 const LANG_CODES = Object.keys(LANGUAGES);

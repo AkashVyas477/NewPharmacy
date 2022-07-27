@@ -178,7 +178,7 @@ const PrescriptionImageScreen = props => {
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <Text style={styles.modalText}>Choose option: </Text>
+                                <Text style={styles.modalText}>{t('common:Chooseoption')} </Text>
                                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                     <View style={{ margin: 5 }}>
                                         <TouchableOpacity onPress={takeFromCamera}>
@@ -186,10 +186,10 @@ const PrescriptionImageScreen = props => {
                                         </TouchableOpacity>
                                         <View style={{ marginTop: 5 }}>
                                             <Text style={{ textAlign: 'center' }} >
-                                                Capture new photo
+                                                {t('common:Capturenewphoto')}
                                             </Text>
                                             <Text style={{ textAlign: 'center' }}>
-                                                of prescription
+                                                {t('common:ofprescription')}
                                             </Text>
                                         </View>
                                     </View>
@@ -199,10 +199,10 @@ const PrescriptionImageScreen = props => {
                                         </TouchableOpacity>
                                         <View style={{ marginTop: 5 }}>
                                             <Text style={{ textAlign: 'center' }}>
-                                                Upload
+                                               {t('common:Upload')}
                                             </Text>
                                             <Text style={{ textAlign: 'center' }}>
-                                                prescription
+                                                {t('common:prescription')}
                                             </Text>
                                         </View>
                                     </View>
@@ -212,7 +212,7 @@ const PrescriptionImageScreen = props => {
                                     style={[styles.buttonModal, styles.buttonClose]}
                                     onPress={() => { setModalVisible(false) }}
                                 >
-                                    <Text style={styles.textStyle}>Close</Text>
+                                    <Text style={styles.textStyle}>{t('common:Close')}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

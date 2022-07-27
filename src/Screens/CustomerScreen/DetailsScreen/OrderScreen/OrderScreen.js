@@ -15,10 +15,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { retrievePaymentIntent, StripeProvider, useStripe } from '@stripe/stripe-react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 // import * as CardAction from '../../../../Store/Actions/CardAction'
 
 
 const OrderScreen = props => {
+
+    const {t}= useTranslation()
 
 
     useEffect(() => {
@@ -115,7 +118,7 @@ if(!getPayment.success) return Alert.alert(error.message);
 setIsLoading(false)
 const clientSecret= getPayment.data.data.payment_intent
 const EphemeralKeySecret= getPayment.data.data.ephemeral_key
-const Displayname=   'Pradip'
+const Displayname=   'Mobile Pharmacy'
 const customersId= getPayment.data.data.customer_id
 
 // const clientSecret= "pi_3LNrJqSJ7crToGEY0lZvOc5Q_secret_Rm50QtBER4DvtVLE0EX6UiGge"
@@ -206,7 +209,7 @@ catch(error){
                 <View style={styles.screen1} >
                     <View style={styles.header_sty}>
                         <Header
-                            Title="PAYMENT DETAILS"
+                            Title={t('common:PAYMENTDETAILS')}
                             onPress={() => (props.navigation.goBack())}
                         />
                     </View>
@@ -215,13 +218,13 @@ catch(error){
                     <View style={styles.screen1}>
                         <View style={{ padding: 10, paddingLeft: 10 }}>
                             <Text>
-                                Select Payment Mode
+                                {t('common:SelectPaymentMode')}
                             </Text>
                         </View>
                         <View style={{ flexDirection: 'row', padding: 20 }}>
                             <View style={{ width: "50%", }}>
                                 <RadioButton
-                                    label="Cash on Delivery"
+                                    label={t("common:CashonDelivery")}
                                     onPress={() => {
                                         setPaymentType(1)
                                         setState('cash')
@@ -233,7 +236,7 @@ catch(error){
                             </View>
                             <View style={{ width: "50%" }}>
                                 <RadioButton
-                                    label="Online"
+                                    label={t("common:Online")}
                                     onPress={() => {
                                         setPaymentType(0)
                                         setState('card')
@@ -250,7 +253,7 @@ catch(error){
                             <View style={styles.cod}>
 
                                 <Text style={styles.codText}>
-                                    Cash on Delivery
+                                    {t('common:CashonDelivery')}
                                 </Text>
                             </View>
                         </View>
@@ -258,7 +261,7 @@ catch(error){
                         : <View>
                             <View style={{ flexDirection: 'row', paddingLeft: 30, marginBottom: 10, alignContent: 'center', alignItems: 'center' }}>
                                 <Text>
-                                    Add New card
+                                    {t('common:AddNewcard')}
                                 </Text>
                                 <TouchableOpacity onPress={() => { props.navigation.navigate('AddCard') }}>
                                     <Image source={Images.AddIcon} style={{ height: 30, width: 30 }} />
@@ -300,11 +303,11 @@ catch(error){
 
                     <View style={styles.screen1}>
                         <Text style={{ padding: 10, }}>
-                            Select option for Checkout
+                            {t('common:SelectoptionforCheckout')}
                         </Text>
                         <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={{ color: Colors.Sp_Text }}>
-                                Pay and Collect from store
+                                {t('common:PayandCollectfromstore')}
                             </Text>
                             <CheckButton
                                 onPress={() => { setcheckOutType(0) }}
@@ -313,21 +316,21 @@ catch(error){
                         </View>
                         <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={{ color: Colors.Sp_Text }}>
-                                Book and collect from store
+                                {t('common:Bookandcollectfromstore')}
                             </Text>
                             <CheckButton onPress={() => { setcheckOutType(1) }}
                                 state={checkOutType === 1} />
                         </View>
                         <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={{ color: Colors.Sp_Text }}>
-                                Pay and get Delivery
+                                {t('common:PayandgetDelivery')}
                             </Text>
                             <CheckButton onPress={() => { setcheckOutType(2) }}
                                 state={checkOutType === 2} />
                         </View>
                         <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={{ color: Colors.Sp_Text }}>
-                                Get delivery and do cash on delivery
+                                {t('common:Getdeliveryanddocashondelivery')}
                             </Text>
                             <CheckButton onPress={() => { setcheckOutType(3) }}
                                 state={checkOutType === 3} />
@@ -343,7 +346,7 @@ catch(error){
                             {selectedQuotes.store_name.toUpperCase()}
                         </Text>
                         <Text style={{ color: Colors.Sp_Text, padding: 10 }}>
-                            Bill Details
+                            {t('common:BillDetails')}
                         </Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10 }}>
                             <Text style={styles.Text}>
@@ -353,7 +356,7 @@ catch(error){
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10 }}>
                             <Text style={styles.Text2} >
-                                Delivery Charge
+                                {t('common:DeliveryCharge')}
                             </Text>
                             <Text style={styles.Text2}>$ {Deliverycharge.toFixed(2)}</Text>
                         </View>
@@ -362,7 +365,7 @@ catch(error){
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
                             <Text style={styles.Text1} >
-                                Total
+                                {t('common:Total')}
                             </Text>
                             <Text style={styles.Text1}>$ {(parseFloat(selectedQuotes.price) + parseFloat(Deliverycharge)).toFixed(2)}</Text>
                         </View>
@@ -376,7 +379,7 @@ catch(error){
                         <View style={{ marginBottom: 20 }}>
                             <Button
                                 showActivityIndicator={isLoading}
-                                label="PAYMENT"
+                                label={t("common:PAYMENT")}
                                 onPress={onPressPayment}
                             // onPress={()=>{props.navigation.navigate('CheckoutScreen')}}
                             />

@@ -59,12 +59,12 @@ const CustomerProfileScreen = props =>{
             </Text>
             <TouchableOpacity   onPress={() =>
                                 Alert.alert(
-                                  'Log out',
-                                  'Do you want to logout?',
+                                    `${t('common:Logout')}`,
+                                    `${t('common:Doyouwanttologout')}`,
                                   [
-                                    { text: 'Cancel', onPress: () => { return null } },
+                                    { text: `${t('common:Cancel')}`, onPress: () => { return null } },
                                     {
-                                      text: 'Confirm', onPress: () => {
+                                      text: `${t('common:Confirm')}`, onPress: () => {
                                         AsyncStorage.clear();
                                         props.navigation.navigate('Auth')
                                       }

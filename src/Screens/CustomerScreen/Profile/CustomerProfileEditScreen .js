@@ -181,24 +181,24 @@ const CustomerProfileEditScreen = props => {
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <Text style={styles.modalText}>Choose option: </Text>
+                                <Text style={styles.modalText}>{t('common:Chooseoption')} </Text>
                                 <TouchableOpacity
                                     style={[styles.buttonModal, styles.buttonClose]}
                                     onPress={pickFromGallery}
                                 >
-                                    <Text style={styles.textStyle}>Choose from gallery</Text>
+                                    <Text style={styles.textStyle}>{t('common:Choosefromgallery')}</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={[styles.buttonModal, styles.buttonClose]}
                                     onPress={takeFromCamera}
                                 >
-                                    <Text style={styles.textStyle}>Use Camera</Text>
+                                    <Text style={styles.textStyle}>{t('common:UseCamera')}</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={[styles.buttonModal, styles.buttonClose]}
                                     onPress={() => { setModalVisible(false) }}
                                 >
-                                    <Text style={styles.textStyle}>Close</Text>
+                                    <Text style={styles.textStyle}>{t('common:Close')}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -253,7 +253,7 @@ const CustomerProfileEditScreen = props => {
                                     onChangeText={handleChange('email')}
                                     placeholderTextColor={Colors.placeHolder}
                                     color={Colors.Sp_Text}
-                                    placeholder={('common:Enteremail')}
+                                    placeholder={t('common:Enteremail')}
                                     style={styles.textInput}
                                     autoCapitalize="none"
                                 />
@@ -278,7 +278,7 @@ const CustomerProfileEditScreen = props => {
                                             placeholderTextColor={Colors.placeHolder}
                                             color={Colors.Sp_Text}
                                             onChangeText={handleChange('phone')}
-                                            placeholder="Phone Number "
+                                            placeholder={t('common:PhoneNumber')}
                                         />
                                     </View>
 
@@ -324,7 +324,7 @@ const CustomerProfileEditScreen = props => {
                                             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 8 }}>
                                                     <RadioButton
                                                    value={values.gender}
-                                                        label="Male"
+                                                        label={t("common:Male")}
                                                         onPress={maleHandler}
                                                         state={gender === 'MALE'}
                                                         
@@ -332,7 +332,7 @@ const CustomerProfileEditScreen = props => {
                                                 <View style={{ marginLeft: 125 }}>
                                                     <RadioButton
                                                   value={values.gender}
-                                                        label="Female"
+                                                        label={t("common:Female")}
                                                         onPress={femaleHandler}
                                                         state={gender === 'FEMALE'}
                                                       

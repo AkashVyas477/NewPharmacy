@@ -10,10 +10,12 @@ import MedicinesImages from '../../../../Components/Common/MedicinesImages'
 import moment from 'moment';
 
 import Toast from 'react-native-simple-toast'
+import { useTranslation } from 'react-i18next';
 
 
 
 const Addquotes = (props) => {
+    const {t}=useTranslation()
 
     // useEffect(() => {
     //     const update = props.navigation.addListener('focus', () => {
@@ -57,7 +59,7 @@ const Addquotes = (props) => {
         <View style={styles.screen} > 
             <View  style={styles.header_sty}>
                 <Header
-                Title="DETAILS"
+                Title={t('common:DETAILS')}
                 onPress={() => props.navigation.goBack()}
                 />
            </View>
@@ -110,7 +112,7 @@ const Addquotes = (props) => {
 {/*Text Note By Customer  */}
                     <View style={styles.card}>
                         <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
-                            Text Note By Customer
+                            {t('common:TextNoteByCustomer')}
                         </Text>
                         <Text style={{ textAlign: 'auto', padding: 10 }}>{userRequest.text_note}</Text>
                     </View>
@@ -118,7 +120,7 @@ const Addquotes = (props) => {
                     <View style={styles.card}>
                         <View>
                         <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
-                            List Of Medicines
+                            {t('common:ListOfMedicines')}
                             </Text>
                             {userRequest.medicine_list.map(item => {
                                 return (
@@ -137,7 +139,7 @@ const Addquotes = (props) => {
                                 <Image source={Images.GreenAdd} style={{height:20,width:20}} />
                             
                         <Text style={{ padding:5,alignItems: 'center', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 20 }}>
-                            Add Quotes Here
+                            {t('common:AddQuotesHere')}
                         </Text>
                         </TouchableOpacity>
                        
@@ -167,9 +169,9 @@ const Addquotes = (props) => {
                  {/* Price And Note */}
                         <View  style={{}}>
                         <View style={{  marginTop: 10,}}>
-                            <Text>Price </Text>
+                            <Text>{t('common:Price')} </Text>
                             <TextInput
-                            placeholder=' Price'
+                            placeholder={t('common:Price')}
                             keyboardType='number-pad'
                             style={{borderWidth:1, width:"100%"}}
                             onChangeText={(e) => { setPriceing(e) }}
@@ -178,9 +180,9 @@ const Addquotes = (props) => {
                         </View>
 
                         <View style={{  marginTop: 10,}}>
-                            <Text >Note </Text>
+                            <Text >{t('common:Note')}</Text>
                             <TextInput
-                            placeholder='Notes for Customer '
+                            placeholder={t('common:NotesforCustomer')} 
                             multiline
                             style={{borderWidth:1, width:"100%"}}
                             onChangeText={(e) => { setNote(e) }}
@@ -199,7 +201,7 @@ const Addquotes = (props) => {
                             onPress={onpressSubmit}
                             // onPress={() => {console.log(priceing, notes);}}
                              >
-                        {submitLoader ? <ActivityIndicator size={'small'} color={Colors.White} /> : <Text style={styles.textStyle}>Submit</Text>}
+                        {submitLoader ? <ActivityIndicator size={'small'} color={Colors.White} /> : <Text style={styles.textStyle}>{t('common:Submit')}</Text>}
                         </TouchableOpacity>
 
 
@@ -207,7 +209,7 @@ const Addquotes = (props) => {
                             style={[styles.buttonModal, styles.buttonClose]}
                             onPress={() => { setModalVisible(false) }}
                         >
-                            <Text style={styles.textStyle}>Close</Text>
+                            <Text style={styles.textStyle}>{t('common:Close')}</Text>
                         </TouchableOpacity>
                         </View>
 {/* Submit & close  Button  */}

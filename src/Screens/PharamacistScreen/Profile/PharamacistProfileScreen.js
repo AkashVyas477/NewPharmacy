@@ -12,9 +12,11 @@ import { getPreLogin } from '../../../Components/Helpers/ApiHelper';
 
 import { useDispatch, useSelector } from 'react-redux';
 import Toast from 'react-native-simple-toast'
+import { useTranslation } from 'react-i18next';
 
 
 const PharamcistProfileScreen = props =>{
+    const {t}= useTranslation()
 
     const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(false)
@@ -56,16 +58,16 @@ const PharamcistProfileScreen = props =>{
             </TouchableOpacity>
             {/* <View style={{}}> */}
             <Text  style={styles.headerText}>
-            PROFILE
+            {t('common:PROFILE')}
             </Text>
             <TouchableOpacity   onPress={() =>
                                 Alert.alert(
-                                  'Log out',
-                                  'Do you want to logout?',
+                                    `${t('common:Logout')}`,
+                                    `${t('common:Doyouwanttologout')}`,
                                   [
-                                    { text: 'Cancel', onPress: () => { return null } },
+                                    { text:`${t('common:Cancel')}`, onPress: () => { return null } },
                                     {
-                                      text: 'Confirm', onPress: () => {
+                                      text: `${t('common:Confirm')}`, onPress: () => {
                                         AsyncStorage.clear();
                                         props.navigation.navigate('Auth')
                                       }
@@ -93,7 +95,7 @@ const PharamcistProfileScreen = props =>{
 {/* User Name */}
                 <View>
                     <Text style={{paddingHorizontal:5, marginLeft:20, fontSize:17}}> 
-                        Username
+                    {t('common:Username')}
                     </Text>
                     <View >
                     <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor,marginTop:10}}>
@@ -106,7 +108,7 @@ const PharamcistProfileScreen = props =>{
 {/* Email */}
                 <View >
                     <Text style={{ paddingTop:15,paddingHorizontal:5, marginLeft:20, fontSize:17}}> 
-                        Email Id
+                    {t('common:EmailId')}
                     </Text>
                     <View >
                     <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor,marginTop:10}}>
@@ -120,7 +122,7 @@ const PharamcistProfileScreen = props =>{
 {/* Store name  */}
                     <View >
                     <Text style={{ paddingTop:15,paddingHorizontal:5, marginLeft:20, fontSize:17}}> 
-                       Store name
+                       {t('common:Storename')}
                     </Text>
                     <View >
                     <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor,marginTop:10}}>
@@ -133,7 +135,7 @@ const PharamcistProfileScreen = props =>{
 {/* Pharmacy Id */}
                     <View >
                     <Text style={{ paddingTop:15,paddingHorizontal:5, marginLeft:20, fontSize:17}}> 
-                    Pharmacy Id
+                    {t('common:PharmacyId')}
                     </Text>
                     <View >
                     <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor,marginTop:10}}>
@@ -146,7 +148,7 @@ const PharamcistProfileScreen = props =>{
 {/* License Id */}
                     <View >
                     <Text style={{ paddingTop:15,paddingHorizontal:5, marginLeft:20, fontSize:17}}> 
-                    License Id
+                    {t('common:LicenseId')}
                     </Text>
                     <View >
                     <View style={{paddingHorizontal:1, marginLeft:20,marginRight:20, fontSize:17,borderBottomWidth:1, borderColor:Colors.borderBottomColor,marginTop:10}}>
@@ -159,7 +161,7 @@ const PharamcistProfileScreen = props =>{
 {/* Phone Number */}
                 <View >
                     <Text style={{ paddingTop: 15, paddingHorizontal: 5, marginLeft: 20, fontSize: 17 }}>
-                        Phone Number
+                    {t('common:PhoneNumber')}
                     </Text>
                     <View >
                         <View style={{ paddingHorizontal: 1, marginLeft: 20, marginRight: 20, fontSize: 17, borderBottomWidth: 1, borderColor: Colors.borderBottomColor, marginTop: 10 }}>
@@ -173,7 +175,7 @@ const PharamcistProfileScreen = props =>{
 {/* Gender */}
                 <View >
                     <Text style={{ paddingTop: 15, paddingHorizontal: 5, marginLeft: 20, fontSize: 17 }}>
-                        Gender
+                    {t('common:Gender')}
                     </Text>
                     <View >
                         <View style={{ paddingHorizontal: 1, marginLeft: 20, marginRight: 20, fontSize: 17, borderBottomWidth: 1, borderColor: Colors.borderBottomColor, marginTop: 10 }}>
@@ -188,14 +190,14 @@ const PharamcistProfileScreen = props =>{
                 <View style={{ marginTop: 20 }}>
                     <Button
                         onPress={()=> props.navigation.navigate('PharamEdit_Profile',{user})}
-                        label="Edit Profile"
+                        label={t('common:EditProfile')}
                     />
                 </View>
 {/* Change Password Button  */}
                         <View style={{marginTop:10}}>
                             <Button
                             onPress ={()=> props.navigation.navigate('PharamChangePassword')} 
-                            label="Change Password"
+                            label={t('common:ChangePassword')}
                             />
                             </View>
 {/* Logout Button  */}

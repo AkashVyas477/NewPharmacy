@@ -17,10 +17,12 @@ import {
   Switch
 } from 'react-native-paper';
 import { Images, Colors } from '../../CommonConfig';
+import { useTranslation } from 'react-i18next';
 
 
 
 const DrawerContent = (props) => {
+  const {t}=useTranslation()
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
@@ -76,7 +78,7 @@ const DrawerContent = (props) => {
                   style={{ height: 30, width: 30 }}
                 />
               )}
-              label="Home"
+              label={t("navigate:Home")}
               onPress={() => { props.navigation.navigate('PharamaHome') }}
             />
           </Drawer.Section>
@@ -88,7 +90,7 @@ const DrawerContent = (props) => {
                   style={{ height: 38, width: 28 }}
                 />
               )}
-              label="Manage Address"
+              label={t("navigate:ManageAddress")}
             // onPress={()=>{props.navigation.navigate('LocationScreen')}}
             />
           </Drawer.Section>
@@ -99,8 +101,8 @@ const DrawerContent = (props) => {
                   style={{ height: 30, width: 30 }}
                 />
               )}
-              label="Language"
-            // onPress={() => {props.navigation.navigate('LanguageScreen') }}
+              label={t("navigate:Language")}
+            onPress={() => {props.navigation.navigate('LanguageScreen') }}
             />
 
           </Drawer.Section>
@@ -112,7 +114,7 @@ const DrawerContent = (props) => {
                   style={{ height: 30, width: 30 }}
                 />
               )}
-              label="Terms and Conditions"
+              label={t('navigate:TermsandConditions')}
             // onPress={() => {props.navigation.navigate('LanguageScreen') }}
             />
 
@@ -125,7 +127,7 @@ const DrawerContent = (props) => {
                   style={{ height: 35, width: 30 }}
                 />
               )}
-              label="Privacy Policy"
+              label={t('navigate:PrivacyPolicy')}
             // onPress={() => {props.navigation.navigate('LanguageScreen') }}
             />
 
@@ -138,7 +140,7 @@ const DrawerContent = (props) => {
                   style={{ height: 30, width: 30 }}
                 />
               )}
-              label="About us"
+              label={t('navigate:Aboutus')}
             // onPress={() => {props.navigation.navigate('LanguageScreen') }}
             />
 
@@ -151,15 +153,15 @@ const DrawerContent = (props) => {
                   style={{ height: 32, width: 30 }}
                 />
               )}
-              label="Log Out"
+              label={t('navigate:LogOut')}
               onPress={() =>
                 Alert.alert(
-                  'Log out',
-                  'Do you want to logout?',
+                  `${t('common:Logout')}`,
+                  `${t('common:Doyouwanttologout')}`,
                   [
-                    { text: 'Cancel', onPress: () => { return null } },
+                    { text: `${t('common:Cancel')}`, onPress: () => { return null } },
                     {
-                      text: 'Confirm', onPress: () => {
+                      text: `${t('common:Confirm')}`, onPress: () => {
                         AsyncStorage.clear();
                         props.navigation.navigate('Auth')
                       }

@@ -15,7 +15,8 @@ import LoginScreen from '../AuthScreen/LoginScreen'
 
 //Screens from Customer 
 // import LanguageScreen from '../LanguageScreen';
-import LanguageScreen from '../CustomerScreen/LanguageScreen'
+// import LanguageScreen from '../LanguageScreen'
+import LanguageScreen from '../LanguageScreen';
 
 // Screens from Home in Customer 
 import HomeScreen from '../CustomerScreen/Home/HomeScreen';
@@ -121,7 +122,7 @@ const HomeStackScreen = props => {
             <HomeStack.Screen name='PastPrescriptionScreen_Data' component={PastPrescriptionScreen} />
             <HomeStack.Screen name ='Preview'component={Preview}/>
             <HomeStack.Screen name ='PharamaciesImagePreview'component={PharamaciesImagePreview}/>
-            <HomeStack.Screen name = 'LanguageScreen' component={LanguageScreen}/>
+            {/* <HomeStack.Screen name = 'LanguageScreen' component={LanguageScreen}/> */}
             {/* <HomeStack.Screen name='OrderScreen' component={OrderScreen}/> */}
             {/* <HomeStack.Screen name ='Edit_Profile'component={CustomerProfileEditScreen}/> */}
         </HomeStack.Navigator>
@@ -140,7 +141,7 @@ const PrescriptionStackScreen = props => {
             <PrescriptionStack.Screen name='Preview' component={Preview} />
             <PrescriptionStack.Screen name='PharamaciesImagePreview' component={PharamaciesImagePreview} />
             <PrescriptionStack.Screen name='OrderScreen' component={OrderScreen} />
-            <PrescriptionStack.Screen name= 'LanguageScreen' component={LanguageScreen}/>
+            {/* <PrescriptionStack.Screen name= 'LanguageScreen' component={LanguageScreen}/> */}
             {/* <PrescriptionStack.Screen name='CheckoutScreen' component={CheckoutScreen} /> */}
             <PrescriptionStack.Screen name='AddCard' component={AddCard}/>
         </PrescriptionStack.Navigator>

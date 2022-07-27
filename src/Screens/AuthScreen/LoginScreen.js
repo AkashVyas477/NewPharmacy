@@ -9,7 +9,8 @@ import {
     TouchableOpacity,
     ScrollView,
     Alert,
-    StatusBar
+    StatusBar,
+    I18nManager
 } from 'react-native';
 import { Images, Colors, Constants } from '../../CommonConfig';
 import CheckBox from '../../Components/Common/CheckBox'
@@ -28,10 +29,12 @@ import LoginValidationSchema from '../../ForValidationSchema/LoginValidationSche
 
 import { Formik } from 'formik'
 import { CommonActions } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 
 
 const LoginScreen = (props) => {
+    const {t}= useTranslation()
     let deviceToken;
     useEffect(() => {
         // Get the device token
@@ -50,6 +53,7 @@ const LoginScreen = (props) => {
 
     //    const role = props.route.params.role
     const onPressLogin = async (values) => {
+       
         setIsLoading(true);
         const data = {
             email: values.email.toLowerCase(),
@@ -203,7 +207,7 @@ const LoginScreen = (props) => {
                         <View >
                             {/* Inputs */}
                             <View>
-                                <Text style={styles.text} >E-mail</Text>
+                                <Text style={styles.text} >{t('auth:Email')}</Text>
                                 <View style={{ borderBottomColor: '#e8e8e8', borderBottomWidth: 1, }} >
                                     <TextInput
                                         value={values.email}
@@ -212,7 +216,7 @@ const LoginScreen = (props) => {
                                         color={Colors.Sp_Text}
                                         onBlur={() => setFieldTouched('email')}
                                         onChangeText={handleChange('email')}
-                                        placeholder="E-mail"
+                                        placeholder={t('auth:Email')}
                                         keyboardType='email-address'
                                         autoCapitalize='none'
 
@@ -224,14 +228,14 @@ const LoginScreen = (props) => {
                             </View>
 
                             <View style={{ padding: 1, paddingHorizontal: 2 }} >
-                                <Text style={styles.text}  >Password</Text>
-                                <View style={styles.password_sty}>
+                                <Text style={styles.text}  >{t('auth:Password')}</Text>
+                                <View style={{...styles.password_sty}}>
                                     <TextInput
                                         value={values.password}
                                         placeholderTextColor={Colors.placeHolder}
                                         color={Colors.Sp_Text}
                                         style={styles.customCss}
-                                        placeholder="Password"
+                                        placeholder={t("auth:Password")}
                                         onBlur={() => setFieldTouched('password')}
                                         onChangeText={handleChange('password')}
                                         secureTextEntry={tnceye ? false : true}
@@ -312,7 +316,19 @@ const LoginScreen = (props) => {
                                             <Text style={styles.signup} > Don't have Account ? <Text style={styles.sp_signup}>Sign up </Text>   </Text>
                                         </View>
                                     </TouchableOpacity>
+
                                     {/* Sing Up start */}
+                                </View>
+
+                                <View >
+                                    {/* Language  */}
+                                    <TouchableOpacity onPress={() => { props.navigation.navigate('LanguageScreen') }} >
+                                        <View style={styles.Language_sty}>
+                                            <Text style={styles.signup} > Selecet Your Language  </Text><Image source={Images.Language} style={{height:20,width:20}}/>
+                                        </View>
+                                    </TouchableOpacity>
+                                    
+                                    {/* Language */}
                                 </View>
                             </View>
                             {/* Inputs */}
@@ -400,6 +416,7 @@ const styles = StyleSheet.create({
     },
     password_sty: {
         flexDirection: 'row',
+        
         justifyContent: 'space-between',
         alignItems: 'center',
         borderBottomColor: Colors.borderBottomColor,
@@ -459,6 +476,12 @@ const styles = StyleSheet.create({
 
     },
     signup_sty: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 15
+    },
+    Language_sty: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',

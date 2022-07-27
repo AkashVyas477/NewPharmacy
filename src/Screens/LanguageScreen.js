@@ -1,7 +1,8 @@
 import React from 'react';
 import {View, Text , StyleSheet} from 'react-native';
-import Selector from '../../Components/Common/LanguageSelector';
-import Header from '../../Components/Common/Header'
+// import Selector from './Components/Common/LanguageSelector';
+import Selector  from '../Components/Common/LanguageSelector'
+import Header from '../Components/Common/Header'
 import { useTranslation } from 'react-i18next';
 
 const LanguageScreen = props =>{

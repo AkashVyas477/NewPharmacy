@@ -114,11 +114,12 @@ const DrawerContent = (props) => {
                 label={t('navigate:LogOut')}
                 onPress={()=>
                     Alert.alert(
-                      'Log out',
-                      'Do you want to logout?',
+                      `${t('common:Logout')}`,
+                      `${t('common:Doyouwanttologout')}`,
+                      // 'Do you want to logout?',
                       [
-                        {text: 'Cancel', onPress: () => {return null}},
-                        {text: 'Confirm', onPress: () => {
+                        {text: `${t('common:Cancel')}`, onPress: () => {return null}},
+                        {text: `${t('common:Confirm')}`, onPress: () => {
                           AsyncStorage.clear();
                           props.navigation.navigate('Auth')
                         }},

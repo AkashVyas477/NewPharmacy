@@ -3,7 +3,7 @@ import {View ,Text, StyleSheet,TouchableOpacity} from 'react-native';
 import { useTranslation } from 'react-i18next';
 const LANGUAGES = [
     { code: 'en', label: 'English' },
-    { code: 'fr', label: 'Français' },
+    // { code: 'fr', label: 'Français' },
     {code:  'ar', label:'Arabic'}
   ];
   
@@ -31,9 +31,7 @@ const LANGUAGES = [
               disabled={selectedLanguage}
               onPress={() => setLanguage(language.code)}
             >
-              <Text
-                style={[selectedLanguage ? styles.selectedText : styles.text]}
-              >
+              <Text style={[selectedLanguage ? styles.selectedText : styles.text]}>
                 {language.label}
               </Text>
             </TouchableOpacity>

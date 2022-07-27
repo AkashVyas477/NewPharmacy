@@ -9,6 +9,7 @@ import AuthStackScreen from '../Screens/AuthScreen/AuthStackscreen';
 import SplashScreen from '../Screens/SplashScreen'
 import DrawerNavigator from '../Screens/CustomerScreen/CustomerRoute';
 import PharamaDrawerNavigator from '../Screens/PharamacistScreen/PharamcistRoute';
+import LanguageScreen from '../Screens/LanguageScreen';
 
 
 
@@ -25,6 +26,8 @@ const AppNavigator = props => {
                 <AppStack.Screen name ='CustomerDrawer' component={DrawerNavigator}/> 
                  {/* PharamaDrawerNavigator = PharamacistDrawer  */}
                 <AppStack.Screen name='PharamacistDrawer' component={PharamaDrawerNavigator}/>
+                <AppStack.Screen name = 'LanguageScreen' component={LanguageScreen}/>
+
 
 
             </AppStack.Navigator>

@@ -7,9 +7,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import moment from 'moment';
 import { getParams } from '../../../Components/Helpers/ApiHelper';
+import { useTranslation } from 'react-i18next';
 
 
 const PharamaHomeScreen = props => {
+
+    const {t}= useTranslation()
     const [user, setUser] = useState({});
     const [length, setLength] = useState(0)
     const [prescriptionList, setPrescriptionList] = useState([])
@@ -119,12 +122,12 @@ const PharamaHomeScreen = props => {
                             :
                             length === 0 ?
                                 <View>
-                                    <Text>No Prescription found</Text>
+                                    <Text>{t('common:NoPrescriptionfound')}</Text>
                                 </View>
                                 :
                                 <View>
                                     <Text style={{ color: '#717D7E', fontSize: 17, padding: 10, textAlign: 'center' }}>
-                                        Prescription List
+                                        {t('common:PrescriptionList')}
                                     </Text>
                                     <FlatList
                                         // padding={30}
@@ -216,7 +219,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         margin: 10,
         justifyContent: 'center',
-        // width: "80%"
+        width: Dimensions.get('screen').width *0.9
     },
     Card_Sty: {
         // flexDirection: 'row',

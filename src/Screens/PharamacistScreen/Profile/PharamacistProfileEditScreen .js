@@ -22,9 +22,12 @@ import Ionicon from 'react-native-vector-icons';
 
 import PropTypes from 'prop-types';
 import from from 'react-native-country-codes-picker';
+import { useTranslation } from 'react-i18next';
 
 
 const PharamcistProfileEditScreen = props => {
+
+    const {t}=useTranslation()
 
     const makeid = (length) => {
         var result = '';
@@ -167,7 +170,7 @@ console.log("    userINfo     ", user);
                 {/* Header */}
                 <View style={styles.header}>
                     <Header
-                        Title="EDIT PROFILE "
+                        Title={t('common:EDITPROFILE')} 
                         onPress={() => props.navigation.goBack()}
                     />
                 </View>
@@ -191,24 +194,24 @@ console.log("    userINfo     ", user);
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <Text style={styles.modalText}>Choose option: </Text>
+                                <Text style={styles.modalText}>{t('common:Chooseoption')}</Text>
                                 <TouchableOpacity
                                     style={[styles.buttonModal, styles.buttonClose]}
                                     onPress={pickFromGallery}
                                 >
-                                    <Text style={styles.textStyle}>Choose from gallery</Text>
+                                    <Text style={styles.textStyle}>{t('common:Choosefromgallery')}</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={[styles.buttonModal, styles.buttonClose]}
                                     onPress={takeFromCamera}
                                 >
-                                    <Text style={styles.textStyle}>Use Camera</Text>
+                                    <Text style={styles.textStyle}>{t('common:UseCamera')}</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={[styles.buttonModal, styles.buttonClose]}
                                     onPress={() => { setModalVisible(false) }}
                                 >
-                                    <Text style={styles.textStyle}>Close</Text>
+                                    <Text style={styles.textStyle}>{t('common:Close')}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -248,21 +251,21 @@ console.log("    userINfo     ", user);
                     {({ values, handleChange, isValid, handleSubmit, setFieldTouched }) => (
                         <View style={{ paddingHorizontal: 5, marginLeft: 10, marginRight: 10, fontSize: 17 }} >
 {/* UserName */}
-                            <Text style={styles.text_footer}>Username</Text>
+                            <Text style={styles.text_footer}>{t('common:Username')}</Text>
                             <View style={styles.action}>
                                 {/* <FontAwesome name="user" color={Colors.ORANGE} size={25}/> */}
                                 <TextInput
                                     value={values.name}
                                     onBlur={() => setFieldTouched('name')}
                                     onChangeText={handleChange('name')}
-                                    placeholder="Enter username"
+                                    placeholder={t('common:Enterusername')}
                                     placeholderTextColor={Colors.placeHolder}
                                     color={Colors.Sp_Text}
                                     style={styles.textInput}
                                 />
                             </View>
 {/* Email */}
-                            <Text style={{ ...styles.text_footer, marginTop: 15 }}>Email</Text>
+                            <Text style={{ ...styles.text_footer, marginTop: 15 }}>{t('common:Email')}</Text>
                             <View style={styles.action}>
                                 {/* <FontAwesome name="envelope" color={Colors.ORANGE} size={25}/> */}
                                 <TextInput
@@ -271,13 +274,13 @@ console.log("    userINfo     ", user);
                                     onChangeText={handleChange('email')}
                                     placeholderTextColor={Colors.placeHolder}
                                     color={Colors.Sp_Text}
-                                    placeholder="Enter email"
+                                    placeholder={t('common:Enteremail')}
                                     style={styles.textInput}
                                     autoCapitalize="none"
                                 />
                             </View>
 {/* Store name */}
-<Text style={{ ...styles.text_footer, marginTop: 15 }}>Store_name</Text>
+<Text style={{ ...styles.text_footer, marginTop: 15 }}> {t('common:Storename')}</Text>
                             <View style={styles.action}>
                                 {/* <FontAwesome name="envelope" color={Colors.ORANGE} size={25}/> */}
                                 <TextInput
@@ -286,13 +289,13 @@ console.log("    userINfo     ", user);
                                     onChangeText={handleChange('store_name')}
                                     placeholderTextColor={Colors.placeHolder}
                                     color={Colors.Sp_Text}
-                                    placeholder="Store_name"
+                                    placeholder= {t('common:Storename')}
                                     style={styles.textInput}
                                     autoCapitalize="none"
                                 />
                             </View>     
 {/* Pharmacy Id */}
-<Text style={{ ...styles.text_footer, marginTop: 15 }}>Pharmacy Id</Text>
+<Text style={{ ...styles.text_footer, marginTop: 15 }}>{t('common:PharmacyId')}</Text>
                             <View style={styles.action}>
                                 {/* <FontAwesome name="envelope" color={Colors.ORANGE} size={25}/> */}
                                 <TextInput
@@ -301,13 +304,13 @@ console.log("    userINfo     ", user);
                                     onChangeText={handleChange('pharmacy_id')}
                                     placeholderTextColor={Colors.placeHolder}
                                     color={Colors.Sp_Text}
-                                    placeholder="Pharmacy_id"
+                                    placeholder={t('common:PharmacyId')}
                                     style={styles.textInput}
                                     autoCapitalize="none"
                                 />
                             </View>  
 {/* License Id */}
-<Text style={{ ...styles.text_footer, marginTop: 15 }}>License Id</Text>
+<Text style={{ ...styles.text_footer, marginTop: 15 }}> {t('common:LicenseId')}</Text>
                             <View style={styles.action}>
                                 {/* <FontAwesome name="envelope" color={Colors.ORANGE} size={25}/> */}
                                 <TextInput
@@ -316,7 +319,7 @@ console.log("    userINfo     ", user);
                                     onChangeText={handleChange('license_id')}
                                     placeholderTextColor={Colors.placeHolder}
                                     color={Colors.Sp_Text}
-                                    placeholder="License_id"
+                                    placeholder= {t('common:LicenseId')}
                                     style={styles.textInput}
                                     autoCapitalize="none"
                                 />
@@ -324,7 +327,7 @@ console.log("    userINfo     ", user);
 {/* PhoneNumber */}
                             <View>
                                 <View >
-                                    <Text style={{ ...styles.text_footer, marginTop: 15 }} >Phone Number</Text>
+                                    <Text style={{ ...styles.text_footer, marginTop: 15 }} >{t('common:PhoneNumber')}</Text>
                                     <View style={styles.action} >
                                         {/* <Ionicon name="call" color={Colors.PRIMARY} size={20} style={{ flex: 0.5 }} /> */}
                                         <Text style={{ marginLeft:10, flex: 0.5, fontWeight: 'bold' }}>{countryCode}</Text>
@@ -349,13 +352,13 @@ console.log("    userINfo     ", user);
 {/* Gender */}
                             <View>
                                 <Text style={{ ...styles.text_footer, marginTop: 15, paddingHorizontal: 5, }}>
-                                    Gender
+                                {t('common:Gender')}
                                 </Text>
                                     <View style={{ paddingHorizontal: 1,  fontSize: 17, borderBottomWidth: 1, borderColor: Colors.borderBottomColor }}>
                                             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 8 }}>
                                                     <RadioButton
                                                 //    value={values.gender}
-                                                        label="Male"
+                                                        label={t("common:Male")}
                                                         onPress={maleHandler}
                                                         state={gender === 'MALE'}
                                                         
@@ -364,7 +367,7 @@ console.log("    userINfo     ", user);
                                                 <View style={{ marginLeft: 125 }}>
                                                     <RadioButton
                                                 //   value={values.gender}
-                                                        label="Female"
+                                                        label={t("common:Female")}
                                                         onPress={femaleHandler}
                                                         state={gender === 'FEMALE'}
                                                       
@@ -377,7 +380,7 @@ console.log("    userINfo     ", user);
                             <View style={{ marginTop: 20 }}>
                             { isLoading ? <ActivityIndicator size={25} color={Colors.White}/> 
                             : <Button
-                                    label="Save"
+                                    label={t('common:Save')}
                                     onPress={() => { props.navigation.navigate('PharamaProfile') }}
                                     onPress={ handleSubmit } 
                                    disabled={isValid || !isLoading}

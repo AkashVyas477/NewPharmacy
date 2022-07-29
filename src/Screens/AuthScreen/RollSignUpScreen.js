@@ -1,5 +1,6 @@
 // import { FastField } from 'formik';
 import React,{useState} from 'react';
+import { useTranslation } from 'react-i18next';
 import {View, Text , StyleSheet, Image, TouchableOpacity ,StatusBar} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useDispatch } from 'react-redux';
@@ -9,6 +10,7 @@ import Button from '../../Components/Common/Button';
 import * as  registerAction from '../../Store/Actions/register'
 
 const RollSignupScreen = props =>{
+    const {t,i18n}=useTranslation()
 
     const dispatch= useDispatch();
     const [customer , setCustomer ] = useState(false);
@@ -35,14 +37,14 @@ const RollSignupScreen = props =>{
         <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
             {/* Title start */}
             <Text style={styles.text1} >
-           Who Are you 
+           {t('auth:WhoAreyou')} 
             </Text>
-            <View style={styles.TitleText} >
+            <View style={i18n.language === "ar" ? styles.TitleText_ar : styles.TitleText} >
             <Text  style={styles.text2}>
-                How do you want to use 
+            {t('auth:Howdoyouwanttouse')}
             </Text>
             <Text  style={styles.text3}  >
-            Mobile Pharmacy?
+            {t('auth:MobilePharmacy')}
             </Text>
             </View>
             {/* Title start */}
@@ -55,7 +57,7 @@ const RollSignupScreen = props =>{
                     <Image source={Images.CustomerActive}  style={styles.customerIcon2 } />}
                 </TouchableOpacity>
                 <Text style={styles.customerText} >
-                    Customer
+                    {t('auth:Customer')}
                 </Text>
                 </View>
 
@@ -65,7 +67,7 @@ const RollSignupScreen = props =>{
                     <Image source={Images.PharmistActive}  style={styles.pharmistIcon2  }  />}
                 </TouchableOpacity>
                 <Text style={styles.pharmistText} >
-                    Pharmacist
+                    {t('auth:Pharmacist')}
                 </Text>
                 </View>
 
@@ -94,7 +96,8 @@ const RollSignupScreen = props =>{
 
                             console.log(registerAction.setUserRole(customer?1:2));
                         }}
-                        label={customer ? "I'm Customer": "I'm Pharmacist"}    />
+                        label={customer ? `${t("auth:ImCustomer")}`: `${t("auth:ImPharmacist")}`}    />
+                        // `${t('common:ProfileUpdateSuccessfully')}`
                 : null}
                     </View> 
 
@@ -115,6 +118,11 @@ const  styles=StyleSheet. create({
         flex:1,
         padding:6,
     },
+    TitleText_ar:{
+        flexDirection:'row-reverse',
+        alignItems:'center',
+        padding:10},
+
     TitleText:{
         flexDirection:'row',
         alignItems:'center',

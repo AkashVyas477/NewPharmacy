@@ -59,16 +59,14 @@ const pharmacyuserscreen = props => {
                                 }
                         </View>
 
-                            <View style={{justifyContent:'space-between'}} >
-                                {/* Login button start */}
+                            {/* <View style={{justifyContent:'space-between'}} >
                                 <View >
                                     <Button 
                                     label="Verify now"
                                     onPress={handleSubmit}    
                                     />
                                 </View>
-                                {/* Login button end */}
-                            </View>
+                            </View> */}
                             </View>
                     )}
                 </Formik>
@@ -77,6 +75,16 @@ const pharmacyuserscreen = props => {
         </View>
     </View>
     </KeyboardAwareScrollView>
+
+            <View style={{ justifyContent: 'space-between' }} >
+                <View >
+                    <Button
+                        label="Verify now"
+                        onSubmit={() => { props.navigation.navigate('PharamacistDrawer', { screen: 'PharamaHome' }) }}
+                    />
+                </View>
+                {/* Login button end */}
+            </View>
     </View>
     );
 };

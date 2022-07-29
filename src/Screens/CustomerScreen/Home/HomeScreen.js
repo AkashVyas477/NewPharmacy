@@ -49,6 +49,7 @@ const HomeScreen = props =>{
    
     const getNearByPharmacy = async(latitude,longitude) => {
         const response = await getParams(`customer/getNearByPharmacy/v1?latitude=${latitude}&longitude=${longitude}`)
+        // console.log("response\n",response)
         if(response.success) {
             setLength(response.data.length)
             setPharmacyList(response.data.data)
@@ -63,7 +64,7 @@ const HomeScreen = props =>{
 
 // Rendering Data of Near By Pharmacy 
     const renderPharmacyList = data => {
-//   console.log("data             ",data)
+//   console.log("data    \n         ",data.item)
         return (
             <View style={styles.card}>
                  <TouchableOpacity onPress={() => {props.navigation.navigate('Pharamacies_Detail', {pharmacy:data.item,}) }}>

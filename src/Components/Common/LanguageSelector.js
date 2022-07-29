@@ -1,5 +1,5 @@
 import React from 'react'
-import {View ,Text, StyleSheet,TouchableOpacity} from 'react-native';
+import {View ,Text, StyleSheet,TouchableOpacity,I18nManager} from 'react-native';
 import { useTranslation } from 'react-i18next';
 const LANGUAGES = [
     { code: 'en', label: 'English' },
@@ -14,7 +14,7 @@ const LANGUAGES = [
     const setLanguage = code => {
      return i18n.changeLanguage(code);
     };
-  
+    
     return (
       <View style={styles.container}>
         <View style={styles.row}>
@@ -46,6 +46,7 @@ const LANGUAGES = [
       paddingTop: 60,
       paddingHorizontal: 16
     },
+
     row: {
       flexDirection: 'row',
       alignItems: 'center',

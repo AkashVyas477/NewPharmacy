@@ -1,4 +1,6 @@
+
 import * as yup from 'yup';
+
 const SignUpValidationSchema =yup.object().shape({
                             username: yup
                             .string()
@@ -6,7 +8,7 @@ const SignUpValidationSchema =yup.object().shape({
                         email: yup
                             .string()
                             .email()
-                            .required(),
+                            .required('Email is a required field'),
                         password: yup
                             .string()
                             .min(6, 'Password can not be less than 6 characters.')

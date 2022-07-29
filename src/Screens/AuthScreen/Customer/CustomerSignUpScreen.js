@@ -15,9 +15,12 @@ import Button from '../../../Components/Common/Button';
 import messaging from '@react-native-firebase/messaging';
 import * as registerAction from '../../../Store/Actions/register'
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 
 const CustomerSignupScreen = props => {
+
+    const {t, i18n}=useTranslation()
     const role = props.route.params.role
 
     const [tnc, setTnc] = useState(false);
@@ -84,7 +87,7 @@ const dispatch= useDispatch();
             {/* SignUp  */}
             <View style={styles.header}>
                 <Header 
-                Title= "SIGN UP"
+                Title= {t("auth:SIGNUP")}
                 onPress={() => props.navigation.goBack()}
                 />
             </View>
@@ -109,24 +112,24 @@ const dispatch= useDispatch();
                     >
                         <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Choose option: </Text>
+                            <Text style={styles.modalText}>{t('common:Chooseoption')} </Text>
                             <TouchableOpacity
                                 style={[styles.buttonModal, styles.buttonClose]}
                                 onPress={pickFromGallery}
                             >
-                            <Text style={styles.textStyle}>Choose from gallery</Text>
+                            <Text style={styles.textStyle}>{t('common:Choosefromgallery')}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.buttonModal, styles.buttonClose]}
                                 onPress={takeFromCamera}
                             >
-                            <Text style={styles.textStyle}>Use Camera</Text>
+                            <Text style={styles.textStyle}>{t('common:UseCamera')}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.buttonModal, styles.buttonClose]}
                                 onPress={() => {setModalVisible(false)}}
                             >
-                            <Text style={styles.textStyle}>Close</Text>
+                            <Text style={styles.textStyle}>{t('common:Close')}</Text>
                             </TouchableOpacity>
                         </View>
                         </View>
@@ -162,7 +165,7 @@ const dispatch= useDispatch();
                         <View >
                             {/* Input Text */}
                             <View>
-                                <Text style={styles.main} > Username </Text>
+                                <Text style={styles.main} > {t('auth:Username')} </Text>
                                 <TextInput
                                     value={values.username}
                                     style={styles.customCss}
@@ -170,14 +173,14 @@ const dispatch= useDispatch();
                                     color={Colors.Sp_Text}
                                     onBlur={() => setFieldTouched('username')}
                                     onChangeText={handleChange('username')} 
-                                    placeholder="Username"
+                                    placeholder={t('auth:Username')} 
                                     autoCapitalize='none'
 
                                 />
                                 {touched.username && errors.username &&
                                     <Text style={styles.errortext}>{errors.username}</Text>
                                 }
-                                <Text style={styles.main} > Email </Text>
+                                <Text style={styles.main} > {t('auth:Email')}</Text>
                                 <TextInput
                                     value={values.email}
                                     style={styles.customCss}
@@ -185,7 +188,7 @@ const dispatch= useDispatch();
                                     color={Colors.Sp_Text}
                                     onBlur={() => setFieldTouched('email')}
                                     onChangeText={handleChange('email')}
-                                    placeholder="E-mail"
+                                    placeholder={t('auth:Email')}
                                     keyboardType='email-address'
                                     autoCapitalize='none'
                                 />
@@ -195,13 +198,13 @@ const dispatch= useDispatch();
                                 
                                 <View >
                                     {/* Gender */}
-                                <Text style={styles.main} > Gender </Text>
+                                <Text style={styles.main} > {t('common:Gender')} </Text>
                                 <View>
                                 <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
                                     {/* male button */}
                                        <View >
                                             <RadioButton 
-                                            label="Male" 
+                                            label={t("common:Male" )}
                                             onPress={() => {
                                                 maleHandler()
                                                 setFieldValue('gender','male')
@@ -215,7 +218,7 @@ const dispatch= useDispatch();
                                        {/* Female button */}
                                             <View >
                                             <RadioButton 
-                                            label="Female"
+                                            label={t("common:Female")}
                                             onPress={() => {
                                                 femaleHandler()
                                                 setFieldValue('gender','female')
@@ -232,41 +235,41 @@ const dispatch= useDispatch();
                                 </View>
                                     {/* Password Start */}  
                                 <View>
-                                    <Text style={styles.main} > Password </Text>
-                                    <View  style={styles.password_sty}>
+                                    <Text style={styles.main} > {t('auth:Password')} </Text>
+                                    <View  style={i18n.language === "ar" ? styles.password_sty1 : styles.password_sty}>
                                         <TextInput
                                             value={values.password}
                                             style={styles.customCss}
                                             placeholderTextColor={Colors.placeHolder}
                                             color={Colors.Sp_Text}
-                                            placeholder="Password"
+                                            placeholder={t('auth:Password')}
                                             onBlur={() => setFieldTouched('password')}
                                             onChangeText={handleChange('password')}
                                             secureTextEntry={!tnceye ? true : false}
                                             autoCapitalize='none'
                                         />
-                                        <EyeButton style={styles.eye_sty} tnceye={!tnceye} onEyePress={ () => {setTncEye(!tnceye)} }/>
+                                        <EyeButton style={i18n.language === "ar" ? styles.eye_sty_ar : styles.eye_sty} tnceye={!tnceye} onEyePress={ () => {setTncEye(!tnceye)} }/>
                                     </View>
                                     {touched.password && errors.password &&
                                         <Text style={styles.errortext}>{errors.password}</Text>
                                     }
                                 </View>
                                     <View  >
-                                <Text style={styles.main} > Confirm Password </Text>
-                                <View  style={styles.password_sty}>
+                                <Text style={styles.main} > {t('auth:ConfirmPassword')} </Text>
+                                <View  style={i18n.language === "ar" ? styles.password_sty1 : styles.password_sty}>
                                 <TextInput
                                     value={values.passwordConfirm}
                                     style={styles.customCss}
                                     placeholderTextColor={Colors.placeHolder}
                                     color={Colors.Sp_Text}
-                                    placeholder='confirm Password'
+                                    placeholder={t('auth:ConfirmPassword')}
                                     onBlur={() => setFieldTouched('passwordConfirm')}
                                     onChangeText={handleChange('passwordConfirm')}
                                     secureTextEntry={!tnceyeconf ? true : false}
                                     autoCapitalize='none'
                                 />
                                 
-                                <EyeButton style={styles.eye_sty} tnceye={!tnceyeconf} onEyePress={ () => {setTncEyeconf(!tnceyeconf)} }/>
+                                <EyeButton style={i18n.language === "ar" ? styles.eye_sty_ar : styles.eye_sty} tnceye={!tnceyeconf} onEyePress={ () => {setTncEyeconf(!tnceyeconf)} }/>
 
                                 </View>
                                 {touched.passwordConfirm && errors.passwordConfirm &&
@@ -278,14 +281,14 @@ const dispatch= useDispatch();
                              
                             {/* Terms & conditions */}
                             <View  >
-                                <View style={styles.terms_sty} >
+                                <View style={i18n.language === "ar" ? styles.terms_sty_ar : styles.terms_sty} >
                                     <TouchableOpacity onPress={tncHandler} style={{paddingRight:5,marginTop:5}} >
                                         {tnc ? <Image source={Images.CheckBoxActive} style={styles.checkbox} /> :
                                             <Image source={Images.CheckBoxInactive} style={styles.checkbox} />}
                                     </TouchableOpacity>
-                                            <Text style={styles.tandc} >Accept to <Text style={styles.sp_tandc} >Terms {'&'} Conditions</Text> and <Text style={styles.sp_tandc}>Privacy Policy </Text>for       this app </Text>
+                                            <Text style={styles.tandc} >{t('auth:Acceptto')} <Text style={styles.sp_tandc} >{t('auth:TermsandConditions')}</Text> {t('auth:and')}<Text style={styles.sp_tandc}>{t('auth:PrivacyPolicy')} </Text>{t('auth:forthisapp')} </Text>
                                 </View>
-                                {tncTouched ? (tnc ? null : <Text style={styles.errortext}>Please check the terms and conditions.</Text>) : null}
+                                {tncTouched ? (tnc ? null : <Text style={styles.errortext}>{t('auth:Pleasecheckthetermsandconditions')}</Text>) : null}
 
                             </View>
                             {/* Terms & conditions */}
@@ -295,7 +298,7 @@ const dispatch= useDispatch();
                                     <Text>Next</Text>
                                 </TouchableOpacity> */}
                                 <Button
-                                label="Next"
+                                label={t("auth:Next")}
                                 disabled={!isValid }
                                 onPress={tnc ? handleSubmit: null}
                                 />
@@ -305,7 +308,7 @@ const dispatch= useDispatch();
                                 <View style={styles.login_sty}>
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('Login') }} >
                                         <View style={styles.signup_sty}>
-                                            <Text style={styles.signup} > Already have an Account? <Text style={styles.sp_signup} > Login </Text>   </Text>
+                                            <Text style={styles.signup} > {t('auth:AlreadyhaveanAccount')} <Text style={styles.sp_signup} > {t('auth:Login')} </Text>   </Text>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
@@ -413,15 +416,28 @@ const styles = StyleSheet.create({
         borderBottomColor: Colors.borderBottomColor,
     },
    
-   
+    eye_sty_ar:{
+        paddingLeft:25
+     },
    eye_sty:{
-       paddingRight:20
+       paddingRight:25
     },
+    password_sty1:{ 
+        flexDirection: 'row-reverse', 
+        justifyContent:'space-evenly',
+        alignItems: 'center', 
+        paddingLeft:15
+     },
    password_sty:{ 
        flexDirection: 'row', 
        justifyContent:'space-evenly',
        alignItems: 'center', 
        paddingLeft:15
+    },
+    terms_sty_ar: {
+        flexDirection: 'row-reverse',
+        marginTop: 10,
+        marginBottom: 5,
     },
    terms_sty:{ 
        flexDirection: 'row',

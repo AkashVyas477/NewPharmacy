@@ -34,7 +34,7 @@ import { useTranslation } from 'react-i18next';
 
 
 const LoginScreen = (props) => {
-    const {t}= useTranslation()
+    const {t, i18n}= useTranslation()
     let deviceToken;
     useEffect(() => {
         // Get the device token
@@ -228,13 +228,14 @@ const LoginScreen = (props) => {
                             </View>
 
                             <View style={{ padding: 1, paddingHorizontal: 2 }} >
-                                <Text style={styles.text}  >{t('auth:Password')}</Text>
-                                <View style={{...styles.password_sty}}>
+                                <Text style={styles.text} >{t('auth:Password')}</Text>
+                                <View style={i18n.language === "ar" ? styles.password_sty1 : styles.password_sty}>
                                     <TextInput
                                         value={values.password}
                                         placeholderTextColor={Colors.placeHolder}
                                         color={Colors.Sp_Text}
                                         style={styles.customCss}
+                                        // placeholder="Password"
                                         placeholder={t("auth:Password")}
                                         onBlur={() => setFieldTouched('password')}
                                         onChangeText={handleChange('password')}
@@ -248,15 +249,18 @@ const LoginScreen = (props) => {
                                 {touched.password && errors.password &&
                                     <Text style={styles.errortext}>{errors.password}</Text>
                                 }
-
                             </View>
+
+
                             {/* Row merge start  */}
-                            <View style={styles.checkbox_sty} >
+
+
+                            <View style={i18n.language === "ar" ? styles.checkbox_sty_ar : styles.checkbox_sty} >
                                 <View style={styles.check}>
                                     {/* Check box and Remember me Start */}
                                     <CheckBox />
                                     <Text style={styles.remberme}>
-                                        Remember me
+                                        {t('auth:Rememberme')}
                                     </Text>
                                 </View>
                                 {/* Check box and Remember me End */}
@@ -264,7 +268,7 @@ const LoginScreen = (props) => {
                                     {/* Forgot passWord start */}
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('FORGOT PASSWORD') }} >
                                         <Text>
-                                            Forgot Password?
+                                            {t('auth:ForgotPassword')}
                                         </Text>
                                     </TouchableOpacity>
                                     {/* Forgot passWord end */}
@@ -298,10 +302,10 @@ const LoginScreen = (props) => {
 
                                     <View style={styles.container} >
                                         <TouchableOpacity onPress={() => { props.navigation.navigate('LOGIN AS PHARMACY USER') }}>
-                                            <View style={styles.pharmacyUserBox}>
+                                            <View style={i18n.language === "ar" ? styles.pharmacyUserBox_ar : styles.pharmacyUserBox}>
                                                 <Image source={Images.PharmacyUser} style={styles.pharmacyUserImg} />
                                                 <Text style={{ fontWeight: 'bold' }}>
-                                                    PharmacyUser
+                                                    {t('auth:PharmacyUser')}
                                                 </Text>
                                                 <Image source={Images.RightArrow} style={styles.arrow} />
                                             </View>
@@ -313,7 +317,7 @@ const LoginScreen = (props) => {
                                     {/* Sing Up start */}
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('RollSignUpScreen') }} >
                                         <View style={styles.signup_sty}>
-                                            <Text style={styles.signup} > Don't have Account ? <Text style={styles.sp_signup}>Sign up </Text>   </Text>
+                                            <Text style={styles.signup} > {t('auth:DonthaveAccount')} <Text style={styles.sp_signup}>{t('auth:Signup')} </Text>   </Text>
                                         </View>
                                     </TouchableOpacity>
 
@@ -323,8 +327,8 @@ const LoginScreen = (props) => {
                                 <View >
                                     {/* Language  */}
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('LanguageScreen') }} >
-                                        <View style={styles.Language_sty}>
-                                            <Text style={styles.signup} > Selecet Your Language  </Text><Image source={Images.Language} style={{height:20,width:20}}/>
+                                        <View style={i18n.language === "ar" ? styles.Language_sty_ar : styles.Language_sty}>
+                                            <Text style={styles.signup} > {t('auth:SelecetYourLanguage')}  </Text><Image source={Images.Language} style={{height:20,width:20}}/>
                                         </View>
                                     </TouchableOpacity>
                                     
@@ -335,12 +339,6 @@ const LoginScreen = (props) => {
                         </View>
                     )}
                 </Formik>
-                {/* Remove this after completing desing */}
-                {/* <Button
-                    label="Skip Login"
-                    onPress={() => { props.navigation.navigate('CustomerDrawer', { screen: 'Home' }) }}
-                /> */}
-                {/* Remove this after completing desing */}
             </View>
             {/* Full screen */}
         </KeyboardAwareScrollView>
@@ -414,9 +412,16 @@ const styles = StyleSheet.create({
         fontSize: 11,
         color: 'red'
     },
+    password_sty1: {
+        // flexDirection: 'row',
+        flexDirection: 'row-reverse',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderBottomColor: Colors.borderBottomColor,
+        borderBottomWidth: 1,
+    },
     password_sty: {
         flexDirection: 'row',
-        
         justifyContent: 'space-between',
         alignItems: 'center',
         borderBottomColor: Colors.borderBottomColor,
@@ -426,8 +431,15 @@ const styles = StyleSheet.create({
         height: 15,
         width: 24,
     },
-    checkbox_sty: {
+    checkbox_sty:{
         flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 10,
+        marginBottom: 25
+    },
+    checkbox_sty_ar:{
+        flexDirection: 'row-reverse',
         justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: 10,
@@ -459,6 +471,13 @@ const styles = StyleSheet.create({
     pharmacyUser_sty: {
         paddingTop: 20
     },
+
+    pharmacyUserBox_ar: {
+        flexDirection: 'row-reverse',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        // marginBottom: 10 
+    },
     pharmacyUserBox: {
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -475,14 +494,23 @@ const styles = StyleSheet.create({
         width: 10,
 
     },
+
     signup_sty: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 15
     },
+
+
     Language_sty: {
         flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 15
+    },
+    Language_sty_ar: {
+        flexDirection: 'row-reverse',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 15

@@ -54,10 +54,11 @@ const HomeScreen = props =>{
             setLength(response.data.length)
             setPharmacyList(response.data.data)
             setIsLoading(false)
-            // Toast.show(' NearByPharmacy available currently!')
+            // Toast.show(`${t('common:ThereisnoNearByPharmacyavailablecurrently')}`)
          } else {
             setIsLoading(false) 
-            Toast.show('There is no NearByPharmacy available currently!')
+            // Toast.show('ThereisnoNearByPharmacyavailablecurrently!')
+            Toast.show(`${t('common:ThereisnoNearByPharmacyavailablecurrently')}`)
         }  
       
 }

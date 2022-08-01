@@ -79,6 +79,9 @@ export default {
   NotesforCustomer:'NotesforCustomer',
   PrescriptionList:'Prescription List',
   NoPrescriptionfound:'No Prescription found',
+  Userdoesnotexist:'User does not exist',
+  IncorrectPassword:'Incorrect Password',
+  ThereisnoNearByPharmacyavailablecurrently:'There is no Near By Pharmacy available currently!'
 
   // ProfileUpdateSuccessfully:'Profile Update Successfully',
 

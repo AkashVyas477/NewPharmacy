@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions, Modal,StatusBar } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Formik } from "formik";
 import * as ImagePicker from 'react-native-image-crop-picker';
@@ -54,7 +54,7 @@ const PharmacistSignUpScreen = props => {
             cropping: true,
         }).then(image => {
 
-            setSelectedImage(image.path)
+            setSelectedImage(image)
             setModalVisible(!modalVisible)
         });
     }
@@ -65,7 +65,7 @@ const PharmacistSignUpScreen = props => {
             cropping: true
         }).then(image => {
             console.log(image);
-            setSelectedImage(image.path)
+            setSelectedImage(image)
             setModalVisible(!modalVisible)
         });
     }
@@ -75,9 +75,9 @@ const PharmacistSignUpScreen = props => {
 
 
     return (
-        <KeyboardAwareScrollView>
+        
             <View style={styles.screen}>
-
+            <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
                 {/* SignUp  */}
                 <View style={styles.Header}>
                     <Header
@@ -85,11 +85,13 @@ const PharmacistSignUpScreen = props => {
                         onPress={() => props.navigation.goBack()}
                     />
                 </View>
+
+                <KeyboardAwareScrollView>
                 {/* SignUp  */}
                 {/* Profile */}
                 <View style={styles.Profile}>
                     <View style={{ borderRadius: 50, overflow: 'hidden' }}>
-                        {selectedImage ? <Image source={{ uri: selectedImage }} style={{ height: 100, width: 100 }} /> : <Image source={Images.SignupPlaceholder} style={styles.ProfileImg} />}
+                        {selectedImage ? <Image source={{ uri: selectedImage.path }} style={{ height: 100, width: 100 }} /> : <Image source={Images.SignupPlaceholder} style={styles.ProfileImg} />}
                     </View>
                     <View>
                         <TouchableOpacity style={styles.addIcon} onPress={() => setModalVisible(true)} >
@@ -286,12 +288,12 @@ const PharmacistSignUpScreen = props => {
                                             // <Text style={styles.errorText}>{errors.password}</Text>
                                         }
                                     </View>
-                                    <View  >
+                                    <View style={{ padding: 1, paddingHorizontal: 2 }}>
                                         <Text style={styles.main} > {t('auth:ConfirmPassword')} </Text>
                                         <View style={i18n.language === "ar" ? styles.password_sty1 : styles.password_sty}>
                                             <TextInput
                                                 value={values.passwordConfirm}
-                                                // style={styles.customCss}
+                                                // style={{paddingLeft:20}}
                                                 placeholderTextColor={Colors.placeHolder}
                                                 color={Colors.Sp_Text}
                                                 placeholder={t('auth:ConfirmPassword')}
@@ -300,13 +302,11 @@ const PharmacistSignUpScreen = props => {
                                                 secureTextEntry={!tnceyeconf ? true : false}
                                                 autoCapitalize='none'
                                             />
-
                                             <EyeButton style={i18n.language === "ar" ? styles.eye_sty_ar : styles.eye_sty} tnceye={!tnceyeconf} onEyePress={() => { setTncEyeconf(!tnceyeconf) }} />
-
                                         </View>
-                                        {touched.passwordConfirm && errors.passwordConfirm &&
-                                         <Text style={styles.errorText}>{t('valid:Passwordsdoesnotmatch')}</Text>
-                                            // <Text style={styles.errorText}>{errors.passwordConfirm}</Text>
+                                        {touched.password && errors.passwordConfirm &&
+                                          <Text style={styles.errorText}>{t('valid:Passwordsdoesnotmatch')}</Text>
+                                            // <Text style={styles.errorText}>{errors.password}</Text>
                                         }
                                     </View>
                                     {/* Password end */}
@@ -318,7 +318,7 @@ const PharmacistSignUpScreen = props => {
                                         {tnc ? <Image source={Images.CheckBoxActive} style={styles.checkbox} /> :
                                             <Image source={Images.CheckBoxInactive} style={styles.checkbox} />}
                                     </TouchableOpacity>
-                                    <Text style={styles.tandc} >{t('auth:Acceptto')} <Text style={styles.sp_tandc} >{t('auth:TermsandConditions')}</Text> {t('auth:and')}<Text style={styles.sp_tandc}>{t('auth:PrivacyPolicy')} </Text>{t('auth:forthisapp')} </Text>
+                                    <Text style={styles.tandc} >{t('auth:Acceptto')} <Text style={styles.sp_tandc} >{t('auth:TermsandConditions')}</Text> {t('auth:and')} <Text style={styles.sp_tandc}>{t('auth:PrivacyPolicy')} </Text>{t('auth:forthisapp')} </Text>
                                     {/* <Text style={styles.tandc} >Accept to <Text style={styles.sp_tandc} >Terms {'&'} Conditions</Text> and <Text style={styles.sp_tandc}>Privacy Policy </Text>for       this app </Text> */}
                                 </View>
                                 {tncTouched ? (tnc ? null : <Text style={styles.errorText}>{t('auth:Pleasecheckthetermsandconditions')}</Text>) : null}
@@ -326,17 +326,6 @@ const PharmacistSignUpScreen = props => {
                                 {/* Terms & conditions */}
                                 {/* Next Button */}
                                 <View>
-                                    {/* <TouchableOpacity 
-                                // onPress={() => {
-                                //     props.navigation.navigate('PhoneNumberScreen')
-                                // }}
-                                onPress={handleSubmit}
-                                >
-                                    <View style={styles.buttoncon}>
-                                        <Text style={styles.Button}> Next </Text>
-                                    </View>
-                                </TouchableOpacity> */}
-
                                     <Button
                                         label={t("auth:Next")}
                                         disabled={!isValid}
@@ -358,9 +347,10 @@ const PharmacistSignUpScreen = props => {
                         )}
                     </Formik>
                 </View >
+                </KeyboardAwareScrollView>
                 {/* Formik */}
             </View >
-        </KeyboardAwareScrollView>
+       
     );
 };
 
@@ -372,7 +362,8 @@ const styles = StyleSheet.create({
     Header: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 5, padding: 10
+        marginTop: 5,
+         padding: 10
     },
     arrow: { height: 20, width: 30 },
     addIcon: {
@@ -406,6 +397,13 @@ const styles = StyleSheet.create({
         paddingBottom: 2,
         justifyContent: 'space-evenly'
     },
+    customCss_ar: {
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.borderBottomColor,
+        // width: '100%',
+        paddingBottom: 2,
+        justifyContent: 'space-between'
+    },
     main: {
         color: Colors.Sp_Text,
         paddingLeft: 3
@@ -435,8 +433,6 @@ const styles = StyleSheet.create({
     tandc: {
         color: Colors.Sp_Text,
         textAlign: 'auto',
-
-
     },
     sp_tandc: {
         color: Colors.Blue
@@ -446,14 +442,13 @@ const styles = StyleSheet.create({
         color: Colors.Gray,
         marginBottom: 10,
         fontSize: 20,
-
-
-
     },
     eye_sty_ar: {
         paddingLeft: 25
     },
-    eye_sty: { paddingRight: 25 },
+    eye_sty: { 
+        paddingRight: 25
+     },
     sp_signup: {
         color: Colors.Sp_Text,
         marginBottom: 50
@@ -479,6 +474,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomColor: Colors.borderBottomColor,
         borderBottomWidth: 1,
+     
     },
     password_sty: {
         flexDirection: 'row',
@@ -486,6 +482,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomColor: Colors.borderBottomColor,
         borderBottomWidth: 1,
+       
     },
     terms_sty_ar: {
         flexDirection: 'row-reverse',

@@ -94,11 +94,13 @@ const LoginScreen = (props) => {
 
         }else{
             if (resData.ErrorMessage == "User not exists!") {
-                            Toast.show(" User does not exist!")
+                Toast.show(`${t('common:Userdoesnotexist')}`)
+                            // Toast.show(" User does not exist!")
                               console.log("User not exists!")
         
                         } else if (resData.ErrorMessage == "Login Failed!") {
-                            Toast.show("Incorrect Password")
+                            Toast.show(`${t('common:IncorrectPassword')}`)
+                            // Toast.show("IncorrectPassword")
                     console.log("Login Faild!")
                         }
                         setIsLoading(false)
@@ -223,7 +225,7 @@ const LoginScreen = (props) => {
                                     />
                                 </View>
                                 {touched.email && errors.email &&
-                                    <Text style={styles.errortext}>{errors.email}</Text>
+                                    <Text style={styles.errortext}>{t('valid:Emailisarequiredfield')}</Text>
                                 }
                             </View>
 
@@ -247,7 +249,7 @@ const LoginScreen = (props) => {
                                         onEyePress={() => { setTncEye(!tnceye) }} />
                                 </View>
                                 {touched.password && errors.password &&
-                                    <Text style={styles.errortext}>{errors.password}</Text>
+                                    <Text style={styles.errortext}>{t('valid:Passwordisrequired')}</Text>
                                 }
                             </View>
 

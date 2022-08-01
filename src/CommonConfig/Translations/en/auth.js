@@ -29,6 +29,13 @@ export default{
     Next:'Next',
     AlreadyhaveanAccount:'Already have an Account?',
     SIGNUP:'SIGN UP',
-    Login:'Login'
+    Login:'Login',
+    PHONENUMBER:'PHONE NUMBER',
+    PhoneNumber:'Phone Number',
+    WeWillSendYouAVerificationCodeToVerifyYourPhoneNUMBER:' We Will Send You A Verification Code To Verify Your Phone NUMBER',
+    WaitingforAutomaticallydetectandSMSsentto:'Waiting for Automatically detect and SMS sent to',
+    VERIFICATIONCODE:'VERIFICATION CODE',
+    Wrongnumber:'Wrong number ?',
+
 
 }

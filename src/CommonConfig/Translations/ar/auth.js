@@ -30,4 +30,11 @@ export default{
    AlreadyhaveanAccount:'هل لديك حساب؟',
    SIGNUP:'اشتراك',
    Login:'تسجيل الدخول',
+   PHONENUMBER:'رقم الهاتف',
+   PhoneNumber:'رقم الهاتف',
+   WeWillSendYouAVerificationCodeToVerifyYourPhoneNUMBER:'سنرسل لك رمز تحقق للتحقق من رقم هاتفك',
+   WaitingforAutomaticallydetectandSMSsentto:'في انتظار الاكتشاف التلقائي وإرسال الرسائل القصيرة إلى',
+   VERIFICATIONCODE:'رمز التحقق',
+   Wrongnumber:"رقم غير صحيح ؟",
+
 }

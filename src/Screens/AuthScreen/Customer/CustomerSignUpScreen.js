@@ -44,6 +44,8 @@ const CustomerSignupScreen = props => {
     const [tnceye, setTncEye] = useState(false);
     const [tnceyeconf, setTncEyeconf] = useState(false);
 
+
+
 const [selectedImage, setSelectedImage] = useState(null)
    const [modalVisible, setModalVisible] = useState(false);
 
@@ -54,8 +56,8 @@ const [selectedImage, setSelectedImage] = useState(null)
             cropping: true,
         }).then(image => {
            
-            setSelectedImage(image.path)
-            setSelectedImage(image.mime)
+            setSelectedImage(image)
+            // setSelectedImage(image.mime)
             console.log(image)
             setModalVisible(!modalVisible)
       });
@@ -67,8 +69,8 @@ const pickFromGallery = () => {
             cropping: true
         }).then(image => {
            
-            setSelectedImage(image.path)
-            setSelectedImage(image.mime)
+            setSelectedImage(image)
+            // setSelectedImage(image.mime)
             console.log(image)
             setModalVisible(!modalVisible)
         });
@@ -80,12 +82,12 @@ const dispatch= useDispatch();
 
     return (
 
-        <KeyboardAwareScrollView>
+      
         <View style={styles.screen}>
         <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
 
             {/* SignUp  */}
-            <View style={styles.header}>
+            <View style={styles.Header}>
                 <Header 
                 Title= {t("auth:SIGNUP")}
                 onPress={() => props.navigation.goBack()}
@@ -93,9 +95,10 @@ const dispatch= useDispatch();
             </View>
             {/* SignUp  */}
             {/* Profile */}
-            <View style={styles.profile}>
+            <KeyboardAwareScrollView >
+            <View style={styles.Profile}>
                 <View style={{borderRadius:50,overflow:'hidden'}}>
-                {selectedImage ? <Image source={{ uri: selectedImage}} style={{height:100,width:100,}}/> :<Image source={Images.SignupPlaceholder} style={styles.profileImg} />}
+                {selectedImage ? <Image source={{ uri: selectedImage.path}} style={{height:100,width:100,}}/> :<Image source={Images.SignupPlaceholder} style={styles.ProfileImg} />}
                 </View>
                 <View>
                     <TouchableOpacity style={styles.addIcon}   onPress={()=>setModalVisible(true) } >
@@ -155,7 +158,7 @@ const dispatch= useDispatch();
                     onSubmit={(values) =>{
                         const data = {username:values.username, email:values.email, password:values.password, gender:values.gender, role ,selectedImage}
                         // dispatch(registerAction.addDetails(data));
-                        console.log(data)
+                        // console.log(data)
                         props.navigation.navigate('PhoneNumberScreen',{data})
                     }}
                     // onSubmit={onPressRegister}
@@ -178,7 +181,7 @@ const dispatch= useDispatch();
 
                                 />
                                 {touched.username && errors.username &&
-                                    <Text style={styles.errortext}>{errors.username}</Text>
+                                    <Text style={styles.errortext}>{t('valid:Usernameisrequired')}</Text>
                                 }
                                 <Text style={styles.main} > {t('auth:Email')}</Text>
                                 <TextInput
@@ -193,7 +196,7 @@ const dispatch= useDispatch();
                                     autoCapitalize='none'
                                 />
                                 {touched.email && errors.email &&
-                                    <Text style={styles.errortext}>{errors.email}</Text>
+                                    <Text style={styles.errortext}>{t('valid:Emailisarequiredfield')}</Text>
                                 }
                                 
                                 <View >
@@ -234,12 +237,12 @@ const dispatch= useDispatch();
                                   {/* Gender end */}  
                                 </View>
                                     {/* Password Start */}  
-                                <View>
+                                <View >
                                     <Text style={styles.main} > {t('auth:Password')} </Text>
                                     <View  style={i18n.language === "ar" ? styles.password_sty1 : styles.password_sty}>
                                         <TextInput
                                             value={values.password}
-                                            style={styles.customCss}
+                                            // style={styles.customCss}
                                             placeholderTextColor={Colors.placeHolder}
                                             color={Colors.Sp_Text}
                                             placeholder={t('auth:Password')}
@@ -251,15 +254,15 @@ const dispatch= useDispatch();
                                         <EyeButton style={i18n.language === "ar" ? styles.eye_sty_ar : styles.eye_sty} tnceye={!tnceye} onEyePress={ () => {setTncEye(!tnceye)} }/>
                                     </View>
                                     {touched.password && errors.password &&
-                                        <Text style={styles.errortext}>{errors.password}</Text>
+                                        <Text style={styles.errortext}>{t('valid:Passwordcannotbelessthan6characters')}</Text>
                                     }
                                 </View>
-                                    <View  >
+                                    <View >
                                 <Text style={styles.main} > {t('auth:ConfirmPassword')} </Text>
                                 <View  style={i18n.language === "ar" ? styles.password_sty1 : styles.password_sty}>
                                 <TextInput
                                     value={values.passwordConfirm}
-                                    style={styles.customCss}
+                                    // style={styles.customCss}
                                     placeholderTextColor={Colors.placeHolder}
                                     color={Colors.Sp_Text}
                                     placeholder={t('auth:ConfirmPassword')}
@@ -273,7 +276,7 @@ const dispatch= useDispatch();
 
                                 </View>
                                 {touched.passwordConfirm && errors.passwordConfirm &&
-                                    <Text style={styles.errortext}>{errors.passwordConfirm}</Text>
+                                    <Text style={styles.errortext}>{t('valid:Passwordsdoesnotmatch')}</Text>
                                 }
                                 </View>
                                 {/* Password end */}  
@@ -308,7 +311,7 @@ const dispatch= useDispatch();
                                 <View style={styles.login_sty}>
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('Login') }} >
                                         <View style={styles.signup_sty}>
-                                            <Text style={styles.signup} > {t('auth:AlreadyhaveanAccount')} <Text style={styles.sp_signup} > {t('auth:Login')} </Text>   </Text>
+                                            <Text style={styles.signup} >{t('auth:AlreadyhaveanAccount')} <Text style={styles.sp_signup} > {t('auth:Login')} </Text>   </Text>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
@@ -319,9 +322,10 @@ const dispatch= useDispatch();
                     )}
                 </Formik>
             </View >
+            </KeyboardAwareScrollView>
             {/* Formik */}
         </View >
-        </KeyboardAwareScrollView>
+        
     );
 };
 
@@ -330,7 +334,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.backgroundColor,
     },
-    header:{ 
+    Header:{ 
         flexDirection: 'row', 
         alignItems: 'center', 
         marginTop: 5, 
@@ -345,12 +349,12 @@ const styles = StyleSheet.create({
         left: Dimensions.get('window').width * 0.12,
         bottom: Dimensions.get('window').width * 0.1,
     },
-    profile:{ 
+    Profile:{ 
         flexDirection: 'column', 
         alignItems: 'center', 
         marginTop: 10 
     },
-    profileImg:{ 
+    ProfileImg:{ 
         height: 125, 
         width: 125 
     },
@@ -378,8 +382,7 @@ const styles = StyleSheet.create({
     },
     main: {
         color: Colors.Sp_Text,
-        marginTop: 10
-
+        paddingLeft: 3
     },
     
     text: {
@@ -398,7 +401,7 @@ const styles = StyleSheet.create({
     },
     signup: {
         color: Colors.Gray,
-        marginBottom: 50,
+        // marginBottom: 50,
         fontSize: 20,
 
     },
@@ -424,20 +427,23 @@ const styles = StyleSheet.create({
     },
     password_sty1:{ 
         flexDirection: 'row-reverse', 
-        justifyContent:'space-evenly',
+        justifyContent: 'space-between',
         alignItems: 'center', 
-        paddingLeft:15
+        borderBottomColor: Colors.borderBottomColor,
+        borderBottomWidth: 1,
      },
    password_sty:{ 
        flexDirection: 'row', 
-       justifyContent:'space-evenly',
+       justifyContent: 'space-between',
        alignItems: 'center', 
-       paddingLeft:15
+       borderBottomColor: Colors.borderBottomColor,
+       borderBottomWidth: 1,
     },
     terms_sty_ar: {
         flexDirection: 'row-reverse',
         marginTop: 10,
         marginBottom: 5,
+
     },
    terms_sty:{ 
        flexDirection: 'row',
@@ -504,6 +510,185 @@ const styles = StyleSheet.create({
         fontWeight:"bold",
         fontSize:20
     },
+
+// screen: {
+//     flex: 1,
+//     backgroundColor: Colors.backgroundColor,
+// },
+// Header: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     marginTop: 5,
+//      padding: 10
+// },
+// arrow: { height: 20, width: 30 },
+// addIcon: {
+//     left: Dimensions.get('window').width * 0.12,
+//     bottom: Dimensions.get('window').width * 0.1,
+// },
+// TextSignUp: {
+//     fontSize: 25,
+//     color: 'black',
+//     paddingLeft: 115,
+// },
+// Profile: {
+//     flexDirection: 'column',
+//     alignItems: 'center',
+//     marginTop: 10
+// },
+// ProfileImg: {
+//     height: 125,
+//     width: 125
+// },
+// addIconImg: {
+//     height: 50,
+//     width: 50
+// },
+// formik: { padding: 10 },
+
+// customCss: {
+//     borderBottomWidth: 1,
+//     borderBottomColor: Colors.borderBottomColor,
+//     width: '100%',
+//     paddingBottom: 2,
+//     justifyContent: 'space-evenly'
+// },
+// main: {
+//     color: Colors.Sp_Text,
+//     paddingLeft: 3
+
+// },
+// Button: {
+//     color: 'white',
+//     textAlign: 'center',
+
+// },
+// buttoncon: {
+//     backgroundColor: Colors.PRIMARY,
+//     borderRadius: 10,
+//     height: 40,
+//     width: "100%",
+//     justifyContent: 'center',
+// },
+// text: {
+//     padding: 10,
+//     paddingHorizontal: 10,
+//     textAlign: 'center'
+// },
+// errorText: {
+//     fontSize: 11,
+//     color: Colors.Error_Textcolor
+// },
+// tandc: {
+//     color: Colors.Sp_Text,
+//     textAlign: 'auto',
+
+
+// },
+// sp_tandc: {
+//     color: Colors.Blue
+
+// },
+// signup: {
+//     color: Colors.Gray,
+//     marginBottom: 10,
+//     fontSize: 20,
+
+
+
+// },
+// eye_sty_ar: {
+//     paddingLeft: 25
+// },
+// eye_sty: { paddingRight: 25 },
+// sp_signup: {
+//     color: Colors.Sp_Text,
+//     marginBottom: 50
+
+// },
+// checkbox: {
+//     height: 20,
+//     width: 20
+// },
+// signup_sty: {
+//     width: "100%",
+//     marginTop: 10
+// },
+// touchsignup: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'center'
+// },
+// password_sty1: {
+//     // flexDirection: 'row',
+//     flexDirection: 'row-reverse',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     borderBottomColor: Colors.borderBottomColor,
+//     borderBottomWidth: 1,
+// },
+// password_sty: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     borderBottomColor: Colors.borderBottomColor,
+//     borderBottomWidth: 1,
+// },
+// terms_sty_ar: {
+//     flexDirection: 'row-reverse',
+//     marginTop: 10,
+//     marginBottom: 5,
+// },
+// terms_sty: {
+//     flexDirection: 'row',
+//     marginTop: 10,
+//     marginBottom: 5,
+// },
+// centeredView: {
+//     flex: 1,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     marginTop: 22
+// },
+// modalView: {
+//     margin: 20,
+//     backgroundColor: Colors.White,
+//     borderRadius: 20,
+//     padding: 35,
+//     alignItems: "center",
+//     shadowColor: "#000",
+//     shadowOffset: {
+//         width: 0,
+//         height: 2
+//     },
+//     shadowOpacity: 0.25,
+//     shadowRadius: 4,
+//     elevation: 5
+// },
+// buttonModal: {
+//     borderRadius: 20,
+//     padding: 10,
+//     elevation: 2,
+//     marginVertical: 5,
+//     width: 200
+// },
+// buttonOpen: {
+//     backgroundColor: "#F194FF",
+// },
+// buttonClose: {
+//     backgroundColor: Colors.Gray,
+// },
+// textStyle: {
+//     color: Colors.White,
+//     fontWeight: "bold",
+//     textAlign: "center"
+// },
+// modalText: {
+//     marginBottom: 15,
+//     textAlign: "center",
+//     fontWeight: "bold",
+//     fontSize: 20
+// },
 
 });
 

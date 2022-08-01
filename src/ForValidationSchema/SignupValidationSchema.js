@@ -4,6 +4,7 @@ import * as yup from 'yup';
 const SignUpValidationSchema =yup.object().shape({
                             username: yup
                             .string()
+                            // .required(Usernameisrequired),
                             .required('Username is required.'),
                         email: yup
                             .string()

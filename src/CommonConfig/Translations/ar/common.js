@@ -82,7 +82,9 @@ export default {
   NotesforCustomer:'ملاحظات للعملاء',
   PrescriptionList:'قائمة الوصفات الطبية',
   NoPrescriptionfound:'لم يتم العثور على وصفة طبية',
-
+  Userdoesnotexist:" المستخدم غير موجود!",
+  IncorrectPassword:'كلمة سر خاطئة',
+  ThereisnoNearByPharmacyavailablecurrently:'لا يوجد بالقرب من صيدلية حاليا!',
 
 
 

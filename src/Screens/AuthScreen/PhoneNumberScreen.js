@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Image,TextInput, Alert,  } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Image,TextInput, Alert,I18nManager  } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch } from 'react-redux';
 import CountryPicker from 'react-native-country-codes-picker';
@@ -10,13 +10,14 @@ import{ Colors, Images }from '../../CommonConfig';
 import Header from '../../Components/Common/Header';
 import Button from '../../Components/Common/Button';
 import { postRequest } from '../../Components/Helpers/ApiHelper';
+import { useTranslation } from 'react-i18next';
 
 
 
 const PhoneNumberScreen = props => {
-
+const {t,i18n}=useTranslation()
     const params = props.route.params.data
-   console.log("userdata    ",params)
+//    console.log("userdata    ",params)
     const [isLoading, setisLoading]=useState(false)
     const [show, setShow] = useState(false);
     const [countryCode, setCountryCode] = useState('+91');
@@ -28,7 +29,7 @@ const PhoneNumberScreen = props => {
     const pressHandler = async(countryCode, phoneNumber) => {
         setisLoading(true);
         const OTPData = {
-            country_code: countryCode,
+            country_code: '+91',
             phone_number: phoneNumber,
             channel: "sms",
             // mobile: phoneNumber
@@ -47,93 +48,67 @@ const PhoneNumberScreen = props => {
 
     return (
         <View style={styles.screen}>
-            <KeyboardAwareScrollView>
             <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
                 {/* <StatusBar backgroundColor={Colors.ORANGE} barStyle='light-content' /> */}
+
                 {/* HEADER */}
                 <View style={styles.header1}>
                     <Header 
-                    Title="PHONE NUMBER"
+                    Title={t("auth:PHONENUMBER")}
                     onPress={() => (props.navigation.goBack())}
                     />
                 </View>
-                <View style={styles.screen}>
+
+                <KeyboardAwareScrollView>
+                <View style={styles.screen1}>
                     <Image source={Images.PhoneNumberImg} style={styles.phoneNoImg} />
                     </View>
                     <View  >
                       <Text style={styles.text}>
-                        We Will Send You A Verification Code To Verify Your Phone NUMBER
+                        {t('auth:WeWillSendYouAVerificationCodeToVerifyYourPhoneNUMBER')}
                         </Text>
                     </View>
 
-                {/* BODY */}
-                <View >
+                         {/* BODY */}
+                    <View >
                     <View style={styles.body}>                     
-                        <Text style={styles.textPhoneNo} >Phone Number</Text>
-                        <View style={styles.action} >
+                        <Text style={styles.textPhoneNo} >{t('auth:PhoneNumber')}</Text>
+                        <View style={i18n.language === "ar" ? styles.action_ar : styles.action}>
                                         {/* <Ionicon name="call" color={Colors.PRIMARY} size={20} style={{ flex: 0.5 }} /> */}
                                         <Text style={{ flex: 0.7, fontWeight: 'bold' }}>{countryCode}</Text>
                                         <TouchableOpacity onPress={() => setShow(true)} style={{ flex: 0.4 }}>
                                             <Image source={Images.DropDown} style={{height:10,width:10}}  /> 
-                                            {/* <Ionicon name="caret-down-outline" size={20} color={Colors.Sp_Text} /> */}
-                                            </TouchableOpacity>
-                                        <View style={{ width: 0, borderColor: Colors.Gray, borderWidth: 0.7, height: 30, marginRight: 10 }} ></View>
+                                        </TouchableOpacity>
+                                        <View style={{ width: 0, borderColor: Colors.Gray, borderWidth: 0.3, height: 30, marginRight: 10 }} ></View>
                                         <TextInput
                                         //   value={values.phone}
-                                            style={{ flex: 3.5 }}
+                                            style={styles.textPhoneNosty}
                                             keyboardType="phone-pad"
                                             maxLength={10}
+                                            onChangeText={(val)=>{setPhoneNumber(val)}}
                                             placeholderTextColor={Colors.placeHolder}
                                             color={Colors.Sp_Text}
-                                            // onChangeText={handleChange('phone')}
-                                            placeholder="Phone Number "
+                                            placeholder={t("auth:PhoneNumber")}
                                         />
                                     </View>
-
-                        {/* <View style={styles.action} >
-                            <Text style={{flex:0.5, fontWeight:'bold'}}>{countryCode}</Text>
-                            <TouchableOpacity onPress={() => setShow(true)} style={{flex: 0.5}}>
-                                
-                                <CountryPicker
-                                    withFilter
-                                    countryCode={countryCode}
-                                    withFlag
-                                    withAlphaFilter={false}
-                                    withCallingCode
-                                    onSelect={country => {
-                                        console.log('country', country);
-                                        const { cca2, callingCode } = country;
-                                        setCountryCode(cca2);
-                                        setcallingCode(callingCode[0]);
-                                    }}
-                                    containerButtonStyle={{ alignItems: 'center',}}
-                                />
-                                </TouchableOpacity>
-                            <View style={{width:0, borderColor: Colors.Gray, borderWidth:0.5, height:30, marginRight:10}} ></View>
-                            <TextInput 
-                                style={{flex:3.5}}
-                                keyboardType= "phone-pad"
-                                maxLength={10}
-                                onChangeText = { (val) => {setPhoneNumber(val)} }
-                            />
-                        </View> */}
-
                             <View style={{marginTop:20}}>
                             <Button
                             disabled={ phoneNumber.length === 10 ? false : true } 
                             onPress={() => pressHandler(countryCode, phoneNumber)}
                             showActivityIndicator={isLoading}
                             // disabled={isLoading}   
-                            label="Next"
+                            label={t("auth:Next")}
                             />
                             </View>
 
                         {/* <TouchableOpacity style={styles.sendCode} disabled={ phoneNumber.length === 10 ? false : true } onPress={() => pressHandler(countryCode, phoneNumber)}>
                             <Text style={styles.sendCodeText}>Send Code</Text>
                         </TouchableOpacity> */}
+                        
                     </View>
+                   
                 </View>
-            </KeyboardAwareScrollView>
+                </KeyboardAwareScrollView>
             <CountryPicker
                 show={show}
                 style={{
@@ -180,6 +155,10 @@ const styles = StyleSheet.create({
     },
     screen: {
         flex: 1,
+        backgroundColor: Colors.White
+
+    },
+    screen1: {
         alignItems: 'center',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -194,6 +173,9 @@ const styles = StyleSheet.create({
     textPhoneNo: {
         color: Colors.Gray,
         marginBottom: 5
+    },
+    textPhoneNosty:{
+        flex: 3.5,
     },
 
     sendCode: {
@@ -247,6 +229,14 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 5,
         color: Colors.GREY
+    },
+    action_ar: {
+        flexDirection: 'row-reverse',
+        marginTop: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.LIGHTER_GREY,
+        paddingBottom: 10,
+        alignItems: 'center',
     },
     action: {
         flexDirection: 'row',

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, ScrollView, Alert, StatusBar } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, ScrollView, Alert, StatusBar, ActivityIndicator } from 'react-native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import { postRequest, postFormDataRequest, } from '../../Components/Helpers/ApiHelper';
 import { useSelector } from 'react-redux';
@@ -13,8 +13,11 @@ import { CommonActions, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import { elementsThatOverlapOffsets } from 'react-native/Libraries/Lists/VirtualizeUtils';
+import { useTranslation } from 'react-i18next';
 
 const VerificationScreen = props => {
+  const {t}=useTranslation()
+  const [ loading, setLoading ] = useState(false)
 
   const makeid = (length) => {
     var result = '';
@@ -31,18 +34,18 @@ const VerificationScreen = props => {
   const countryCode = props.route.params.countryCode;
   const phoneNumber = props.route.params.phoneNumber;
   const data = props.route.params.params
-  console.log(data)
+  // console.log("params\n",data)
 
   const [otp, setOTPValue] = useState('');
   const pressHandler = async (otp) => {
+    setLoading(true)
     const verifyOTP = {
       otp: otp,
       country_code: countryCode,
       phone_number: phoneNumber,
-      channel:"sms"
     }
     const response = await postRequest('verifyOTP', verifyOTP);
-    console.log(response)
+    // console.log("otp\n",response)
     const resData = response.data;
     let errorMsg = 'Something went wrong!';
     if (response.success) {
@@ -58,13 +61,13 @@ const VerificationScreen = props => {
       user.append('password', data.password)
       user.append('gender',data.gender)
       user.append("country_code", countryCode)
-      user.append("phone_number", phoneNumber)
+      user.append("phone", phoneNumber)
       user.append('store_name',data.storeName)
       user.append('licenseId',data.licenseId)
       // console.log("Form_Image       ",)
-      console.log("FormData      ",user)
+      console.log("FormData\n",user)
 
-      const  res = await fetch('https://mobile-pharmacy.herokuapp.com/register',{
+      const res = await fetch('https://mobile-pharmacy.herokuapp.com/register',{
         method: 'POST',
         body: user,
         headers: {
@@ -72,51 +75,104 @@ const VerificationScreen = props => {
         }
       })
      const  registerResponse = await res.json()
-      // console.log("123   ",registerResponse)
-      if (registerResponse.status === 200) {
-        //SUCCESS
-        const loginData = {
-          email: data.email,
-          password: data.password,
-          role: data.role,
+      // console.log("123\n",registerResponse)
+      if(registerResponse.message==="Customer created successfully" || registerResponse.message==="Pharmacy created successfully"){
+        if(data.role ===2){
+          navigation.navigate('PharamacistDrawer')
+        }
+        const loginData={
+          email:data.email.toLowerCase(),
+          password:data.password,
           device_token: JSON.stringify(AsyncStorage.getItem('deviceToken'))
         }
-
-        const response = await postPreLogin('login', loginData)
+        console.log("login data \n",loginData)
+        const response = await postRequest('login',loginData);
         const resData = response.data
-
-        if (response.success) {
-          try {
-              await AsyncStorage.setItem('token', resData.token)
-              await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-              await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-              await AsyncStorage.setItem('isLogin', "abc")
-          } catch (error) {
-              console.log(error)
+        // console.log("hiii        ", response);
+        if(response.success){
+          try{
+                      await AsyncStorage.setItem('role',resData.user.role.toString())
+                      await AsyncStorage.setItem('token', resData.token)
+                      await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+                      await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+                      await AsyncStorage.setItem('isLogin', "1")
+          }catch(error){
+            console.log("error\n",error)
           }
-          props.navigation.dispatch(
+          if (resData.user.role ===1){
+            props.navigation.dispatch(
               CommonActions.reset({
-                  index:0,
-                  routes: [{name: 'CustomerDrawer'}]
+                index:0,
+                routes:[{name:'CustomerDrawer'}]
               })
-          )
-          setIsLoading(false);
-      } else {
-          if (resData.ErrorMessage === 'User does not exist!') {
-              Toast.show(" User does not exist! ");
-          } else if (resData.ErrorMessage === 'Invalid Password!') {
-              Toast.show("Incorrect Password")
+            )
+            setLoading(false)
           }
-          setIsLoading(false)
+        }else{
+          if (resData.ErrorMessage === "User already exists!"){
+            Toast.show(" User does not exist! ");
+            setLoading(false)
+          }else if(resData.ErrorMessage === "Invalid Password!"){
+            Toast.show("Incorrect Password")
+            setLoading(false)
+          }
+        }
       }
-      } else {
-        console.log(registerResponse)
+      else{
+        console.log("regisrespones\n",registerResponse)
+        setLoading(false)
       }
-    } else {
-      if (resData.error === "Invalid OTP entered!") {
+    //   if (registerResponse.status === 200) {
+    //     //SUCCESS
+    //     if(data.role === 2){
+    //       props.navigation.navigate('PharamacistDrawer')
+    //     }
+    //     const loginData = {
+    //       email: data.email,
+    //       password: data.password,
+    //       role: data.role,
+    //       device_token: JSON.stringify(AsyncStorage.getItem('deviceToken'))
+    //     }
+
+    //     const response = await postPreLogin('login', loginData)
+    //     const resData = response.data
+
+    //     if (response.success) {
+    //       try {
+    //           await AsyncStorage.setItem('token', resData.token)
+    //           await AsyncStorage.setItem('refreshToken', resData.refreshToken)
+    //           await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+    //           await AsyncStorage.setItem('isLogin', "abc")
+    //       } catch (error) {
+    //           console.log(error)
+    //       }
+    //       props.navigation.navigate('CustomerDrawer')
+    //       // props.navigation.dispatch(
+    //       //     CommonActions.reset({
+    //       //         index:0,
+    //       //         routes: [{name: 'CustomerDrawer'}]
+    //       //     })
+    //       // )
+    //       setLoading(false);
+    //   } else {
+    //       if (resData.ErrorMessage === 'User does not exist!') {
+    //           Toast.show(" User does not exist! ");
+    //       } else if (resData.ErrorMessage === 'Invalid Password!') {
+    //           Toast.show("Incorrect Password")
+    //       }
+    //       setLoading(false)
+    //   }
+    //   } else {
+    //     console.log("error\n",registerResponse)
+    //     setLoading(false)
+    //   }
+    } 
+    else {
+      if (resData.ErrorMessage === "Invalid OTP entered!") {
         errorMsg = "Invalid OTP entered!"
       }
       Alert.alert("Error", errorMsg, [{ text: "Okay" }])
+      setLoading(false)
     }
   }
 
@@ -127,7 +183,7 @@ const VerificationScreen = props => {
         {/* Header  */}
         <View style={styles.header1}>
           <Header
-            Title="VERIFICATION CODE"
+            Title={t("auth:VERIFICATIONCODE")}
             onPress={() => props.navigation.goBack()}
           />
         </View>
@@ -140,9 +196,9 @@ const VerificationScreen = props => {
         {/* Text  */}
         <View >
           <View>
-            <Text style={styles.text}> Waiting for Automatically detect and SMS sent to </Text>
+            <Text style={styles.text}> {t('auth:WaitingforAutomaticallydetectandSMSsentto')} </Text>
             <TouchableOpacity onPress={() => { props.navigation.navigate('PhoneNumberScreen') }} >
-              <Text style={styles.text} >{countryCode}-{phoneNumber}<Text style={styles.Touchtext} > Wrong number ? </Text></Text>
+              <Text style={styles.text} >{countryCode}-{phoneNumber}<Text style={styles.Touchtext} > {t('auth:Wrongnumber')}</Text></Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -172,7 +228,15 @@ const VerificationScreen = props => {
           <Button
             label="Verify Now"
             onPress={() => pressHandler(otp)}
+            showActivityIndicator={loading}
           />
+        </View>
+        
+        <View style={{ flex: 0.5, flexDirection: 'row', justifyContent: 'center' }}>
+          <Text style={styles.resend_code}>Didn't Get the Code? </Text>
+          <TouchableOpacity onPress={() => { navigation.navigate('PhoneNumberScreen') }} >
+            <Text style={styles.resend}>Resend Code</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
@@ -193,6 +257,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center'
   },
+  resend:{
+    color:Colors.PRIMARY,
+    fontWeight:'bold',
+    fontSize: 18
+},
+  resend_code:{
+    fontWeight:'bold',
+    color:Colors.Gray,
+    fontSize:18
+},
   Touchtext: {
     color: Colors.TouchText,
     fontSize: 15,

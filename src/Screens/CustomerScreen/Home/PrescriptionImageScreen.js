@@ -36,9 +36,6 @@ const PrescriptionImageScreen = props => {
     const [modalVisible, setModalVisible] = useState(false);
     const takeFromCamera = () => {
         ImagePicker.openCamera({
-            width: 100,
-            height: 100,
-            cropping: true,
         }).then(image => {
          setImages([...images, image])
          console.log("Selected Images        ", image.path);
@@ -49,9 +46,6 @@ const PrescriptionImageScreen = props => {
 
     const pickFromGallery = () => {
         ImagePicker.openPicker({
-            width: 100,
-            height: 100,
-            cropping: true,
         }).then(image => {
             setImages([...images, image])
             // setSelectedImage(images.path)

@@ -6,6 +6,7 @@ import * as RNLocalize from 'react-native-localize'
 import en from './en';
 import fr from './fr';
 import ar from './ar';
+import { forceUpdate } from "ionicons/dist/types/stencil-public-runtime";
 
 const LANGUAGES = {
     en,
@@ -49,6 +50,7 @@ i18n
   // pass the i18n instance to react-i18next.
   .use(initReactI18next)
   // set options
+  
   .init({
     compatibilityJSON: 'v3',
     resources: LANGUAGES,

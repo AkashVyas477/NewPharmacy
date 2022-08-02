@@ -18,6 +18,7 @@ import PharamaHomeScreen from '../PharamacistScreen/Home/PharamcistHomeScreen';
 import PharamcistProfileEditScreen from '../PharamacistScreen/Profile/PharamacistProfileEditScreen ';
 import PharamcistProfileScreen from '../PharamacistScreen/Profile/PharamacistProfileScreen';
 import PharamcistChangePassword from '../PharamacistScreen/Profile/PharamacistChangePassword';
+import AddAddres from '../PharamacistScreen/Profile/Save_Address/AddAddress';
 
 import Addquotes from '../PharamacistScreen/Home/DetailsScreen/Addquotes';
 
@@ -33,6 +34,7 @@ const PharamaDrawerNavigator = props => {
             
             <Drawer.Screen name='PharamaHome' component={PharamaHomeStackScreen} />
             <Drawer.Screen name='PharamaProfile' component={PharamUserStackScreen}/>
+            <Drawer.Screen name='AddAddress' component={AddresStackScreen}/>
             
         </Drawer.Navigator>
     )
@@ -62,5 +64,14 @@ const PharamUserStackScreen = props => {
         <PharamUserStack.Screen name='PharamEdit_Profile'component={PharamcistProfileEditScreen}/>
         <PharamUserStack.Screen name='PharamChangePassword'component={PharamcistChangePassword}/>
         </PharamUserStack.Navigator>
+    )
+}
+
+const AddresStack = createStackNavigator()
+const AddresStackScreen = props => {
+    return (
+        <AddresStack.Navigator headerMode='none'>
+            <AddresStack.Screen name='AddAddress' component={AddAddres} />
+        </AddresStack.Navigator>
     )
 }

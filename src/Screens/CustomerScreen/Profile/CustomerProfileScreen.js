@@ -21,21 +21,30 @@ const CustomerProfileScreen = props =>{
     const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(false)
 
-    useEffect(()=>{
- getProfile()
-    },[props.navigation])
+    //  useEffect(()=>{
+    //     getProfile()
+    // },[props.navigation])
 
-    const update = async () => {
-        props.navigation.addListener('focus', () => {
-           getProfile()
-        });
-    }
+    // const update = async () => {
+    //     props.navigation.addListener('focus', () => {
+    //        getProfile()
+    //     });
+    // }
 
 
       const getProfile = async() => {
         setUser(JSON.parse(await AsyncStorage.getItem('userInfo')))
         console.log("userinfo   ", user)
     }
+
+
+    useEffect(()=>{
+        const update = props.navigation.addListener('focus',()=>{
+            getProfile();
+        })
+        return update;
+
+    },[props.navigation])
     
     if (isLoading){
         return(

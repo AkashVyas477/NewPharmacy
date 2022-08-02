@@ -22,7 +22,7 @@ import { useTranslation } from 'react-i18next';
 
 
 const DrawerContent = (props) => {
-  const {t}=useTranslation()
+  const { t } = useTranslation()
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
@@ -41,9 +41,9 @@ const DrawerContent = (props) => {
 
   const getProfile = async () => {
     setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
-   
+
   }
-//  console.log(user)
+  //  console.log(user)
 
 
   return (
@@ -70,7 +70,156 @@ const DrawerContent = (props) => {
             </TouchableOpacity>
           </View>
 
-          <Drawer.Section style={styles.drawerSection}>
+          <View style={styles.drawerSection}>
+            <TouchableOpacity onPress={() => { props.navigation.navigate('PharamaHome') }}>
+              <View style={{ flexDirection: "row", margin: 15, alignItems: 'center' }}>
+                <Image source={Images.Homemenu} style={{ height: 30, width: 30 }} />
+                <View style={{ marginLeft: 15, }}>
+                  <View>
+                    <Text style={{ color: Colors.Gray }}>
+                      {t('navigate:Home')}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+
+          <View style={styles.drawerSection}>
+            <TouchableOpacity
+            onPress={()=>{props.navigation.navigate('AddAddress')}}
+            >
+              <View style={{ flexDirection: "row", margin: 15, alignItems: 'center' }}>
+                <Image source={Images.LocationPin}
+                  style={{ height: 38, width: 28 }}
+                />
+                <View style={{ marginLeft: 15, }}>
+                  <View>
+                    <Text style={{ color: Colors.Gray }}>
+                      {t("navigate:ManageAddress")}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.drawerSection}>
+            <TouchableOpacity
+              onPress={() => { props.navigation.navigate('LanguageScreen') }}
+            >
+              <View style={{ flexDirection: "row", margin: 15, alignItems: 'center' }}>
+                <Image source={Images.Language}
+                  style={{ height: 30, width: 30 }}
+                />
+                <View style={{ marginLeft: 15, }}>
+                  <View>
+                    <Text style={{ color: Colors.Gray }}>
+                      {t("navigate:Language")}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+
+          <View style={styles.drawerSection}>
+            <TouchableOpacity
+            // onPress={() => {props.navigation.navigate('LanguageScreen') }}
+            >
+              <View style={{ flexDirection: "row", margin: 15, alignItems: 'center' }}>
+                <Image source={Images.TermsNconditions}
+                  style={{ height: 30, width: 30 }}
+                />
+                <View style={{ marginLeft: 15, }}>
+                  <View>
+                    <Text style={{ color: Colors.Gray }}>
+                      {t('navigate:TermsandConditions')}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+
+          <View style={styles.drawerSection}>
+            <TouchableOpacity
+            // onPress={() => {props.navigation.navigate('LanguageScreen') }}
+            >
+              <View style={{ flexDirection: "row", margin: 15, alignItems: 'center' }}>
+                <Image source={Images.PrivacyPolicy}
+                  style={{ height: 35, width: 30 }}
+                />
+                <View style={{ marginLeft: 15, }}>
+                  <View>
+                    <Text style={{ color: Colors.Gray }}>
+                      {t('navigate:PrivacyPolicy')}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.drawerSection}>
+            <TouchableOpacity
+            // onPress={() => {props.navigation.navigate('LanguageScreen') }}
+            >
+              <View style={{ flexDirection: "row", margin: 15, alignItems: 'center' }}>
+                <Image source={Images.AboutUSicon}
+                  style={{ height: 30, width: 30 }}
+                />
+                <View style={{ marginLeft: 15, }}>
+                  <View>
+                    <Text style={{ color: Colors.Gray }}>
+                      {t('navigate:Aboutus')}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+
+          <View style={styles.drawerSection}>
+            <TouchableOpacity
+              onPress={() =>
+                Alert.alert(
+                  `${t('common:Logout')}`,
+                  `${t('common:Doyouwanttologout')}`,
+                  [
+                    { text: `${t('common:Cancel')}`, onPress: () => { return null } },
+                    {
+                      text: `${t('common:Confirm')}`, onPress: () => {
+                        AsyncStorage.clear();
+                        props.navigation.navigate('Auth')
+                      }
+                    },
+                  ],
+                  { cancelable: false }
+                )
+              }
+            >
+              <View style={{ flexDirection: "row", margin: 15, alignItems: 'center' }}>
+                <Image source={Images.Logout}
+                  style={{ height: 32, width: 30 }}
+                />
+                <View style={{ marginLeft: 15, }}>
+                  <View>
+                    <Text style={{ color: Colors.Gray }}>
+                      {t('navigate:LogOut')}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+
+          {/* <Drawer.Section style={styles.drawerSection}>
 
             <DrawerItem
               icon={({ color, size }) => (
@@ -171,7 +320,8 @@ const DrawerContent = (props) => {
                 )
               }
             />
-          </Drawer.Section>
+          </Drawer.Section> */}
+
         </View>
       </DrawerContentScrollView>
 
@@ -184,7 +334,7 @@ const DrawerContent = (props) => {
 
 const styles = StyleSheet.create({
   drawerContent: {
-      flex: 1,
+    flex: 1,
   },
   userInfoSection: {
     paddingLeft: 20,
@@ -215,6 +365,8 @@ const styles = StyleSheet.create({
   },
   drawerSection: {
     marginTop: 15,
+    borderBottomWidth:0.2,
+    borderBottomColor:Colors.Gray
   },
   bottomDrawerSection: {
     marginBottom: 15,

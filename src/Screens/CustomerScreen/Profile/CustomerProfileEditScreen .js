@@ -46,27 +46,33 @@ const CustomerProfileEditScreen = props => {
         
     };
 
+
+
+    const makeid = (length) => {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+      }
+
     const takeFromCamera = () => {
         ImagePicker.openCamera({
-            width: 100,
-            height: 100,
-            cropping: true,
         }).then(image => {
             setImages([...images, image])
-            console.log("Selected Images        ", image.path);
-            setSelectedImage(image.path)
+            // console.log("Selected Images        ", image.path);
+            setSelectedImage(image)
             setModalVisible(!modalVisible)
         });
     }
     const pickFromGallery = () => {
         ImagePicker.openPicker({
-            width: 100,
-            height: 100,
-            cropping: true
         }).then(image => {
             setImages([...images, image])
-            console.log("Selected Images        ", image);
-            setSelectedImage(image.path)
+            // console.log("Selected Images        ", image);
+            setSelectedImage(image)
             setModalVisible(!modalVisible)
         });
     }
@@ -99,18 +105,21 @@ const CustomerProfileEditScreen = props => {
     //     setIsLoading(false)
     // }
         const onPressSave =async(values)=>{
-            // setIsLoading(true);
+            setIsLoading(true);
             const formdata = new FormData();
             formdata.append("name",values.name)
             // formdata.append("email",values.email)
             formdata.append("country_code",values.country_code)
             formdata.append("gender",values.gender)
             formdata.append("phone",values.phone)
+        if(selectedImage){
             formdata.append("image",{
-                uri:images[0].path,
-                type:images[0].mime,
-                name:"image",
+                uri:selectedImage?.path,
+                type:selectedImage?.mime,
+                name:makeid(10),
             })
+        }
+
             console.log("data       ", formdata._parts)
             const res= await fetch('https://mobile-pharmacy.herokuapp.com/updateProfile',
             {
@@ -164,7 +173,7 @@ const CustomerProfileEditScreen = props => {
                 {/* Body */}
 
                 <View style={styles.profileImg_Style}>
-                    {selectedImage ? <Image source={{ uri: selectedImage }} style={styles.profileImg}/> : <Image source={{uri:user.image}} style={styles.profileImg} />}
+                    {selectedImage ? <Image source={{ uri: selectedImage.path }} style={styles.profileImg}/> : <Image source={{uri:user.image}} style={styles.profileImg} />}
                 </View>
                 <View>
                     <TouchableOpacity style={styles.addIcon} onPress={() => setModalVisible(true)} >
@@ -343,13 +352,13 @@ const CustomerProfileEditScreen = props => {
                             </View>
 {/* Save Button  */}
                             <View style={{ marginTop: 20 }}>
-                            { isLoading ? <ActivityIndicator size={25} color={Colors.White}/> 
-                            : <Button
+                           
+                             <Button
                                     label={t('common:Save')}
-                                    // onPress={() => { props.navigation.navigate('Profile') }}
+                                    showActivityIndicator={isLoading}
                                     onPress={ handleSubmit } 
-                                   disabled={isValid || !isLoading}
-                                /> }
+                                   disabled={isValid}
+                                /> 
                             </View>
                         </View>
                     

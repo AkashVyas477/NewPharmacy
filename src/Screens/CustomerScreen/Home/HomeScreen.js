@@ -224,6 +224,7 @@ const  styles=StyleSheet. create({
 
         flexDirection: 'row',
         padding:5,
+        alignContent:'center',alignItems:'center'
         // width: "80%"
         // paddingRight:10,
 
@@ -237,6 +238,7 @@ const  styles=StyleSheet. create({
         height: 90, 
         width: 90,
         borderRadius: 10,
+        
     },
     Text_sty:{ 
         flexDirection: 'column', 

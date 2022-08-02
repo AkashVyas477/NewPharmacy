@@ -13,6 +13,7 @@ export default {
   PhonerNumber:'Phoner Number',
   Gender:'Gender',
   EditProfile:'Edit Profile',
+  ManageAddress:"Manage Address",
   EDITPROFILE:'EDIT PROFILE',
   Password:'Password',
   CHANGEPASSWORD:'CHANGE PASSWORD',

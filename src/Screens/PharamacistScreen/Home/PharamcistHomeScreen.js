@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     },
     Image_Sty: {
         height: 170,
-        width: 290,
+        width: 360,
         borderRadius: 10,
         opacity: 0.8
     },

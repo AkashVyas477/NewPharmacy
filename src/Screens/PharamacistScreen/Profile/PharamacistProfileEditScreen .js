@@ -71,24 +71,18 @@ console.log("    userINfo     ", user);
 
     const takeFromCamera = () => {
         ImagePicker.openCamera({
-            width: 100,
-            height: 100,
-            cropping: true,
         }).then(image => {
             // setImages([...images, image])
-            console.log("Selected Images        ", image);
+            // console.log("Selected Images        ", image);
             setSelectedImage(image)
             setModalVisible(!modalVisible)
         });
     }
     const pickFromGallery = () => {
         ImagePicker.openPicker({
-            width: 100,
-            height: 100,
-            cropping: true
         }).then(image => {
             // setImages([...images, image])
-            console.log("Selected Images        ", image);
+            // console.log("Selected Images        ", image);
             setSelectedImage(image)
             setModalVisible(!modalVisible)
         });
@@ -130,8 +124,8 @@ console.log("    userINfo     ", user);
             formdata.append("gender",values.gender)
             formdata.append("phone",values.phone)
             formdata.append("store_name",values.store_name)
-            formdata.append("license_id",values.license_id)
-            formdata.append("pharmacy_id",values.pharmacy_id)
+            // formdata.append("license_id",values.license_id)
+            // formdata.append("pharmacy_id",values.pharmacy_id)
 
             if(selectedImage){
             formdata.append("image",{
@@ -227,8 +221,8 @@ console.log("    userINfo     ", user);
                         name: user.name,
                         email: user.email,
                         store_name: user.store_name,
-                        pharmacy_id:user.pharmacy_id,
-                        license_id:user.license_id,
+                        // pharmacy_id:user.pharmacy_id,
+                        // license_id:user.license_id,
                         phone: user.phone,
                         country_code:user.country_code,
                         gender:user.gender, 
@@ -240,8 +234,8 @@ console.log("    userINfo     ", user);
                         name: yup.string(),
                         email: yup.string().email('Please enter a valid email.'),
                         store_name:yup.string(),
-                        license_id:yup.string(),
-                        pharmacy_id:yup.string(),
+                        // license_id:yup.string(),
+                        // pharmacy_id:yup.string(),
                         phone: yup.number().min(10,'Phone number should be ten number '),
                         country_code: yup.string(),
                         gender:yup.string()
@@ -295,9 +289,8 @@ console.log("    userINfo     ", user);
                                 />
                             </View>     
 {/* Pharmacy Id */}
-<Text style={{ ...styles.text_footer, marginTop: 15 }}>{t('common:PharmacyId')}</Text>
+{/* <Text style={{ ...styles.text_footer, marginTop: 15 }}>{t('common:PharmacyId')}</Text>
                             <View style={styles.action}>
-                                {/* <FontAwesome name="envelope" color={Colors.ORANGE} size={25}/> */}
                                 <TextInput
                                     value={values.pharmacy_id}
                                     onBlur={() => setFieldTouched('pharmacy_id')}
@@ -308,11 +301,10 @@ console.log("    userINfo     ", user);
                                     style={styles.textInput}
                                     autoCapitalize="none"
                                 />
-                            </View>  
+                            </View>   */}
 {/* License Id */}
-<Text style={{ ...styles.text_footer, marginTop: 15 }}> {t('common:LicenseId')}</Text>
+{/* <Text style={{ ...styles.text_footer, marginTop: 15 }}> {t('common:LicenseId')}</Text>
                             <View style={styles.action}>
-                                {/* <FontAwesome name="envelope" color={Colors.ORANGE} size={25}/> */}
                                 <TextInput
                                     value={values.license_id}
                                     onBlur={() => setFieldTouched('license_id')}
@@ -323,7 +315,7 @@ console.log("    userINfo     ", user);
                                     style={styles.textInput}
                                     autoCapitalize="none"
                                 />
-                            </View>                                                     
+                            </View>                                                      */}
 {/* PhoneNumber */}
                             <View>
                                 <View >
@@ -378,13 +370,14 @@ console.log("    userINfo     ", user);
                             </View>
 {/* Save Button  */}
                             <View style={{ marginTop: 20 }}>
-                            { isLoading ? <ActivityIndicator size={25} color={Colors.White}/> 
-                            : <Button
+                            
+                             <Button
                                     label={t('common:Save')}
                                     onPress={() => { props.navigation.navigate('PharamaProfile') }}
                                     onPress={ handleSubmit } 
-                                   disabled={isValid || !isLoading}
-                                /> }
+                                    showActivityIndicator={isLoading}
+                                   disabled={isValid}
+                                /> 
                             </View>
                         </View>
                     

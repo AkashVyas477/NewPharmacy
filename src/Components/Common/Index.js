@@ -20,6 +20,6 @@ export{
     CheckButton,
     CheckRound,
     Cards,
-    CreditCardDisplay
+  
     // Refresh
 };

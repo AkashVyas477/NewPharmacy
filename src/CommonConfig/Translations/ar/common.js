@@ -15,6 +15,7 @@ export default {
   Save:'يحفظ',
   PhoneNumber:'رقم الهاتف',
   Gender:'جنس',
+  ManageAddress:'إدارة العنوان',
   EditProfile:'تعديل الملف الشخصي',
   EDITPROFILE:'تعديل الملف الشخصي',
   PASSWORD:'كلمة المرور',

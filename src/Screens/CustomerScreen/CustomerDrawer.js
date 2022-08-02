@@ -28,23 +28,41 @@ const DrawerContent = (props) => {
   const [isLoading, setIsLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
 
-  useEffect(() => {
-    getProfile()
+  // useEffect(() => {
+  //   getProfile()
 
-  }, [props.navigation])
+  // }, [props.navigation])
 
 
-  const update = async () => {
-    props.navigation.addListener('focus', () => {
-      getProfile()
+  // const update = async () => {
+  //   props.navigation.addListener('focus', () => {
+  //     getProfile()
 
-    });
-  }
+  //   });
+  // }
 
-  const getProfile = async () => {
+  // const getProfile = async () => {
+  //   setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
+
+  // }
+
+
+  const getProfile = async() => {
     setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
+    console.log("userinfo   ", user)
+}
 
-  }
+
+useEffect(()=>{
+    const update = props.navigation.addListener('focus',()=>{
+        getProfile();
+    })
+    return update;
+
+},[props.navigation])
+
+
+
   return (
     <>
       <DrawerContentScrollView {...props}>
@@ -69,7 +87,98 @@ const DrawerContent = (props) => {
             </TouchableOpacity>
           </View>
 
-          <Drawer.Section style={styles.drawerSection}>
+                <View style={styles.drawerSection}>
+                  <TouchableOpacity onPress={() => { props.navigation.navigate('Home') }}>
+                  <View style={{ flexDirection: "row", margin: 15, alignItems:'center' }}>
+                <Image source={Images.Homemenu} style={{ height: 30, width: 30 }} />
+                <View style={{ marginLeft: 15, }}>
+                  <View>
+                    <Text style={{color:Colors.Gray}}>
+                    {t('navigate:Home')}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+                  </TouchableOpacity>
+                </View>
+
+
+                <View style={styles.drawerSection}>
+                  <TouchableOpacity 
+                  // onPress={() => { props.navigation.navigate('Home') }}
+                  >
+                  <View style={{ flexDirection: "row", margin: 15,alignItems:'center' }}>
+                  <Image source={Images.LocationPin}
+                  style={{ height: 38, width: 28 }}
+                />
+                <View style={{ marginLeft: 15, }}>
+                  <View>
+                    <Text style={{color:Colors.Gray}}>
+                    {t('navigate:ManageAddress')}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.drawerSection}>
+                  <TouchableOpacity 
+                  onPress={() => { props.navigation.navigate('LanguageScreen') }}
+                  >
+                  <View style={{ flexDirection: "row", margin: 15,alignItems:'center' }}>
+                  <Image source={Images.Language}
+                  style={{ height: 30, width: 30 }}
+                />
+                <View style={{ marginLeft: 15, }}>
+                  <View>
+                    <Text style={{color:Colors.Gray}}>
+                    {t('navigate:Language')}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+                  </TouchableOpacity>
+                </View>
+
+
+                <View style={styles.drawerSection}>
+                  <TouchableOpacity 
+                  onPress={() =>
+                    Alert.alert(
+                      `${t('common:Logout')}`,
+                      `${t('common:Doyouwanttologout')}`,
+                      // 'Do you want to logout?',
+                      [
+                        { text: `${t('common:Cancel')}`, onPress: () => { return null } },
+                        {
+                          text: `${t('common:Confirm')}`, onPress: () => {
+                            AsyncStorage.clear();
+                            props.navigation.navigate('Auth')
+                          }
+                        },
+                      ],
+                      { cancelable: false }
+                    )
+                  }
+                  >
+                  <View style={{ flexDirection: "row", margin: 15,alignItems:'center' }}>
+                  <Image source={Images.Logout}
+                  style={{ height: 32, width: 30 }}
+                />
+                <View style={{ marginLeft: 15, }}>
+                  <View>
+                    <Text style={{color:Colors.Gray}}>
+                    {t('navigate:LogOut')}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+                  </TouchableOpacity>
+                </View>
+
+
+          {/* <Drawer.Section style={styles.drawerSection}>
 
             <DrawerItem
               icon={({ color, size }) => (
@@ -89,17 +198,21 @@ const DrawerContent = (props) => {
                   style={{ height: 38, width: 28 }}
                 />
               )}
+              // focused
               label={t('navigate:ManageAddress')}
             // onPress={()=>{props.navigation.navigate('LocationScreen')}}
             />
           </Drawer.Section>
-          <Drawer.Section style={styles.drawerSection}>
+
+
+          <Drawer.Section   style={styles.drawerSection}>
             <DrawerItem
               icon={({ color, size }) => (
                 <Image source={Images.Language}
                   style={{ height: 30, width: 30 }}
                 />
               )}
+              
               label={t('navigate:Language')}
               onPress={() => { props.navigation.navigate('LanguageScreen') }}
             />
@@ -132,7 +245,7 @@ const DrawerContent = (props) => {
                 )
               }
             />
-          </Drawer.Section>
+          </Drawer.Section> */}
         </View>
       </DrawerContentScrollView>
 
@@ -173,6 +286,8 @@ const styles = StyleSheet.create({
   },
   drawerSection: {
     marginTop: 15,
+    borderBottomWidth:0.2,
+    borderBottomColor:Colors.Gray
   },
   bottomDrawerSection: {
     marginBottom: 15,

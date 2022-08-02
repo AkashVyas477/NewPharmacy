@@ -49,10 +49,13 @@ import navigate from '../../CommonConfig/Translations/en/navigate';
 const Drawer = createDrawerNavigator()
 const DrawerNavigator = props => {
     return (
-        <Drawer.Navigator headerMode='none' drawerContent={ props => <DrawerContent {...props}/>}>
-            
+        <Drawer.Navigator 
+        headerMode='none' 
+        drawerContent={ props => <DrawerContent {...props}/>}
+        >
             <Drawer.Screen name='Home' component={TabNavigator} />
             <Drawer.Screen name='Profile' component={UserStackScreen}/>
+            <Drawer.Screen name = 'LanguageScreen' component={LanguageStackScreen} />
             
         </Drawer.Navigator>
     )
@@ -163,8 +166,8 @@ const AddresStackScreen = props => {
 const LanguageStack = createStackNavigator()
 const LanguageStackScreen = props => {
     return(
-        <LanguageStack.Navigator headerMode='none'>
-        <LanguageStack.Screen name='LanguageScreen' component={LanguageScreen}/>
+        <LanguageStack.Navigator headerMode='none' >
+        <LanguageStack.Screen name='LanguageScreen' component={LanguageScreen} />
         </LanguageStack.Navigator>
     )
 }

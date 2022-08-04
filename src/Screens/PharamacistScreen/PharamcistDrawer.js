@@ -40,7 +40,7 @@ const DrawerContent = (props) => {
   }
 
   const getProfile = async () => {
-    setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
+    setUser(JSON.parse(await AsyncStorage.getItem("user")))
 
   }
   //  console.log(user)
@@ -54,15 +54,15 @@ const DrawerContent = (props) => {
             <TouchableOpacity onPress={() => { props.navigation.navigate('PharamaProfile') }}>
               <View style={{ flexDirection: "row", margin: 15 }}>
                 {selectedImage ? <Avatar.Image source={Images.SignupPlaceholder} size={50} />
-                  : <Avatar.Image source={{ uri: user.image }} size={50} />
+                  : <Avatar.Image source={{ uri: user?.image }} size={50} />
                 }
                 <View style={{ marginLeft: 15, }}>
                   <Title style={styles.title}>
-                    {user.name}
+                    {user?.name}
                   </Title>
                   <View>
                     <Text style={{ color: Colors.placeHolder }}>
-                      {user.email}
+                      {user?.email}
                     </Text>
                   </View>
                 </View>

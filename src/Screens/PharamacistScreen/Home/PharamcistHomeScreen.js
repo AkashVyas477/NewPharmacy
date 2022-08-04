@@ -12,19 +12,43 @@ import { useTranslation } from 'react-i18next';
 
 const PharamaHomeScreen = props => {
 
-    const {t}= useTranslation()
+    const { t } = useTranslation()
     const [user, setUser] = useState({});
     const [length, setLength] = useState(0)
     const [prescriptionList, setPrescriptionList] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
+    const [currentPage, setCurrentPage] = useState(1)
+    const [isMoreItem, setIsMoreItem] = useState(false)
+
+    const renderLoader = () => {
+        return (
+            <View style={styles.loaderStyle}>
+                {isMoreItem ?
+                    (
+                        <ActivityIndicator size="large" />
+                    ) : null}
+            </View>
+        );
+    }
+
+    const loadMoreItem = () => {
+        setCurrentPage(currentPage + 1)
+        // console.log("loadMore  ", currentPage)
+    };
+
+    useEffect(() => {
+        getPrescription()
+    }, [currentPage]);
+
+
     const getuser = async () => {
-        setUser(JSON.parse(await AsyncStorage.getItem('userInfo')))
+        setUser(JSON.parse(await AsyncStorage.getItem('user')))
     }
 
     useEffect(() => {
-        // console.log("info\n", user)
     }, [user])
+
 
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
@@ -36,15 +60,21 @@ const PharamaHomeScreen = props => {
 
 
     const getPrescription = async () => {
-        const response = await getParams('pharmacist/getRequests?page=1')
+        const response = await getParams(`pharmacist/getRequests?page=${currentPage}`)
         // console.log("prescription\n",response)
         if (response.success) {
+            
+            setPrescriptionList([...prescriptionList, ...response.data.data])
+            console.log(response.data.data)
             setLength(response.data.length)
+            setIsMoreItem(true)
             setIsLoading(false)
-            setPrescriptionList(response.data.data)
+
+            // setPrescriptionList(response.data.data)
         } else {
             setIsLoading(false)
-            Toast.show('There is no Prescription available currently!')
+            setIsMoreItem(false)
+            // Toast.show('There is no Prescription available currently!')
         }
     }
 
@@ -53,40 +83,40 @@ const PharamaHomeScreen = props => {
         return (
             <View style={styles.card}>
                 <TouchableOpacity
-                 onPress={() => {props.navigation.navigate('Addquotes',{prescription:data.item}) }}
+                    onPress={() => { props.navigation.navigate('Addquotes', { prescription: data.item }) }}
                 >
                     <View style={styles.Card_Sty}>
                         <View>
                             <Image source={{ uri: data.item.Prescription_image }} style={styles.Image_Sty} />
                             <View style={styles.userDisply}>
-                            <Image source={{ uri: data.item.user_image }} style={styles.userImage} /> 
-                            <Text style={styles.userName}>{data.item.user}</Text>
+                                <Image source={{ uri: data.item.user_image }} style={styles.userImage} />
+                                <Text style={styles.userName}>{data.item.user}</Text>
                             </View>
                             {/* <Image source={{ uri: data.item.user_image }} style={styles.userImage} />
                             <Text style={styles.userName}>{data.item.user}</Text> */}
                         </View>
-                        <View style={{flexDirection: 'row' }}>
-                        <View style={styles.Text_sty}>
-                            <View >
-                                <Text style={styles.Pname}>{data.item.prescription_name}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={styles.Text_sty}>
+                                <View >
+                                    <Text style={styles.Pname}>{data.item.prescription_name}</Text>
+                                </View>
+
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 1 }}>
+                                    <Image source={Images.Calendar} style={{ height: 20, width: 20, }} />
+                                    <Text style={styles.name}>{moment(data.item.createdAt).format('DD/MM/YYYY') + ' at ' + moment(data.item.createdAt).format('hh:mm A')}</Text>
+                                </View>
+
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Image source={Images.Quotes} style={{ height: 18, width: 20, }} />
+                                    <Text style={styles.name}>{data.item.total_quotes}</Text>
+                                </View>
                             </View>
 
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 1 }}>
-                                <Image source={Images.Calendar} style={{ height: 20, width: 20, }} />
-                                <Text style={styles.name}>{moment(data.item.createdAt).format('DD/MM/YYYY') + ' at ' + moment(data.item.createdAt).format('hh:mm A')}</Text>
-                            </View>
-
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Image source={Images.Quotes} style={{ height: 18, width: 20, }} />
-                                <Text style={styles.name}>{data.item.total_quotes}</Text>
-                            </View>
-                        </View>
-
-                        {/* <View style={{}} >
+                            {/* <View style={{}} >
                                 {data.item.status === 0 ? <Text style={{ color: Colors.orange }}> Pending</Text> : <Text style={{ color: Colors.PRIMARY }}> Completed</Text>}
                             </View> */}
 
-                            </View>
+                        </View>
 
                     </View>
                 </TouchableOpacity>
@@ -112,7 +142,7 @@ const PharamaHomeScreen = props => {
                 </View>
             </View>
 
-            <View style={{ padding: 10 }}>
+            <View style={{ padding: 10, flex: 1 }}>
                 <View style={{ alignItems: 'center' }}>
                     {
                         isLoading ?
@@ -125,21 +155,22 @@ const PharamaHomeScreen = props => {
                                     <Text>{t('common:NoPrescriptionfound')}</Text>
                                 </View>
                                 :
+
                                 <View>
-                                    <Text style={{ color: '#717D7E', fontSize: 17, padding: 10, textAlign: 'center' }}>
-                                        {t('common:PrescriptionList')}
-                                    </Text>
+                                    {/* <Text style={{ color: '#717D7E', fontSize: 17, padding: 10, textAlign: 'center' }}>{t('common:PrescriptionList')}</Text> */}
                                     <FlatList
                                         // padding={30}
                                         data={prescriptionList}
                                         keyExtractor={item => item.id}
                                         renderItem={renderprescriptionList}
-                                        isLoading='false'
+                                        ListFooterComponent={renderLoader}
+                                        onEndReached={loadMoreItem}
+                                        // onEndReached={()=>{console.log(loadMoreItem)}}
+                                        onEndReachedThreshold={0.1}
+                                    // isLoading='false'
                                     />
                                 </View>
                     }
-
-
                 </View>
             </View>
 
@@ -149,11 +180,14 @@ const PharamaHomeScreen = props => {
 
 const styles = StyleSheet.create({
     screen: {
-        flex: 1
+        flex: 1,
+        // padding:10, 
+        // marginBottom:10
     },
     screen1: {
         backgroundColor: 'white',
-        elevation: 5
+        elevation: 5,
+
     },
     header: {
         justifyContent: 'space-between',
@@ -184,24 +218,24 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         opacity: 0.8
     },
-    userDisply:{
-        flexDirection:'row',
-        alignItems:'center',
-        width:"100%",
+    userDisply: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: "100%",
         position: 'absolute',
-        backgroundColor:'rgba(0,0,0,0.2)',
+        backgroundColor: 'rgba(0,0,0,0.2)',
         left: Dimensions.get('window').width * 0,
         top: Dimensions.get('window').width * 0.3,
     },
     userImage: {
         // flex: 3,
-        height:40 ,
+        height: 40,
         width: 40,
-        aspectRatio:1,
+        aspectRatio: 1,
         borderRadius: 20,
     },
     userName: {
-        flex:7,
+        flex: 7,
         padding: 10,
         // backgroundColor: 'rgba(0,0,0,0.4)',
         color: Colors.White,
@@ -209,17 +243,17 @@ const styles = StyleSheet.create({
     },
     card: {
         flex: 1,
-        flexGrow: 1,
+        // flexGrow: 1,
         // shadowColor:Colors.White,
         shadowOpacity: 0.26,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 8,
         borderRadius: 10,
         backgroundColor: 'white',
-        marginBottom: 5,
+        marginBottom: 10,
         margin: 10,
         justifyContent: 'center',
-        width: Dimensions.get('screen').width *0.9
+        width: Dimensions.get('screen').width * 0.9
     },
     Card_Sty: {
         // flexDirection: 'row',
@@ -248,6 +282,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1
+    },
+    loaderStyle: {
+        marginVertical: 16,
+        alignItems: "center",
+        color: Colors.PRIMARY
     },
 
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Image, View } from 'react-native';
+import React ,{useState,useEffect}from 'react';
+import { Image, View,Text } from 'react-native';
 import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -25,10 +25,12 @@ import Addquotes from '../PharamacistScreen/Home/DetailsScreen/Addquotes';
 import SplashScreen from '../SplashScreen';
 import DrawerContent from './PharamcistDrawer';
 
+
 const Drawer = createDrawerNavigator()
 
 
 const PharamaDrawerNavigator = props => {
+
     return (
         <Drawer.Navigator headerMode='none' drawerStyle={{ width :'70%'}} drawerContent={ props => <DrawerContent {...props}/>}>
             
@@ -45,10 +47,21 @@ export default PharamaDrawerNavigator;
 
 
 const PharamaHomeStack = createStackNavigator()
+
 const PharamaHomeStackScreen = props => {
+    
+    const [user, setUser] = useState({});
+    const getuser = async () => {
+        setUser(JSON.parse(await AsyncStorage.getItem('user'))) 
+    }
+    useEffect(() => {
+        console.log("user\n",user)
+    }, [user])
+
     return (
         <PharamaHomeStack.Navigator headerMode='none'>
-            <PharamaHomeStack.Screen name='PharamaHome' component={PharamaHomeScreen} />
+            <PharamaHomeStack.Screen name='PharamaHome'
+             component={PharamaHomeScreen}     />
             <PharamaHomeStack.Screen name='Addquotes' component={Addquotes} />
             
         </PharamaHomeStack.Navigator>

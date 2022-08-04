@@ -33,8 +33,8 @@ const CustomerProfileScreen = props =>{
 
 
       const getProfile = async() => {
-        setUser(JSON.parse(await AsyncStorage.getItem('userInfo')))
-        console.log("userinfo   ", user)
+        setUser(JSON.parse(await AsyncStorage.getItem('user')))
+        console.log("user   ", user)
     }
 
 

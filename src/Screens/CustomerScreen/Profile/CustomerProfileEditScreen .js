@@ -133,7 +133,7 @@ const CustomerProfileEditScreen = props => {
             const response = await res.json()
             // const resData= response.data
             console.log(response)
-            await AsyncStorage.setItem('userInfo', JSON.stringify(response.user))
+            await AsyncStorage.setItem('user', JSON.stringify(response.user))
             
             Toast.show("Profile Update Successfully")
             // Toast.show(`${t('common:ProfileUpdateSuccessfully')}`)

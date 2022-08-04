@@ -20,10 +20,12 @@ const PrescriptionScreen = props => {
     const [prescriptionList, setprescriptionList] = useState([])
     const [PastPrescription, setpastprescriptionList] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+
     const [currentPage, setCurrentPage] = useState(1)
     const [isMoreItem, setIsMoreItem] = useState(false)
+    
 
-    let renderLoader = () => {
+    const renderLoader = () => {
         return (
             <View style={styles.loaderStyle}>
                 {isMoreItem ?
@@ -39,40 +41,56 @@ const PrescriptionScreen = props => {
         // console.log("loadMore  ", currentPage)
     };
 
+    useEffect(()=>{
+        getPrescriptionList()
+        getPastPrescription()
+    },[currentPage]);
+
+
+
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
+            setIsLoading(true)
             getPrescriptionList()
             getPastPrescription()
         });
         return update;
     }, [props.navigation])
 
+
+
+
     const getPrescriptionList = async () => {
-        // console.log("getPrescriptionList")
-
+        // setIsLoading(true)
         const response = await getParams(`customer/getPrescriptionsList/?page=${currentPage}&state=current&page_size=6`)
-
-        // console.log(response,"current");
         if (response.success) {
             setprescriptionList([...prescriptionList, ...response.data.prescription])
-            //    setIsMoreItem(false)
+            setIsMoreItem(true)
             setIsLoading(false)
         } else {
-            // console.log("Current    ",response);
+            // console.log("current\n",response)
             setIsLoading(false)
-
-
+            Toast.show('No more Prescription')
+            setIsMoreItem(false)
+            
         }
     }
 
     const getPastPrescription = async () => {
 
         const response = await getParams(`customer/getPrescriptionsList/?page=${currentPage}&state=past&page_size=6`)
+        // console.log("pastdata\n",response)
         if (response.success) {
             setpastprescriptionList([...PastPrescription, ...response.data.prescription])
             // console.log(setpastprescriptionList.data)
 
+            setIsMoreItem(true)
+            setIsLoading(false)
         } else {
+            // console.log("pastdata\n",response)
+            setIsLoading(false)
+            setIsMoreItem(false)
+            // Toast.show('No more Prescription')
             // console.log("Past    ",response);
 
         }

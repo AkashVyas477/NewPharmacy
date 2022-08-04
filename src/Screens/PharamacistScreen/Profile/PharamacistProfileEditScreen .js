@@ -46,12 +46,12 @@ const PharamcistProfileEditScreen = props => {
     //     return update;
     // }, [props.navigation])
     useEffect(()=>{
-        console.log("    userINfo     ", user);
+        console.log("    user     ", user);
     },[user])
 
 
     const user = props.route.params.user
-console.log("    userINfo     ", user);
+console.log("    user     ", user);
     const [selectedImage, setSelectedImage] = useState(null)
     console.log("Image\n",selectedImage)
     const [modalVisible, setModalVisible] = useState(false);
@@ -147,7 +147,7 @@ console.log("    userINfo     ", user);
             const response = await res.json()
             // const resData= response.data
             console.log(response)
-            await AsyncStorage.setItem('userInfo', JSON.stringify(response.user))
+            await AsyncStorage.setItem('user', JSON.stringify(response.user))
             
             Toast.show("Profile Update Successfully")
             props.navigation.goBack()

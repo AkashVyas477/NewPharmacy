@@ -63,7 +63,7 @@ const VerificationScreen = props => {
       user.append("country_code", countryCode)
       user.append("phone", phoneNumber)
       user.append('store_name',data.storeName)
-      user.append('licenseId',data.licenseId)
+      user.append('license_id',data.licenseId)
       // console.log("Form_Image       ",)
       console.log("FormData\n",user)
 
@@ -76,9 +76,9 @@ const VerificationScreen = props => {
       })
      const  registerResponse = await res.json()
       // console.log("123\n",registerResponse)
-      if(registerResponse.message==="Customer created successfully" || registerResponse.message==="Pharmacy created successfully"){
+      if(registerResponse.message==="Customer created successfully" || registerResponse.message==="Pharmacist created successfully"){
         if(data.role ===2){
-          navigation.navigate('PharamacistDrawer')
+          props.navigation.navigate('PharamacistDrawer')
         }
         const loginData={
           email:data.email.toLowerCase(),
@@ -94,7 +94,7 @@ const VerificationScreen = props => {
                       await AsyncStorage.setItem('role',resData.user.role.toString())
                       await AsyncStorage.setItem('token', resData.token)
                       await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-                      await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+                      await AsyncStorage.setItem('user', JSON.stringify(resData.user))
                       await AsyncStorage.setItem('isLogin', "1")
           }catch(error){
             console.log("error\n",error)

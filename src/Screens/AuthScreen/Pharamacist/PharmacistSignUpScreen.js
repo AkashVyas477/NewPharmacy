@@ -49,9 +49,6 @@ const PharmacistSignUpScreen = props => {
     const [modalVisible, setModalVisible] = useState(false);
     const takeFromCamera = () => {
         ImagePicker.openCamera({
-            width: 100,
-            height: 100,
-            cropping: true,
         }).then(image => {
 
             setSelectedImage(image)
@@ -60,9 +57,6 @@ const PharmacistSignUpScreen = props => {
     }
     const pickFromGallery = () => {
         ImagePicker.openPicker({
-            width: 100,
-            height: 100,
-            cropping: true
         }).then(image => {
             console.log(image);
             setSelectedImage(image)
@@ -150,7 +144,7 @@ const PharmacistSignUpScreen = props => {
                         onSubmit={values => {
                             const data = { username: values.username, email: values.email, password: values.password, passwordConfirm: values.passwordConfirm, gender: values.gender, storeName: values.storeName, licenseId: values.licenseId, role, selectedImage }
                             // console.log(dispatch)
-                            dispatch(registerAction.addDetails(data));
+                            // dispatch(registerAction.addDetails(data));
                             props.navigation.navigate('PhoneNumberScreen', { data })
                         }}
                         validationSchema={SignUpValidationSchema}

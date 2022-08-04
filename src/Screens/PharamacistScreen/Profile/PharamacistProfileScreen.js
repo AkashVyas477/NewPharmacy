@@ -30,12 +30,12 @@ const PharamcistProfileScreen = props =>{
     
 
       const getProfile = async() => {
-        setUser(JSON.parse(await AsyncStorage.getItem('userInfo')))
+        setUser(JSON.parse(await AsyncStorage.getItem('user')))
        
     }
 
     useEffect(()=>{
-        console.log("userinfo   ", user)
+        console.log("user   ", user)
     },[user])
 
 

@@ -87,7 +87,7 @@ useEffect(()=>{
 
     const [user, setUser] = useState({})
     const getProfile = async () => {
-        setUser(JSON.parse(await AsyncStorage.getItem("userInfo")))
+        setUser(JSON.parse(await AsyncStorage.getItem("user")))
     }
 
 

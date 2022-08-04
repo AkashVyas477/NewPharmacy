@@ -7,7 +7,7 @@ import AddressValidationSchema from '../../../../ForValidationSchema/AddressVali
 import * as addressActions from '../../../../Store/Actions/address';
 import { getCurrentPosition } from 'react-native-geolocation-service';
 import GetLocation from 'react-native-get-location'
-import Geolocation from 'react-native-geolocation-service';
+// import Geolocation from 'react-native-geolocation-service';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Images, Colors } from '../../../../CommonConfig';
 import Header from '../../../../Components/Common/Header';
@@ -18,27 +18,31 @@ const AddAddres = props => {
     const [isLoading, setIsLoading] = useState(false)
 
 
-    // useEffect(() => {
-    //     const update = props.navigation.addListener('focus', async () => {
-    //         setIsLoading(true)
+    useEffect(() => {
+        const update = props.navigation.addListener('focus', async () => {
+            setIsLoading(true)
 
-    //         GetLocation.getCurrentPosition({
-    //             enableHighAccuracy: true,
-    //             timeout: 15000,
-    //         })
-    //             .then(location => {
-    //                 onPressAdd(location.latitude, location.longitude);
-    //             })
-    //             .catch((error) => {
-    //                 // console.log(error)
-    //                 const { code, message } = error;
-    //                 console.log(code, message);
-    //             })
+            GetLocation.getCurrentPosition({
+                enableHighAccuracy: true,
+                timeout: 15000,
+            })
+                .then(location => {
+                    // onPressAdd(location.latitude, location.longitude);
+                    console.log(location);
 
-    //     });
-    //     return update
-    // }, [props.navigation])
+                })
+                .catch((error) => {
+                    // console.log(error)
+                    const { code, message } = error;
+                    console.log(code, message);
+                })
 
+        });
+        return update
+    }, [props.navigation])
+
+
+   
 
 
     const onPressAdd = async (values) => {

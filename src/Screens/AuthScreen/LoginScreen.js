@@ -70,7 +70,7 @@ const LoginScreen = (props) => {
                  await AsyncStorage.setItem('role', resData.user.role.toString())
                     await AsyncStorage.setItem('token', resData.token)
                     await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-                    await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
+                    await AsyncStorage.setItem('user', JSON.stringify(resData.user))
                     await AsyncStorage.setItem('isLogin', "1")
             }catch (error){
                 console.log(error)

@@ -105,7 +105,7 @@ useEffect(()=>{
 
                 <View style={styles.drawerSection}>
                   <TouchableOpacity 
-                  // onPress={() => { props.navigation.navigate('Home') }}
+                  onPress={() => { props.navigation.navigate('AddresScreen') }}
                   >
                   <View style={{ flexDirection: "row", margin: 15,alignItems:'center' }}>
                   <Image source={Images.LocationPin}

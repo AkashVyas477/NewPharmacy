@@ -14,8 +14,7 @@ import { useTranslation } from 'react-i18next';
 import LoginScreen from '../AuthScreen/LoginScreen'
 
 //Screens from Customer 
-// import LanguageScreen from '../LanguageScreen';
-// import LanguageScreen from '../LanguageScreen'
+
 import LanguageScreen from '../LanguageScreen';
 
 // Screens from Home in Customer 
@@ -24,10 +23,13 @@ import PrescriptionScreen from '../CustomerScreen/Home/PrescriptionScreen';
 import PrescriptionImageScreen from '../CustomerScreen/Home/PrescriptionImageScreen';
 
 // Screens from Profile in Customer 
-import LocationScreen from '../CustomerScreen/Profile/Address/Location';
+
 import CustomerProfileScreen from '../CustomerScreen/Profile/CustomerProfileScreen';
 import CustomerProfileEditScreen from '../CustomerScreen/Profile/CustomerProfileEditScreen ';
 import  ChangePassword from '../CustomerScreen/Profile/ChangePassword';
+import Address from '../CustomerScreen/Profile/Address/Address';
+import AddNewAddres from '../CustomerScreen/Profile/Address/AddNewAddress';
+
 
 // Screens from Details in Customer 
 import CurrentPrescriptionScreen from '../CustomerScreen/DetailsScreen/CurrentPrescriptionScreenDetail';
@@ -37,6 +39,7 @@ import Preview from '../CustomerScreen/DetailsScreen/ImagePreview';
 import PharamaciesImagePreview from '../CustomerScreen/DetailsScreen/PharamaciesImagePreview';
 import OrderScreen from '../CustomerScreen/DetailsScreen/OrderScreen/OrderScreen';
 import AddCard from '../CustomerScreen/Payment/AddCard';
+
 // import CheckoutScreen from '../CustomerScreen/DetailsScreen/OrderScreen/CheckOutScreen';
 
 
@@ -56,6 +59,8 @@ const DrawerNavigator = props => {
             <Drawer.Screen name='Home' component={TabNavigator} />
             <Drawer.Screen name='Profile' component={UserStackScreen}/>
             <Drawer.Screen name = 'LanguageScreen' component={LanguageStackScreen} />
+            <Drawer.Screen name='AddresScreen' component={AddresStackScreen}/>
+
             
         </Drawer.Navigator>
     )
@@ -157,7 +162,8 @@ const AddresStack = createStackNavigator()
 const AddresStackScreen = props => {
     return (
         <AddresStack.Navigator headerMode='none'>
-            <AddresStack.Screen name='AddresStack' component={LocationScreen} />
+            <AddresStack.Screen name='AddresScreen' component={Address} />
+            <AddresStack.Screen name='AddNewAddres' component={AddNewAddres} />
         </AddresStack.Navigator>
     )
 }

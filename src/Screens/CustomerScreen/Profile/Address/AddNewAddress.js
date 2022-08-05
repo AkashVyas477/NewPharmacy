@@ -13,10 +13,19 @@ import { Images, Colors } from '../../../../CommonConfig';
 import Header from '../../../../Components/Common/Header';
 import Button from '../../../../Components/Common/Button';
 import { add } from 'react-native-reanimated';
+import { useDispatch } from 'react-redux';
+import { postPostLogin } from '../../../../Components/Helpers/ApiHelper';
+import Toast from 'react-native-simple-toast';
 
-const AddAddres = props => {
-    const { t } = useTranslation()
-    const [isLoading, setIsLoading] = useState(false)
+const AddNewAddres = props => {
+    const { t } = useTranslation();
+
+    const dispatch = useDispatch();
+    const [tnc, setTnc] = useState(false);
+    const [ isLoading ,setIsLoading ] = useState(false)
+//0-Home 1-Work 2-Other
+    const [radio,setRadio]=useState(false)
+
     const address= props.route.params.address
     // console.log("address\n",address)
 
@@ -53,9 +62,15 @@ const AddAddres = props => {
             latitude:'',
             longitude:'',
         }
-        GetLocation.getCurrentPosition({enableHighAccuracy:true,timeout:15000,})
-        setIsLoading(false)
         console.log("address\n", data)
+
+        // const response = await postPostLogin('addAddress',data)
+        // if (response.success){
+        //     dispatch(addressActions.addAddress(values))
+        //     Toast.show('address added')
+        //     props.navigation.navigate('Address');
+        // }
+        setIsLoading(false)
        
     }
   
@@ -85,6 +100,27 @@ const AddAddres = props => {
                 >
                     {({ values, errors, setFieldTouched, touched, handleChange, setFieldValue, isValid, handleSubmit }) => (
                         <View style={styles.screen2}>
+
+                            <Text style={styles.title}>
+                                Address Type
+                            </Text>
+                            <View style={{flexDirection:'row', justifyContent:'space-evenly', alignItems:'center'}}>
+                            <View style={{flexDirection:'row', alignItems:'center'}}>
+                                {/* {
+                                    radio ===0 ?
+                                    :
+                                    <TouchableOpacity onPress={() => { 
+                                        setRadio(0)
+                                        setFieldTouched('address_type')
+                                        setFieldValue('address_type',0)
+                                    }}>
+                                            {tnc ? <Image source={Images.ActiveRoundCheck} style={styles.acheckIcon} /> :
+                                                <Image source={Images.InactiveCheckBox} style={styles.checkIcon} />}
+                                    </TouchableOpacity> 
+                                } */}
+                            </View>
+                            </View>
+
                             <Text style={styles.title}>
                                 Primary address
                             </Text>
@@ -174,4 +210,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default AddAddres;
+export default AddNewAddres;

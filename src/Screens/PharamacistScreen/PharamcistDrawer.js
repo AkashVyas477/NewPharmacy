@@ -88,7 +88,7 @@ const DrawerContent = (props) => {
 
           <View style={styles.drawerSection}>
             <TouchableOpacity
-            onPress={()=>{props.navigation.navigate('AddAddress')}}
+            onPress={()=>{props.navigation.navigate('SaveAddress')}}
             >
               <View style={{ flexDirection: "row", margin: 15, alignItems: 'center' }}>
                 <Image source={Images.LocationPin}

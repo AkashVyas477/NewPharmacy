@@ -42,6 +42,8 @@ const PharamaHomeScreen = props => {
     }, [currentPage]);
 
 
+
+    
     const getuser = async () => {
         setUser(JSON.parse(await AsyncStorage.getItem('user')))
     }
@@ -65,7 +67,7 @@ const PharamaHomeScreen = props => {
         if (response.success) {
             
             setPrescriptionList([...prescriptionList, ...response.data.data])
-            console.log(response.data.data)
+            // console.log(response.data.data)
             setLength(response.data.length)
             setIsMoreItem(true)
             setIsLoading(false)

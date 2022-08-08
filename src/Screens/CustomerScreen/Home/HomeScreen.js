@@ -21,7 +21,16 @@ const HomeScreen = props =>{
     const [ isLoading, setIsLoading ] = useState(true)
     const [length, setLength] = useState(0)
     const [ addresses, setAddresses ] = useState([])
-    const [ activeAddress, setActiveAddress ] = useState({})  
+    const [activeAddress, setActiveAddress] = useState({})
+   
+    const getactiveAddress = async () => {
+        setActiveAddress(JSON.parse(await AsyncStorage.getItem('activeAddress')))
+    }
+
+    useEffect(() => {
+        console.log(activeAddress)
+    }, [activeAddress])
+
     
     useEffect(()=>{
 
@@ -109,17 +118,17 @@ const HomeScreen = props =>{
                {/* Location  */}
                         <View>
                             <View>
-                            {/* <TouchableOpacity  onPress={() => { props.navigation.navigate('LocationScreen' ) }}> */}
-                            {/* <Text style={{padding:10}}>
+                            <TouchableOpacity  onPress={() => { props.navigation.navigate('LocationScreen' ) }}>
+                            <Text style={{padding:10}}>
                                 Current Location
                             </Text>
                                 <View>
                             
-                                </View> */}
-                            {/* <View >
+                                </View>
+                            <View >
                             <Text style={{color:'#0DC314', paddingLeft:7, marginBottom:10}}> 374  WIlliam S Canning Blvd <Image source={Images.Pencil} style={{ height:15 ,  width:15,}} /> </Text>
-                            </View> */}
-                            {/* </TouchableOpacity> */}
+                             </View> 
+                             </TouchableOpacity>
                             </View>
                         </View>
                         </View>

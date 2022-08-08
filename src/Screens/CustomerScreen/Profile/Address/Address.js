@@ -19,7 +19,7 @@ const Address = (props) => {
     const [activeAddress, setActiveAddress] = useState({})
     const { t } = useTranslation()
 
-    // console.log("Address",address)
+    
 
 
     const getactiveAddress = async () => {
@@ -27,6 +27,7 @@ const Address = (props) => {
     }
 
     useEffect(() => {
+        console.log("Selected\n",activeAddress)
     }, [activeAddress])
 
 
@@ -40,7 +41,7 @@ const Address = (props) => {
     const getAddress = async () => {
         setIsLoading(true)
         const response = await getPreLogin('getAddress')
-        console.log("getAddress\n", response.data.data)
+        // console.log("getAddress\n", response.data.data)
         if (response.success) {
             setAddress(response.data.data)
             setIsLoading(false)
@@ -50,38 +51,27 @@ const Address = (props) => {
         }
     }
 
-    // const activatedAddress = async () => {
-    //     if (object.keys(activeAddress ? activeAddress : {}).length === 0) {
-    //         Toast.show('select an address')
-    //     } else {
-    //         await AsyncStorage.setItem('activeAddress', JSON.stringify(activeAddress))
-    //         Toast.show('Address Activated')
-    //         navigation.goBack()
-    //     }
-    // }
+    const activatedAddress = async () => {
+        if (object.keys(activeAddress ? activeAddress : {}).length === 0) {
+            Toast.show('select an address')
+        } else {
+            await AsyncStorage.setItem('activeAddress', JSON.stringify(activeAddress))
+            Toast.show('Address Activated')
+            navigation.goBack()
+        }
+    }
 
     const type = (address_type) => {
-        if (address_type === 0) return "Home" 
+        if (address_type === 0) return "Home"
         if (address_type === 1) return "Work"
         if (address_type === 2) return "Other"
     }
 
-    const addressimage= (address_type)=>{
+    const addressimage = (address_type) => {
         if (address_type === 0) return Images.HomeActive
         if (address_type === 1) return Images.OfficeActive
-        if (address_type === 2) return Images.OfficeActive 
+        if (address_type === 2) return Images.OfficeActive
     }
-
-    // const image= (address_type)=>{
-    //     if (address_type === 0) return <Image source={Images.HomeActive} />
-    //     if (address_type === 1) return <Image source={Images.OfficeActive} />
-    //     if (address_type === 2) return <Image source={Images.OfficeActive} />
-    // }
-    // const image= (address_type)=>{
-    //     if (address_type === 0) return <Image source={Images.HomeActive} style={{height:30,width:30}}/>
-    //     if (address_type === 1) return <Image source={Images.OfficeActive} style={{height:20,width:20}}/>
-    //     if (address_type === 2) return <Image source={Images.OfficeActive} style={{height:20,width:20}}/>
-    // }
 
     const renderAddress = ({ item }) => {
         return (
@@ -105,24 +95,32 @@ const Address = (props) => {
 
 
 
-<View style={styles.card}>
-<TouchableOpacity onPress={() => { props.navigation.navigate('AddAddress',{item}) }}>
-<View style={styles.Card_Sty}>
-   <View style={styles.Text_sty}>
-        <View style={{flexDirection:'row',alignItems:'center',}}>
-       
-        <Image source={addressimage(item.address_type)} style={{height:40,width:40}}/>
-     
-        <View style={{ padding:10,justifyContent:'space-between'}}>
-           <Text style={styles.Pname}>{type(item.address_type)}</Text>
-           <Text style={styles.name}>{item.primary_address}</Text>
-           <Text style={styles.name}>{item.addition_address_info}</Text>
-        </View>
-        </View>
-   </View>
-</View>
-</TouchableOpacity>
-</View>
+            <View style={styles.card}>
+                <TouchableOpacity onPress={() => { props.navigation.navigate('EditAddress', { item }) }}>
+                    <View style={styles.Card_Sty}>
+                        <View style={styles.Text_sty}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center',}}>
+                                <Image source={addressimage(item.address_type)} style={{ height: 40, width: 40 }} />
+                                <View style={{ padding: 10, justifyContent: 'space-between' }}>
+                                    <Text style={styles.Pname}>{type(item.address_type)}</Text>
+                                    <Text style={styles.name}>{item.primary_address}</Text>
+                                    <Text style={styles.name}>{item.addition_address_info}</Text>
+                                </View>
+                                <View style={{ flex: 1,flexDirection:'row', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+                                    {/* <TouchableOpacity onPress={() => { 
+                                        setTnc(!tnc)
+                                        setActiveAddress(item) 
+                                        }}>
+                                               {tnc ? <Image source={Images.ActiveRoundCheck} style={styles.acheckIcon} /> :
+                                                <Image source={Images.InactiveCheckBox} style={styles.checkIcon} /> }
+                                       
+                                    </TouchableOpacity> */}
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+            </View>
         )
     }
 
@@ -135,7 +133,7 @@ const Address = (props) => {
                     onPress={() => props.navigation.goBack()}
                 />
             </View>
-            <View style={{flex:1,padding:10}}>
+            <View style={{ flex: 1, padding: 10 }}>
                 <Text style={styles.label}>
                     Address
                 </Text>
@@ -157,15 +155,16 @@ const Address = (props) => {
                         </View>
                 }
                 <Button
-                label="Add Address"
-                onPress={()=>{
-                 props.navigation.navigate('AddNewAddres',{address}) }}
-            />
+                    label="Add Address"
+                    onPress={() => {
+                        props.navigation.navigate('AddNewAddres', { address })
+                    }}
+                />
             </View>
 
-            
 
-           
+
+
 
 
         </View>
@@ -203,40 +202,43 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: Colors.Gray
     },
-    Card_Sty:{ 
+    Card_Sty: {
 
         flexDirection: 'row',
-        padding:5,
-        alignContent:'center',alignItems:'center'
-     },
-     card:{
+        padding: 5,
+        alignContent: 'center', alignItems: 'center'
+    },
+    card: {
         flex: 1,
-        shadowColor:Colors.White,
+        shadowColor: Colors.White,
         shadowOpacity: 0.26,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 8,
         borderRadius: 10,
-        backgroundColor:Colors.White,
+        backgroundColor: Colors.White,
         marginBottom: 5,
         margin: 10,
         justifyContent: 'center',
-        width: Dimensions.get('screen').width *0.9
+        width: Dimensions.get('screen').width * 0.9
     },
-    Text_sty:{ 
-        flexDirection: 'column', 
-        marginLeft: 5, 
-        paddingLeft:10,
-        padding: 5
-     },
-     Pname:{
-         fontWeight:'bold',
-         color: Colors.Sp_Text,
-         fontSize:17,
-         padding:5
+    Text_sty: {
+        flexDirection: 'column',
+        marginLeft: 5,
+        paddingLeft: 10,
+        padding: 5,
+       
+       
 
-     },
-     name:{
-        padding:2
+    },
+    Pname: {
+        fontWeight: 'bold',
+        color: Colors.Sp_Text,
+        fontSize: 17,
+        padding: 5
+
+    },
+    name: {
+        padding: 2
     },
 
     addressItem: {
@@ -247,9 +249,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderBottomColor: Colors.Gray,
         marginBottom: 10,
-        elevation:2,
-        padding:10,
-        backgroundColor:Colors.White
+        elevation: 2,
+        padding: 10,
+        backgroundColor: Colors.White
     },
     addressTag: {
         fontWeight: 'bold',

@@ -29,6 +29,8 @@ import CustomerProfileEditScreen from '../CustomerScreen/Profile/CustomerProfile
 import  ChangePassword from '../CustomerScreen/Profile/ChangePassword';
 import Address from '../CustomerScreen/Profile/Address/Address';
 import AddNewAddres from '../CustomerScreen/Profile/Address/AddNewAddress';
+import EditAddress from '../CustomerScreen/Profile/Address/EditAddress';
+
 
 
 // Screens from Details in Customer 
@@ -164,6 +166,7 @@ const AddresStackScreen = props => {
         <AddresStack.Navigator headerMode='none'>
             <AddresStack.Screen name='AddresScreen' component={Address} />
             <AddresStack.Screen name='AddNewAddres' component={AddNewAddres} />
+            <AddresStack.Screen name='EditAddress' component={EditAddress} />
         </AddresStack.Navigator>
     )
 }

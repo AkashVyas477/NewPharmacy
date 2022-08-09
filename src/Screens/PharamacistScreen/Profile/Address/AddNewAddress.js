@@ -19,8 +19,8 @@ import { useDispatch } from 'react-redux';
 import { postPostLogin } from '../../../../Components/Helpers/ApiHelper';
 import Toast from 'react-native-simple-toast';
 
-const AddNewAddres = props => {
-    const { t,i18n } = useTranslation();
+const AddAddres = props => {
+    const { t } = useTranslation();
 
     const dispatch = useDispatch();
     
@@ -63,12 +63,16 @@ const AddNewAddres = props => {
         if (response.success){
             dispatch(addressActions.addAddress(values))
             Toast.show('address added')
-            props.navigation.navigate('AddresScreen');
+            props.navigation.navigate('PharamacistDrawer');
         }
 
         setIsLoading(false)
 
     }
+
+
+
+
     return (
         <View style={styles.screen}>
             {/* Header*/}
@@ -95,9 +99,9 @@ const AddNewAddres = props => {
                              <KeyboardAwareScrollView>
                            <View style={styles.screen2} >
 
-                                <Text style={styles.title}>{t('common:AddressType')}</Text>
-                                <View style={i18n.language === "ar" ? styles.AddressTypeimg_ar : styles.AddressTypeimg}>
-                                    <View style={i18n.language === "ar" ? styles.radiobtn_styl_ar : styles.radiobtn_styl}>
+                                <Text style={styles.title}>Address Type</Text>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5 }}>
                                         {radio === 0 ?
                                             <Image source={Images.HomeActive} style={styles.acheckIcon} />
                                             :
@@ -112,11 +116,11 @@ const AddNewAddres = props => {
                                             </TouchableOpacity>
                                         }
                                         <Text style={{ fontWeight: 'bold', fontSize: 20, padding: 5 }}>
-                                            {t('common:Home')}
+                                            Home
                                         </Text>
                                     </View>
 
-                                    <View style={i18n.language === "ar" ? styles.radiobtn_styl_ar : styles.radiobtn_styl}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         {radio === 1 ?
                                             <Image source={Images.OfficeActive} style={styles.acheckIcon} />
                                             :
@@ -131,11 +135,11 @@ const AddNewAddres = props => {
                                             </TouchableOpacity>
                                         }
                                         <Text style={{ fontWeight: 'bold', fontSize: 20, padding: 5 }}>
-                                            {t('common:Office')}
+                                            Work
                                         </Text>
                                     </View>
 
-                                    <View style={i18n.language === "ar" ? styles.radiobtn_styl_ar : styles.radiobtn_styl}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                         {radio === 2 ?
                                             <Image source={Images.CurrentActive} style={styles.acheckIcon} />
                                             :
@@ -150,7 +154,7 @@ const AddNewAddres = props => {
                                             </TouchableOpacity>
                                         }
                                         <Text style={{ fontWeight: 'bold', fontSize: 20, padding: 5 }}>
-                                           {t("common:Other")}
+                                            Other
                                         </Text>
                                     </View>
 
@@ -159,16 +163,16 @@ const AddNewAddres = props => {
                                     <Text style={{ fontSize: 11, color: Colors.Error_Textcolor, margin: 10 }} >{errors.address_type}</Text>}
 
                                 <Text style={styles.title}>
-                                    {t('common:Primaryaddress')}
+                                    Primary address
                                 </Text>
-                                <View style={i18n.language === "ar" ? styles.container_ar : styles.container}>
+                                <View style={styles.container}>
                                     <TextInput
                                         value={values.primary_address}
                                         onBlur={() => setFieldTouched("primary_address")}
                                         onChangeText={handleChange("primary_address")}
                                         placeholderTextColor={Colors.placeHolder}
                                         color={Colors.Sp_Text}
-                                        placeholder={t('common:Primaryaddress')}
+                                        placeholder='Primary address'
                                         autoCapitalize='sentences'
 
                                     />
@@ -177,14 +181,14 @@ const AddNewAddres = props => {
                                     <Text style={{ fontSize: 11, color: Colors.Error_Textcolor, margin: 10 }} >{errors.primary_address}</Text>
                                 }
                                 <Text style={styles.title}>
-                                    {t('common:ADDRESS')}
+                                    ADDRESS
                                 </Text>
-                                <View style={i18n.language === "ar" ? styles.container_ar : styles.container}>
+                                <View style={styles.container}>
                                     <TextInput
                                         value={values.addition_address_info}
                                         onBlur={() => setFieldTouched('addition_address_info')}
                                         onChangeText={handleChange('addition_address_info')}
-                                        placeholder={t('common:Enteraddress')}
+                                        placeholder='Enter address'
                                         keyboardType='default'
                                         autoCapitalize='sentences'
                                     />
@@ -193,7 +197,7 @@ const AddNewAddres = props => {
                                     <Text style={{ fontSize: 11, color: Colors.Error_Textcolor, margin: 10 }} >{errors.addition_address_info}</Text>
                                 }
 
-                                <View style={i18n.language === "ar" ? styles.defaultAddress_ar : styles.defaultAddress}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center',marginTop:15 }}>
                                     <TouchableOpacity 
                                     onPress={()=>{
                                         setIsSelect(!select)
@@ -209,7 +213,7 @@ const AddNewAddres = props => {
                                     </TouchableOpacity>
  
                                     <Text style={{ fontWeight: 'bold', fontSize:15, padding:5,color: '#999', }}>
-                                        {t('common:SaveAddressAsDefault')}
+                                        Save Address As Default
                                     </Text>
                                 </View>
                                
@@ -219,7 +223,7 @@ const AddNewAddres = props => {
                             <View>
                              <Button
                              showActivityIndicator={isLoading}
-                             label={t('common:Save')}
+                             label="Add"
                              onPress={handleSubmit}
                          // disabled={isValid || !isLoading}
                          />
@@ -268,20 +272,8 @@ const styles = StyleSheet.create({
         padding:4,
         borderRadius:7,
         marginTop: 5,
+        
     },
-    container_ar: {
-        flexDirection: 'row-reverse',
-        borderColor: Colors.Sp_Text,
-        borderWidth: 0.5,
-        justifyContent: 'space-between',
-        padding:4,
-        borderRadius:7,
-        marginTop: 5,
-    },
-    AddressTypeimg:{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' },
-    AddressTypeimg_ar:{ flexDirection: 'row-reverse', justifyContent: 'space-evenly', alignItems: 'center' },
-    radiobtn_styl:{ flexDirection: 'row', alignItems: 'center', padding: 5 },
-    radiobtn_styl_ar:{ flexDirection: 'row-reverse', alignItems: 'center', padding: 5 },
     checkIcon: {
         height: 28,
         width: 28,
@@ -291,17 +283,7 @@ const styles = StyleSheet.create({
         height: 28,
         width: 28
     },
-    defaultAddress:{ 
-        flexDirection: 'row', 
-        alignItems: 'center',
-        marginTop:15
-     },
-     defaultAddress_ar:{ 
-        flexDirection: 'row-reverse', 
-        alignItems: 'center',
-        marginTop:15
-     }
 
 });
 
-export default AddNewAddres;
+export default AddAddres;

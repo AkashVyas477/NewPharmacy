@@ -86,6 +86,26 @@ export default {
   Userdoesnotexist:" المستخدم غير موجود!",
   IncorrectPassword:'كلمة سر خاطئة',
   ThereisnoNearByPharmacyavailablecurrently:'لا يوجد بالقرب من صيدلية حاليا!',
+  Address:'تبوك',
+  Home:'مسكن',
+  Office:'مكتب',
+  Other:'آخر',
+  CurrentLocation:'الموقع الحالي',
+  NoAddresssaved:'لا يوجد عنوان محفوظ',
+  AddSomeNow:'أضف البعض الآن!',
+  AddAddress:'اضف عنوان',
+  AddressType:'نوع العنوان',
+  Primaryaddress:'العنوان الأساسي',
+  ADDRESS:'تبوك',
+  SaveAddressAsDefault:'حفظ العنوان كافتراضي',
+  Enteraddress:'أدخل العنوان',
+  EditAddress:'تعديل العنوان',
+  Delete:'حذف',
+  ReceiveWrongItems:'استلام العناصر الخاطئة',
+  Dontwanttheproductanymore:'لا تريد المنتج بعد الآن',
+  DontlikethesizeoftheProduct:'لا يعجبك حجم المنتج' ,
+  ProductisMissinginthePackage:'المنتج مفقود في الحزمة',
+
 
 
 

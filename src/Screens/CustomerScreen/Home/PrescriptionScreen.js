@@ -70,7 +70,7 @@ const PrescriptionScreen = props => {
         } else {
             // console.log("current\n",response)
             setIsLoading(false)
-            Toast.show('No more Prescription')
+            // Toast.show('No more Prescription')
             setIsMoreItem(false)
             
         }

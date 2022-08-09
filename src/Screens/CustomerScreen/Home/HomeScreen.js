@@ -13,6 +13,8 @@ import moment from 'moment';
 import Toast from 'react-native-simple-toast';
 import { getCurrentPosition } from 'react-native-geolocation-service';
 import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const HomeScreen = props =>{  
 
@@ -22,26 +24,22 @@ const HomeScreen = props =>{
     const [length, setLength] = useState(0)
     const [ addresses, setAddresses ] = useState([])
     const [activeAddress, setActiveAddress] = useState({})
-   
-    const getactiveAddress = async () => {
-        setActiveAddress(JSON.parse(await AsyncStorage.getItem('activeAddress')))
-    }
-
-    useEffect(() => {
-        console.log(activeAddress)
-    }, [activeAddress])
-
     
     useEffect(()=>{
 
             const update = props.navigation.addListener('focus',async() => {
            setIsLoading(true)
-     
+           await AsyncStorage.getItem('activeAddress')
+           .then( address => {
+               setActiveAddress(JSON.parse(address))
+           })
+
         GetLocation.getCurrentPosition({
             enableHighAccuracy: true,
             timeout: 15000,
         })
         .then(location => {
+            // console.log("ActiveAddress\n",activeAddress)
             getNearByPharmacy(location.latitude,location.longitude);
         })
         .catch((error) => {
@@ -118,15 +116,15 @@ const HomeScreen = props =>{
                {/* Location  */}
                         <View>
                             <View>
-                            <TouchableOpacity  onPress={() => { props.navigation.navigate('LocationScreen' ) }}>
+                            <TouchableOpacity  onPress={() => { props.navigation.navigate('AddresScreen') }}>
                             <Text style={{padding:10}}>
-                                Current Location
+                                {t('common:CurrentLocation')}
                             </Text>
                                 <View>
                             
                                 </View>
                             <View >
-                            <Text style={{color:'#0DC314', paddingLeft:7, marginBottom:10}}> 374  WIlliam S Canning Blvd <Image source={Images.Pencil} style={{ height:15 ,  width:15,}} /> </Text>
+                            <Text style={{color:'#0DC314', paddingLeft:7, marginBottom:10}}>{activeAddress?.primary_address}<Image source={Images.Pencil} style={{ height:15 ,  width:15,}} /> </Text>
                              </View> 
                              </TouchableOpacity>
                             </View>

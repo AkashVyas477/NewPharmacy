@@ -18,8 +18,9 @@ import PharamaHomeScreen from '../PharamacistScreen/Home/PharamcistHomeScreen';
 import PharamcistProfileEditScreen from '../PharamacistScreen/Profile/PharamacistProfileEditScreen ';
 import PharamcistProfileScreen from '../PharamacistScreen/Profile/PharamacistProfileScreen';
 import PharamcistChangePassword from '../PharamacistScreen/Profile/PharamacistChangePassword';
-import AddAddres from '../PharamacistScreen/Profile/Save_Address/AddAddress';
-import Address from '../PharamacistScreen/Profile/Save_Address/Address';
+import AddAddres from '../PharamacistScreen/Profile/Address/AddNewAddress';
+import Address from '../PharamacistScreen/Profile/Address/Address';
+import EditAddress from '../PharamacistScreen/Profile/Address/EditAddress';
 
 import Addquotes from '../PharamacistScreen/Home/DetailsScreen/Addquotes';
 
@@ -87,6 +88,7 @@ const AddresStackScreen = props => {
         <AddresStack.Navigator headerMode='none'>
             <AddresStack.Screen name='Address' component={Address} />
             <AddresStack.Screen name='AddAddress' component={AddAddres} />
+            <AddresStack.Screen name='EditAddress' component={EditAddress}/>
         </AddresStack.Navigator>
     )
 }

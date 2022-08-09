@@ -87,6 +87,13 @@ const PrescriptionImageScreen = props => {
             name: "1234",
         }
         )
+
+        // formdata.append('image', JSON.stringify({
+        //     uri: images[0].path,
+        //     type: images[0].mime,
+        //     name: "1234",})
+        
+        // )
         formdata.append("medicine", JSON.stringify(inputs))
         formdata.append("text_note", text_note)
         console.log("data       ", formdata._parts)

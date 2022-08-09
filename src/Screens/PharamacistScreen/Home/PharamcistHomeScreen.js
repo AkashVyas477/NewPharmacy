@@ -20,6 +20,7 @@ const PharamaHomeScreen = props => {
 
     const [currentPage, setCurrentPage] = useState(1)
     const [isMoreItem, setIsMoreItem] = useState(false)
+    const [activeAddress, setActiveAddress] = useState({})
 
     const renderLoader = () => {
         return (
@@ -31,33 +32,35 @@ const PharamaHomeScreen = props => {
             </View>
         );
     }
-
     const loadMoreItem = () => {
         setCurrentPage(currentPage + 1)
         // console.log("loadMore  ", currentPage)
     };
 
+
     useEffect(() => {
         getPrescription()
     }, [currentPage]);
 
-
-
-    
     const getuser = async () => {
         setUser(JSON.parse(await AsyncStorage.getItem('user')))
     }
-
     useEffect(() => {
     }, [user])
 
+
+const ActiveAddress = async()=>{
+    setActiveAddress(JSON.parse(await AsyncStorage.getItem('activeAddress')))
+}
 
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
             getPrescription()
             getuser()
+            ActiveAddress()
         });
         return update;
+        // console.log(activeAddress)
     }, [props.navigation])
 
 
@@ -142,6 +145,21 @@ const PharamaHomeScreen = props => {
                         <Image source={Images.Logout} style={styles.MenuStyle1} />
                     </View>
                 </View>
+                <View>
+                            <View>
+                            <TouchableOpacity  onPress={() => { props.navigation.navigate('Address') }}>
+                            <Text style={{padding:10}}>
+                                Current Location
+                            </Text>
+                                <View>
+                            
+                                </View>
+                            <View >
+                            <Text style={{color:'#0DC314', paddingLeft:7, marginBottom:10}}>{activeAddress.primary_address}<Image source={Images.Pencil} style={{ height:15 ,  width:15,}} /> </Text>
+                             </View> 
+                             </TouchableOpacity>
+                            </View>
+                        </View>
             </View>
 
             <View style={{ padding: 10, flex: 1 }}>

@@ -82,7 +82,26 @@ export default {
   NoPrescriptionfound:'No Prescription found',
   Userdoesnotexist:'User does not exist',
   IncorrectPassword:'Incorrect Password',
-  ThereisnoNearByPharmacyavailablecurrently:'There is no Near By Pharmacy available currently!'
+  ThereisnoNearByPharmacyavailablecurrently:'There is no Near By Pharmacy available currently!',
+  Address:'Address',
+  Home:'Home',
+  Office:'Office',
+  Other:'Other',
+  CurrentLocation:'Current Location',
+  NoAddresssaved:' No Address saved',
+  AddSomeNow:' Add Some Now!',
+  AddAddress:'Add Address',
+  AddressType:'Address Type',
+  Primaryaddress:' Primary address',
+  ADDRESS:'ADDRESS',
+  SaveAddressAsDefault:'Save Address As Default',
+  Enteraddress:'Enter address',
+  EditAddress:'Edit Address',
+  Delete:'Delete',
+  ReceiveWrongItems:'Receive Wrong Items',
+  Dontwanttheproductanymore:`Don't want the product anymore`,
+  DontlikethesizeoftheProduct :`Don't like the size of thr Product`,
+  ProductisMissinginthePackage:'Product is Missing in the Package'
 
   // ProfileUpdateSuccessfully:'Profile Update Successfully',
 

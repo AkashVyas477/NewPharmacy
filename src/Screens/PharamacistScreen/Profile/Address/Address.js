@@ -21,9 +21,6 @@ const Address = (props) => {
     const [activeAddress, setActiveAddress] = useState({})
     const { t } = useTranslation()
 
-    // console.log("Address",address)
-
-
     const getactiveAddress = async () => {
         setActiveAddress(JSON.parse(await AsyncStorage.getItem('activeAddress')))
     }
@@ -73,64 +70,40 @@ const Address = (props) => {
         if (address_type === 1) return Images.OfficeActive
         if (address_type === 2) return Images.OfficeActive 
     }
-
-    // const image= (address_type)=>{
-    //     if (address_type === 0) return <Image source={Images.HomeActive} />
-    //     if (address_type === 1) return <Image source={Images.OfficeActive} />
-    //     if (address_type === 2) return <Image source={Images.OfficeActive} />
-    // }
-    // const image= (address_type)=>{
-    //     if (address_type === 0) return <Image source={Images.HomeActive} style={{height:30,width:30}}/>
-    //     if (address_type === 1) return <Image source={Images.OfficeActive} style={{height:20,width:20}}/>
-    //     if (address_type === 2) return <Image source={Images.OfficeActive} style={{height:20,width:20}}/>
-    // }
+    const checkmark = (is_select)=>{
+        if(is_select===0) return Colors.Gray 
+        if(is_select===1) return Colors.PRIMARY
+    }
 
     const renderAddress = ({ item }) => {
-        return (
-
-            // <View style={styles.addressItem}
-            // //   onPress={()=>{
-            // //         props.navigation.navigate('AddAddress',{item}) }}
-            // >
-            //     <View style={{ flex: 5, justifyContent: 'space-evenly', height: '100%', paddingHorizontal: 10 }}>
-            //         <Text style={styles.addressTag}> {image(item.address_type)}</Text>
-            //         <Text style={styles.addressTag}>{item.primary_address}</Text>
-            //         <Text style={styles.addressTag}>{item.addition_address_info}</Text>
-            //     </View>
-            //     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-            //         {/* <TouchableOpacity onPress={() => { setActiveAddress(item) }}>
-            //             {tnc ? <Image source={Images.ActiveRoundCheck} style={styles.acheckIcon} /> :
-            //                 <Image source={Images.InactiveCheckBox} style={styles.checkIcon} />}
-            //         </TouchableOpacity> */}
-            //     </View>
-            // </View>
-
-
-
-<View style={styles.card}>
-<TouchableOpacity onPress={() => { props.navigation.navigate('AddAddress',{item}) }}>
-<View style={styles.Card_Sty}>
-   <View style={styles.Text_sty}>
-        <View style={{flexDirection:'row',alignItems:'center',}}>
-       
-        <Image source={addressimage(item.address_type)} style={{height:40,width:40}}/>
-     
-        <View style={{ padding:10,justifyContent:'space-between'}}>
-           <Text style={styles.Pname}>{type(item.address_type)}</Text>
-           <Text style={styles.name}>{item.primary_address}</Text>
-           <Text style={styles.name}>{item.addition_address_info}</Text>
+        return (<View style={styles.card}>
+            <TouchableOpacity onPress={() => { props.navigation.navigate('EditAddress', { item }) }}>
+                <View style={styles.Card_Sty}>
+                    <View style={styles.Text_sty}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                            <Image source={addressimage(item.address_type)} style={{ height: 40, width: 40 }} />
+                            <View style={{ padding: 10, }}>
+                                <Text style={styles.Pname}>{type(item.address_type)}</Text>
+                                <Text style={styles.name}>{item.primary_address}</Text>
+                                <Text style={styles.name}>{item.addition_address_info}</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View>
+                            <Ionicon name={'checkmark-circle'} size={30} color={checkmark(item.is_select)} 
+                            />
+                    </View>
+                </View>
+            </TouchableOpacity>
         </View>
-        </View>
-       {/* <View style={{flex:1, alignItems:'center', justifyContent:'center', height:'100%'}}>
-          <TouchableOpacity onPress={() => { setActiveAddress(item) }}>
-          {tnc ? <Image source={Images.ActiveRoundCheck} style={styles.acheckIcon} /> :
-         <Image source={Images.InactiveCheckBox} style={styles.checkIcon} />}
-          </TouchableOpacity>
-       </View> */}
-   </View>
-</View>
-</TouchableOpacity>
-</View>
+        )
+    }
+
+    if(isLoading) {
+        return(
+            <View style={styles.loader}>
+                <ActivityIndicator size={65} color={Colors.PRIMARY} />
+            </View>
         )
     }
 
@@ -139,7 +112,7 @@ const Address = (props) => {
             {/* Header*/}
             <View style={styles.header_sty}>
                 <Header
-                    Title="Address"
+                    Title="Manage Your Location"
                     onPress={() => props.navigation.goBack()}
                 />
             </View>
@@ -164,31 +137,24 @@ const Address = (props) => {
                             </Text>
                         </View>
                 }
-                <Button
+                {/* <Button
                 label="Add Address"
                 onPress={()=>{
                  props.navigation.navigate('AddAddress',{address}) }}
-            />
-             {/* {
-                address.length > 0 &&
-                <Button
-                    label="Save Address"
-                // onPress={activatedAddress}
-                />
-            } */}
+            /> */}
             </View>
-
-            
-
-           
-
-
         </View>
     );
 }
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
+    },
+    loader:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor: Colors.White
     },
     header_sty: {
         flexDirection: 'row',
@@ -222,7 +188,9 @@ const styles = StyleSheet.create({
 
         flexDirection: 'row',
         padding:5,
-        alignContent:'center',alignItems:'center'
+        alignContent:'center',
+        alignItems:'center', 
+         justifyContent: 'space-between',
      },
      card:{
         flex: 1,
@@ -241,7 +209,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column', 
         marginLeft: 5, 
         paddingLeft:10,
-        padding: 5
+        padding: 5,
+    
      },
      Pname:{
          fontWeight:'bold',

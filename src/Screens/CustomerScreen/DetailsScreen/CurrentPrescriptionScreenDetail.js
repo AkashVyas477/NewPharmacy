@@ -25,7 +25,7 @@ const height = width * 100 / 0.6
 const { width: screenWidth } = Dimensions.get('window')
 
 const CurrentPrescriptionScreen = props => {
-    const {t}= useTranslation();
+    const {t,i18n}= useTranslation();
 
     const [deleteOption, setDeleteOption] = useState(1);
     
@@ -400,7 +400,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 20
     },
-
+    modalstyl:{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between',},
+    modalstyl_ar:{ flexDirection: 'row-reverse', marginTop: 10, justifyContent: 'space-between',},
     container: {
         // flex: 1,
     },

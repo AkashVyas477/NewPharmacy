@@ -19,7 +19,7 @@ import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const EditAddress = props => {
-    const { t,i18n } = useTranslation();
+    const { t } = useTranslation();
     const address = props.route.params.item
     // console.log("cureent address\n",address);
     const [radio, setRadio] = useState(address.address_type);
@@ -87,7 +87,7 @@ const EditAddress = props => {
         <View style={styles.screen}>
             <View style={styles.header_sty}>
                 <Header
-                    Title={t('common:EditAddress')}
+                    Title='Edit Address'
                     onPress={() => props.navigation.goBack()}
                 />
             </View>
@@ -113,9 +113,9 @@ const EditAddress = props => {
                     <>
                     <KeyboardAwareScrollView>
                         <View style={styles.inputContainer}>
-                            <Text style={styles.title}>{t('common:AddressType')}</Text>
-                            <View style={i18n.language === "ar" ? styles.AddressTypeimg_ar : styles.AddressTypeimg}>
-                                <View style={i18n.language === "ar" ? styles.radioBtnContainer_ar : styles.radioBtnContainer}>
+                            <Text style={styles.title}>Address Type</Text>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
+                                <View style={styles.radioBtnContainer}>
                                     {radio === 0 ?
                                         <Image source={Images.HomeActive} style={styles.acheckIcon} />
                                         :
@@ -127,9 +127,9 @@ const EditAddress = props => {
                                             <Image source={Images.HomeInactive} style={styles.checkIcon} />
                                         </TouchableOpacity>
                                     }
-                                    <Text style={styles.radioBtnText}>{t('common:Home')}</Text>
+                                    <Text style={styles.radioBtnText}>Home</Text>
                                 </View>
-                                <View style={i18n.language === "ar" ? styles.radioBtnContainer_ar : styles.radioBtnContainer}>
+                                <View style={styles.radioBtnContainer}>
                                     {radio === 1 ?
                                       <Image source={Images.OfficeActive} style={styles.acheckIcon} />
                                         :
@@ -141,10 +141,10 @@ const EditAddress = props => {
                                            <Image source={Images.OfficeInactive} style={styles.checkIcon} />
                                         </TouchableOpacity>
                                     }
-                                    <Text style={styles.radioBtnText}>{t('common:Office')}</Text>
+                                    <Text style={styles.radioBtnText}>Office</Text>
                                 </View>
 
-                                <View style={i18n.language === "ar" ? styles.radioBtnContainer_ar : styles.radioBtnContainer}>
+                                <View style={styles.radioBtnContainer}>
                                     {radio === 2 ?
                                       <Image source={Images.CurrentActive} style={styles.acheckIcon} />
                                         :
@@ -156,34 +156,34 @@ const EditAddress = props => {
                                            <Image source={Images.CurrentLInactive} style={styles.checkIcon} />
                                         </TouchableOpacity>
                                     }
-                                    <Text style={styles.radioBtnText}>{t('common:Other')}</Text>
+                                    <Text style={styles.radioBtnText}>Other</Text>
                                 </View>
 
                             </View>
 
-                            <Text style={styles.title}>{t('common:Primaryaddress')}</Text>
-                            <View style={i18n.language === "ar" ? styles.container_ar : styles.container}>
+                            <Text style={styles.title}>Primary Address</Text>
+                            <View style={styles.container}>
                                 <TextInput 
                                     value={values.primary_address}
                                     onBlur={ () => setFieldTouched('primary_address')}
                                     onChangeText={handleChange('primary_address')}
-                                    placeholder={t("common:Enteraddress")}
+                                    placeholder="Enter address"
                                     keyboardType='default'
                                 />
                             </View>
 
-                            <Text style={styles.title}>{t('common:ADDRESS')}</Text>
-                            <View style={i18n.language === "ar" ? styles.container_ar : styles.container}>
+                            <Text style={styles.title}>ADDRESS</Text>
+                            <View style={styles.container}>
                                 <TextInput 
                                     value={values.addition_address_info}
                                     onBlur={ () => setFieldTouched('addition_address_info')}
                                     onChangeText={handleChange('addition_address_info')}
-                                    placeholder={t("common:Enteraddress")}
+                                    placeholder="Enter address"
                                     keyboardType='default'
                                 />
                             </View>
 
-                            <View style={i18n.language === "ar" ? styles.defaultAddress_ar : styles.defaultAddress}>
+                            <View style={styles.defaultAddress}>
                                     <TouchableOpacity 
                                     onPress={()=>{
                                         setIsSelect(!select)
@@ -199,7 +199,7 @@ const EditAddress = props => {
                                     </TouchableOpacity>
  
                                     <Text style={{ fontWeight: 'bold', fontSize:15, padding:5,color: '#999', }}>
-                                        {t('common:SaveAddressAsDefault')}
+                                        Save Address As Default
                                     </Text>
                                 </View>
 
@@ -209,12 +209,12 @@ const EditAddress = props => {
                         <View style={{ }}>
                             <Button
                              showActivityIndicator={delLoader}
-                             label={t("common:Delete")}
+                             label="Delete"
                              onPress={onPressDelete}
                             />
                             <Button
                             showActivityIndicator={editLoader}
-                             label={t("common:Save")}
+                             label="Save"
                              onPress={handleSubmit}
                             />
                         </View>
@@ -249,14 +249,8 @@ const styles = StyleSheet.create({
         // backgroundColor: Colors.orange,
         // justifyContent:'space-between'
     },
-    AddressTypeimg:{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' },
-    AddressTypeimg_ar:{ flexDirection: 'row-reverse', justifyContent: 'space-evenly', alignItems: 'center' },
     radioBtnContainer: {
         flexDirection: 'row',
-        alignItems: 'center'
-    },
-    radioBtnContainer_ar: {
-        flexDirection: 'row-reverse',
         alignItems: 'center'
     },
     radioBtnText: {
@@ -273,21 +267,12 @@ const styles = StyleSheet.create({
     },
     container:{
         flexDirection:'row', 
-        borderColor:Colors.Sp_Text, 
+        borderColor:Colors.BLACK, 
         borderWidth:1, 
         justifyContent:'space-between', 
         padding:4, 
         borderRadius:5, 
         marginTop:10
-    },
-    container_ar: {
-        flexDirection: 'row-reverse',
-        borderColor: Colors.Sp_Text,
-        borderWidth: 0.5,
-        justifyContent: 'space-between',
-        padding:4,
-        borderRadius:7,
-        marginTop: 5,
     },
     checkIcon: {
         height: 28,
@@ -300,11 +285,6 @@ const styles = StyleSheet.create({
     },
     defaultAddress:{ 
         flexDirection: 'row', 
-        alignItems: 'center',
-        marginTop:15
-     },
-     defaultAddress_ar:{ 
-        flexDirection: 'row-reverse', 
         alignItems: 'center',
         marginTop:15
      }

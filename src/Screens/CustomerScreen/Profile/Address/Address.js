@@ -17,18 +17,17 @@ const Address = (props) => {
     const [isLoading, setIsLoading] = useState(true)
     const [address, setAddress] = useState([])
     const [activeAddress, setActiveAddress] = useState({})
-    const { t } = useTranslation()
-
-    
+    const { t,i18n } = useTranslation()
 
 
-    const getactiveAddress = async () => {
-        setActiveAddress(JSON.parse(await AsyncStorage.getItem('activeAddress')))
-    }
 
-    useEffect(() => {
-        console.log("Selected\n",activeAddress)
-    }, [activeAddress])
+
+    // const getactiveAddress = async () => {
+    //     setActiveAddress(JSON.parse(await AsyncStorage.getItem('activeAddress')))
+    // }
+    // useEffect(() => {
+    //     console.log("ActiveAddress\n", activeAddress)
+    // }, [activeAddress])
 
 
     useEffect(() => {
@@ -41,7 +40,7 @@ const Address = (props) => {
     const getAddress = async () => {
         setIsLoading(true)
         const response = await getPreLogin('getAddress')
-        // console.log("getAddress\n", response.data.data)
+        console.log("getAddress\n", response.data.data)
         if (response.success) {
             setAddress(response.data.data)
             setIsLoading(false)
@@ -51,20 +50,20 @@ const Address = (props) => {
         }
     }
 
-    const activatedAddress = async () => {
-        if (object.keys(activeAddress ? activeAddress : {}).length === 0) {
-            Toast.show('select an address')
-        } else {
-            await AsyncStorage.setItem('activeAddress', JSON.stringify(activeAddress))
-            Toast.show('Address Activated')
-            navigation.goBack()
-        }
-    }
+    // const activatedAddress = async () => {
+    //     if (Object.keys(activeAddress ? activeAddress : {}).length === 0) {
+    //         Toast.show('select an address')
+    //     } else {
+    //         await AsyncStorage.setItem('activeAddress', JSON.stringify(activeAddress))
+    //         Toast.show('Address Activated')
+    //         props.navigation.goBack()
+    //     }
+    // }
 
     const type = (address_type) => {
-        if (address_type === 0) return "Home"
-        if (address_type === 1) return "Work"
-        if (address_type === 2) return "Other"
+        if (address_type === 0) return <Text>{t("common:Home")}</Text>
+        if (address_type === 1) return <Text>{t("common:Office")}</Text>
+        if (address_type === 2) return<Text>{t("common:Other")}</Text>
     }
 
     const addressimage = (address_type) => {
@@ -73,50 +72,40 @@ const Address = (props) => {
         if (address_type === 2) return Images.OfficeActive
     }
 
+    const checkmark = (is_select)=>{
+        if(is_select===0) return Colors.Gray 
+        if(is_select===1) return Colors.PRIMARY
+    }
+
     const renderAddress = ({ item }) => {
         return (
 
-            // <View style={styles.addressItem}
-            // //   onPress={()=>{
-            // //         props.navigation.navigate('AddAddress',{item}) }}
-            // >
-            //     <View style={{ flex: 5, justifyContent: 'space-evenly', height: '100%', paddingHorizontal: 10 }}>
-            //         <Text style={styles.addressTag}> {image(item.address_type)}</Text>
-            //         <Text style={styles.addressTag}>{item.primary_address}</Text>
-            //         <Text style={styles.addressTag}>{item.addition_address_info}</Text>
-            //     </View>
-            //     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-            //         {/* <TouchableOpacity onPress={() => { setActiveAddress(item) }}>
-            //             {tnc ? <Image source={Images.ActiveRoundCheck} style={styles.acheckIcon} /> :
-            //                 <Image source={Images.InactiveCheckBox} style={styles.checkIcon} />}
-            //         </TouchableOpacity> */}
-            //     </View>
-            // </View>
-
-
-
+           
             <View style={styles.card}>
                 <TouchableOpacity onPress={() => { props.navigation.navigate('EditAddress', { item }) }}>
-                    <View style={styles.Card_Sty}>
+                    <View 
+                    // style={styles.Card_Sty}
+                    style={i18n.language === "ar" ? styles.Card_Sty_ar : styles.Card_Sty}
+                    >
                         <View style={styles.Text_sty}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center',}}>
+                            <View style={i18n.language === "ar" ? styles.addressTypeimg_ar : styles.addressTypeimg}>
                                 <Image source={addressimage(item.address_type)} style={{ height: 40, width: 40 }} />
-                                <View style={{ padding: 10, justifyContent: 'space-between' }}>
+                                <View style={{ padding: 10, }}>
                                     <Text style={styles.Pname}>{type(item.address_type)}</Text>
                                     <Text style={styles.name}>{item.primary_address}</Text>
                                     <Text style={styles.name}>{item.addition_address_info}</Text>
                                 </View>
-                                <View style={{ flex: 1,flexDirection:'row', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
-                                    {/* <TouchableOpacity onPress={() => { 
-                                        setTnc(!tnc)
-                                        setActiveAddress(item) 
-                                        }}>
-                                               {tnc ? <Image source={Images.ActiveRoundCheck} style={styles.acheckIcon} /> :
-                                                <Image source={Images.InactiveCheckBox} style={styles.checkIcon} /> }
-                                       
-                                    </TouchableOpacity> */}
-                                </View>
                             </View>
+                        </View>
+                        <View>
+                            {/* <TouchableOpacity onPress={() => {
+                                setActiveAddress(item)
+                            }}> */}
+                                <Ionicon name={'checkmark-circle'} size={30} color={checkmark(item.is_select)} 
+                                
+                                />
+
+                            {/* </TouchableOpacity> */}
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -124,18 +113,28 @@ const Address = (props) => {
         )
     }
 
+
+    if(isLoading) {
+        return(
+            <View style={styles.loader}>
+                <ActivityIndicator size={65} color={Colors.PRIMARY} />
+            </View>
+        )
+    }
+
+
     return (
         <View style={styles.screen}>
             {/* Header*/}
             <View style={styles.header_sty}>
                 <Header
-                    Title="Address"
+                    Title={t("common:Address")}
                     onPress={() => props.navigation.goBack()}
                 />
             </View>
             <View style={{ flex: 1, padding: 10 }}>
                 <Text style={styles.label}>
-                    Address
+                    {t('common:Address')}
                 </Text>
                 {
                     address.length > 0 ?
@@ -147,15 +146,23 @@ const Address = (props) => {
                         :
                         <View style={styles.backDropContainer}>
                             <Text>
-                                No Address saved
+                               {t('common:NoAddresssaved')}
                             </Text>
                             <Text>
-                                Add Some Now!
+                                {t('common:AddSomeNow')}
                             </Text>
                         </View>
                 }
+                {/* {
+                    address.length > 0 &&
+                    <Button
+                    label="Activate Address"
+                    onPress={activatedAddress}
+                    />
+
+                } */}
                 <Button
-                    label="Add Address"
+                    label={t("common:AddAddress")}
                     onPress={() => {
                         props.navigation.navigate('AddNewAddres', { address })
                     }}
@@ -173,6 +180,12 @@ const Address = (props) => {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
+    },
+    loader:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor: Colors.White
     },
     header_sty: {
         flexDirection: 'row',
@@ -203,11 +216,21 @@ const styles = StyleSheet.create({
         color: Colors.Gray
     },
     Card_Sty: {
-
         flexDirection: 'row',
         padding: 5,
-        alignContent: 'center', alignItems: 'center'
+        alignContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     },
+    Card_Sty_ar: {
+        flexDirection: 'row-reverse',
+        padding: 5,
+        alignContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    addressTypeimg:{ flexDirection: 'row', alignItems: 'center', },
+    addressTypeimg_ar:{ flexDirection: 'row-reverse', alignItems: 'center', },
     card: {
         flex: 1,
         shadowColor: Colors.White,
@@ -226,15 +249,15 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         paddingLeft: 10,
         padding: 5,
-       
-       
+
+
 
     },
     Pname: {
         fontWeight: 'bold',
         color: Colors.Sp_Text,
         fontSize: 17,
-        padding: 5
+        padding: 5,
 
     },
     name: {

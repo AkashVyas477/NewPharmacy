@@ -78,7 +78,7 @@ const VerificationScreen = props => {
       // console.log("123\n",registerResponse)
       if(registerResponse.message==="Customer created successfully" || registerResponse.message==="Pharmacist created successfully"){
         if(data.role ===2){
-          props.navigation.navigate('PharamacistDrawer')
+          props.navigation.navigate('AddNewAddress')
         }
         const loginData={
           email:data.email.toLowerCase(),
@@ -232,12 +232,12 @@ const VerificationScreen = props => {
           />
         </View>
         
-        <View style={{ flex: 0.5, flexDirection: 'row', justifyContent: 'center' }}>
+        {/* <View style={{ flex: 0.5, flexDirection: 'row', justifyContent: 'center' }}>
           <Text style={styles.resend_code}>Didn't Get the Code? </Text>
           <TouchableOpacity onPress={() => { navigation.navigate('PhoneNumberScreen') }} >
             <Text style={styles.resend}>Resend Code</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );

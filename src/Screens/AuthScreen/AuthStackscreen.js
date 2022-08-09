@@ -8,6 +8,7 @@ import PharmacistSignUpScreen from './Pharamacist/PharmacistSignUpScreen';
 import CustomerSignupScreen from './Customer/CustomerSignUpScreen';
 import PhoneNumberScreen from './PhoneNumberScreen';
 import VerificationScreen from './VerificationScreen';
+import AddNewAddress from '../PharamacistScreen/Profile/Address/AddNewAddress';
 
 
 
@@ -25,6 +26,7 @@ const AuthStackScreen = ({ navigation }) => {
             <AuthStack.Screen name="PharmacistSingup" component={PharmacistSignUpScreen} />
             <AuthStack.Screen name="PhoneNumberScreen" component={PhoneNumberScreen} />
             <AuthStack.Screen name="VerificationScreen" component={VerificationScreen} />
+            <AuthStack.Screen name ="AddNewAddress" component={AddNewAddress}/>
         </AuthStack.Navigator>
     );
 }

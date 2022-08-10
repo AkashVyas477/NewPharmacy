@@ -32,6 +32,7 @@ const PharamaHomeScreen = props => {
             </View>
         );
     }
+
     const loadMoreItem = () => {
         setCurrentPage(currentPage + 1)
         // console.log("loadMore  ", currentPage)
@@ -49,9 +50,13 @@ const PharamaHomeScreen = props => {
     }, [user])
 
 
+
 const ActiveAddress = async()=>{
     setActiveAddress(JSON.parse(await AsyncStorage.getItem('activeAddress')))
 }
+// useEffect(()=>{
+//     //   ActiveAddress()
+// },[activeAddress])
 
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
@@ -155,7 +160,7 @@ const ActiveAddress = async()=>{
                             
                                 </View>
                             <View >
-                            <Text style={{color:'#0DC314', paddingLeft:7, marginBottom:10}}>{activeAddress.primary_address}<Image source={Images.Pencil} style={{ height:15 ,  width:15,}} /> </Text>
+                            <Text style={{color:'#0DC314', paddingLeft:7, marginBottom:10}}>{activeAddress?.primary_address}<Image source={Images.Pencil} style={{ height:15 ,  width:15,}} /> </Text>
                              </View> 
                              </TouchableOpacity>
                             </View>

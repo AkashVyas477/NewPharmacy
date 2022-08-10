@@ -10,7 +10,7 @@ const SplashScreen = (props) => {
     
     useEffect( () => {
         messaging().getToken().then( async(token) => { 
-            // console.log("\n\nDevice Token: ",typeof(token))
+            console.log("\n\n Token: ",token)
             await AsyncStorage.setItem('deviceToken', token)
          });
     },[])
@@ -29,13 +29,17 @@ const SplashScreen = (props) => {
                     index:0,
                     routes:[{name:'CustomerDrawer'}]
                 }))
-            }else{
+            }else if(role ==="2"){
                 props.navigation.dispatch(CommonActions.reset({
                     index:0,
                     routes:[{name:'PharamacistDrawer'}]
                 }))
+            } else {
+                navigation.dispatch(CommonActions.reset({
+                    index:0,
+                    routes: [{name:'Auth'}]
+                }))
             }
-
         }else{
             props.navigation.dispatch(CommonActions.reset({
                 index:0,

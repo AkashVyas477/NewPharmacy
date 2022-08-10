@@ -62,9 +62,9 @@ const PharamaHomeStackScreen = props => {
 
     return (
         <PharamaHomeStack.Navigator headerMode='none'>
-            <PharamaHomeStack.Screen name='PharamaHome'
-             component={PharamaHomeScreen}     />
+            <PharamaHomeStack.Screen name='PharamaHome'component={PharamaHomeScreen}     />
             <PharamaHomeStack.Screen name='Addquotes' component={Addquotes} />
+            <PharamaHomeStack.Screen name='Address'component={AddresStackScreen}     />
             
         </PharamaHomeStack.Navigator>
     )

@@ -65,13 +65,8 @@ const AddAddres = props => {
             Toast.show('address added')
             props.navigation.navigate('PharamacistDrawer');
         }
-
         setIsLoading(false)
-
     }
-
-
-
 
     return (
         <View style={styles.screen}>

@@ -35,15 +35,23 @@ import { useTranslation } from 'react-i18next';
 
 const LoginScreen = (props) => {
     const {t, i18n}= useTranslation()
-    let deviceToken;
-    useEffect(() => {
-        // Get the device token
-        messaging()
-            .getToken()
-            .then(token => {
-                deviceToken = token
-            });
-    }, [])
+    // let deviceToken;
+    // useEffect(() => {
+    //     // Get the device token
+    //     messaging()
+    //         .getToken()
+    //         .then(token => {
+    //             deviceToken = token
+    //         });
+    // }, [])
+
+
+    useEffect( () => {
+        messaging().getToken().then( async(token) => { 
+            console.log("\n\n Token: ",token)
+            await AsyncStorage.setItem('deviceToken', token)
+         });
+    },[])
 
     const dispatch = useDispatch();
     const [tnc, setTnc] = useState(false);
@@ -58,20 +66,20 @@ const LoginScreen = (props) => {
         const data = {
             email: values.email.toLowerCase(),
             password: values.password,
-            // role:role,
-            device_token: JSON.stringify(AsyncStorage.getItem('deviceToken'))
+            device_token:(await AsyncStorage.getItem('deviceToken'))
         };
+        console.log("data\n",data)
 
         const response = await postRequest('login', data);
         const resData = response.data
         console.log("hiii        ", response);
         if (response.success){
             try{
-                 await AsyncStorage.setItem('role', resData.user.role.toString())
-                    await AsyncStorage.setItem('token', resData.token)
-                    await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-                    await AsyncStorage.setItem('user', JSON.stringify(resData.user))
-                    await AsyncStorage.setItem('isLogin', "1")
+                 await AsyncStorage.setItem("role", resData.user.role.toString())
+                    await AsyncStorage.setItem("token", resData.token)
+                    await AsyncStorage.setItem("refreshToken", resData.refreshToken)
+                    await AsyncStorage.setItem("user", JSON.stringify(resData.user))
+                    await AsyncStorage.setItem("isLogin", "1")
             }catch (error){
                 console.log(error)
             }

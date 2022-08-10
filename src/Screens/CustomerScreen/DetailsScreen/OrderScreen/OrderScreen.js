@@ -50,15 +50,15 @@ const OrderScreen = props => {
     useEffect(() => {
         const refresh = props.navigation.addListener('focus', () => {
             getcard()
-        //   getPaymentMethod()
+          getPaymentMethod()
         });
         return refresh
     }, [props.navigation])
 
 
-useEffect(()=>{
-    getPaymentMethod()
-},[])
+// useEffect(()=>{
+//     getPaymentMethod()
+// },[])
 
     const getPaymentMethod = async () => {
         setSelectedCard (JSON.parse(await AsyncStorage.getItem('activateCard')))
@@ -277,7 +277,6 @@ catch(error){
                                     // console.log("details       ",item )
                                     return (
                                         <View>
-                                            {isLoading ? <ActivityIndicator color={Colors.PRIMARY}  size={50}/>:
                                             <Cards
                                                 item={item}
                                                 id={item.id}
@@ -286,8 +285,7 @@ catch(error){
                                                 brand={item.brand}
                                                 exp_month={item.exp_month}
                                                 exp_year={item.exp_year}
-
-                                            />}
+                                            />
                                         </View>
                                     )
                                 }}

@@ -26,7 +26,7 @@ const Cards = (props) => {
     }
   }
 
-  // console.log("item",props.item)
+
   const [activateCard, setActivateCard] = useState( {} )
   // console.log("\n\n Active Card   ", activateCard)
 

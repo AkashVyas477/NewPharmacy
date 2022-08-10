@@ -199,7 +199,7 @@ const CurrentPrescriptionScreen = props => {
                         >
                             <View style={styles.centeredView}>
                                 <View style={styles.modalView}>
-                                    <Text style={styles.modalText}>Choose option: </Text>
+                                    <Text style={styles.modalText}>{t('common:Choose option')}</Text>
                                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
                                        
 
@@ -212,7 +212,7 @@ const CurrentPrescriptionScreen = props => {
                                         />
                                     </View>
                                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                                        <Text style={{ marginRight: 15 }}>Don't want the product anymore </Text>
+                                        <Text style={{ marginRight: 15 }}>{t("common:Dontwanttheproductanymore")} </Text>
                                         <RadioButton
                                             onPress={() => {
                                              setDeleteOption(2)
@@ -222,7 +222,7 @@ const CurrentPrescriptionScreen = props => {
                                         />
                                     </View>
                                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                                        <Text style={{ marginRight: 15 }}>Don't like the size of thr Product </Text>
+                                        <Text style={{ marginRight: 15 }}>{t('common:DontlikethesizeoftheProduct')} </Text>
                                         <RadioButton
                                             onPress={() => {
                                                 setDeleteOption(3)
@@ -232,7 +232,7 @@ const CurrentPrescriptionScreen = props => {
                                         />
                                     </View>
                                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
-                                    <Text style={{ marginRight: 5 }}>Product is Missing in the Package</Text>
+                                    <Text style={{ marginRight: 5 }}>{t('common:ProductisMissinginthePackage')}</Text>
                                         <RadioButton
                                             onPress={() => {
                                                 setDeleteOption(4)

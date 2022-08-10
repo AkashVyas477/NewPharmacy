@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, ScrollView, Alert, StatusBar, ActivityIndicator } from 'react-native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import { postRequest, postFormDataRequest, } from '../../Components/Helpers/ApiHelper';
@@ -14,10 +14,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import { elementsThatOverlapOffsets } from 'react-native/Libraries/Lists/VirtualizeUtils';
 import { useTranslation } from 'react-i18next';
+import messaging from '@react-native-firebase/messaging';
 
 const VerificationScreen = props => {
   const {t}=useTranslation()
   const [ loading, setLoading ] = useState(false)
+
+  useEffect( () => {
+    messaging().getToken().then( async(token) => { 
+        console.log("\n\n Token: ",token)
+        await AsyncStorage.setItem('deviceToken', token)
+     });
+},[])
 
   const makeid = (length) => {
     var result = '';
@@ -83,7 +91,7 @@ const VerificationScreen = props => {
         const loginData={
           email:data.email.toLowerCase(),
           password:data.password,
-          device_token: JSON.stringify(AsyncStorage.getItem('deviceToken'))
+          device_token: (await AsyncStorage.getItem('deviceToken'))
         }
         console.log("login data \n",loginData)
         const response = await postRequest('login',loginData);

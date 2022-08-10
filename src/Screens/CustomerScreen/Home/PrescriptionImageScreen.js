@@ -87,7 +87,6 @@ const PrescriptionImageScreen = props => {
             name: "1234",
         }
         )
-
         // formdata.append('image', JSON.stringify({
         //     uri: images[0].path,
         //     type: images[0].mime,
@@ -293,9 +292,7 @@ const PrescriptionImageScreen = props => {
                                     />
                                     <TouchableOpacity onPress={() => deleteHandler(key)}>
                                         <Image source={Images.Delet}  style={{...styles.BinIcon,
-                                            // transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]
-                                            }}   />
-                                        {/* <Text style={{ color: "red", fontSize: 13 }}>Delete</Text> */}
+                                            }} />
                                     </TouchableOpacity>
                                 </View>
                             ))}

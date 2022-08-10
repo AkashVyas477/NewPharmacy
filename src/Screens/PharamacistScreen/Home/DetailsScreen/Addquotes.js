@@ -134,16 +134,23 @@ const Addquotes = (props) => {
                         </View>
                     </View>
 {/* Adding Quotes */}
-                    <View style={styles.card}>
+                   { userRequest.total_quotes === 0 ?
+                   <View style={styles.card}>
                         <TouchableOpacity  onPress={() => { setModalVisible(true) }} style={{flexDirection:'row' ,alignItems:'center',}} >
                                 <Image source={Images.GreenAdd} style={{height:20,width:20}} />
                             
                         <Text style={{ padding:5,alignItems: 'center', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 20 }}>
                             {t('common:AddQuotesHere')}
                         </Text>
-                        </TouchableOpacity>
-                       
+                        </TouchableOpacity>    
                     </View>
+                    :
+                    <View style={styles.card}>
+                        <Text style={{   alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
+                            Quote added
+                            </Text>  
+                    </View> 
+                }
 
 {/* After adding Quotes  */}
                     {/* <View style={styles.card}>

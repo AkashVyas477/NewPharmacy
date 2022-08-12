@@ -9,10 +9,7 @@ import { getCurrentPosition } from 'react-native-geolocation-service';
 import GetLocation from 'react-native-get-location'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Images, Colors } from '../../../../CommonConfig';
-import Header from '../../../../Components/Common/Header';
-import Button from '../../../../Components/Common/Button';
-import CheckButton from '../../../../Components/Common/CheckButton';
-import { add, Value } from 'react-native-reanimated';
+import {Header,Button,CheckButton}from '../../../../Components/Common'
 import { useDispatch } from 'react-redux';
 import { postPostLogin,deletePost } from '../../../../Components/Helpers/ApiHelper';
 import Toast from 'react-native-simple-toast';
@@ -21,7 +18,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const EditAddress = props => {
     const { t,i18n } = useTranslation();
     const address = props.route.params.item
-    // console.log("cureent address\n",address);
     const [radio, setRadio] = useState(address.address_type);
     const [select, setIsSelect] = useState(false)
     const [delLoader, setDelLoader] = useState(false)
@@ -52,7 +48,7 @@ const EditAddress = props => {
             timeout:15000,
         })
         .then(location => {
-            // console.log(location.latitude,location.longitude);
+     
             lat = location.latitude;
             long = location.longitude;
         })
@@ -206,7 +202,7 @@ const EditAddress = props => {
                         </View>
                         </KeyboardAwareScrollView>
 
-                        <View style={{ }}>
+                        <View>
                             <Button
                              showActivityIndicator={delLoader}
                              label={t("common:Delete")}

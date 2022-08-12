@@ -38,43 +38,6 @@ export const postRequest = async (url, data) => {
 };
 
 
-
-// export const postFormData = async( url,formdata) => {
-
-//   return await axios
-//   .post( BASE_URL + url,{
-//       headers:{          
-//           'Content-Type': 'multipart/form-data',
-//           Authorization: 'Bearer ' + (await AsyncStorage.getItem('token'))
-//       },
-//       body:formdata
-//   })
-//   .then((response) => {
-//     if (response.status === 200) {
-//       return {
-//         success: true,
-//         formdata: response.formdata,
-//         statusCode: response.status,
-//       };
-//     } else {
-//       return {
-//         success: false,
-//         formdata: response.formdata,
-//         statusCode: response.status,
-//       };
-//     }
-//   })
-//   .catch((error) => {
-//     return {
-//       success: false,
-//       formdata: error.response.formdata,
-//       statusCode: error.response.status,
-//     };
-//   });
-
-// };
-
-
 export const postPostLogin = async(url,data) => {
 return await axios
 .post( BASE_URL + url,data ,{

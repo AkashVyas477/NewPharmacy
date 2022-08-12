@@ -4,9 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import PrescriptionData from '../../../DummyData/PrescriptoinDummydata';
 import { Colors,Images } from '../../../CommonConfig';
-// import { Header, Button , } from '../../../Components/Common';
-import Header from '../../../Components/Common/Header';
-import Button from '../../../Components/Common/Button';
+import { Header, Button , } from '../../../Components/Common';
 import MedicinesImages from '../../../Components/Common/MedicinesImages'
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
@@ -17,9 +15,6 @@ const height = width * 100 / 0.6
 
 const PastPrescriptionScreen = props =>{
     const {t}= useTranslation()
-
-    // const pid = props.route.params.id
-    // const selectedItem =PrescriptionData.find(item => item.id === pid)
     
     const prescription = props.route.params.prescription
     console.log("\n\nData         ",prescription);
@@ -72,7 +67,7 @@ const PastPrescriptionScreen = props =>{
                     )
                 }}
             />
-                        {/* <ImageBackground source={{uri:prescription.prescription_images[0].url}} resizeMode="cover" style={styles.imageContainer}></ImageBackground> */}
+                      
             <ScrollView>
             <View>
            
@@ -122,24 +117,6 @@ const PastPrescriptionScreen = props =>{
                         </View>
                         
                     </View>
-                     
-                    {/* <View style={styles.card2}>
-                        <Text  style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight:'bold',fontSize:15, color:Colors.Sp_Text, marginBottom:8 }}>
-                           Pharamacist Replied
-                        </Text>
-                        <View >
-                            {prescription.quotes.map( item => {
-                                return(
-                                    <View key={item.id} >
-                                        <Text style={{fontWeight:'bold',color:Colors.Sp_Text}}>{item.store_name.toUpperCase()}</Text>
-                                        <Text>{moment(item.createdAt).format('DD/MM/YYYY')+' at '+moment(prescription.createdAt).format('hh-mm A')}</Text>
-                                        <Text style={{color:Colors.PRIMARY, marginBottom:18}}>${item.price}</Text>
-                                        <Text style={{marginBottom:10, borderBottomWidth:0.5, paddingBottom:10}}>{item.text_note}</Text> 
-                                    </View>
-                                )
-                            })}
-                        </View>
-                    </View> */}
             </View>
             
             </ScrollView>
@@ -194,12 +171,8 @@ const  styles=StyleSheet. create({
         shadowRadius: 8,
         elevation: 5,
         borderRadius: 10,
-        // backgroundColor: 'white',
         marginBottom:5,
         margin:10,
-        // flexDirection:'row',
-        
-        // alignItems:'flex-end',
        
       },
 
@@ -207,7 +180,6 @@ const  styles=StyleSheet. create({
         flex:1,
         backgroundColor:Colors.White,
         width: 380,
-        // justifyContent:'center',
         paddingLeft: 5,
         shadowColor:Colors.White,
         shadowOpacity: 0.26,
@@ -215,12 +187,8 @@ const  styles=StyleSheet. create({
         shadowRadius: 8,
         elevation: 5,
         borderRadius: 10,
-        // backgroundColor: 'white',
         marginBottom:5,
         margin:10,
-        // flexDirection:'row',
-        
-        // alignItems:'flex-end',
        
       },
 });

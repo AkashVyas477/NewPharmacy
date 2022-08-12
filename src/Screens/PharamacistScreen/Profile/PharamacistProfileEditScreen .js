@@ -94,38 +94,15 @@ console.log("    user     ", user);
     };
 
 
-    // const onPressSave = async (values) => {
-    //     setIsLoading(true)
-    //     const data = {
-    //         name: values.name,
-    //         email: values.email,
-    //         country_code:values.country_code,
-    //         phone: values.phone,
-    //         gender: values.gender
-    //     }
-    //     // console.log(data);
-    //     const response = await postPostLogin ('updateProfile', data)
-    //     console.log("on save       ",response);
-    //     if(!response.success) {
-    //         console.log(("Post Request Error"));
-    //     } else {
-    //        await AsyncStorage.setItem('userInfo', JSON.stringify(response.data))
-    //         Toast.show('Profile updated successfully!')
-    //         props.navigation.goBack();
-    //     }
-    //     setIsLoading(false)
-    // }
         const onPressSave =async(values)=>{
             setIsLoading(true);
             const formdata = new FormData();
             formdata.append("name",values.name)
-            // formdata.append("email",values.email)
             formdata.append("country_code",values.country_code)
             formdata.append("gender",values.gender)
             formdata.append("phone",values.phone)
             formdata.append("store_name",values.store_name)
-            // formdata.append("license_id",values.license_id)
-            // formdata.append("pharmacy_id",values.pharmacy_id)
+         
 
             if(selectedImage){
             formdata.append("image",{
@@ -221,8 +198,6 @@ console.log("    user     ", user);
                         name: user.name,
                         email: user.email,
                         store_name: user.store_name,
-                        // pharmacy_id:user.pharmacy_id,
-                        // license_id:user.license_id,
                         phone: user.phone,
                         country_code:user.country_code,
                         gender:user.gender, 
@@ -234,8 +209,6 @@ console.log("    user     ", user);
                         name: yup.string(),
                         email: yup.string().email('Please enter a valid email.'),
                         store_name:yup.string(),
-                        // license_id:yup.string(),
-                        // pharmacy_id:yup.string(),
                         phone: yup.number().min(10,'Phone number should be ten number '),
                         country_code: yup.string(),
                         gender:yup.string()
@@ -247,7 +220,7 @@ console.log("    user     ", user);
 {/* UserName */}
                             <Text style={styles.text_footer}>{t('common:Username')}</Text>
                             <View style={styles.action}>
-                                {/* <FontAwesome name="user" color={Colors.ORANGE} size={25}/> */}
+                               
                                 <TextInput
                                     value={values.name}
                                     onBlur={() => setFieldTouched('name')}
@@ -261,7 +234,7 @@ console.log("    user     ", user);
 {/* Email */}
                             <Text style={{ ...styles.text_footer, marginTop: 15 }}>{t('common:Email')}</Text>
                             <View style={styles.action}>
-                                {/* <FontAwesome name="envelope" color={Colors.ORANGE} size={25}/> */}
+                               
                                 <TextInput
                                     value={values.email}
                                     onBlur={() => setFieldTouched('email')}
@@ -276,7 +249,7 @@ console.log("    user     ", user);
 {/* Store name */}
 <Text style={{ ...styles.text_footer, marginTop: 15 }}> {t('common:Storename')}</Text>
                             <View style={styles.action}>
-                                {/* <FontAwesome name="envelope" color={Colors.ORANGE} size={25}/> */}
+                              
                                 <TextInput
                                     value={values.store_name}
                                     onBlur={() => setFieldTouched('store_name')}
@@ -288,34 +261,7 @@ console.log("    user     ", user);
                                     autoCapitalize="none"
                                 />
                             </View>     
-{/* Pharmacy Id */}
-{/* <Text style={{ ...styles.text_footer, marginTop: 15 }}>{t('common:PharmacyId')}</Text>
-                            <View style={styles.action}>
-                                <TextInput
-                                    value={values.pharmacy_id}
-                                    onBlur={() => setFieldTouched('pharmacy_id')}
-                                    onChangeText={handleChange('pharmacy_id')}
-                                    placeholderTextColor={Colors.placeHolder}
-                                    color={Colors.Sp_Text}
-                                    placeholder={t('common:PharmacyId')}
-                                    style={styles.textInput}
-                                    autoCapitalize="none"
-                                />
-                            </View>   */}
-{/* License Id */}
-{/* <Text style={{ ...styles.text_footer, marginTop: 15 }}> {t('common:LicenseId')}</Text>
-                            <View style={styles.action}>
-                                <TextInput
-                                    value={values.license_id}
-                                    onBlur={() => setFieldTouched('license_id')}
-                                    onChangeText={handleChange('license_id')}
-                                    placeholderTextColor={Colors.placeHolder}
-                                    color={Colors.Sp_Text}
-                                    placeholder= {t('common:LicenseId')}
-                                    style={styles.textInput}
-                                    autoCapitalize="none"
-                                />
-                            </View>                                                      */}
+                                                  
 {/* PhoneNumber */}
                             <View>
                                 <View >
@@ -325,7 +271,7 @@ console.log("    user     ", user);
                                         <Text style={{ marginLeft:10, flex: 0.5, fontWeight: 'bold' }}>{countryCode}</Text>
                                         <TouchableOpacity onPress={() => setShow(true)} style={{ flex: 0.4 }}>
                                             <Image source={Images.DropDown} style={{height:10,width:10}}  /> 
-                                            {/* <Ionicon name="caret-down-outline" size={20} color={Colors.Sp_Text} /> */}
+                                          
                                             </TouchableOpacity>
                                         <View style={{ width: 0, borderColor: Colors.Gray, borderWidth: 0.7, height: 30, marginRight: 10 }} ></View>
                                         <TextInput
@@ -349,7 +295,6 @@ console.log("    user     ", user);
                                     <View style={{ paddingHorizontal: 1,  fontSize: 17, borderBottomWidth: 1, borderColor: Colors.borderBottomColor }}>
                                             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 8 }}>
                                                     <RadioButton
-                                                //    value={values.gender}
                                                         label={t("common:Male")}
                                                         onPress={maleHandler}
                                                         state={gender === 'MALE'}
@@ -358,7 +303,6 @@ console.log("    user     ", user);
                                                    
                                                 <View style={{ marginLeft: 125 }}>
                                                     <RadioButton
-                                                //   value={values.gender}
                                                         label={t("common:Female")}
                                                         onPress={femaleHandler}
                                                         state={gender === 'FEMALE'}
@@ -517,12 +461,6 @@ const styles = StyleSheet.create({
         borderBottomColor: Colors.borderBottomColor,
         alignItems: 'center',
     },
-    // action:{
-    //     flexDirection:'row',
-    //     borderBottomWidth:0.5,
-    //     borderBottomColor:Colors.borderBottomColor,
-    //     // paddingVertical: 10
-    // },
     textInput:{
         marginHorizontal:5
     },

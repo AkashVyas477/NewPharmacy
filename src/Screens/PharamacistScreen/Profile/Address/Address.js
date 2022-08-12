@@ -39,7 +39,7 @@ const Address = (props) => {
     const getAddress = async () => {
         setIsLoading(true)
         const response = await getPreLogin('getAddress')
-        console.log("getAddress\n", response.data.data)
+        // console.log("getAddress\n", response.data.data)
         if (response.success) {
             setAddress(response.data.data)
             setIsLoading(false)

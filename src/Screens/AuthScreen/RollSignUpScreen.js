@@ -32,7 +32,7 @@ const RollSignupScreen = props =>{
 
 
     return(
-        <KeyboardAwareScrollView>
+       
         <View style={styles.screen}>
         <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
             {/* Title start */}
@@ -70,24 +70,9 @@ const RollSignupScreen = props =>{
                     {t('auth:Pharmacist')}
                 </Text>
                 </View>
-
-                {/* <View style={flex:1 ,width:'100%', paddingHorizontal:15, paddingBottom:10,justifyContent:'center'}>
-                     
-                     {showButton ?
-                   
-                         <TouchableOpacity
-                         style={styles.buttoncon}
-                        onPress = {() => { 
-                            customer ? props.navigation.navigate('CustomerSignup') : 
-                            props.navigation.navigate('PharmacistSingup') 
-                            }} >
-                           <View >
-                               {customer ? <Text style={styles.Button} >I' m Customer </Text> : <Text style={styles.Button}>I' m Pharmacist</Text>}
-                            </View> 
-                        </TouchableOpacity  >
-                    : null}  */}
-
-                    <View style={{flex:1 ,width:'100%', paddingHorizontal:15, paddingBottom:10,justifyContent:'center'}}>
+            </View>
+           
+            {/* RollSelction end */}
                     {showButton ?<Button
                         onPress={()=>{
                             dispatch(registerAction.setUserRole(customer?1:2))
@@ -97,16 +82,10 @@ const RollSignupScreen = props =>{
                             console.log(registerAction.setUserRole(customer?1:2));
                         }}
                         label={customer ? `${t("auth:ImCustomer")}`: `${t("auth:ImPharmacist")}`}    />
-                        // `${t('common:ProfileUpdateSuccessfully')}`
                 : null}
-                    </View> 
-
-
-        
-            </View>
-            {/* RollSelction end */}
         </View>
-        </KeyboardAwareScrollView>
+        
+      
     );
 };
 

@@ -2,9 +2,8 @@ import { StyleSheet, Text, View, ScrollView, StatusBar, Image, Dimensions, Touch
 import React, { useState, useRef, useEffect } from 'react'
 // import PharamaciesData from '../../../DummyData/DummyData';
 import { Colors,Images } from '../../../CommonConfig';
-// import { Header, Button , } from '../../../Components/Common';
-import Header from '../../../Components/Common/Header';
-import Button from '../../../Components/Common/Button';
+import { Header, Button , } from '../../../Components/Common';
+
 import { getWithParams } from '../../../Components/Helpers/ApiHelper';
 import { useTranslation } from 'react-i18next';
 
@@ -36,9 +35,9 @@ const PharamaciesDetail = (props) => {
                 onPress={() => props.navigation.goBack()}
                 />
            </View> 
-            {/* <TouchableOpacity onPress={() => { props.navigation.navigate('PharamaciesImagePreview', { currentPharmacy:id}) }} > */}
+       
             <ImageBackground source={{uri:currentPharmacy.store_image}} style={styles.imageContainer}></ImageBackground>
-                {/* </TouchableOpacity> */}
+        
             </View>
 
 <View>
@@ -59,15 +58,6 @@ const PharamaciesDetail = (props) => {
              </View>
         </View>
         </View>
-
-        {/* Text Note By Pharamacies */}
-
-        {/* <View style={styles.card2}>
-        <Text style={{alignItems:'center',justifyContent:'flex-start'}}> Text Note By Pharamacies</Text>
-        <Text style={{textAlign:'auto', padding:10}}>Detalis By Pharamacies</Text>
-        </View> */}
-
-    
 </View>
 
         </View>

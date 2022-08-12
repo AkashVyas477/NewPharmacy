@@ -13,20 +13,14 @@ import {
     I18nManager
 } from 'react-native';
 import { Images, Colors, Constants } from '../../CommonConfig';
-import CheckBox from '../../Components/Common/CheckBox'
-import EyeButton from '../../Components/Common/EyeButton'
-import Button from '../../Components/Common/Button'
-
-// import { CheckBox, EyeButton, Button} from '../../Components/Common';
+import { CheckBox, EyeButton, Button } from '../../Components/Common';
 import { postRequest, } from '../../Components/Helpers/ApiHelper';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import { useDispatch } from 'react-redux';
-
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import LoginValidationSchema from '../../ForValidationSchema/LoginValidationSchema'
-
 import { Formik } from 'formik'
 import { CommonActions } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
@@ -34,161 +28,67 @@ import { useTranslation } from 'react-i18next';
 
 
 const LoginScreen = (props) => {
-    const {t, i18n}= useTranslation()
-    // let deviceToken;
-    // useEffect(() => {
-    //     // Get the device token
-    //     messaging()
-    //         .getToken()
-    //         .then(token => {
-    //             deviceToken = token
-    //         });
-    // }, [])
-
-
-    useEffect( () => {
-        messaging().getToken().then( async(token) => { 
-            console.log("\n\n Token: ",token)
+    const { t, i18n } = useTranslation()
+    useEffect(() => {
+        messaging().getToken().then(async (token) => {
+            console.log("\n\n Token: ", token)
             await AsyncStorage.setItem('deviceToken', token)
-         });
-    },[])
+        });
+    }, [])
 
     const dispatch = useDispatch();
     const [tnc, setTnc] = useState(false);
     const [tnceye, setTncEye] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
     const tncHandler = () => { setTnc(state => !state); };
-
-    //    const role = props.route.params.role
     const onPressLogin = async (values) => {
-       
         setIsLoading(true);
         const data = {
             email: values.email.toLowerCase(),
             password: values.password,
-            device_token:(await AsyncStorage.getItem('deviceToken'))
+            device_token: (await AsyncStorage.getItem('deviceToken'))
         };
-        console.log("data\n",data)
-
         const response = await postRequest('login', data);
         const resData = response.data
         console.log("hiii        ", response);
-        if (response.success){
-            try{
-                 await AsyncStorage.setItem("role", resData.user.role.toString())
-                    await AsyncStorage.setItem("token", resData.token)
-                    await AsyncStorage.setItem("refreshToken", resData.refreshToken)
-                    await AsyncStorage.setItem("user", JSON.stringify(resData.user))
-                    await AsyncStorage.setItem("isLogin", "1")
-            }catch (error){
+        if (response.success) {
+            try {
+                await AsyncStorage.setItem("role", resData.user.role.toString())
+                await AsyncStorage.setItem("token", resData.token)
+                await AsyncStorage.setItem("refreshToken", resData.refreshToken)
+                await AsyncStorage.setItem("user", JSON.stringify(resData.user))
+                await AsyncStorage.setItem("isLogin", "1")
+            } catch (error) {
                 console.log(error)
             }
-            if(resData.user.role ===1){
+            if (resData.user.role === 1) {
                 props.navigation.dispatch(
                     CommonActions.reset({
-                        index:0,
-                        routes:[{name:'CustomerDrawer'}]
+                        index: 0,
+                        routes: [{ name: 'CustomerDrawer' }]
                     })
                 )
-            }else {
+            } else {
                 props.navigation.dispatch(
                     CommonActions.reset({
-                        index:0,
-                        routes:[{name:'PharamacistDrawer'}]
+                        index: 0,
+                        routes: [{ name: 'PharamacistDrawer' }]
                     })
                 )
             }
             setIsLoading(false);
 
-        }else{
+        } else {
             if (resData.ErrorMessage == "User not exists!") {
                 Toast.show(`${t('common:Userdoesnotexist')}`)
-                            // Toast.show(" User does not exist!")
-                              console.log("User not exists!")
-        
-                        } else if (resData.ErrorMessage == "Login Failed!") {
-                            Toast.show(`${t('common:IncorrectPassword')}`)
-                            // Toast.show("IncorrectPassword")
-                    console.log("Login Faild!")
-                        }
-                        setIsLoading(false)
+                console.log("User not exists!")
+            } else if (resData.ErrorMessage == "Login Failed!") {
+                Toast.show(`${t('common:IncorrectPassword')}`)
+                console.log("Login Faild!")
             }
+            setIsLoading(false)
         }
-
-
-
-        //     if (response.success) 
-        //     {
-        //         try {
-        //             // await AsyncStorage.setItem('role', resData.user.role.toString())
-        //             await AsyncStorage.setItem('token', resData.token)
-        //             await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-        //             await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-        //             await AsyncStorage.setItem('isLogin', "1")
-        //         } catch (error) {
-        //             // console.log("hii");
-        //             console.log(error)
-        //         }
-        //         if(resData.user.role ===0){
-        //         props.navigation.dispatch(
-        //             CommonActions.reset({
-        //                 index:0,
-        //                 routes: [{name: 'CustomerDrawer'}]
-        //             })
-        //         )
-        //         }else{
-        //             props.navigation.dispatch(
-        //                 CommonActions.reset({
-        //                     index:0,
-        //                     routes: [{name: 'Auth'}]
-        //                 })
-        //             )
-        //         }
-        //         setIsLoading(false);
-        //     } else {
-        //         if (resData.ErrorMessage == "User not exists!") {
-        //             Toast.show(" User does not exist!")
-        //               console.log("User not exists!")
-
-        //         } else if (resData.ErrorMessage == "Login Failed!") {
-        //             Toast.show("Incorrect Password")
-        //     console.log("Login Faild!")
-        //         }
-        //         setIsLoading(false)
-        //     }
-        // }
-
-    //     if (response.success) {
-    //         try {
-    //             await AsyncStorage.setItem('token', resData.token)
-    //             await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-    //             await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-    //             await AsyncStorage.setItem('isLogin', "1")
-    //         } catch (error) {
-    //             // console.log("hii");
-    //             console.log(error)
-    //         }
-    //         props.navigation.dispatch(
-    //             CommonActions.reset({
-    //                 index: 0,
-    //                 routes: [{ name: 'CustomerDrawer' }]
-    //             })
-    //         )
-    //         setIsLoading(false);
-    //     } else {
-    //         if (resData.ErrorMessage == "User not exists!") {
-    //             Toast.show(" User does not exist!")
-    //             console.log("User not exists!")
-
-    //         } else if (resData.ErrorMessage == "Login Failed!") {
-    //             Toast.show("Incorrect Password")
-    //             console.log("Login Faild!")
-    //         }
-    //         setIsLoading(false)
-    //     }
-    // }
-
-
+    }
 
     return (
         <KeyboardAwareScrollView>
@@ -197,14 +97,11 @@ const LoginScreen = (props) => {
             <View style={styles.mainWrapper}>
                 <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
                 {/* Logo */}
-
                 <View style={styles.logoScreen}>
                     <Image source={Images.AppIcon} style={styles.logo} resizeMode="cover" />
                 </View>
                 {/* Logo */}
-
                 <Formik
-
                     initialValues={{
                         email: '',
                         password: ''
@@ -213,7 +110,6 @@ const LoginScreen = (props) => {
                     validationSchema={LoginValidationSchema}
                 >
                     {({ values, errors, setFieldTouched, touched, handleChange, isValid, handleSubmit }) => (
-
                         <View >
                             {/* Inputs */}
                             <View>
@@ -236,7 +132,6 @@ const LoginScreen = (props) => {
                                     <Text style={styles.errortext}>{t('valid:Emailisarequiredfield')}</Text>
                                 }
                             </View>
-
                             <View style={{ padding: 1, paddingHorizontal: 2 }} >
                                 <Text style={styles.text} >{t('auth:Password')}</Text>
                                 <View style={i18n.language === "ar" ? styles.password_sty1 : styles.password_sty}>
@@ -245,7 +140,6 @@ const LoginScreen = (props) => {
                                         placeholderTextColor={Colors.placeHolder}
                                         color={Colors.Sp_Text}
                                         style={styles.customCss}
-                                        // placeholder="Password"
                                         placeholder={t("auth:Password")}
                                         onBlur={() => setFieldTouched('password')}
                                         onChangeText={handleChange('password')}
@@ -262,8 +156,6 @@ const LoginScreen = (props) => {
                             </View>
 
 
-                            {/* Row merge start  */}
-
 
                             <View style={i18n.language === "ar" ? styles.checkbox_sty_ar : styles.checkbox_sty} >
                                 <View style={styles.check}>
@@ -275,6 +167,7 @@ const LoginScreen = (props) => {
                                 </View>
                                 {/* Check box and Remember me End */}
                                 <View>
+
                                     {/* Forgot passWord start */}
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('FORGOT PASSWORD') }} >
                                         <Text>
@@ -283,7 +176,6 @@ const LoginScreen = (props) => {
                                     </TouchableOpacity>
                                     {/* Forgot passWord end */}
                                 </View>
-                                {/* Row merge end    */}
                             </View>
 
                             <View>
@@ -309,7 +201,6 @@ const LoginScreen = (props) => {
                                 {/* Or image end */}
                                 <View style={styles.pharmacyUser_sty}>
                                     {/* Pharmacy user login start */}
-
                                     <View style={styles.container} >
                                         <TouchableOpacity onPress={() => { props.navigation.navigate('LOGIN AS PHARMACY USER') }}>
                                             <View style={i18n.language === "ar" ? styles.pharmacyUserBox_ar : styles.pharmacyUserBox}>
@@ -330,7 +221,6 @@ const LoginScreen = (props) => {
                                             <Text style={styles.signup} > {t('auth:DonthaveAccount')} <Text style={styles.sp_signup}>{t('auth:Signup')} </Text>   </Text>
                                         </View>
                                     </TouchableOpacity>
-
                                     {/* Sing Up start */}
                                 </View>
 
@@ -338,34 +228,27 @@ const LoginScreen = (props) => {
                                     {/* Language  */}
                                     <TouchableOpacity onPress={() => { props.navigation.navigate('LanguageScreen') }} >
                                         <View style={i18n.language === "ar" ? styles.Language_sty_ar : styles.Language_sty}>
-                                            <Text style={styles.signup} > {t('auth:SelecetYourLanguage')}  </Text><Image source={Images.Language} style={{height:20,width:20}}/>
+                                            <Text style={styles.signup} > {t('auth:SelecetYourLanguage')}  </Text><Image source={Images.Language} style={{ height: 20, width: 20 }} />
                                         </View>
                                     </TouchableOpacity>
-                                    
+
                                     {/* Language */}
                                 </View>
                             </View>
-                            {/* Inputs */}
+
                         </View>
                     )}
                 </Formik>
             </View>
-            {/* Full screen */}
         </KeyboardAwareScrollView>
     );
 };
 
 
 const styles = StyleSheet.create({
-    root: {
-        flex: 1,
-        alignItems: 'center',
-        padding: 10,
-    },
     logoScreen: {
         alignItems: 'center'
     },
-
     logo: {
         width: '70%',
         height: 225,
@@ -403,17 +286,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 18
     },
-    Button: {
-        color: Colors.ButtonTextColor,
-        textAlign: 'center',
-    },
-    buttoncon: {
-        backgroundColor: Colors.PRIMARY,
-        borderRadius: 10,
-        height: 50,
-        width: "100%",
-        justifyContent: 'center',
-    },
     text: {
         color: Colors.Sp_Text,
         paddingLeft: 3
@@ -423,7 +295,6 @@ const styles = StyleSheet.create({
         color: 'red'
     },
     password_sty1: {
-        // flexDirection: 'row',
         flexDirection: 'row-reverse',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -437,18 +308,14 @@ const styles = StyleSheet.create({
         borderBottomColor: Colors.borderBottomColor,
         borderBottomWidth: 1,
     },
-    eyeIcon: {
-        height: 15,
-        width: 24,
-    },
-    checkbox_sty:{
+    checkbox_sty: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: 10,
         marginBottom: 25
     },
-    checkbox_sty_ar:{
+    checkbox_sty_ar: {
         flexDirection: 'row-reverse',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -458,10 +325,6 @@ const styles = StyleSheet.create({
     check: {
         flexDirection: 'row',
         marginLeft: 2
-    },
-    checkIcon: {
-        height: 20,
-        width: 20
     },
     remberme: {
         marginLeft: 4
@@ -486,13 +349,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row-reverse',
         justifyContent: 'space-around',
         alignItems: 'center',
-        // marginBottom: 10 
+
     },
     pharmacyUserBox: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        // marginBottom: 10 
     },
     pharmacyUserImg: {
         height: 50,
@@ -504,15 +366,12 @@ const styles = StyleSheet.create({
         width: 10,
 
     },
-
     signup_sty: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 15
     },
-
-
     Language_sty: {
         flexDirection: 'row',
         alignItems: 'center',

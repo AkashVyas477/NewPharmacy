@@ -5,13 +5,7 @@ import * as ImagePicker from 'react-native-image-crop-picker';
 import { Formik } from "formik";
 import SignUpValidationSchemaCustomer from '../../../ForValidationSchema/SignupValidationSchemaCustomer';
 import { Images , Colors } from '../../../CommonConfig';
-// import {CheckBox,EyeButton,Button,RadioButton,Header} from '../../../Components/Common';
-import CheckBox from '../../../Components/Common/CheckBox';
-import EyeButton from '../../../Components/Common/EyeButton';
-
-import RadioButton from '../../../Components/Common/RadioButton';
-import Header from '../../../Components/Common/Header';
-import Button from '../../../Components/Common/Button';
+import {CheckBox,EyeButton,Button,RadioButton,Header} from '../../../Components/Common';
 import messaging from '@react-native-firebase/messaging';
 import * as registerAction from '../../../Store/Actions/register'
 import { useDispatch } from 'react-redux';
@@ -54,7 +48,6 @@ const [selectedImage, setSelectedImage] = useState(null)
         }).then(image => {
            
             setSelectedImage(image)
-            // setSelectedImage(image.mime)
             console.log(image)
             setModalVisible(!modalVisible)
       });
@@ -64,7 +57,6 @@ const pickFromGallery = () => {
         }).then(image => {
            
             setSelectedImage(image)
-            // setSelectedImage(image.mime)
             console.log(image)
             setModalVisible(!modalVisible)
         });
@@ -98,7 +90,7 @@ const dispatch= useDispatch();
                     <TouchableOpacity style={styles.addIcon}   onPress={()=>setModalVisible(true) } >
                         <Image source={Images.AddIcon} style={styles.addIconImg} />
                     </TouchableOpacity>
-                    {/* <View style={styles.centeredView}> */}
+                 
                     <Modal
                         animationType="slide"
                         transparent={true}
@@ -131,7 +123,7 @@ const dispatch= useDispatch();
                         </View>
                         </View>
                     </Modal>
-                {/* </View> */}
+             
                     
 
                 </View>
@@ -141,7 +133,6 @@ const dispatch= useDispatch();
             <View style={styles.Formik_sty} >
                 <Formik
                     initialValues={{
-                        // image:{},
                         username: '',
                         email: '',
                         gender:'',
@@ -151,11 +142,10 @@ const dispatch= useDispatch();
                     }}
                     onSubmit={(values) =>{
                         const data = {username:values.username, email:values.email, password:values.password, gender:values.gender, role ,selectedImage}
-                        // dispatch(registerAction.addDetails(data));
-                        // console.log(data)
+                        
                         props.navigation.navigate('PhoneNumberScreen',{data})
                     }}
-                    // onSubmit={onPressRegister}
+                   
                     validationSchema={SignUpValidationSchemaCustomer}
                 >
                     {({ values, errors, setFieldTouched, touched, handleChange, isValid, setFieldValue , handleSubmit }) => (
@@ -291,9 +281,6 @@ const dispatch= useDispatch();
                             {/* Terms & conditions */}
                             {/* Next Button */}
                             <View>
-                                {/* <TouchableOpacity onPress={handleSubmit}>
-                                    <Text>Next</Text>
-                                </TouchableOpacity> */}
                                 <Button
                                 label={t("auth:Next")}
                                 disabled={!isValid }
@@ -309,8 +296,6 @@ const dispatch= useDispatch();
                                         </View>
                                     </TouchableOpacity>
                                 </View>
-                               
-                           
                         </View>
 
                     )}
@@ -319,7 +304,6 @@ const dispatch= useDispatch();
             </KeyboardAwareScrollView>
             {/* Formik */}
         </View >
-        
     );
 };
 
@@ -333,11 +317,6 @@ const styles = StyleSheet.create({
         alignItems: 'center', 
         marginTop: 5, 
         padding: 10 
-    },
-    headerText: {
-        fontSize:20,
-        color:Colors.Sp_Text,
-        fontWeight:'bold',
     },
     addIcon: {
         left: Dimensions.get('window').width * 0.12,
@@ -356,10 +335,6 @@ const styles = StyleSheet.create({
         height: 50, 
         width: 50 
     },
-    arrow:{ 
-        height: 20, 
-        width: 30 
-    },
     Formik_sty:{ 
         padding: 10 
     },
@@ -377,12 +352,6 @@ const styles = StyleSheet.create({
     main: {
         color: Colors.Sp_Text,
         paddingLeft: 3
-    },
-    
-    text: {
-        padding: 10,
-        paddingHorizontal: 10,
-        textAlign: 'center'
     },
     tandc: {
         color: Colors.Sp_Text,
@@ -403,14 +372,6 @@ const styles = StyleSheet.create({
         color: 'black',
         marginBottom: 50
 
-    },
-    gendercheck:{
-        flexDirection:'row',
-        alignItems:'center',
-        borderBottomWidth:1, 
-        paddingBottom:5, 
-        width:'40%' ,
-        borderBottomColor: Colors.borderBottomColor,
     },
    
     eye_sty_ar:{
@@ -504,186 +465,6 @@ const styles = StyleSheet.create({
         fontWeight:"bold",
         fontSize:20
     },
-
-// screen: {
-//     flex: 1,
-//     backgroundColor: Colors.backgroundColor,
-// },
-// Header: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     marginTop: 5,
-//      padding: 10
-// },
-// arrow: { height: 20, width: 30 },
-// addIcon: {
-//     left: Dimensions.get('window').width * 0.12,
-//     bottom: Dimensions.get('window').width * 0.1,
-// },
-// TextSignUp: {
-//     fontSize: 25,
-//     color: 'black',
-//     paddingLeft: 115,
-// },
-// Profile: {
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//     marginTop: 10
-// },
-// ProfileImg: {
-//     height: 125,
-//     width: 125
-// },
-// addIconImg: {
-//     height: 50,
-//     width: 50
-// },
-// formik: { padding: 10 },
-
-// customCss: {
-//     borderBottomWidth: 1,
-//     borderBottomColor: Colors.borderBottomColor,
-//     width: '100%',
-//     paddingBottom: 2,
-//     justifyContent: 'space-evenly'
-// },
-// main: {
-//     color: Colors.Sp_Text,
-//     paddingLeft: 3
-
-// },
-// Button: {
-//     color: 'white',
-//     textAlign: 'center',
-
-// },
-// buttoncon: {
-//     backgroundColor: Colors.PRIMARY,
-//     borderRadius: 10,
-//     height: 40,
-//     width: "100%",
-//     justifyContent: 'center',
-// },
-// text: {
-//     padding: 10,
-//     paddingHorizontal: 10,
-//     textAlign: 'center'
-// },
-// errorText: {
-//     fontSize: 11,
-//     color: Colors.Error_Textcolor
-// },
-// tandc: {
-//     color: Colors.Sp_Text,
-//     textAlign: 'auto',
-
-
-// },
-// sp_tandc: {
-//     color: Colors.Blue
-
-// },
-// signup: {
-//     color: Colors.Gray,
-//     marginBottom: 10,
-//     fontSize: 20,
-
-
-
-// },
-// eye_sty_ar: {
-//     paddingLeft: 25
-// },
-// eye_sty: { paddingRight: 25 },
-// sp_signup: {
-//     color: Colors.Sp_Text,
-//     marginBottom: 50
-
-// },
-// checkbox: {
-//     height: 20,
-//     width: 20
-// },
-// signup_sty: {
-//     width: "100%",
-//     marginTop: 10
-// },
-// touchsignup: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     justifyContent: 'center'
-// },
-// password_sty1: {
-//     // flexDirection: 'row',
-//     flexDirection: 'row-reverse',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//     borderBottomColor: Colors.borderBottomColor,
-//     borderBottomWidth: 1,
-// },
-// password_sty: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//     borderBottomColor: Colors.borderBottomColor,
-//     borderBottomWidth: 1,
-// },
-// terms_sty_ar: {
-//     flexDirection: 'row-reverse',
-//     marginTop: 10,
-//     marginBottom: 5,
-// },
-// terms_sty: {
-//     flexDirection: 'row',
-//     marginTop: 10,
-//     marginBottom: 5,
-// },
-// centeredView: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     marginTop: 22
-// },
-// modalView: {
-//     margin: 20,
-//     backgroundColor: Colors.White,
-//     borderRadius: 20,
-//     padding: 35,
-//     alignItems: "center",
-//     shadowColor: "#000",
-//     shadowOffset: {
-//         width: 0,
-//         height: 2
-//     },
-//     shadowOpacity: 0.25,
-//     shadowRadius: 4,
-//     elevation: 5
-// },
-// buttonModal: {
-//     borderRadius: 20,
-//     padding: 10,
-//     elevation: 2,
-//     marginVertical: 5,
-//     width: 200
-// },
-// buttonOpen: {
-//     backgroundColor: "#F194FF",
-// },
-// buttonClose: {
-//     backgroundColor: Colors.Gray,
-// },
-// textStyle: {
-//     color: Colors.White,
-//     fontWeight: "bold",
-//     textAlign: "center"
-// },
-// modalText: {
-//     marginBottom: 15,
-//     textAlign: "center",
-//     fontWeight: "bold",
-//     fontSize: 20
-// },
-
 });
 
 export default CustomerSignupScreen;

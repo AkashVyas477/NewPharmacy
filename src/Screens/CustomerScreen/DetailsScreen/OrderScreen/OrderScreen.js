@@ -56,18 +56,17 @@ const OrderScreen = props => {
     }, [props.navigation])
 
 
-// useEffect(()=>{
-//     getPaymentMethod()
-// },[])
+useEffect(()=>{
+    getcard
+    getPaymentMethod()
+},[selectedCard])
 
     const getPaymentMethod = async () => {
         setSelectedCard (JSON.parse(await AsyncStorage.getItem('activateCard')))
-        console.log("getting cards\n", selectedCard)
+        // console.log("getting cards\n", selectedCard)
     }
 
     const [card, setCard] = useState([])
-
-
     const getcard = async () => {
         setIsLoading(true)
         const response = await getPreLogin('customer/getCard')
@@ -109,7 +108,7 @@ const paydata = {
 
 const getPayment = await postPostLogin('customer/checkout', paydata)
 // const data= await getPayment.json();
-// console.log("on press \n ",getPayment)
+console.log("on press \n ",getPayment)
 if (state==='cash'){
     Alert.alert('Order complete, thank you!');
     props.navigation.navigate('Prescription') 
@@ -151,7 +150,7 @@ if(error){
     console.log(error);
     setIsLoading(false)
 }else if(paymentIntent.status==='Succeeded'){
-    console.log("Payment Success!");
+    console.log("Payment Success!\n",paymentIntent);
     // onPressPayment()
 }
 }
@@ -285,6 +284,7 @@ catch(error){
                                                 brand={item.brand}
                                                 exp_month={item.exp_month}
                                                 exp_year={item.exp_year}
+                                                // showActivityIndicator={true}
                                             />
                                         </View>
                                     )

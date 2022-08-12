@@ -3,9 +3,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'reac
 import { Images, Colors } from '../../../CommonConfig'
 import { Formik } from 'formik'
 import PharmacyUserValidation from '../../../ForValidationSchema/PharmacyUserValidationSchema';
-// import{ Button,Header} from '../../../Components/Common';
-import Button from '../../../Components/Common/Button';
-import Header from '../../../Components/Common/Header';
+import{ Button,Header} from '../../../Components/Common';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
@@ -15,7 +13,6 @@ const pharmacyuserscreen = props => {
         <KeyboardAwareScrollView>
         <View >
             {/* Screen partation for button and ID */}
-
             <View style={styles.screen2}>
                 {/* Logo & HeaderText */}
                 <View style={styles.Header}>
@@ -42,7 +39,6 @@ const pharmacyuserscreen = props => {
                             {/* Inputs */}
                             <View style={styles.TextInput}>
                                 <Text style={styles.text} >Pharmacy ID</Text>
-                                {/* <View style={{ borderBottomColor: '#e8e8e8', borderBottomWidth: 1, }} > */}
                                     <TextInput
                                         value={values.idNo}
                                         onBlur={() => setFieldTouched('idNO')}
@@ -58,20 +54,9 @@ const pharmacyuserscreen = props => {
                                     <Text style={styles.errortext}>{errors.idNo}</Text>
                                 }
                         </View>
-
-                            {/* <View style={{justifyContent:'space-between'}} >
-                                <View >
-                                    <Button 
-                                    label="Verify now"
-                                    onPress={handleSubmit}    
-                                    />
-                                </View>
-                            </View> */}
                             </View>
                     )}
                 </Formik>
-                            {/* Formik end */}
-                            {/* Input  */}
         </View>
     </View>
     </KeyboardAwareScrollView>
@@ -83,7 +68,6 @@ const pharmacyuserscreen = props => {
                         onSubmit={() => { props.navigation.navigate('PharamacistDrawer', { screen: 'PharamaHome' }) }}
                     />
                 </View>
-                {/* Login button end */}
             </View>
     </View>
     );

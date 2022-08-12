@@ -9,10 +9,6 @@ import { useTranslation } from 'react-i18next';
 
 const PharamaciesImagePreview = props =>{
     const {t}= useTranslation()
-  
-    // const pid = props.route.params.id
-    // const selectedItem =PharamaciesData.find(item => item.id === pid)
-    // console.log(PharamaciesData)
     const currentPharmacy = props.route.params.id
     console.log(currentPharmacy);
     return(
@@ -34,10 +30,7 @@ const PharamaciesImagePreview = props =>{
 export default PharamaciesImagePreview;
 
 const  styles=StyleSheet. create({
-    screen:{
-        
-       
-    },
+    screen:{  },
     header_sty:{ 
         flexDirection: 'row', 
         alignItems: 'center', 

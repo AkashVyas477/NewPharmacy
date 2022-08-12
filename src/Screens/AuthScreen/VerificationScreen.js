@@ -3,21 +3,20 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, ScrollView,
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import { postRequest, postFormDataRequest, } from '../../Components/Helpers/ApiHelper';
 import { useSelector } from 'react-redux';
-
-
 import { Images, Colors } from '../../CommonConfig';
-import Header from '../../Components/Common/Header';
-import Button from '../../Components/Common/Button';
-// import { Header , Button } from '../../Components/Common';
+import { Header , Button } from '../../Components/Common';
 import { CommonActions, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import { elementsThatOverlapOffsets } from 'react-native/Libraries/Lists/VirtualizeUtils';
 import { useTranslation } from 'react-i18next';
 import messaging from '@react-native-firebase/messaging';
+import { set } from 'react-native-reanimated';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const VerificationScreen = props => {
   const {t}=useTranslation()
+  const [isLoading, setisLoading]=useState(false)
   const [ loading, setLoading ] = useState(false)
 
   useEffect( () => {
@@ -26,7 +25,6 @@ const VerificationScreen = props => {
         await AsyncStorage.setItem('deviceToken', token)
      });
 },[])
-
   const makeid = (length) => {
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -37,13 +35,25 @@ const VerificationScreen = props => {
     return result;
   }
 
-  // const user = useSelector(state => state.Auth)
-  // console.log(user)
+  const ResendpressHandler = async(countryCode, phoneNumber) => {
+    setisLoading(true)
+    const OTPData = {
+        country_code: '+91',
+        phone_number: phoneNumber,
+        channel: "sms",
+    }
+    const response = await postRequest('generateOTP', OTPData);
+    console.log(response)
+    if (response.success) {
+        Toast.show("OTP sent Successfuly")
+        setisLoading(false)
+    } else {}
+}
+
+
   const countryCode = props.route.params.countryCode;
   const phoneNumber = props.route.params.phoneNumber;
   const data = props.route.params.params
-  // console.log("params\n",data)
-
   const [otp, setOTPValue] = useState('');
   const pressHandler = async (otp) => {
     setLoading(true)
@@ -53,7 +63,6 @@ const VerificationScreen = props => {
       phone_number: phoneNumber,
     }
     const response = await postRequest('verifyOTP', verifyOTP);
-    // console.log("otp\n",response)
     const resData = response.data;
     let errorMsg = 'Something went wrong!';
     if (response.success) {
@@ -72,7 +81,6 @@ const VerificationScreen = props => {
       user.append("phone", phoneNumber)
       user.append('store_name',data.storeName)
       user.append('license_id',data.licenseId)
-      // console.log("Form_Image       ",)
       console.log("FormData\n",user)
 
       const res = await fetch('https://mobile-pharmacy.herokuapp.com/register',{
@@ -83,7 +91,6 @@ const VerificationScreen = props => {
         }
       })
      const  registerResponse = await res.json()
-      // console.log("123\n",registerResponse)
       if(registerResponse.message==="Customer created successfully" || registerResponse.message==="Pharmacist created successfully"){
         if(data.role ===2){
           props.navigation.navigate('AddNewAddress')
@@ -96,7 +103,6 @@ const VerificationScreen = props => {
         console.log("login data \n",loginData)
         const response = await postRequest('login',loginData);
         const resData = response.data
-        // console.log("hiii        ", response);
         if(response.success){
           try{
                       await AsyncStorage.setItem('role',resData.user.role.toString())
@@ -130,50 +136,6 @@ const VerificationScreen = props => {
         console.log("regisrespones\n",registerResponse)
         setLoading(false)
       }
-    //   if (registerResponse.status === 200) {
-    //     //SUCCESS
-    //     if(data.role === 2){
-    //       props.navigation.navigate('PharamacistDrawer')
-    //     }
-    //     const loginData = {
-    //       email: data.email,
-    //       password: data.password,
-    //       role: data.role,
-    //       device_token: JSON.stringify(AsyncStorage.getItem('deviceToken'))
-    //     }
-
-    //     const response = await postPreLogin('login', loginData)
-    //     const resData = response.data
-
-    //     if (response.success) {
-    //       try {
-    //           await AsyncStorage.setItem('token', resData.token)
-    //           await AsyncStorage.setItem('refreshToken', resData.refreshToken)
-    //           await AsyncStorage.setItem('userInfo', JSON.stringify(resData.user))
-    //           await AsyncStorage.setItem('isLogin', "abc")
-    //       } catch (error) {
-    //           console.log(error)
-    //       }
-    //       props.navigation.navigate('CustomerDrawer')
-    //       // props.navigation.dispatch(
-    //       //     CommonActions.reset({
-    //       //         index:0,
-    //       //         routes: [{name: 'CustomerDrawer'}]
-    //       //     })
-    //       // )
-    //       setLoading(false);
-    //   } else {
-    //       if (resData.ErrorMessage === 'User does not exist!') {
-    //           Toast.show(" User does not exist! ");
-    //       } else if (resData.ErrorMessage === 'Invalid Password!') {
-    //           Toast.show("Incorrect Password")
-    //       }
-    //       setLoading(false)
-    //   }
-    //   } else {
-    //     console.log("error\n",registerResponse)
-    //     setLoading(false)
-    //   }
     } 
     else {
       if (resData.ErrorMessage === "Invalid OTP entered!") {
@@ -187,35 +149,29 @@ const VerificationScreen = props => {
   return (
     <View style={styles.screen}>
       <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
-      <ScrollView>
-        {/* Header  */}
         <View style={styles.header1}>
           <Header
             Title={t("auth:VERIFICATIONCODE")}
             onPress={() => props.navigation.goBack()}
           />
         </View>
-        {/* Header end */}
+        <KeyboardAwareScrollView>
 
-        {/* logo */}
         <View style={{ alignItems: 'center' }} >
           <Image source={Images.Mobile} style={styles.logo_sty} />
         </View>
         {/* Text  */}
-        <View >
-          <View>
+          <View style={{padding:10}}>
             <Text style={styles.text}> {t('auth:WaitingforAutomaticallydetectandSMSsentto')} </Text>
             <TouchableOpacity onPress={() => { props.navigation.navigate('PhoneNumberScreen') }} >
               <Text style={styles.text} >{countryCode}-{phoneNumber}<Text style={styles.Touchtext} > {t('auth:Wrongnumber')}</Text></Text>
             </TouchableOpacity>
           </View>
-        </View>
+        
         {/* Text  */}
-        {/* logo */}
 
         {/* Code input Start */}
-
-        <View style={{ flex: 3 }}>
+        <View style={{ flex: 3,justifyContent:'space-between' }}>
           <View style={styles.body}>
             <View style={{ flex: 1 }}>
               <View style={{ flex: 0.5 }}>
@@ -231,22 +187,23 @@ const VerificationScreen = props => {
             </View>
           </View>
         </View>
-        {/* Button */}
-        <View style={{ padding: 20 }} >
+        </KeyboardAwareScrollView>
+         {/* Button */}
+  <View style={styles.Button}>
           <Button
             label="Verify Now"
             onPress={() => pressHandler(otp)}
             showActivityIndicator={loading}
           />
-        </View>
-        
-        {/* <View style={{ flex: 0.5, flexDirection: 'row', justifyContent: 'center' }}>
+      <View style={{flexDirection: 'row', justifyContent: 'center' }}>
           <Text style={styles.resend_code}>Didn't Get the Code? </Text>
-          <TouchableOpacity onPress={() => { navigation.navigate('PhoneNumberScreen') }} >
+          <TouchableOpacity onPress={() => ResendpressHandler(countryCode, phoneNumber)} 
+          disabled={loading}
+          >
             <Text style={styles.resend}>Resend Code</Text>
           </TouchableOpacity>
-        </View> */}
-      </ScrollView>
+        </View>
+        </View>
     </View>
   );
 };
@@ -260,8 +217,10 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
   },
+  Button:{
+    padding:15
+  },
   text: {
-
     textAlign: 'center',
     alignItems: 'center'
   },
@@ -279,25 +238,12 @@ const styles = StyleSheet.create({
     color: Colors.TouchText,
     fontSize: 15,
     textAlign: 'center',
-
   },
-
   logo_sty: {
     height: 192,
     width: 120,
     marginTop: 20,
   },
-  // resend: {
-  //   color: Colors.ORANGE,
-  //   fontWeight: 'bold',
-  //   fontSize: 18
-  // },
-  // resend_code: {
-  //   fontWeight: 'bold',
-  //   color: Colors.GREY,
-  //   fontSize: 18
-  // },
-
   OtpInputCell: {
     backgroundColor: Colors.White,
     borderRadius: 5,

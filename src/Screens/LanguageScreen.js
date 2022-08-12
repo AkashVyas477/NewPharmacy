@@ -14,13 +14,6 @@ const LanguageScreen = props =>{
                 <Header
                     Title={t('common:LanguageScreen')}
                     onPress={() => props.navigation.goBack()
-                   
-                    // props.navigation.dispatch(
-                    //     CommonActions.reset({
-                    //         index:0,
-                    //         routes:[{name:'PharamacistDrawer'}]
-                    //     })
-                    // )
                     }
                 />
             </View>

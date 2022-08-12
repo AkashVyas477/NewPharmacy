@@ -6,9 +6,7 @@ import CountryPicker from 'react-native-country-codes-picker';
 
 import * as registerAction from '../../Store/Actions/register';
 import{ Colors, Images }from '../../CommonConfig';
-// import { Header, Button } from '../../Components/Common';
-import Header from '../../Components/Common/Header';
-import Button from '../../Components/Common/Button';
+import { Header, Button } from '../../Components/Common';
 import { postRequest } from '../../Components/Helpers/ApiHelper';
 import { useTranslation } from 'react-i18next';
 
@@ -17,14 +15,14 @@ import { useTranslation } from 'react-i18next';
 const PhoneNumberScreen = props => {
 const {t,i18n}=useTranslation()
     const params = props.route.params.data
-//    console.log("userdata    ",params)
+
     const [isLoading, setisLoading]=useState(false)
     const [show, setShow] = useState(false);
     const [countryCode, setCountryCode] = useState('+91');
-    // const [callingCode, setcallingCode]= useState('+91')
+
     const [phoneNumber, setPhoneNumber ] = useState('');
     
-    // const dispatch = useDispatch()
+
 
     const pressHandler = async(countryCode, phoneNumber) => {
         setisLoading(true);
@@ -32,7 +30,7 @@ const {t,i18n}=useTranslation()
             country_code: '+91',
             phone_number: phoneNumber,
             channel: "sms",
-            // mobile: phoneNumber
+        
         }
         const response = await postRequest('generateOTP', OTPData);
         console.log(response)
@@ -48,9 +46,7 @@ const {t,i18n}=useTranslation()
 
     return (
         <View style={styles.screen}>
-            <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
-                {/* <StatusBar backgroundColor={Colors.ORANGE} barStyle='light-content' /> */}
-
+                 <StatusBar backgroundColor={Colors.PRIMARY} barStyle='light-content' />
                 {/* HEADER */}
                 <View style={styles.header1}>
                     <Header 
@@ -74,14 +70,12 @@ const {t,i18n}=useTranslation()
                     <View style={styles.body}>                     
                         <Text style={styles.textPhoneNo} >{t('auth:PhoneNumber')}</Text>
                         <View style={i18n.language === "ar" ? styles.action_ar : styles.action}>
-                                        {/* <Ionicon name="call" color={Colors.PRIMARY} size={20} style={{ flex: 0.5 }} /> */}
                                         <Text style={{ flex: 0.7, fontWeight: 'bold' }}>{countryCode}</Text>
                                         <TouchableOpacity onPress={() => setShow(true)} style={{ flex: 0.4 }}>
                                             <Image source={Images.DropDown} style={{height:10,width:10}}  /> 
                                         </TouchableOpacity>
                                         <View style={{ width: 0, borderColor: Colors.Gray, borderWidth: 0.3, height: 30, marginRight: 10 }} ></View>
                                         <TextInput
-                                        //   value={values.phone}
                                             style={styles.textPhoneNosty}
                                             keyboardType="phone-pad"
                                             maxLength={10}
@@ -91,24 +85,17 @@ const {t,i18n}=useTranslation()
                                             placeholder={t("auth:PhoneNumber")}
                                         />
                                     </View>
-                            <View style={{marginTop:20}}>
+                    </View>
+                </View>
+                </KeyboardAwareScrollView>
+                <View >
                             <Button
                             disabled={ phoneNumber.length === 10 ? false : true } 
                             onPress={() => pressHandler(countryCode, phoneNumber)}
                             showActivityIndicator={isLoading}
-                            // disabled={isLoading}   
                             label={t("auth:Next")}
                             />
                             </View>
-
-                        {/* <TouchableOpacity style={styles.sendCode} disabled={ phoneNumber.length === 10 ? false : true } onPress={() => pressHandler(countryCode, phoneNumber)}>
-                            <Text style={styles.sendCodeText}>Send Code</Text>
-                        </TouchableOpacity> */}
-                        
-                    </View>
-                   
-                </View>
-                </KeyboardAwareScrollView>
             <CountryPicker
                 show={show}
                 style={{
@@ -177,39 +164,6 @@ const styles = StyleSheet.create({
     textPhoneNosty:{
         flex: 3.5,
     },
-
-    sendCode: {
-        backgroundColor: Colors.ORANGE,
-        padding: 15,
-        marginTop: 50,
-        borderRadius: 5,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    sendCodeText: {
-        fontWeight: 'bold',
-        color: Colors.WHITE,
-        fontSize: 20
-    },
-    header: {
-        flex: 1,
-        backgroundColor: Colors.ORANGE,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    headerLabel: {
-        color: Colors.WHITE,
-        fontWeight: 'bold',
-        fontSize: 26,
-        margin: 10
-    },
-    headerText: {
-        color: Colors.WHITE,
-        fontWeight: '600',
-        fontSize: 15,
-        width: '100%',
-        marginLeft: 10
-    },
     body: {
         flex: 3,
 
@@ -217,18 +171,6 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 30,
         paddingHorizontal: 20,
         paddingVertical: 30
-    },
-    image: {
-        marginVertical: 10,
-        marginRight: 5,
-        height: 180,
-        width: 180
-    },
-    footerText: {
-        fontSize: 18,
-        marginTop: 5,
-        marginBottom: 5,
-        color: Colors.GREY
     },
     action_ar: {
         flexDirection: 'row-reverse',
@@ -245,12 +187,6 @@ const styles = StyleSheet.create({
         borderBottomColor: Colors.LIGHTER_GREY,
         paddingBottom: 10,
         alignItems: 'center',
-    },
-    text_footer: {
-        color: '#05375a',
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginTop: 50
     },
 });
 

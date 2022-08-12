@@ -1,10 +1,8 @@
 import { StyleSheet, Alert,Text,TextInput, View, ScrollView, StatusBar, Image, Dimensions,ActivityIndicator, TouchableOpacity, ImageBackground, FlatList,Modal } from 'react-native'
 import React, { useState, useRef, useEffect } from 'react'
-// import PharamaciesData from '../../../DummyData/DummyData';
 import { Colors, Images } from '../../../../CommonConfig';
-// import { Header, Button , } from '../../../Components/Common';
-import Header from '../../../../Components/Common/Header';
-import Button from '../../../../Components/Common/Button';
+import { Header, Button , } from '../../../../Components/Common';
+
 import { getWithParams, postPostLogin } from '../../../../Components/Helpers/ApiHelper';
 import MedicinesImages from '../../../../Components/Common/MedicinesImages'
 import moment from 'moment';
@@ -17,11 +15,6 @@ import { useTranslation } from 'react-i18next';
 const Addquotes = (props) => {
     const {t}=useTranslation()
 
-    // useEffect(() => {
-    //     const update = props.navigation.addListener('focus', () => {
-    //     });
-    //     return update;
-    // }, [props.navigation])
 
     const userRequest = props.route.params.prescription
     const [modalVisible, setModalVisible] = useState(false);
@@ -29,7 +22,7 @@ const Addquotes = (props) => {
     const [ isLoading ,setIsLoading ] = useState(false)
     const [priceing,setPriceing]=useState('')
     const [notes,setNote]=useState('')
-    // const [id, setId] = useState()
+
     console.log("Detail\n", userRequest)
 
     const onpressSubmit = async ()=> {
@@ -72,13 +65,10 @@ const Addquotes = (props) => {
                 showsHorizontalScrollIndicator={false}
                 pagingEnabled
                 renderItem={({ item }) => {
-                    // console.log("image     ",item);
                     return (
                         <View style={{opacity:0.7}}>
                             <MedicinesImages
                                 image={item}
-                                // id={item}
-                                // onClick={() => { props.navigation.navigate('Preview', { images123: item, }) }}
                             />
                         </View>
                         
@@ -94,7 +84,7 @@ const Addquotes = (props) => {
                                         <Image source={{ uri:userRequest.user_image}} style={styles.userImage} /> 
                                         <Text style={styles.userName}>{userRequest.user}</Text>
                                     </View>
-                                {/* <Text style={styles.text} >{userRequest.user.toUpperCase()}</Text> */}
+                          
                                 <View style={{flexDirection:'row',alignItems:'center', marginBottom:3}}>
                                         <Image source={Images.Calendar} style={{height:20,width:20 ,}}/>
                                         <Text style={styles.text3}>{moment(userRequest.createdAt).format('DD/MM/YYYY') + ' at ' + moment(userRequest.createdAt).format('hh:mm A')}</Text>
@@ -152,17 +142,6 @@ const Addquotes = (props) => {
                     </View> 
                 }
 
-{/* After adding Quotes  */}
-                    {/* <View style={styles.card}>
-                        <View>
-                        <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
-                          Quote Price 
-                            </Text>
-                        </View>
-                    </View> */}
-
-
-{/* Add Quotes Modal  */}
                     <Modal
                 animationType="fade"
                 transparent={true}
@@ -260,7 +239,6 @@ const styles = StyleSheet.create({
     },
     userName: {
         padding: 10,
-        // backgroundColor: 'rgba(0,0,0,0.4)',
         fontWeight: '600',
     },
 
@@ -309,7 +287,6 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.White,
         borderRadius: 20,
         padding: 35,
-        // alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -334,7 +311,6 @@ const styles = StyleSheet.create({
         elevation: 2,
         marginVertical: 5,
         margin:5
-        // width: 200
     },
     buttonOpen: {
         backgroundColor: "#F194FF",

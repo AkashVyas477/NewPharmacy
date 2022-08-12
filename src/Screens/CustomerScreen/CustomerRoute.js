@@ -8,31 +8,21 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useTranslation } from 'react-i18next';
 
-
 //LogInScren
-
 import LoginScreen from '../AuthScreen/LoginScreen'
-
 //Screens from Customer 
-
 import LanguageScreen from '../LanguageScreen';
-
 // Screens from Home in Customer 
 import HomeScreen from '../CustomerScreen/Home/HomeScreen';
 import PrescriptionScreen from '../CustomerScreen/Home/PrescriptionScreen';
 import PrescriptionImageScreen from '../CustomerScreen/Home/PrescriptionImageScreen';
-
 // Screens from Profile in Customer 
-
 import CustomerProfileScreen from '../CustomerScreen/Profile/CustomerProfileScreen';
 import CustomerProfileEditScreen from '../CustomerScreen/Profile/CustomerProfileEditScreen ';
 import  ChangePassword from '../CustomerScreen/Profile/ChangePassword';
 import Address from '../CustomerScreen/Profile/Address/Address';
 import AddNewAddres from '../CustomerScreen/Profile/Address/AddNewAddress';
 import EditAddress from '../CustomerScreen/Profile/Address/EditAddress';
-
-
-
 // Screens from Details in Customer 
 import CurrentPrescriptionScreen from '../CustomerScreen/DetailsScreen/CurrentPrescriptionScreenDetail';
 import PastPrescriptionScreen from '../CustomerScreen/DetailsScreen/PastPrescriptionScreenDetail';
@@ -42,34 +32,23 @@ import PharamaciesImagePreview from '../CustomerScreen/DetailsScreen/Pharamacies
 import OrderScreen from '../CustomerScreen/DetailsScreen/OrderScreen/OrderScreen';
 import AddCard from '../CustomerScreen/Payment/AddCard';
 
-// import CheckoutScreen from '../CustomerScreen/DetailsScreen/OrderScreen/CheckOutScreen';
-
-
-
 import SplashScreen from '../SplashScreen';
-
 import DrawerContent from './CustomerDrawer';
 import navigate from '../../CommonConfig/Translations/en/navigate';
-
 const Drawer = createDrawerNavigator()
 const DrawerNavigator = props => {
     return (
         <Drawer.Navigator 
         headerMode='none' 
-        drawerContent={ props => <DrawerContent {...props}/>}
-        >
+        drawerContent={ props => <DrawerContent {...props}/>}>
             <Drawer.Screen name='Home' component={TabNavigator} />
             <Drawer.Screen name='Profile' component={UserStackScreen}/>
             <Drawer.Screen name = 'LanguageScreen' component={LanguageStackScreen} />
             <Drawer.Screen name='AddresScreen' component={AddresStackScreen}/>
-
-            
         </Drawer.Navigator>
     )
 }
-
 export default DrawerNavigator;
-
 const Tab = createBottomTabNavigator()
 const getTabBarVisibility = (route) => {
     const routeName = getFocusedRouteNameFromRoute(route);
@@ -80,11 +59,9 @@ const getTabBarVisibility = (route) => {
     if (hideOnScreens.indexOf(routeName) > -1) return false;
     return true;
 };
-
 const TabNavigator = props => {
     const { t } = useTranslation();
     return (
-
         <Tab.Navigator tabBarOptions={{
             activeTintColor: '#cccccc',
             inactiveTintColor: '#cccccc',
@@ -95,7 +72,6 @@ const TabNavigator = props => {
                 
             }
         }}>
-
             <Tab.Screen
                 name='HomeScreen'
                 component={HomeStackScreen}
@@ -132,9 +108,6 @@ const HomeStackScreen = props => {
             <HomeStack.Screen name='PastPrescriptionScreen_Data' component={PastPrescriptionScreen} />
             <HomeStack.Screen name ='Preview'component={Preview}/>
             <HomeStack.Screen name ='PharamaciesImagePreview'component={PharamaciesImagePreview}/>
-            {/* <HomeStack.Screen name = 'LanguageScreen' component={LanguageScreen}/> */}
-            {/* <HomeStack.Screen name='OrderScreen' component={OrderScreen}/> */}
-            {/* <HomeStack.Screen name ='Edit_Profile'component={CustomerProfileEditScreen}/> */}
         </HomeStack.Navigator>
     )
 }
@@ -151,15 +124,10 @@ const PrescriptionStackScreen = props => {
             <PrescriptionStack.Screen name='Preview' component={Preview} />
             <PrescriptionStack.Screen name='PharamaciesImagePreview' component={PharamaciesImagePreview} />
             <PrescriptionStack.Screen name='OrderScreen' component={OrderScreen} />
-            {/* <PrescriptionStack.Screen name= 'LanguageScreen' component={LanguageScreen}/> */}
-            {/* <PrescriptionStack.Screen name='CheckoutScreen' component={CheckoutScreen} /> */}
             <PrescriptionStack.Screen name='AddCard' component={AddCard}/>
         </PrescriptionStack.Navigator>
     )
 }
-
-
-
 const AddresStack = createStackNavigator()
 const AddresStackScreen = props => {
     return (
@@ -170,8 +138,6 @@ const AddresStackScreen = props => {
         </AddresStack.Navigator>
     )
 }
-
-
 const LanguageStack = createStackNavigator()
 const LanguageStackScreen = props => {
     return(
@@ -180,9 +146,6 @@ const LanguageStackScreen = props => {
         </LanguageStack.Navigator>
     )
 }
-
-
-
 const UserStack = createStackNavigator()
 const UserStackScreen = props => {
     return(
@@ -193,20 +156,3 @@ const UserStackScreen = props => {
         </UserStack.Navigator>
     )
 }
-
-
-
-
-
-
-// const TopTab = createMaterialTopTabNavigator();
-
-// const MyTabs = props=> {
-//   return (
-//     <TopTab.Navigator>
-//       <TopTab.Screen name="Current" component={CurrentPrescriptionScreen}  />
-//       <TopTab.Screen name="Past" component={PastPrescriptionScreen} />
-//     </TopTab.Navigator>
-//   );
-// }
-

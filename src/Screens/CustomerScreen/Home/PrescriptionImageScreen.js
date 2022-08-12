@@ -1,16 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Modal, ScrollView, ActivityIndicator, Dimensions, FlatList, Alert } from 'react-native';
-// import { Header, Button, } from '../../../Components/Common';
-import Header from '../../../Components/Common/Header';
-import Button from '../../../Components/Common/Button';
+import { Header, Button, } from '../../../Components/Common';
 
 import { Images, Colors } from '../../../CommonConfig';
 import * as ImagePicker from 'react-native-image-crop-picker';
-// import Ionicon from 'react-native-vector-icons/Ionicons';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { postFormData } from '../../../Components/Helpers/ApiHelper';
-// import axios from 'axios';
+;
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector } from 'react-redux';
@@ -18,14 +16,8 @@ import { Method } from 'ionicons/dist/types/stencil-public-runtime';
 import { string } from 'prop-types';
 import { useTranslation} from 'react-i18next';
 
-
-
 const PrescriptionImageScreen = props => {
     const {t}= useTranslation();
-
-    // const row = 2 
-    // const [numTextInputs, setNumTextInputs] = React.useState(0);
-    // const [selectedImage, setSelectedImage] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     
     const [selectedImage, setSelectedImage] = useState(null)
@@ -46,11 +38,9 @@ const PrescriptionImageScreen = props => {
 
     const pickFromGallery = () => {
         ImagePicker.openPicker({
+        multiple:true
         }).then(image => {
-            setImages([...images, image])
-            // setSelectedImage(images.path)
-            // setSelectedImage(images.mime)
-            // console.log("imagesMulltipal      ",image.path)
+            setImages([...images, ...image])
             console.log("Selected Images        ", image);
             setModalVisible(false)
         }).finally(close)
@@ -78,21 +68,18 @@ const PrescriptionImageScreen = props => {
     // From Data 
     const submit = async () => {
         setIsLoading(true);
-        // if (responseJson.sucess) {
         const formdata = new FormData();
-        
-        formdata.append('image', {
-            uri: images[0].path,
-            type: images[0].mime,
-            name: "1234",
+        if(images.length >=1){
+            for(var i=0; i<images.length; i++){
+                const photo=images[i];
+                formdata.append('image',{
+             uri: photo.path,
+            type: photo.mime,
+            name:makeid(10),  
+                })
+            }
         }
-        )
-        // formdata.append('image', JSON.stringify({
-        //     uri: images[0].path,
-        //     type: images[0].mime,
-        //     name: "1234",})
-        
-        // )
+
         formdata.append("medicine", JSON.stringify(inputs))
         formdata.append("text_note", text_note)
         console.log("data       ", formdata._parts)
@@ -118,14 +105,14 @@ const PrescriptionImageScreen = props => {
     };
 
     const [text_note, setText_note] = useState('')
-    // const [name, setname]= useState([''])
+   
     const [inputs, setInputs] = useState([{ key: '', name: '' }]);
 
     const addHandler = () => {
         const _inputs = [...inputs];
         _inputs.push({ key: '', name: '' });
         setInputs(_inputs);
-        // console.log(_inputs);
+   
     }
 
     const deleteHandler = (key) => {
@@ -226,8 +213,6 @@ const PrescriptionImageScreen = props => {
                         numColumns={2}
                         data={images}
                         renderItem={(image) => {
-                            //   console.log("Images       ",image);
-
                             return (
                                 <View>
                                     <View style={{
@@ -268,7 +253,6 @@ const PrescriptionImageScreen = props => {
 
                         <View>
                             <TouchableOpacity
-                                // onPress={() => setNumTextInputs(val => val + 1)}
                                 onPress={addHandler}
                             >
                                 <Text style={{ color: Colors.orange, marginRight: 10, fontSize: 15, fontWeight: 'bold' }}>
@@ -280,15 +264,15 @@ const PrescriptionImageScreen = props => {
                     <ScrollView >
                         <View style={{ width: "100%", padding: 5, paddingLeft: 10, paddingRight: 10 }}>
                             {inputs.map((input, key) => (
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', ...styles.textInput }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', ...styles.textInput }}
+                                key={key}
+                                >
                                     <TextInput
                                         placeholder={t('common:EnterName')}
                                         placeholderTextColor={Colors.placeHolder}
                                         value={input.name}
                                         color={Colors.Sp_Text}
                                         onChangeText={(text) => inputHandler(text, key)}
-                                    // value={name}
-                                    // onChangeText={e => setname(e)}
                                     />
                                     <TouchableOpacity onPress={() => deleteHandler(key)}>
                                         <Image source={Images.Delet}  style={{...styles.BinIcon,
@@ -323,9 +307,7 @@ const PrescriptionImageScreen = props => {
                         label={t('Submit')}
                         onPress={submit}
                         showActivityIndicator={isLoading}
-                        // showActivityIndicator={isLoading}
-                        // disabled={!isLoading}
-                        
+                        // disabled={!isLoading} 
                     />
 
                 </View>

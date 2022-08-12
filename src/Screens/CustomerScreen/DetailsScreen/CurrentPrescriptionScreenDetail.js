@@ -4,11 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import PrescriptionData from '../../../DummyData/PrescriptoinDummydata';
 import { Colors, Images } from '../../../CommonConfig';
-import Header from '../../../Components/Common/Header';
-import Button from '../../../Components/Common/Button';
-import RadioButton from '../../../Components/Common/RadioButton';
-import CheckRound from '../../../Components/Common/CheckRound';
-// import { Header, Button, RadioButton, CheckRound,} from '../../../Components/Common';
+import { Header, Button, RadioButton, CheckRound,} from '../../../Components/Common';
 import { getWithParams } from '../../../Components/Helpers/ApiHelper';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import MedicinesImages from '../../../Components/Common/MedicinesImages'
@@ -35,8 +31,6 @@ const CurrentPrescriptionScreen = props => {
         setCheckPharamcist(state => !state);
     };
     const [activeQuotes ,setActiveQuotes]=useState('')
-    //  console.log("selected pharamacist id  ",activeQuotes)
-    //  const [Quotesdetails, setQuotesDetails]=useState()
 
     const currentprescription = props.route.params.prescription
     const [modalVisible, setModalVisible] = useState(false);
@@ -103,7 +97,7 @@ const CurrentPrescriptionScreen = props => {
                     )
                 }}
             />
-            {/* <ImageBackground source={{ uri: currentprescription.prescription_images[0].url }} resizeMode="cover" style={styles.imageContainer}></ImageBackground> */}
+            
             <ScrollView>
                 <View>
                     <View style={styles.card}>
@@ -119,7 +113,7 @@ const CurrentPrescriptionScreen = props => {
                                     <Image source={Images.Quotes} style={{height:18,width:20 ,}}/>
                                         <Text style={styles.text2}>{currentprescription.quotes.length}</Text>
                                     </View> 
-                                {/* <Text style={styles.text2}>{currentprescription.quotes.length}</Text> */}
+                              
                             </View>
                             <View style={{ alignItems: 'center', marginBottom: 40 }} >
                                 <Text style={{ alignItems: 'flex-end', paddingRight: 10, color: '#F39C12' }}>
@@ -261,7 +255,7 @@ const CurrentPrescriptionScreen = props => {
                     </TouchableOpacity>
                 {/* </View> */}
                 
-                {/* <View style={{borderRightWidth: 0.5,borderColor: Colors.White }}></View> */}
+               
               
                     <TouchableOpacity disabled={!activeQuotes}
                     onPress={() => props.navigation.navigate('OrderScreen',{activeQuotes,currentprescription,})} style={{flex:1,borderLeftWidth: 0.5,borderColor: Colors.White,justifyContent:'center',alignItems:'center'}} >
@@ -307,16 +301,11 @@ const styles = StyleSheet.create({
         color: Colors.Sp_Text
     },
     imageContainer: {
-        // height: width * 0.5,
-        // width: width * 1.1,
-        // opacity: 0.7
         height: 50,
         width: 50
     },
     card: {
         backgroundColor: Colors.White,
-        // height: 90,
-        // width: 390,
         justifyContent: 'center',
         paddingLeft: 5,
         shadowColor: Colors.White,
@@ -331,7 +320,6 @@ const styles = StyleSheet.create({
     card2: {
         flexGrow: 1,
         backgroundColor: Colors.White,
-        // width: 390,
         paddingLeft: 5,
         shadowColor: Colors.White,
         shadowOpacity: 0.26,
@@ -341,19 +329,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         margin: 10,
     },
-    // card3: {
-    //     flexGrow: 1,
-    //     backgroundColor: Colors.White,
-    //     // width: 390,
-    //     paddingLeft: 5,
-    //     shadowColor: Colors.White,
-    //     shadowOpacity: 0.26,
-    //     shadowOffset: { width: 0, height: 1 },
-    //     shadowRadius: 8,
-    //     elevation: 5,
-    //     borderRadius: 10,
-    //     margin: 10,
-    // },
 
     centeredView: {
         flex: 1,
@@ -402,15 +377,12 @@ const styles = StyleSheet.create({
     },
     modalstyl:{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between',},
     modalstyl_ar:{ flexDirection: 'row-reverse', marginTop: 10, justifyContent: 'space-between',},
-    container: {
-        // flex: 1,
-    },
+    container: {},
     item: {
         width: screenWidth - 60,
         height: screenWidth - 60,
     },
     imageContainer: {
-        // flex: 1,
         marginBottom: Platform.select({ ios: 0, android: 1 }), // Prevent a random Android rendering issue
         backgroundColor: 'white',
         borderRadius: 8,

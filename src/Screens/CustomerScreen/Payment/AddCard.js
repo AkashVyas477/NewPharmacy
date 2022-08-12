@@ -12,7 +12,7 @@ import * as CardAction from '../../../Store/Actions/CardAction'
 import OtherPaymentTypeValidationSchema from '../../../ForValidationSchema/OtherPaymentTypeValidation';
 import CreditCardValidationSchema from '../../../ForValidationSchema/CreditCardValidationSchema';
 import { Colors,Images} from '../../../CommonConfig';
-import Header from '../../../Components/Common/Header'
+import {Header} from '../../../Components/Common'
 import { postPostLogin } from '../../../Components/Helpers/ApiHelper';
 import Toast from "react-native-simple-toast"
 
@@ -29,9 +29,9 @@ const AddCard = props =>{
 
     const onPressCard = async(details) => {
         setIsLoading(true)
-        // console.log(details);
+   
         const arr= details.expiryDate.split('/')
-        // console.log(arr)
+     
         const year= arr[1].substring()
         const data = {
             number : details.cardNumber,
@@ -40,9 +40,9 @@ const AddCard = props =>{
             cvc: details.cvv,
             name: details.name
         }
-        // console.log(data)
+     
         const response = await postPostLogin('customer/addCard', data)
-        // console.log(response);
+      
         if(!response.success) {
             console.log(response)
             console.log("Error in adding card!");
@@ -236,12 +236,7 @@ const AddCard = props =>{
                         id:'',
                         type:''
                     }}
-
                     onSubmit={ () => {}}
-                        // const otherValues = {...values}
-                        // dispatch(paymentActions.addOther(otherValues))
-                        // props.navigation.goBack();
-
                     validationSchema={OtherPaymentTypeValidationSchema}
                 >
                     { ({values, errors, setFieldTouched, touched, handleChange, setFieldValue, isValid, handleSubmit}) => (

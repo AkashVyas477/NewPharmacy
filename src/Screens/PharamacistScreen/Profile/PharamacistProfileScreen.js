@@ -86,11 +86,6 @@ const PharamcistProfileScreen = props =>{
              <View style={styles.SignupPlaceholder_Style}>
           <Image source={{uri:user.image}} style={styles.profileImg} />
             </View>
-                {/* <View>
-                    <TouchableOpacity style={styles.addIcon}   onPress={()=> props.navigation.navigate('Edit_Profile',{user})} >
-                        <Image source={Images.EditPencil} style={styles.addIconImg} />
-                    </TouchableOpacity>
-                </View> */}
 
 {/* User Name */}
                 <View>
@@ -201,27 +196,6 @@ const PharamcistProfileScreen = props =>{
                             />
                             </View>
 {/* Logout Button  */}
-                            {/* <View style={{marginTop:10}}>
-                            <Button
-                            onPress={() =>
-                                Alert.alert(
-                                  'Log out',
-                                  'Do you want to logout?',
-                                  [
-                                    { text: 'Cancel', onPress: () => { return null } },
-                                    {
-                                      text: 'Confirm', onPress: () => {
-                                        AsyncStorage.clear();
-                                        props.navigation.navigate('Auth')
-                                      }
-                                    },
-                                  ],
-                                  { cancelable: false }
-                                )
-                              }
-                            label="Log Out"
-                            />
-                            </View> */}
                             </KeyboardAwareScrollView>
         </View>
     );

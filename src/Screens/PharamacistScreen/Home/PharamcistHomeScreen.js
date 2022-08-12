@@ -54,9 +54,10 @@ const PharamaHomeScreen = props => {
 const ActiveAddress = async()=>{
     setActiveAddress(JSON.parse(await AsyncStorage.getItem('activeAddress')))
 }
-// useEffect(()=>{
-//     //   ActiveAddress()
-// },[activeAddress])
+useEffect(()=>{
+    //   ActiveAddress()
+    console.log(activeAddress)
+},[activeAddress])
 
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
@@ -79,12 +80,9 @@ const ActiveAddress = async()=>{
             setLength(response.data.length)
             setIsMoreItem(true)
             setIsLoading(false)
-
-            // setPrescriptionList(response.data.data)
         } else {
             setIsLoading(false)
             setIsMoreItem(false)
-            // Toast.show('There is no Prescription available currently!')
         }
     }
 
@@ -102,8 +100,7 @@ const ActiveAddress = async()=>{
                                 <Image source={{ uri: data.item.user_image }} style={styles.userImage} />
                                 <Text style={styles.userName}>{data.item.user}</Text>
                             </View>
-                            {/* <Image source={{ uri: data.item.user_image }} style={styles.userImage} />
-                            <Text style={styles.userName}>{data.item.user}</Text> */}
+                   
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <View style={styles.Text_sty}>
@@ -121,11 +118,6 @@ const ActiveAddress = async()=>{
                                     <Text style={styles.name}>{data.item.total_quotes}</Text>
                                 </View>
                             </View>
-
-                            {/* <View style={{}} >
-                                {data.item.status === 0 ? <Text style={{ color: Colors.orange }}> Pending</Text> : <Text style={{ color: Colors.PRIMARY }}> Completed</Text>}
-                            </View> */}
-
                         </View>
 
                     </View>
@@ -182,17 +174,15 @@ const ActiveAddress = async()=>{
                                 :
 
                                 <View>
-                                    {/* <Text style={{ color: '#717D7E', fontSize: 17, padding: 10, textAlign: 'center' }}>{t('common:PrescriptionList')}</Text> */}
                                     <FlatList
-                                        // padding={30}
+                                      
                                         data={prescriptionList}
                                         keyExtractor={item => item.id}
                                         renderItem={renderprescriptionList}
                                         ListFooterComponent={renderLoader}
                                         onEndReached={loadMoreItem}
-                                        // onEndReached={()=>{console.log(loadMoreItem)}}
                                         onEndReachedThreshold={0.1}
-                                    // isLoading='false'
+                              
                                     />
                                 </View>
                     }
@@ -206,8 +196,6 @@ const ActiveAddress = async()=>{
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        // padding:10, 
-        // marginBottom:10
     },
     screen1: {
         backgroundColor: 'white',
@@ -253,7 +241,6 @@ const styles = StyleSheet.create({
         top: Dimensions.get('window').width * 0.3,
     },
     userImage: {
-        // flex: 3,
         height: 40,
         width: 40,
         aspectRatio: 1,
@@ -262,14 +249,11 @@ const styles = StyleSheet.create({
     userName: {
         flex: 7,
         padding: 10,
-        // backgroundColor: 'rgba(0,0,0,0.4)',
         color: Colors.White,
         fontWeight: '600',
     },
     card: {
         flex: 1,
-        // flexGrow: 1,
-        // shadowColor:Colors.White,
         shadowOpacity: 0.26,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 8,
@@ -281,22 +265,18 @@ const styles = StyleSheet.create({
         width: Dimensions.get('screen').width * 0.9
     },
     Card_Sty: {
-        // flexDirection: 'row',
         padding: 5,
         marginBottom: 5
     },
     Text_sty: {
-        // flexDirection: 'row',
         marginLeft: 5,
         paddingLeft: 10,
-        // padding: 5
     },
 
     Pname: {
         fontWeight: 'bold',
         color: Colors.Sp_Text,
         fontSize: 17,
-        // padding: 5
 
     },
     name: {

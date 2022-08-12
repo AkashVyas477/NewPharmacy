@@ -7,7 +7,6 @@ import { Button, Refresh } from '../../../Components/Common';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getPostLogin, getWithParams, getParams } from '../../../Components/Helpers/ApiHelper';
 import Toast from 'react-native-simple-toast';
-import { $CombinedState } from 'redux';
 import moment from 'moment';
 import { getCurrentTimestamp } from 'react-native/Libraries/Utilities/createPerformanceLogger';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -77,13 +76,11 @@ const PrescriptionScreen = props => {
     }
 
     const getPastPrescription = async () => {
-
         const response = await getParams(`customer/getPrescriptionsList/?page=${currentPage}&state=past&page_size=6`)
         // console.log("pastdata\n",response)
         if (response.success) {
             setpastprescriptionList([...PastPrescription, ...response.data.prescription])
             // console.log(setpastprescriptionList.data)
-
             setIsMoreItem(true)
             setIsLoading(false)
         } else {
@@ -247,15 +244,13 @@ const PrescriptionScreen = props => {
                                         :
                                         <View >
                                             <FlatList
-                                                // padding={30}
+                                         
                                                 data={prescriptionList}
                                                 keyExtractor={item => item.id}
                                                 renderItem={renderprescription}
                                                 ListFooterComponent={renderLoader}
                                                 onEndReached={loadMoreItem}
-                                                // onEndReached={()=>{console.log(loadMoreItem)}}
                                                 onEndReachedThreshold={0.1}
-
                                             />
                                         </View>
                                 }
@@ -289,13 +284,11 @@ const PrescriptionScreen = props => {
                                     :
                                     <View >
                                         <FlatList
-                                            // padding={30}
                                             data={PastPrescription}
                                             keyExtractor={item => item.id}
                                             renderItem={Pastrenderprescription}
                                             ListFooterComponent={renderLoader}
                                             onEndReached={loadMoreItem}
-                                            // onEndReached={()=>{console.log("hi")}}
                                             onEndReachedThreshold={0.1}
                                         />
                                     </View>

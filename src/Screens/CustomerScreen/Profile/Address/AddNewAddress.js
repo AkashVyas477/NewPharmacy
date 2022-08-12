@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, Image, ImageBackground, TouchableOpacity, TextInput, ActivityIndicatorsd } from 'react-native';
@@ -8,12 +7,9 @@ import * as addressActions from '../../../../Store/Actions/address';
 import { getCurrentPosition } from 'react-native-geolocation-service';
 import GetLocation from 'react-native-get-location'
 import Geocoder from 'react-native-geocoding';
-// import Geolocation from 'react-native-geolocation-service';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Images, Colors } from '../../../../CommonConfig';
-import Header from '../../../../Components/Common/Header';
-import Button from '../../../../Components/Common/Button';
-import CheckButton from '../../../../Components/Common/CheckButton';
+import {Header, Button, CheckButton} from '../../../../Components/Common'
 import { add } from 'react-native-reanimated';
 import { useDispatch } from 'react-redux';
 import { postPostLogin } from '../../../../Components/Helpers/ApiHelper';
@@ -78,7 +74,6 @@ const AddNewAddres = props => {
                     onPress={() => props.navigation.goBack()}
                 />
             </View>
-       
                     <Formik
                         initialValues={{
                             address_type: '',
@@ -86,7 +81,6 @@ const AddNewAddres = props => {
                             addition_address_info: '',
                             is_select:'',
                         }}
-                        // onSubmit={(values) => onPressAdd(values)}
                         onSubmit={(values) => onPressAdd(values)}
                         validationSchema={AddressValidationSchema}
                     >
@@ -107,8 +101,6 @@ const AddNewAddres = props => {
                                                 setFieldValue('address_type', 0)
                                             }}>
                                                 <Image source={Images.HomeInactive} style={styles.checkIcon} />
-                                                {/* {tnc ? <Image source={Images.ActiveRoundCheck} style={styles.acheckIcon} /> :
-                                                <Image source={Images.InactiveCheckBox} style={styles.checkIcon} />} */}
                                             </TouchableOpacity>
                                         }
                                         <Text style={{ fontWeight: 'bold', fontSize: 20, padding: 5 }}>
@@ -122,12 +114,10 @@ const AddNewAddres = props => {
                                             :
                                             <TouchableOpacity onPress={() => {
                                                 setRadio(1)
-                                                // setFieldTouched('address_type')
+                                               
                                                 setFieldValue('address_type', 1)
                                             }}>
                                                 <Image source={Images.OfficeInactive} style={styles.checkIcon} />
-                                                {/* {tnc ? <Image source={Images.ActiveRoundCheck} style={styles.acheckIcon} /> :
-                                                <Image source={Images.InactiveCheckBox} style={styles.checkIcon} />} */}
                                             </TouchableOpacity>
                                         }
                                         <Text style={{ fontWeight: 'bold', fontSize: 20, padding: 5 }}>
@@ -145,8 +135,6 @@ const AddNewAddres = props => {
                                                 setFieldValue('address_type', 2)
                                             }}>
                                                 <Image source={Images.CurrentLInactive} style={styles.checkIcon} />
-                                                {/* {tnc ? <Image source={Images.ActiveRoundCheck} style={styles.acheckIcon} /> :
-                                                <Image source={Images.InactiveCheckBox} style={styles.checkIcon} />} */}
                                             </TouchableOpacity>
                                         }
                                         <Text style={{ fontWeight: 'bold', fontSize: 20, padding: 5 }}>
@@ -221,14 +209,12 @@ const AddNewAddres = props => {
                              showActivityIndicator={isLoading}
                              label={t('common:Save')}
                              onPress={handleSubmit}
-                         // disabled={isValid || !isLoading}
+                            disabled={isLoading}
                          />
                          </View>
                          </>
                         )}
                     </Formik>
-                    
-        
         </View>
     );
 };

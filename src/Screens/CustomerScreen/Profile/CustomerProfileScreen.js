@@ -1,8 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions, Modal, Alert,ActivityIndicator} from 'react-native';
-// import { Header, Button } from '../../../Components/Common';
-import Header from '../../../Components/Common/Header'
-import  Button  from '../../../Components/Common/Button';
+import { Header, Button } from '../../../Components/Common';
 import {Images,Colors} from '../../../CommonConfig'
 import * as ImagePicker from 'react-native-image-crop-picker';
 import  CountryPicker from 'react-native-country-picker-modal';
@@ -20,18 +18,6 @@ const CustomerProfileScreen = props =>{
 
     const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(false)
-
-    //  useEffect(()=>{
-    //     getProfile()
-    // },[props.navigation])
-
-    // const update = async () => {
-    //     props.navigation.addListener('focus', () => {
-    //        getProfile()
-    //     });
-    // }
-
-
       const getProfile = async() => {
         setUser(JSON.parse(await AsyncStorage.getItem('user')))
         console.log("user   ", user)
@@ -92,12 +78,6 @@ const CustomerProfileScreen = props =>{
              <View style={styles.SignupPlaceholder_Style}>
           <Image source={{uri:user.image}} style={styles.profileImg} />
             </View>
-                {/* <View>
-                    <TouchableOpacity style={styles.addIcon}   onPress={()=> props.navigation.navigate('Edit_Profile',{user})} >
-                        <Image source={Images.EditPencil} style={styles.addIconImg} />
-                    </TouchableOpacity>
-                </View> */}
-
 {/* User Name */}
                 <View>
                     <Text style={{paddingHorizontal:5, marginLeft:20, fontSize:17}}> 
@@ -167,27 +147,6 @@ const CustomerProfileScreen = props =>{
                             />
                             </View>
 {/* Logout Button  */}
-                            {/* <View style={{marginTop:10}}>
-                            <Button
-                            onPress={() =>
-                                Alert.alert(
-                                  'Log out',
-                                  'Do you want to logout?',
-                                  [
-                                    { text: 'Cancel', onPress: () => { return null } },
-                                    {
-                                      text: 'Confirm', onPress: () => {
-                                        AsyncStorage.clear();
-                                        props.navigation.navigate('Auth')
-                                      }
-                                    },
-                                  ],
-                                  { cancelable: false }
-                                )
-                              }
-                            label="Log Out"
-                            />
-                            </View> */}
                             </KeyboardAwareScrollView>
         </View>
     );
@@ -212,12 +171,7 @@ const  styles=StyleSheet.create({
         marginTop: 5, 
         padding:10
     },
-    // header:{ 
-    //     flexDirection: 'row', 
-    //     alignItems: 'center', 
-    //     marginTop: 5, 
-    //     padding:10
-    // },
+    
     profileImg:{ 
         height: 145, 
         width: 145,
@@ -241,7 +195,6 @@ const  styles=StyleSheet.create({
         width: 27 ,
     },
     headerText:{ 
-        // marginLeft:125, 
         fontSize:20, 
         fontWeight:'bold', 
         color:Colors.Sp_Text,

@@ -2,14 +2,11 @@ import { StyleSheet, Alert, Text, TextInput, View, ScrollView, StatusBar, Image,
 import React, { useState, useRef, useEffect } from 'react'
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Colors from "../../../../CommonConfig/Colors"
-import Images from '../../../../CommonConfig/Image';
-import Header from '../../../../Components/Common/Header';
-import CheckRound from '../../../../Components/Common/CheckRound';
+import {Colors,Images}  from "../../../../CommonConfig"
+import {Header,Button}  from "../../../../Components/Common"
 import { getPreLogin, postPostLogin } from "../../../../Components/Helpers/ApiHelper";
 import { useTranslation } from "react-i18next";
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import Button from '../../../../Components/Common/Button';
 
 const Address = (props) => {
 
@@ -18,17 +15,6 @@ const Address = (props) => {
     const [address, setAddress] = useState([])
     const [activeAddress, setActiveAddress] = useState({})
     const { t,i18n } = useTranslation()
-
-
-
-
-    // const getactiveAddress = async () => {
-    //     setActiveAddress(JSON.parse(await AsyncStorage.getItem('activeAddress')))
-    // }
-    // useEffect(() => {
-    //     console.log("ActiveAddress\n", activeAddress)
-    // }, [activeAddress])
-
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -50,15 +36,6 @@ const Address = (props) => {
         }
     }
 
-    // const activatedAddress = async () => {
-    //     if (Object.keys(activeAddress ? activeAddress : {}).length === 0) {
-    //         Toast.show('select an address')
-    //     } else {
-    //         await AsyncStorage.setItem('activeAddress', JSON.stringify(activeAddress))
-    //         Toast.show('Address Activated')
-    //         props.navigation.goBack()
-    //     }
-    // }
 
     const type = (address_type) => {
         if (address_type === 0) return <Text>{t("common:Home")}</Text>
@@ -84,7 +61,7 @@ const Address = (props) => {
             <View style={styles.card}>
                 <TouchableOpacity onPress={() => { props.navigation.navigate('EditAddress', { item }) }}>
                     <View 
-                    // style={styles.Card_Sty}
+                   
                     style={i18n.language === "ar" ? styles.Card_Sty_ar : styles.Card_Sty}
                     >
                         <View style={styles.Text_sty}>
@@ -98,14 +75,8 @@ const Address = (props) => {
                             </View>
                         </View>
                         <View>
-                            {/* <TouchableOpacity onPress={() => {
-                                setActiveAddress(item)
-                            }}> */}
                                 <Ionicon name={'checkmark-circle'} size={30} color={checkmark(item.is_select)} 
-                                
                                 />
-
-                            {/* </TouchableOpacity> */}
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -153,14 +124,7 @@ const Address = (props) => {
                             </Text>
                         </View>
                 }
-                {/* {
-                    address.length > 0 &&
-                    <Button
-                    label="Activate Address"
-                    onPress={activatedAddress}
-                    />
-
-                } */}
+                
                 <Button
                     label={t("common:AddAddress")}
                     onPress={() => {
@@ -168,12 +132,6 @@ const Address = (props) => {
                     }}
                 />
             </View>
-
-
-
-
-
-
         </View>
     );
 }

@@ -81,7 +81,6 @@ const PharamUserStackScreen = props => {
         </PharamUserStack.Navigator>
     )
 }
-
 const AddresStack = createStackNavigator()
 const AddresStackScreen = props => {
     return (

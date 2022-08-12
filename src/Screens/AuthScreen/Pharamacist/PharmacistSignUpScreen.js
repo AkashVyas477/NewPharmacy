@@ -5,12 +5,7 @@ import { Formik } from "formik";
 import * as ImagePicker from 'react-native-image-crop-picker';
 import SignUpValidationSchema from '../../../ForValidationSchema/SignupValidationSchema';
 import { Images, Colors } from '../../../CommonConfig'
-// import { Button,EyeButton,CheckBox,RadioButton, Header } from '../../../Components/Common';
-import Button from '../../../Components/Common/Button';
-import EyeButton from '../../../Components/Common/EyeButton';
-import CheckBox from '../../../Components/Common/CheckBox';
-import RadioButton from '../../../Components/Common/RadioButton';
-import Header from '../../../Components/Common/Header';
+import { Button,EyeButton,CheckBox,RadioButton, Header } from '../../../Components/Common';
 import { postRequest } from '../../../Components/Helpers/ApiHelper';
 import { useDispatch } from 'react-redux';
 import * as registerAction from '../../../Store/Actions/register'
@@ -20,37 +15,29 @@ import { useTranslation } from 'react-i18next';
 const PharmacistSignUpScreen = props => {
     const { t, i18n } = useTranslation()
     const role = props.route.params.role
-
     const [tnc, setTnc] = useState(false);
     const [tncTouched, setTncTouched] = useState(false)
     const tncHandler = () => {
         setTncTouched(true)
         setTnc(state => !state);
     };
-
     const [male, setMale] = useState(false);
     const maleHandler = () => {
         setMale(true);
         setFemale(false);
     };
-
     const [female, setFemale] = useState(false);
     const femaleHandler = () => {
         setFemale(true);
         setMale(false);
     };
-
     const [tnceye, setTncEye] = useState(false);
     const [tnceyeconf, setTncEyeconf] = useState(false);
-
-
-
     const [selectedImage, setSelectedImage] = useState(null)
     const [modalVisible, setModalVisible] = useState(false);
     const takeFromCamera = () => {
         ImagePicker.openCamera({
         }).then(image => {
-
             setSelectedImage(image)
             setModalVisible(!modalVisible)
         });
@@ -63,10 +50,7 @@ const PharmacistSignUpScreen = props => {
             setModalVisible(!modalVisible)
         });
     }
-
-
     const dispatch = useDispatch();
-
 
     return (
         
@@ -79,7 +63,6 @@ const PharmacistSignUpScreen = props => {
                         onPress={() => props.navigation.goBack()}
                     />
                 </View>
-
                 <KeyboardAwareScrollView>
                 {/* SignUp  */}
                 {/* Profile */}
@@ -142,9 +125,15 @@ const PharmacistSignUpScreen = props => {
 
                         }}
                         onSubmit={values => {
-                            const data = { username: values.username, email: values.email, password: values.password, passwordConfirm: values.passwordConfirm, gender: values.gender, storeName: values.storeName, licenseId: values.licenseId, role, selectedImage }
-                            // console.log(dispatch)
-                            // dispatch(registerAction.addDetails(data));
+                            const data = { 
+                                username: values.username, 
+                                email: values.email, 
+                                password: values.password, 
+                                passwordConfirm: values.passwordConfirm, 
+                                gender: values.gender, 
+                                storeName: values.storeName, 
+                                licenseId: values.licenseId, 
+                                role, selectedImage }
                             props.navigation.navigate('PhoneNumberScreen', { data })
                         }}
                         validationSchema={SignUpValidationSchema}
@@ -163,10 +152,9 @@ const PharmacistSignUpScreen = props => {
                                         color={Colors.Sp_Text}
                                         placeholder={t('auth:Username')}
                                         autoCapitalize='none'
-
                                     />
                                     {touched.username && errors.username &&
-                                        <Text style={styles.errorText}>{t('valid:Usernameisrequired')}</Text>
+                                    <Text style={styles.errorText}>{t('valid:Usernameisrequired')}</Text>
                                     }
                                     <Text style={styles.main} > {t('auth:Email')} </Text>
                                     <TextInput
@@ -196,7 +184,6 @@ const PharmacistSignUpScreen = props => {
                                             color={Colors.Sp_Text}
                                             placeholder={t('auth:StoreName')}
                                             autoCapitalize='none'
-
                                         />
                                         {touched.storeName && errors.storeName &&
                                             <Text style={styles.errorText}>{t('valid:StoreNameisrequired')}</Text>
@@ -215,14 +202,12 @@ const PharmacistSignUpScreen = props => {
                                             color={Colors.Sp_Text}
                                             placeholder={t('auth:LicenseID')}
                                             autoCapitalize='none'
-
                                         />
                                         {touched.licenseId && errors.licenseId &&
                                             <Text style={styles.errorText}>{t('valid:LicenseIDisrequired')}</Text>
                                         }
                                     </View>
                                     {/*License Id end */}
-
                                     <View>
                                         {/* Gender */}
                                         <Text style={styles.main} > {t('common:Gender')} </Text>
@@ -237,7 +222,6 @@ const PharmacistSignUpScreen = props => {
                                                             setFieldValue('gender', 'male')
                                                         }}
                                                         state={male}
-
                                                     />
                                                 </View>
                                                 {/* male button  end*/}
@@ -250,9 +234,7 @@ const PharmacistSignUpScreen = props => {
                                                             setFieldValue('gender', 'female')
                                                         }}
                                                         state={female}
-
                                                     />
-
                                                     {/* Female button */}
                                                 </View>
                                             </View>
@@ -266,7 +248,7 @@ const PharmacistSignUpScreen = props => {
                                         <View style={i18n.language === "ar" ? styles.password_sty1 : styles.password_sty}>
                                             <TextInput
                                                 value={values.password}
-                                                // style={styles.customCss}
+                                                
                                                 placeholderTextColor={Colors.placeHolder}
                                                 color={Colors.Sp_Text}
                                                 placeholder={t('auth:Password')}
@@ -279,7 +261,6 @@ const PharmacistSignUpScreen = props => {
                                         </View>
                                         {touched.password && errors.password &&
                                           <Text style={styles.errorText}>{t('valid:Passwordcannotbelessthan6characters')}</Text>
-                                            // <Text style={styles.errorText}>{errors.password}</Text>
                                         }
                                     </View>
                                     <View style={{ padding: 1, paddingHorizontal: 2 }}>
@@ -287,7 +268,6 @@ const PharmacistSignUpScreen = props => {
                                         <View style={i18n.language === "ar" ? styles.password_sty1 : styles.password_sty}>
                                             <TextInput
                                                 value={values.passwordConfirm}
-                                                // style={{paddingLeft:20}}
                                                 placeholderTextColor={Colors.placeHolder}
                                                 color={Colors.Sp_Text}
                                                 placeholder={t('auth:ConfirmPassword')}
@@ -300,7 +280,6 @@ const PharmacistSignUpScreen = props => {
                                         </View>
                                         {touched.password && errors.passwordConfirm &&
                                           <Text style={styles.errorText}>{t('valid:Passwordsdoesnotmatch')}</Text>
-                                            // <Text style={styles.errorText}>{errors.password}</Text>
                                         }
                                     </View>
                                     {/* Password end */}
@@ -313,10 +292,8 @@ const PharmacistSignUpScreen = props => {
                                             <Image source={Images.CheckBoxInactive} style={styles.checkbox} />}
                                     </TouchableOpacity>
                                     <Text style={styles.tandc} >{t('auth:Acceptto')} <Text style={styles.sp_tandc} >{t('auth:TermsandConditions')}</Text> {t('auth:and')} <Text style={styles.sp_tandc}>{t('auth:PrivacyPolicy')} </Text>{t('auth:forthisapp')} </Text>
-                                    {/* <Text style={styles.tandc} >Accept to <Text style={styles.sp_tandc} >Terms {'&'} Conditions</Text> and <Text style={styles.sp_tandc}>Privacy Policy </Text>for       this app </Text> */}
                                 </View>
                                 {tncTouched ? (tnc ? null : <Text style={styles.errorText}>{t('auth:Pleasecheckthetermsandconditions')}</Text>) : null}
-                                {/* {tncTouched ? (tnc ? null : <Text style={styles.errorText}>Please check the terms and conditions.</Text>) : null} */}
                                 {/* Terms & conditions */}
                                 {/* Next Button */}
                                 <View>
@@ -329,7 +306,6 @@ const PharmacistSignUpScreen = props => {
                                         <TouchableOpacity onPress={() => { props.navigation.navigate('Login') }} >
                                             <View style={styles.touchsignup}>
                                             <Text style={styles.signup} > {t('auth:AlreadyhaveanAccount')} <Text style={styles.sp_signup} > {t('auth:Login')} </Text>   </Text>
-                                                {/* <Text style={styles.signup} > Already have an Account? <Text style={styles.sp_signup} > Login </Text>   </Text> */}
                                             </View>
                                         </TouchableOpacity>
                                     </View>
@@ -359,15 +335,9 @@ const styles = StyleSheet.create({
         marginTop: 5,
          padding: 10
     },
-    arrow: { height: 20, width: 30 },
     addIcon: {
         left: Dimensions.get('window').width * 0.12,
         bottom: Dimensions.get('window').width * 0.1,
-    },
-    TextSignUp: {
-        fontSize: 25,
-        color: 'black',
-        paddingLeft: 115,
     },
     Profile: {
         flexDirection: 'column',
@@ -408,18 +378,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
 
     },
-    buttoncon: {
-        backgroundColor: Colors.PRIMARY,
-        borderRadius: 10,
-        height: 40,
-        width: "100%",
-        justifyContent: 'center',
-    },
-    text: {
-        padding: 10,
-        paddingHorizontal: 10,
-        textAlign: 'center'
-    },
+   
     errorText: {
         fontSize: 11,
         color: Colors.Error_Textcolor

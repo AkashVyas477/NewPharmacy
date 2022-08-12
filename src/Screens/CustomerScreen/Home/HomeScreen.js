@@ -3,8 +3,6 @@ import {View, Text , StyleSheet ,TouchableOpacity, Image ,FlatList,ScrollView, A
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { Images, Colors } from '../../../CommonConfig';
-// import Pharamacies from '../../Components/Shop/Pharamacies';
-// import PharamaciesData from '../../DummyData/DummyData';
 import { getWithParams,refreshtoken,getParams} from '../../../Components/Helpers/ApiHelper';
 import GetLocation from 'react-native-get-location'
 import Geolocation from 'react-native-geolocation-service';
@@ -163,33 +161,6 @@ const HomeScreen = props =>{
                     </View>
                 </View>
 
-
-
-                {/* <View style={{ flex: 10, padding: 10 }} >
-                    {isLoading ?
-                        (
-                            <View style={styles.loader}>
-                                <ActivityIndicator size={65} color={Colors.PRIMARY} />
-                            </View>
-                        )
-                        :
-                        pharmacyList.length === 0 ?
-                            (
-                                <View>
-                                    <Text>No Near By Pharmacies found </Text>
-                                </View>
-                            )
-                            :
-                            <FlatList
-                                // padding={30}
-                                data={pharmacyList}
-                                keyExtractor={item => item.id}
-                                renderItem={renderPharmacyList}
-                            />
-                    }
-                </View> */}
-                    {/* Dtabase */}
-
         </View>
         </View>
     );
@@ -202,19 +173,6 @@ const  styles=StyleSheet. create({
         elevation:5
     },
     card:{
-        // flex: 1,
-        // flexGrow:1,
-        // shadowColor:Colors.White,
-        // shadowOpacity: 0.26,
-        // shadowOffset: { width: 0, height:2 },
-        // shadowRadius: 8,
-        // borderRadius: 10,
-        // backgroundColor: 'white',
-        // marginBottom:5,
-        // margin:10,
-        // justifyContent:'center',
-        // width: "80%"
-
         flex: 1,
         shadowColor:Colors.White,
         shadowOpacity: 0.26,
@@ -231,14 +189,7 @@ const  styles=StyleSheet. create({
 
         flexDirection: 'row',
         padding:5,
-        alignContent:'center',alignItems:'center'
-        // width: "80%"
-        // paddingRight:10,
-
-        // // flexDirection: 'row',
-        // padding: 5,
-        // marginBottom: 5
-        
+        alignContent:'center',alignItems:'center'  
      },
 
     Image_Sty:{

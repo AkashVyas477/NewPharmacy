@@ -1,20 +1,14 @@
 import React,{useState} from 'react';
 import {View, Text , StyleSheet , TextInput , TouchableOpacity,Alert} from 'react-native';
-// import { Header, Button,EyeButton } from '../../../Components/Common';
-import  Header from '../../../Components/Common/Header';
-import  Button  from '../../../Components/Common/Button';
-import  EyeButton  from '../../../Components/Common/EyeButton';
 import { Colors} from '../../../CommonConfig';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
 import { Formik } from "formik";
 import * as yup from 'yup';
 import { ref } from 'yup';
-
 import { postPostLogin,refreshtoken } from '../../../Components/Helpers/ApiHelper';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { Header } from '../../../Components/Common';
+import { Header,EyeButton,Button } from '../../../Components/Common';
 
 
 const PharamcistChangePassword = props => {
@@ -91,7 +85,7 @@ const PharamcistChangePassword = props => {
                                 <EyeButton
                                 tnceye={cuEye}onEyePress={() => {setCuEye(!cuEye)}} 
                                 /> 
-                                {/* <TouchableOpacity onPress={() => {setCuEye(!cuEye)}}>  </TouchableOpacity> */}
+                               
                             </View>
                             {touched.currentPass && errors.currentPass && <Text style={styles.error}>{errors.currentPass}</Text>}   
 
@@ -103,13 +97,13 @@ const PharamcistChangePassword = props => {
                                     onChangeText={handleChange('newPass')}
                                     placeholder="New Password"
                                     autoCapitalize='none'
-                                    // secureTextEntry={newEye}
+                                   
                                     secureTextEntry={newEye ? true : false}
                                 />
                                 <EyeButton
                                 tnceye={newEye}onEyePress={() => {setNewEye(!newEye)}} 
                                 /> 
-                                {/* <TouchableOpacity onPress={() => {setNewEye(!newEye)}}> </TouchableOpacity> */}
+                                
                             </View>
                             {touched.newPass && errors.newPass && <Text style={styles.error}>{errors.newPass}</Text>}
 
@@ -121,21 +115,18 @@ const PharamcistChangePassword = props => {
                                     onChangeText={handleChange('confirmPass')}
                                     placeholder="Confirm Password"
                                     autoCapitalize='none'
-                                    // secureTextEntry={conEye}
+                                    
                                     secureTextEntry={conEye ? true : false}
                                 />
                                 <EyeButton
                                 tnceye={conEye}onEyePress={() => {setConEye(!conEye)}} 
                                 /> 
-                                {/* <TouchableOpacity onPress={() => {setConEye(!conEye)}}> </TouchableOpacity> */}
+                              
                             </View>
                             {touched.confirmPass && errors.confirmPass && <Text style={styles.error}>{errors.confirmPass}</Text>}
                         </View>
 
-                        {/* Save Button */}
-                        {/* <TouchableOpacity disabled={!isValid} onPress={handleSubmit} style={styles.saveButton}>
-                            <Text style={styles.saveText}>Save</Text>
-                        </TouchableOpacity> */}
+                       
                         <Button
                         showActivityIndicator={isLoading}
                          label="Save"
@@ -156,7 +147,7 @@ const PharamcistChangePassword = props => {
 const styles = StyleSheet.create({
     screen:{
         flex:1,
-        // paddingHorizontal:25,
+       
     },
     screen2:{
         flex:1,
@@ -170,7 +161,7 @@ const styles = StyleSheet.create({
     },
     inputLabel:{
         marginTop:25,
-        // fontWeight:'bold',
+        
         color: Colors.Gray,
         fontSize: 18
     },

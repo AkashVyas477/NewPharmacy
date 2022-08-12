@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Dimensions, Modal,ActivityIndicator } from 'react-native';
-// import { Header, Button, RadioButton } from '../../../Components/Common';
-import Header from '../../../Components/Common/Header'
-import Button  from '../../../Components/Common/Button'
-import RadioButton from '../../../Components/Common/RadioButton'
-
+import { Header, Button, RadioButton } from '../../../Components/Common';
 import { Images, Colors } from '../../../CommonConfig'
 import * as ImagePicker from 'react-native-image-crop-picker';
 
 import CountryPicker from 'react-native-country-codes-picker';
-// import CountryPicker from 'react-native-country-picker-modal';
+
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { postPostLogin } from '../../../Components/Helpers/ApiHelper';
 
@@ -24,12 +20,10 @@ import PropTypes from 'prop-types';
 import from from 'react-native-country-codes-picker';
 import { useTranslation } from 'react-i18next';
 
-
 const CustomerProfileEditScreen = props => {
     const {t}= useTranslation()
 
     const user = props.route.params.user
-// console.log("    user     ", user);
     const [selectedImage, setSelectedImage] = useState(null)
     const [modalVisible, setModalVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
@@ -45,9 +39,6 @@ const CustomerProfileEditScreen = props => {
         setGender('MALE');
         
     };
-
-
-
     const makeid = (length) => {
         var result = '';
         var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -76,34 +67,9 @@ const CustomerProfileEditScreen = props => {
             setModalVisible(!modalVisible)
         });
     }
-
-    
-
     const femaleHandler = () => {
         setGender('FEMALE');
     };
-
-    // const onPressSave = async (values) => {
-    //     setIsLoading(true)
-    //     const data = {
-    //         name: values.name,
-    //         email: values.email,
-    //         country_code:values.country_code,
-    //         phone: values.phone,
-    //         gender: values.gender
-    //     }
-    //     // console.log(data);
-    //     const response = await postPostLogin ('updateProfile', data)
-    //     console.log("on save       ",response);
-    //     if(!response.success) {
-    //         console.log(("Post Request Error"));
-    //     } else {
-    //        await AsyncStorage.setItem('userInfo', JSON.stringify(response.data))
-    //         Toast.show('Profile updated successfully!')
-    //         props.navigation.goBack();
-    //     }
-    //     setIsLoading(false)
-    // }
         const onPressSave =async(values)=>{
             setIsLoading(true);
             const formdata = new FormData();
@@ -139,23 +105,6 @@ const CustomerProfileEditScreen = props => {
             // Toast.show(`${t('common:ProfileUpdateSuccessfully')}`)
             props.navigation.goBack()
 
-            // if (response.status===200){
-            //     try{
-            //         AsyncStorage.setItem('userInfo', JSON.stringify(response.data))
-            //     }catch(error){
-            //         console.log(error)
-            //     }
-            //     props.navigation.goBack()
-            //     Toast.show("Profile Update Successfully")
-            //     // setIsLoading(false)
-            // }else{
-            //     console.log(response)
-            // }
-           
-            // Toast.show("Profile Update Successfully")
-            // props.navigation.goBack()
-            // // setIsLoading(false)
-            // console.log(responseJson,"ResponseJson")
         }
 
 
@@ -241,7 +190,7 @@ const CustomerProfileEditScreen = props => {
 {/* UserName */}
                             <Text style={styles.text_footer}>{t('common:Username')}</Text>
                             <View style={styles.action}>
-                                {/* <FontAwesome name="user" color={Colors.ORANGE} size={25}/> */}
+                       
                                 <TextInput
                                     value={values.name}
                                     onBlur={() => setFieldTouched('name')}
@@ -255,7 +204,7 @@ const CustomerProfileEditScreen = props => {
 {/* Email */}
                             <Text style={{ ...styles.text_footer, marginTop: 15 }}>{t('common:Email')}</Text>
                             <View style={styles.action}>
-                                {/* <FontAwesome name="envelope" color={Colors.ORANGE} size={25}/> */}
+                            
                                 <TextInput
                                     value={values.email}
                                     onBlur={() => setFieldTouched('email')}
@@ -272,11 +221,11 @@ const CustomerProfileEditScreen = props => {
                                 <View >
                                     <Text style={{ ...styles.text_footer, marginTop: 15 }} >{t('common:PhoneNumber')}</Text>
                                     <View style={styles.action} >
-                                        {/* <Ionicon name="call" color={Colors.PRIMARY} size={20} style={{ flex: 0.5 }} /> */}
+                                     
                                         <Text style={{ marginLeft:10, flex: 0.5, fontWeight: 'bold' }}>{countryCode}</Text>
                                         <TouchableOpacity onPress={() => setShow(true)} style={{ flex: 0.4 }}>
                                             <Image source={Images.DropDown} style={{height:10,width:10}}  /> 
-                                            {/* <Ionicon name="caret-down-outline" size={20} color={Colors.Sp_Text} /> */}
+                                        
                                             </TouchableOpacity>
                                         <View style={{ width: 0, borderColor: Colors.Gray, borderWidth: 0.7, height: 30, marginRight: 10 }} ></View>
                                         <TextInput
@@ -290,38 +239,6 @@ const CustomerProfileEditScreen = props => {
                                             placeholder={t('common:PhoneNumber')}
                                         />
                                     </View>
-
-                                    {/* <View style={styles.action} >
-                                        <Text style={{ marginLeft:8, fontWeight: 'bold' }}>{callingCode}</Text>
-                                        <TouchableOpacity onPress={() => setShow(true)} style={{ flex: 0.5 }}>
-                                           
-                                            <CountryPicker
-                                                withFilter
-                                                countryCode={countryCode}
-                                                // withFlag
-                                                withAlphaFilter={false}
-                                                withCallingCode
-                                                onSelect={country => {
-                                                    const { cca2, callingCode } = country;
-                                                    setCountryCode(cca2);
-                                                    setcallingCode(callingCode[0]);
-                                                }}
-                                                containerButtonStyle={{ alignItems: 'center', }}
-                                            />
-                                        </TouchableOpacity>
-                                        <View style={{ width: 0, borderColor: Colors.borderBottomColor, borderWidth: 0.5, height: 30, marginRight: 10 }} ></View>
-                                        <TextInput
-                                            // value={values.phone}
-                                            style={{ flex: 3.5 }}
-                                            keyboardType="phone-pad"
-                                            maxLength={10}
-                                            placeholderTextColor={Colors.placeHolder}
-                                            color={Colors.Sp_Text}
-                                            onChangeText={handleChange('phone')}
-                                            placeholder="Phone Number "
-                                        />
-                                    </View>*/}
-
                                 </View> 
                             </View>
 {/* Gender */}

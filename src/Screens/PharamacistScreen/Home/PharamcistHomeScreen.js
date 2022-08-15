@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer ,useRef} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, ScrollView, ActivityIndicator, PermissionsAndroid, Platform, Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Item } from 'react-native-paper/lib/typescript/components/List/List';
@@ -8,11 +8,13 @@ import Toast from 'react-native-simple-toast';
 import moment from 'moment';
 import { getParams } from '../../../Components/Helpers/ApiHelper';
 import { useTranslation } from 'react-i18next';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 
 const PharamaHomeScreen = props => {
 
     const { t } = useTranslation()
+    const refRBSheet=useRef();
     const [user, setUser] = useState({});
     const [length, setLength] = useState(0)
     const [prescriptionList, setPrescriptionList] = useState([])
@@ -49,14 +51,14 @@ const PharamaHomeScreen = props => {
     useEffect(() => {
     }, [user])
 
-
+    // console.log(user);
 
 const ActiveAddress = async()=>{
     setActiveAddress(JSON.parse(await AsyncStorage.getItem('activeAddress')))
 }
 useEffect(()=>{
     //   ActiveAddress()
-    console.log(activeAddress)
+    // console.log(activeAddress)
 },[activeAddress])
 
     useEffect(() => {
@@ -65,16 +67,17 @@ useEffect(()=>{
             getuser()
             ActiveAddress()
         });
+
         return update;
-        // console.log(activeAddress)
+       
     }, [props.navigation])
+    // console.log("Data--------->",prescriptionList)
 
 
     const getPrescription = async () => {
         const response = await getParams(`pharmacist/getRequests?page=${currentPage}`)
-        // console.log("prescription\n",response)
         if (response.success) {
-            
+            // console.log("prescription\n",response.data.data)
             setPrescriptionList([...prescriptionList, ...response.data.data])
             // console.log(response.data.data)
             setLength(response.data.length)
@@ -84,10 +87,11 @@ useEffect(()=>{
             setIsLoading(false)
             setIsMoreItem(false)
         }
+       
     }
 
     const renderprescriptionList = data => {
-        // console.log("data             ", data.item)
+        // console.log("data---------->", data.item)
         return (
             <View style={styles.card}>
                 <TouchableOpacity
@@ -175,7 +179,6 @@ useEffect(()=>{
 
                                 <View>
                                     <FlatList
-                                      
                                         data={prescriptionList}
                                         keyExtractor={item => item.id}
                                         renderItem={renderprescriptionList}

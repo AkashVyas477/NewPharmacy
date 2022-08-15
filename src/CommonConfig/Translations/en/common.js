@@ -101,7 +101,17 @@ export default {
   ReceiveWrongItems:'Receive Wrong Items',
   Dontwanttheproductanymore:`Don't want the product anymore`,
   DontlikethesizeoftheProduct :`Don't like the size of thr Product`,
-  ProductisMissinginthePackage:'Product is Missing in the Package'
+  ProductisMissinginthePackage:'Product is Missing in the Package',
+  Order:'Order',
+  QuotePrice:'Quote Price',
+  NotComplete:'Note Complete',
+  Completed:'Completed',
+  Pendding:'Pendding',
+  Approve:'Approve',
+  NotApprove:'Not Approve',
+
+
+
 
   // ProfileUpdateSuccessfully:'Profile Update Successfully',
 

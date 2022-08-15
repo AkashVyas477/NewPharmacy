@@ -27,7 +27,7 @@ const OrderScreen = props => {
     useEffect(() => {
         setTimeout(() => {
             setIsLoading(false)
-        }, 3000)
+        }, 1500)
     }, [])
 
     const dispatch = useDispatch()
@@ -103,27 +103,23 @@ const paydata = {
     payment_method: PaymentType,
     checkout_type: checkOutType,
     card_id: selectedCard.id,
-
 }
+
 
 const getPayment = await postPostLogin('customer/checkout', paydata)
 // const data= await getPayment.json();
-console.log("on press \n ",getPayment)
+// console.log("on press \n ",getPayment)
 if (state==='cash'){
     Alert.alert('Order complete, thank you!');
     props.navigation.navigate('Prescription') 
 }
+
 if(!getPayment.success) return Alert.alert(error.message);
 setIsLoading(false)
 const clientSecret= getPayment.data.data.payment_intent
 const EphemeralKeySecret= getPayment.data.data.ephemeral_key
 const Displayname=   'Mobile Pharmacy'
 const customersId= getPayment.data.data.customer_id
-
-// const clientSecret= "pi_3LNrJqSJ7crToGEY0lZvOc5Q_secret_Rm50QtBER4DvtVLE0EX6UiGge"
-// const EphemeralKeySecret= "ek_test_YWNjdF8xS1ltOUFTSjdjclRvR0VZLHhmdzBYeUdXbDlrd0taNDJIZHpzQVdXRGtMSzVSUXc_00tpK9VQX8"
-// const Displayname=   'Pradip'
-// const customersId= "cus_M3snPrCRjEoj6o"
 
 const initSheet = await stripe.initPaymentSheet({
     paymentIntentClientSecret:clientSecret,
@@ -153,12 +149,27 @@ if(error){
     console.log("Payment Success!\n",paymentIntent);
     // onPressPayment()
 }
+
+
+const successdata={
+    status:paymentIntent.status==='Succeeded' ? 'SUCCESS' : 'FAILED',
+    paymentId:getPayment.data.data.paymentId,
+    quoteId:quoteId,
+}
+console.log("on press \n ",getPayment)
+console.log("after payment \n",successdata)
+const afterSucces= await getPreLogin(`customer/payment-status?status=${successdata.status}&paymentId=${successdata.paymentId}&quoteId=${successdata.quoteId}`)
+console.log("After payment status \n",afterSucces)
+
 }
 catch(error){
     setIsLoading(false)
     console.error(error);
     Alert.alert('SomethingWent Wrong, try Angain later')
 }
+
+
+
 
 
 // if( state === 'cash'){
@@ -284,7 +295,7 @@ catch(error){
                                                 brand={item.brand}
                                                 exp_month={item.exp_month}
                                                 exp_year={item.exp_year}
-                                                // showActivityIndicator={true}
+                                                showActivityIndicator={isLoading}
                                             />
                                         </View>
                                     )

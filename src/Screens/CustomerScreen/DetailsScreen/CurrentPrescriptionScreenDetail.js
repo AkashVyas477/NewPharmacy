@@ -31,6 +31,7 @@ const CurrentPrescriptionScreen = props => {
         setCheckPharamcist(state => !state);
     };
     const [activeQuotes ,setActiveQuotes]=useState('')
+    // console.log("activeQuotes-------->",activeQuotes)
 
     const currentprescription = props.route.params.prescription
     const [modalVisible, setModalVisible] = useState(false);

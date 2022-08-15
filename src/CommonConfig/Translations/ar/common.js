@@ -105,6 +105,14 @@ export default {
   Dontwanttheproductanymore:'لا تريد المنتج بعد الآن',
   DontlikethesizeoftheProduct:'لا يعجبك حجم المنتج' ,
   ProductisMissinginthePackage:'المنتج مفقود في الحزمة',
+  Order:'ترتيب',
+  QuotesPrice:'يقتبس الأمير',
+  NotComplete:'غير مكتمل',
+  Completed:'مكتمل',
+  Pendding:'قيد الانتظار',
+  Approve:'يوافق',
+  NotApprove:'لم يوافق',
+
 
 
 

@@ -152,12 +152,12 @@ const Addquotes = (props) => {
                         >
                                
                                 <View style={i18n.language === "ar" ? styles.addressTypeimg_ar : styles.addressTypeimg}>
-                                <Image source={addressimage(userRequest.address.address_type)} style={{ height: 40, width: 40 }} />
+                                <Image source={addressimage(userRequest?.address.address_type)} style={{ height: 40, width: 40 }} />
                                 <View>
                                     <Text style={styles.Address}>
-                                    {userRequest.address.primary_address}
+                                    {userRequest?.address.primary_address}
                                     </Text>
-                                <Text style={styles.Address}>{userRequest.address.addition_address_info.toUpperCase()}</Text>
+                                <Text style={styles.Address}>{userRequest?.address.addition_address_info.toUpperCase()}</Text>
                                 </View>
                                 </View>
                         

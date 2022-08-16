@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { Image, View, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import {
   createDrawerNavigator,
@@ -16,13 +16,16 @@ import {
   TouchableRipple,
   Switch
 } from 'react-native-paper';
+import { CommonActions, useRoute } from '@react-navigation/native';
 import { Images, Colors } from '../../CommonConfig';
 import TabNavigator from '../../Screens/CustomerScreen/CustomerRoute'
+import RBSheet from 'react-native-raw-bottom-sheet';
+import { Button } from '../../Components/Common';
 import { useTranslation } from 'react-i18next';
 
 const DrawerContent = (props) => {
   const { t } = useTranslation();
-
+  const refRBSheet=useRef({});
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
@@ -121,6 +124,7 @@ useEffect(()=>{
                 </View>
                 <View style={styles.drawerSection}>
                   <TouchableOpacity 
+                //  onPress={()=> refRBSheet.current.open()}
                   onPress={() =>
                     Alert.alert(
                       `${t('common:Logout')}`,
@@ -131,7 +135,14 @@ useEffect(()=>{
                         {
                           text: `${t('common:Confirm')}`, onPress: () => {
                             AsyncStorage.clear();
-                            props.navigation.navigate('Auth')
+                            // props.navigation.navigate('Auth')
+
+                            props.navigation.dispatch(
+                              CommonActions.reset({
+                                index:0,
+                                routes:[{name:'Auth'}]
+                              })
+                            )
                           }
                         },
                       ],
@@ -153,6 +164,42 @@ useEffect(()=>{
               </View>
                   </TouchableOpacity>
                 </View>
+
+          {/* <RBSheet
+            ref={refRBSheet}
+            closeOnDragDown={true}
+            closeOnPressMask={false}
+            customStyles={{
+              container:{
+                backgroundColor:Colors.backgroundColor
+              },
+              wrapper: {
+                backgroundColor: "transparent"
+
+              },
+              draggableIcon: {
+                backgroundColor: Colors.PRIMARY
+              }
+            }}
+          >
+
+            <View style={{padding:10,paddingLeft:20,alignItems:'center'}}>
+              <Text style={{fontSize:20,justifyContent:'center'}}>
+              {t('common:Doyouwanttologout')}
+              </Text>
+            </View>
+            <View style={{flexDirection:'column',justifyContent:'space-between',alignItems:'center',}}>
+              <TouchableOpacity style={styles.rbButton} onPress={()=> refRBSheet.current.close()}  >
+                            <Text style={styles.rbOk}>{t('common:Cancel')}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.rbButton} onPress={()=>{
+                AsyncStorage.clear();
+                 props.navigation.navigate('Auth')
+              } } >
+                            <Text style={styles.rbOk}>{t('common:Confirm')}</Text>
+              </TouchableOpacity>
+            </View>
+          </RBSheet> */}
         </View>
       </DrawerContentScrollView>
 
@@ -206,6 +253,21 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
   },
+  rbOk:{
+    fontSize:20,
+    fontWeight:'bold', 
+    textAlign:'center',
+    color: Colors.ButtonTextColor,
+},
+rbButton:{
+  backgroundColor:Colors.PRIMARY,
+  justifyContent:'center', 
+  alignItems:'center',
+  borderRadius: 25,
+  height: 50,
+  width: "50%",
+  marginBottom:15
+},
 });
 
 export default DrawerContent;

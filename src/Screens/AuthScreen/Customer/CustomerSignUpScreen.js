@@ -246,7 +246,6 @@ const dispatch= useDispatch();
                                 <View  style={i18n.language === "ar" ? styles.password_sty1 : styles.password_sty}>
                                 <TextInput
                                     value={values.passwordConfirm}
-                                    // style={styles.customCss}
                                     placeholderTextColor={Colors.placeHolder}
                                     color={Colors.Sp_Text}
                                     placeholder={t('auth:ConfirmPassword')}

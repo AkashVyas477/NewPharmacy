@@ -52,7 +52,8 @@ const Cards = (props) => {
       borderColor: props.id === activeCard ? Colors.PRIMARY: null,
       borderWidth: props.id === activeCard ? 1 : 0,
       elevation: props.id === activeCard ? 0 : 0.01}} 
-      onPress={async()=>{dispatch(CardAction.activatePayment(props.id)),
+      onPress={async()=>{
+        dispatch(CardAction.activatePayment(props.id)),
       await AsyncStorage.setItem('activateCard',JSON.stringify(props.item))}}>
         <Image source={logoSelector(props.brand)} style={styles.imageStyle}/>
         <View style={styles.detailContainer}>

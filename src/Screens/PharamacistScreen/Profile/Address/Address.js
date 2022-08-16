@@ -27,8 +27,7 @@ const Address = (props) => {
 
     useEffect(() => {
     }, [activeAddress])
-
-
+    
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
             getAddress();

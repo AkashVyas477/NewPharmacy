@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, FlatList, ImageBackground, TouchableOpacity, Alert, TextInput, ActivityIndicator, ScrollView, } from 'react-native';
-// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-// import { Header, RadioButton, CheckButton,Button } from '../../../../Components/Common';
 import Header from '../../../../Components/Common/Header';
 import RadioButton from '../../../../Components/Common/RadioButton';
 import CheckButton from '../../../../Components/Common/CheckButton';
@@ -16,7 +14,6 @@ import { retrievePaymentIntent, StripeProvider, useStripe } from '@stripe/stripe
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-// import * as CardAction from '../../../../Store/Actions/CardAction'
 
 
 const OrderScreen = props => {
@@ -53,29 +50,30 @@ const OrderScreen = props => {
           getPaymentMethod()
         });
         return refresh
-    }, [props.navigation])
+    }, [props.navigation,selectedCard])
 
 
-useEffect(()=>{
-    getcard
-    getPaymentMethod()
-},[selectedCard])
+// useEffect(()=>{
+//     getcard
+//     getPaymentMethod()
+// },[selectedCard])
 
     const getPaymentMethod = async () => {
         setSelectedCard (JSON.parse(await AsyncStorage.getItem('activateCard')))
-        // console.log("getting cards\n", selectedCard)
+    
     }
+    console.log("getting cards\n", selectedCard)
 
     const [card, setCard] = useState([])
     const getcard = async () => {
         setIsLoading(true)
         const response = await getPreLogin('customer/getCard')
-        //    console.log("\n\n\n\ncard details   ",response.data.message.data)
+       
         let errorMsg = 'No Credit Cards to Show!';
         if (response.success) {
             setCard(response.data.message.data)
             setIsLoading(false)
-            // await AsyncStorage.setItem('activeCard', JSON.stringify(props.item))
+         
         } else {
             Alert.alert("Error", errorMsg, [{ text: "Okay" }])
             console.log(response)
@@ -107,8 +105,6 @@ const paydata = {
 
 
 const getPayment = await postPostLogin('customer/checkout', paydata)
-// const data= await getPayment.json();
-// console.log("on press \n ",getPayment)
 if (state==='cash'){
     Alert.alert('Order complete, thank you!');
     props.navigation.navigate('Prescription') 
@@ -147,7 +143,6 @@ if(error){
     setIsLoading(false)
 }else if(paymentIntent.status==='Succeeded'){
     console.log("Payment Success!\n",paymentIntent);
-    // onPressPayment()
 }
 
 
@@ -167,46 +162,6 @@ catch(error){
     console.error(error);
     Alert.alert('SomethingWent Wrong, try Angain later')
 }
-
-
-
-
-
-// if( state === 'cash'){
-//     if(getPayment.success){
-//         Toast.show('Order Created Successfully')
-//         props.navigation.navigate('Prescription')
-//     }else{
-//         if(!getPayment.success) return Alert.alert(error.message);
-// setIsLoading(false)
-// const clientSecret= getPayment.data.data.payment_intent
-// const EphemeralKeySecret= getPayment.data.data.ephemeral_key
-// const Displayname=   'Pradip'
-// const customersId= getPayment.data.data.customer_id
-// const initSheet = await stripe.initPaymentSheet({
-//     paymentIntentClientSecret:clientSecret,
-//     customerEphemeralKeySecret:EphemeralKeySecret,
-//     merchantDisplayName:Displayname,
-//     customerId:customersId,
-//     allowsDelayedPaymentMethods:true,
-//     testEnv:true
-// });
-// if (!initSheet){
-//     const presentResponse = await stripe.presentPaymentSheet({
-//         clientSecret,
-//     })
-//     const {error , paymentIntent} = await stripe.retrievePaymentIntent(clientSecret)
-//     if(error){
-//         console.log(error);
-//     }else if(paymentIntent.status==='Succeeded'){
-//         console.log("payment Success!");
-//     }else{
-//         console.log("Something Went Wrong During Payment!");
-//     }
-
-// }  
-//     }
-// }
  }
 
 
@@ -284,7 +239,7 @@ catch(error){
                                 showsHorizontalScrollIndicator={false}
                                 data={card}
                                 renderItem={({ item, index }) => {
-                                    // console.log("details       ",item )
+                                   
                                     return (
                                         <View>
                                             <Cards
@@ -390,15 +345,10 @@ catch(error){
                                 showActivityIndicator={isLoading}
                                 label={t("common:PAYMENT")}
                                 onPress={onPressPayment}
-                            // onPress={()=>{props.navigation.navigate('CheckoutScreen')}}
+                          
                             />
                         </View>
                     </View>
-                    {/* <View style={styles.screen2}>
-                <Button 
-                label="PAYMENT"
-                />
-            </View> */}
                 </ScrollView>
             </View>
         </StripeProvider>
@@ -414,17 +364,13 @@ const styles = StyleSheet.create({
         flex: 0.02
     },
     screen1: {
-        // backgroundColor: 'white',
+    
         padding: 10,
     },
-    checkIcon: { height: 29.5, width: 28.5, },
-    // screen2: {
-    //     width: "100%",
-    //     marginTop:50,
-    //     backgroundColor: 'white',
-    //     padding: 10,
-
-    // },
+    checkIcon: { 
+        height: 29.5,
+        width: 28.5, 
+        },
     header_sty: {
         flexDirection: 'row',
         alignItems: 'center',

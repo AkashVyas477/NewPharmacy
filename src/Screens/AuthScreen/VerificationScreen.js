@@ -8,7 +8,6 @@ import { Header , Button } from '../../Components/Common';
 import { CommonActions, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
-import { elementsThatOverlapOffsets } from 'react-native/Libraries/Lists/VirtualizeUtils';
 import { useTranslation } from 'react-i18next';
 import messaging from '@react-native-firebase/messaging';
 import { set } from 'react-native-reanimated';

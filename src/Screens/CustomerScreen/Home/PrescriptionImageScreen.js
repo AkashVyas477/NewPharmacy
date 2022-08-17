@@ -8,7 +8,6 @@ import * as ImagePicker from 'react-native-image-crop-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { postFormData } from '../../../Components/Helpers/ApiHelper';
-;
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector } from 'react-redux';
@@ -96,7 +95,6 @@ const PrescriptionImageScreen = props => {
         let responseJson = await res.json()
             props.navigation.goBack()
             Toast.show("Prescription created Successfully")
-            // Alert.alert("Prescription created Successfully")
             setIsLoading(false)
 
         console.log(responseJson,"ResponseJson")
@@ -133,7 +131,6 @@ const PrescriptionImageScreen = props => {
 
         <View style={styles.main}>
             <View style={styles.header_sty} >
-                {/* <StatusBar backgroundColor={selectedItem.bgColor} barStyle='light-content' /> */}
                 <Header
                     Title={t('common:CREATEREQUEST')}
                     onPress={() => props.navigation.goBack()}
@@ -205,7 +202,6 @@ const PrescriptionImageScreen = props => {
                         </View>
                     </Modal>
                 </View>
-
 
                 <View style={{ marginLeft: 20, flexDirection: 'row', }}>
 
@@ -306,8 +302,7 @@ const PrescriptionImageScreen = props => {
                    <Button
                         label={t('Submit')}
                         onPress={submit}
-                        showActivityIndicator={isLoading}
-                        // disabled={!isLoading} 
+                        showActivityIndicator={isLoading} 
                     />
 
                 </View>
@@ -338,11 +333,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#f1f1f1',
         height: 10,
     },
-    // Medicine_name:{
-    //     marginLeft:20, 
-    //     marginTop:20,
-
-    // },
     centeredView: {
         flex: 1,
         justifyContent: "center",
@@ -388,11 +378,23 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 20
     },
-
-    parent: { justifyContent: "flex-start", alignItems: "flex-start", },
-
-    textInput: { alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 0.5, paddingLeft: 10, paddingRight: 10 },
-    textInput1: { justifyContent: 'space-between', borderBottomWidth: 0.5, paddingLeft: 10, paddingRight: 10, },
+    parent: { 
+        justifyContent: "flex-start", 
+        alignItems: "flex-start", 
+    },
+    textInput: {
+         alignItems: 'center', 
+         justifyContent: 'space-between', 
+         borderBottomWidth: 0.5, 
+         paddingLeft: 10, 
+         paddingRight: 10, 
+    },
+    textInput1: { 
+        justifyContent: 'space-between', 
+        borderBottomWidth: 0.5, 
+        paddingLeft: 10, 
+        paddingRight: 10, 
+    },
 });
 
 export default PrescriptionImageScreen;

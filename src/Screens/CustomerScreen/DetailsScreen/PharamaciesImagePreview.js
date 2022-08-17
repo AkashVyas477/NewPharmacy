@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, Text , StyleSheet , Image, Dimensions} from 'react-native';
-// import { Header } from '../../../Components/Common';
 import Header from '../../../Components/Common/Header'
 import {Colors, Images} from '../../../CommonConfig';
 import PharamaciesData from '../../../DummyData/DummyData';

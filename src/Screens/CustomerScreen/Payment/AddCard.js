@@ -29,9 +29,7 @@ const AddCard = props =>{
 
     const onPressCard = async(details) => {
         setIsLoading(true)
-   
         const arr= details.expiryDate.split('/')
-     
         const year= arr[1].substring()
         const data = {
             number : details.cardNumber,
@@ -40,9 +38,7 @@ const AddCard = props =>{
             cvc: details.cvv,
             name: details.name
         }
-     
         const response = await postPostLogin('customer/addCard', data)
-      
         if(!response.success) {
             console.log(response)
             console.log("Error in adding card!");
@@ -297,10 +293,6 @@ const AddCard = props =>{
 }
 
 const styles = StyleSheet.create({
-    // screen1:{
-    //     flex: 1,
-    //     backgroundColor:Colors.White
-    // },
     header_sty: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -308,8 +300,6 @@ const styles = StyleSheet.create({
     screen:{
         flex: 1,
         padding:20, 
-    //  backgroundColor:Colors.White,
-
     },
     title:{
         fontSize:18,

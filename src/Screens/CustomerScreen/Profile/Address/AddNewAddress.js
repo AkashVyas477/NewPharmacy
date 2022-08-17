@@ -34,7 +34,6 @@ const AddNewAddres = props => {
             timeout:15000,
         })
         .then(location => {
-            // console.log(location.latitude,location.longitude);
             lat = location.latitude;
             long = location.longitude;
         })
@@ -61,7 +60,6 @@ const AddNewAddres = props => {
             Toast.show('address added')
             props.navigation.navigate('AddresScreen');
         }
-
         setIsLoading(false)
 
     }
@@ -236,8 +234,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 15,
         backgroundColor: Colors.White,
-       
-
     },
     title: {
         fontSize: 18,
@@ -264,10 +260,26 @@ const styles = StyleSheet.create({
         borderRadius:7,
         marginTop: 5,
     },
-    AddressTypeimg:{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' },
-    AddressTypeimg_ar:{ flexDirection: 'row-reverse', justifyContent: 'space-evenly', alignItems: 'center' },
-    radiobtn_styl:{ flexDirection: 'row', alignItems: 'center', padding: 5 },
-    radiobtn_styl_ar:{ flexDirection: 'row-reverse', alignItems: 'center', padding: 5 },
+    AddressTypeimg:{ 
+        flexDirection: 'row', 
+        justifyContent: 'space-evenly', 
+        alignItems: 'center' 
+    },
+    AddressTypeimg_ar:{ 
+        flexDirection: 'row-reverse', 
+        justifyContent: 'space-evenly', 
+        alignItems: 'center' 
+    },
+    radiobtn_styl:{ 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        padding: 5 
+    },
+    radiobtn_styl_ar:{ 
+        flexDirection: 'row-reverse', 
+        alignItems: 'center', 
+        padding: 5 
+    },
     checkIcon: {
         height: 28,
         width: 28,

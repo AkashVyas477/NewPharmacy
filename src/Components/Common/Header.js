@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     headerStyle: {flex: 0.5, height: 30, width:40, },
     backIcon: {resizeMode: 'contain', height:30, width: 30 },
     headerText: {
-        fontSize:20,
+      fontSize:20,
       color:Colors.Sp_Text,
       fontWeight:'bold',
     //   paddingLeft:10

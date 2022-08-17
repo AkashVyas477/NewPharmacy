@@ -242,11 +242,17 @@ const styles = StyleSheet.create({
     inputContainer: {
         flex: 1,
         padding: 15,
-        // backgroundColor: Colors.orange,
-        // justifyContent:'space-between'
     },
-    AddressTypeimg:{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' },
-    AddressTypeimg_ar:{ flexDirection: 'row-reverse', justifyContent: 'space-evenly', alignItems: 'center' },
+    AddressTypeimg:{ 
+        flexDirection: 'row', 
+        justifyContent: 'space-evenly', 
+        alignItems: 'center' 
+    },
+    AddressTypeimg_ar:{ 
+        flexDirection: 'row-reverse', 
+        justifyContent: 'space-evenly', 
+        alignItems: 'center' 
+    },
     radioBtnContainer: {
         flexDirection: 'row',
         alignItems: 'center'

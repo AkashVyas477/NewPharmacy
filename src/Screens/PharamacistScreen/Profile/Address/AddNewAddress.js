@@ -8,7 +8,6 @@ import * as addressActions from '../../../../Store/Actions/address';
 import { getCurrentPosition } from 'react-native-geolocation-service';
 import GetLocation from 'react-native-get-location'
 import Geocoder from 'react-native-geocoding';
-// import Geolocation from 'react-native-geolocation-service';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Images, Colors } from '../../../../CommonConfig';
 import Header from '../../../../Components/Common/Header';
@@ -23,12 +22,11 @@ const AddAddres = props => {
     const { t } = useTranslation();
 
     const dispatch = useDispatch();
-    
-    
     const [isLoading, setIsLoading] = useState(false)
     //0-Home 1-Work 2-Other
     const [radio, setRadio] = useState()
     const [select, setIsSelect] = useState(false)
+    const [activeAddress, setActiveAddress] = useState({})
     
     const onPressAdd = async (values,latitude,longitude) => {
         setIsLoading(true)
@@ -61,6 +59,7 @@ const AddAddres = props => {
 
         const response = await postPostLogin('addAddress',data)
         if (response.success){
+            // setActiveAddress(JSON.parse(await AsyncStorage.setItem('activeAddress')))
             dispatch(addressActions.addAddress(values))
             Toast.show('address added')
             props.navigation.navigate('PharamacistDrawer');
@@ -106,8 +105,6 @@ const AddAddres = props => {
                                                 setFieldValue('address_type', 0)
                                             }}>
                                                 <Image source={Images.HomeInactive} style={styles.checkIcon} />
-                                                {/* {tnc ? <Image source={Images.ActiveRoundCheck} style={styles.acheckIcon} /> :
-                                                <Image source={Images.InactiveCheckBox} style={styles.checkIcon} />} */}
                                             </TouchableOpacity>
                                         }
                                         <Text style={{ fontWeight: 'bold', fontSize: 20, padding: 5 }}>
@@ -125,8 +122,6 @@ const AddAddres = props => {
                                                 setFieldValue('address_type', 1)
                                             }}>
                                                 <Image source={Images.OfficeInactive} style={styles.checkIcon} />
-                                                {/* {tnc ? <Image source={Images.ActiveRoundCheck} style={styles.acheckIcon} /> :
-                                                <Image source={Images.InactiveCheckBox} style={styles.checkIcon} />} */}
                                             </TouchableOpacity>
                                         }
                                         <Text style={{ fontWeight: 'bold', fontSize: 20, padding: 5 }}>
@@ -144,8 +139,6 @@ const AddAddres = props => {
                                                 setFieldValue('address_type', 2)
                                             }}>
                                                 <Image source={Images.CurrentLInactive} style={styles.checkIcon} />
-                                                {/* {tnc ? <Image source={Images.ActiveRoundCheck} style={styles.acheckIcon} /> :
-                                                <Image source={Images.InactiveCheckBox} style={styles.checkIcon} />} */}
                                             </TouchableOpacity>
                                         }
                                         <Text style={{ fontWeight: 'bold', fontSize: 20, padding: 5 }}>
@@ -211,9 +204,7 @@ const AddAddres = props => {
                                         Save Address As Default
                                     </Text>
                                 </View>
-                               
                             </View>
-
                             </KeyboardAwareScrollView>
                             <View>
                              <Button

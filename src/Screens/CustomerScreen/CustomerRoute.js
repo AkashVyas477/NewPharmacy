@@ -7,6 +7,7 @@ import { Images, Colors } from '../../CommonConfig';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useTranslation } from 'react-i18next';
+import Ionicon from 'react-native-vector-icons/Ionicons';
 
 //LogInScren
 import LoginScreen from '../AuthScreen/LoginScreen'
@@ -15,6 +16,8 @@ import LanguageScreen from '../LanguageScreen';
 // Screens from Home in Customer 
 import HomeScreen from '../CustomerScreen/Home/HomeScreen';
 import PrescriptionScreen from '../CustomerScreen/Home/PrescriptionScreen';
+import ChatScreen from '../CustomerScreen/Chat/ChatScreen';
+import Message from '../CustomerScreen/Chat/Message';
 import PrescriptionImageScreen from '../CustomerScreen/Home/PrescriptionImageScreen';
 // Screens from Profile in Customer 
 import CustomerProfileScreen from '../CustomerScreen/Profile/CustomerProfileScreen';
@@ -55,7 +58,7 @@ const getTabBarVisibility = (route) => {
     const hideOnScreens = ['Pharamacies_Detail','CurrentPrescriptionScreen_Data',
     'PastPrescriptionScreen_Data','Preview',
      'PharamaciesImagePreview', 'Edit_Profile',
-     'OrderScreen','CheckoutScreen','PrescriptionImageScreen','AddCard','LanguageScreen']
+     'OrderScreen','CheckoutScreen','PrescriptionImageScreen','AddCard','LanguageScreen','ChatScreen']
     if (hideOnScreens.indexOf(routeName) > -1) return false;
     return true;
 };
@@ -79,7 +82,7 @@ const TabNavigator = props => {
                     tabBarVisible: getTabBarVisibility(route),
                     tabBarLabel: t('navigate:DASHBOARD'),
                     tabBarIcon: ({ focused }) => (
-                        < Image source={require('../../assets/Icons/HomeIcon/homeIcon.png')} style={{ height: 22, width: 25, marginTop: 15, tintColor: focused ? 'green' : '#cccccc' }} />
+                        < Image source={Images.homeIcon} style={{ height: 22, width: 25, marginTop: 15, tintColor: focused ? 'green' : '#cccccc' }} />
                     )
                 })} />
             <Tab.Screen
@@ -89,9 +92,20 @@ const TabNavigator = props => {
                     tabBarVisible: getTabBarVisibility(route),
                     tabBarLabel: t('navigate:PRESCRIPTION'),
                     tabBarIcon: ({ focused }) => (
-                        < Image source={require('../../assets/Icons/HomeIcon/prescriptionIcon.png')} style={{ height: 25, width: 18, marginTop: 15, tintColor: focused ? 'green' : '#cccccc' }} />
+                        < Image source={Images.PrescriptionIcon} style={{ height: 25, width: 18, marginTop: 15, tintColor: focused ? 'green' : '#cccccc' }} />
                     )
                 })} />
+                <Tab.Screen
+                name='Message'
+                component={ChatStackScreen}
+                options={({route})=>({
+                    tabBarVisible:getTabBarVisibility(route),
+                    tabBarLabel:'Chat',
+                    tabBarIcon:({focused})=>(
+                        < Image source={Images.Chat} style={{ height: 35, width: 25, marginTop: 15, tintColor: focused ? 'green' : '#cccccc' }} />
+                    )
+                })}
+                />
         </Tab.Navigator>
     )
 }
@@ -128,6 +142,18 @@ const PrescriptionStackScreen = props => {
         </PrescriptionStack.Navigator>
     )
 }
+
+const ChatStack = createStackNavigator()
+const ChatStackScreen = props => {
+    return(
+        <ChatStack.Navigator headerMode='none' >
+            <ChatStack.Screen name='Message' component={Message} />
+        <ChatStack.Screen name='ChatScreen' component={ChatScreen} />
+        </ChatStack.Navigator>
+    )
+}
+
+
 const AddresStack = createStackNavigator()
 const AddresStackScreen = props => {
     return (

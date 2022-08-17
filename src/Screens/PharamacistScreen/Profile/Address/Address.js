@@ -27,6 +27,7 @@ const Address = (props) => {
 
     useEffect(() => {
     }, [activeAddress])
+    // console.log("Active Address------->",activeAddress)
     
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -38,7 +39,7 @@ const Address = (props) => {
     const getAddress = async () => {
         setIsLoading(true)
         const response = await getPreLogin('getAddress')
-        // console.log("getAddress\n", response.data.data)
+        console.log("getAddress\n", response.data.data)
         if (response.success) {
             setAddress(response.data.data)
             setIsLoading(false)
@@ -136,11 +137,6 @@ const Address = (props) => {
                             </Text>
                         </View>
                 }
-                {/* <Button
-                label="Add Address"
-                onPress={()=>{
-                 props.navigation.navigate('AddAddress',{address}) }}
-            /> */}
             </View>
         </View>
     );

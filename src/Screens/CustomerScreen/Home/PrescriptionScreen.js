@@ -37,7 +37,6 @@ const PrescriptionScreen = props => {
 
     const loadMoreItem = () => {
         setCurrentPage(currentPage + 1)
-        // console.log("loadMore  ", currentPage)
     };
 
     useEffect(()=>{
@@ -60,41 +59,31 @@ const PrescriptionScreen = props => {
 
 
     const getPrescriptionList = async () => {
-        // setIsLoading(true)
         const response = await getParams(`customer/getPrescriptionsList/?page=${currentPage}&state=current&page_size=6`)
         if (response.success) {
             setprescriptionList([...prescriptionList, ...response.data.prescription])
             setIsMoreItem(true)
             setIsLoading(false)
         } else {
-            // console.log("current\n",response)
-            setIsLoading(false)
-            // Toast.show('No more Prescription')
             setIsMoreItem(false)
-            
+            setIsLoading(false) 
         }
     }
 
     const getPastPrescription = async () => {
         const response = await getParams(`customer/getPrescriptionsList/?page=${currentPage}&state=past&page_size=6`)
-        // console.log("pastdata\n",response)
         if (response.success) {
             setpastprescriptionList([...PastPrescription, ...response.data.prescription])
-            // console.log(setpastprescriptionList.data)
             setIsMoreItem(true)
             setIsLoading(false)
         } else {
-            // console.log("pastdata\n",response)
-            setIsLoading(false)
             setIsMoreItem(false)
-            // Toast.show('No more Prescription')
-            // console.log("Past    ",response);
-
+            setIsLoading(false)
+            
         }
     }
 
     const renderprescription = data => {
-        // console.log("\n\nDATA:       ",data.item.prescription_images);
         return (
             <View style={styles.card} >
                 <TouchableOpacity onPress={() => { props.navigation.navigate('CurrentPrescriptionScreen_Data', { prescription: data.item, }) }}>
@@ -124,7 +113,6 @@ const PrescriptionScreen = props => {
         )
     }
     const Pastrenderprescription = data => {
-        // console.log("\n\nDATA:       ",data);
         return (
             <View style={styles.card}>
                 <TouchableOpacity onPress={() => { props.navigation.navigate('PastPrescriptionScreen_Data', { prescription: data.item }) }}>
@@ -164,7 +152,7 @@ const PrescriptionScreen = props => {
             <View style={styles.screen2}>
                 {/*Logo + Menu  */}
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'flex-start', padding: 10 }}>
                     <View>
                         <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}  >
                             <Image source={Images.Menu} style={{ height: 20, width: 25 }} />
@@ -244,7 +232,6 @@ const PrescriptionScreen = props => {
                                         :
                                         <View >
                                             <FlatList
-                                         
                                                 data={prescriptionList}
                                                 keyExtractor={item => item.id}
                                                 renderItem={renderprescription}
@@ -323,7 +310,6 @@ const PrescriptionScreen = props => {
 
 const styles = StyleSheet.create({
     screen1: {
-        // backgroundColor: 'white',
         flex: 1,
         paddingBottom: 130
     },

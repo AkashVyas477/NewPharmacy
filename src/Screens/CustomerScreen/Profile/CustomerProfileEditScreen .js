@@ -53,7 +53,6 @@ const CustomerProfileEditScreen = props => {
         ImagePicker.openCamera({
         }).then(image => {
             setImages([...images, image])
-            // console.log("Selected Images        ", image.path);
             setSelectedImage(image)
             setModalVisible(!modalVisible)
         });
@@ -62,7 +61,6 @@ const CustomerProfileEditScreen = props => {
         ImagePicker.openPicker({
         }).then(image => {
             setImages([...images, image])
-            // console.log("Selected Images        ", image);
             setSelectedImage(image)
             setModalVisible(!modalVisible)
         });
@@ -74,7 +72,6 @@ const CustomerProfileEditScreen = props => {
             setIsLoading(true);
             const formdata = new FormData();
             formdata.append("name",values.name)
-            // formdata.append("email",values.email)
             formdata.append("country_code",values.country_code)
             formdata.append("gender",values.gender)
             formdata.append("phone",values.phone)
@@ -97,12 +94,9 @@ const CustomerProfileEditScreen = props => {
                 }
             })
             const response = await res.json()
-            // const resData= response.data
             console.log(response)
             await AsyncStorage.setItem('user', JSON.stringify(response.user))
-            
             Toast.show("Profile Update Successfully")
-            // Toast.show(`${t('common:ProfileUpdateSuccessfully')}`)
             props.navigation.goBack()
 
         }
@@ -415,12 +409,6 @@ const styles = StyleSheet.create({
         borderBottomColor: Colors.borderBottomColor,
         alignItems: 'center',
     },
-    // action:{
-    //     flexDirection:'row',
-    //     borderBottomWidth:0.5,
-    //     borderBottomColor:Colors.borderBottomColor,
-    //     // paddingVertical: 10
-    // },
     textInput:{
         marginHorizontal:5
     },

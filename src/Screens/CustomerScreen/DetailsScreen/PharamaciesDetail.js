@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
         alignItems: 'center', 
         padding: 10 ,
         backgroundColor:Colors.White
-        
     },
     text:{
         fontWeight:'bold',
@@ -82,13 +81,11 @@ const styles = StyleSheet.create({
         color:Colors.Sp_Text
     },
     text2:{
-         
         fontSize:15, 
         paddingLeft:10, 
         color:Colors.Sp_Text
     },
     text3:{
-       
         fontSize:15, 
         paddingLeft:10, 
         paddingBottom:5,
@@ -102,8 +99,6 @@ const styles = StyleSheet.create({
     card: {
         flexGrow:1,
         backgroundColor:Colors.White,
-        // height:100,
-        // width: 380,
         justifyContent:'center',
         paddingLeft: 5,
         shadowColor:Colors.White,
@@ -112,20 +107,13 @@ const styles = StyleSheet.create({
         shadowRadius: 8,
         elevation: 5,
         borderRadius: 10,
-        // backgroundColor: 'white',
         marginBottom:5,
         margin:10,
-        // flexDirection:'row',
-        
-        // alignItems:'flex-end',
-       
       },
-
       card2: {
         backgroundColor:Colors.White,
         height:100,
         width: 380,
-        // justifyContent:'center',
         paddingLeft: 5,
         shadowColor:Colors.White,
         shadowOpacity: 0.26,
@@ -133,24 +121,27 @@ const styles = StyleSheet.create({
         shadowRadius: 8,
         elevation: 5,
         borderRadius: 10,
-        // backgroundColor: 'white',
         marginBottom:5,
         margin:10,
-        // flexDirection:'row',
-        
-        // alignItems:'flex-end',
-       
       },
-
-      //Header style
-
-      wrapper: {flexDirection: 'row', alignItems: 'center', flex: 1},
-      headerStyle: {flex: 0.5, height: 30, width:40, },
-      backIcon: {resizeMode: 'contain', height:30, width: 30 },
+      wrapper: {
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        flex: 1
+    },
+      headerStyle: {
+        flex: 0.5, 
+        height: 30, 
+        width:40, 
+    },
+      backIcon: {
+        resizeMode: 'contain', 
+        height:30, 
+        width: 30 
+    },
       headerText: {
-          fontSize:20,
+        fontSize:20,
         color:Colors.White,
         fontWeight:'bold',
-      //   paddingLeft:10
       },
 })

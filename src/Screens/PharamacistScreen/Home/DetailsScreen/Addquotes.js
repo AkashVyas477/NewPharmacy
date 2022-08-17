@@ -47,14 +47,10 @@ const Addquotes = (props) => {
         const response = await postPostLogin(`pharmacist/addQuote?prescriptionId=${userRequest.id}`, data)
         let errorMessage = "Check Quotes"
         if (response.success) {
-            //console.log("Quotes \n",response.data)
             Toast.show("Quote created successfully")
             props.navigation.navigate('PharamaHome')
-            // setModalVisible(false)
         } else {
-            // Alert.alert(response.error.message);
             Alert.alert('Error', errorMessage, [{ text: "Okay" }])
-            //console.log("api\n",response)
         }
         setSubmitLoader(false)
     }
@@ -257,10 +253,6 @@ const Addquotes = (props) => {
                     </View>
 
                 }
-
-
-               
-
                 <Modal
                     animationType="fade"
                     transparent={true}
@@ -323,10 +315,6 @@ const Addquotes = (props) => {
                     </View>
                 </Modal>
             </ScrollView>
-
-
-
-
         </View>
 
 
@@ -339,8 +327,16 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1
     },
-    addressTypeimg:{ flexDirection: 'row', alignItems: 'center',padding:5 },
-    addressTypeimg_ar:{ flexDirection: 'row-reverse', alignItems: 'center',padding:5 },
+    addressTypeimg:{ 
+        flexDirection: 'row', 
+        alignItems: 'center',
+        padding:5 
+    },
+    addressTypeimg_ar:{ 
+        flexDirection: 'row-reverse', 
+        alignItems: 'center',
+        padding:5 
+    },
     header_sty: {
         flexDirection: 'row',
         alignItems: 'center',

@@ -62,6 +62,7 @@ export default {
     PlaceholderImage : require('../assets/Icons/Image/placeholderImage.jpg'),
     SignupPlaceholder : require('../assets/Icons/Image/signupPlaceholder.png'),
     FabIcon : require('../assets/Icons/Image/fabIcon.png'),
+  
 
     // Language
         Arebic: require('../assets/Icons/language/arebic.png'),
@@ -123,5 +124,18 @@ export default {
 
         ChevronLeft:require('../assets/Icons/chevron_left_gray.png'),
         ChevronRight:require('../assets/Icons/chevron_right_gray.png'),
+        Chat:require('../assets/Icons/Chat.png'),
+
+
+        //Chat user 
+
+        User1:require('../assets/Icons/Chatuser/user1.jpeg'),
+        User2:require('../assets/Icons/Chatuser/user2.jpeg'),
+        User3:require('../assets/Icons/Chatuser/user3.jpeg'),
+        User4:require('../assets/Icons/Chatuser/user4.jpeg'),
+        User5:require('../assets/Icons/Chatuser/user5.jpeg'),
+        User6:require('../assets/Icons/Chatuser/user6.jpeg'),
+        User7:require('../assets/Icons/Chatuser/user7.jpeg'),
+        User8:require('../assets/Icons/Chatuser/user8.jpeg'),
 
 }

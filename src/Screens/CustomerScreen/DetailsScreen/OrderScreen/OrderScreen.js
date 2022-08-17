@@ -52,16 +52,10 @@ const OrderScreen = props => {
         return refresh
     }, [props.navigation,selectedCard])
 
-
-// useEffect(()=>{
-//     getcard
-//     getPaymentMethod()
-// },[selectedCard])
-
     const getPaymentMethod = async () => {
         setSelectedCard (JSON.parse(await AsyncStorage.getItem('activateCard')))
-    
     }
+
     console.log("getting cards\n", selectedCard)
 
     const [card, setCard] = useState([])

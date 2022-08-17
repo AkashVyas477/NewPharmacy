@@ -135,8 +135,6 @@ useEffect(()=>{
                         {
                           text: `${t('common:Confirm')}`, onPress: () => {
                             AsyncStorage.clear();
-                            // props.navigation.navigate('Auth')
-
                             props.navigation.dispatch(
                               CommonActions.reset({
                                 index:0,
@@ -164,42 +162,6 @@ useEffect(()=>{
               </View>
                   </TouchableOpacity>
                 </View>
-
-          {/* <RBSheet
-            ref={refRBSheet}
-            closeOnDragDown={true}
-            closeOnPressMask={false}
-            customStyles={{
-              container:{
-                backgroundColor:Colors.backgroundColor
-              },
-              wrapper: {
-                backgroundColor: "transparent"
-
-              },
-              draggableIcon: {
-                backgroundColor: Colors.PRIMARY
-              }
-            }}
-          >
-
-            <View style={{padding:10,paddingLeft:20,alignItems:'center'}}>
-              <Text style={{fontSize:20,justifyContent:'center'}}>
-              {t('common:Doyouwanttologout')}
-              </Text>
-            </View>
-            <View style={{flexDirection:'column',justifyContent:'space-between',alignItems:'center',}}>
-              <TouchableOpacity style={styles.rbButton} onPress={()=> refRBSheet.current.close()}  >
-                            <Text style={styles.rbOk}>{t('common:Cancel')}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.rbButton} onPress={()=>{
-                AsyncStorage.clear();
-                 props.navigation.navigate('Auth')
-              } } >
-                            <Text style={styles.rbOk}>{t('common:Confirm')}</Text>
-              </TouchableOpacity>
-            </View>
-          </RBSheet> */}
         </View>
       </DrawerContentScrollView>
 

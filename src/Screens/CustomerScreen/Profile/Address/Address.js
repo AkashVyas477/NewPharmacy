@@ -187,8 +187,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-    addressTypeimg:{ flexDirection: 'row', alignItems: 'center', },
-    addressTypeimg_ar:{ flexDirection: 'row-reverse', alignItems: 'center', },
+    addressTypeimg:{ 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+    },
+    addressTypeimg_ar:{ 
+        flexDirection: 'row-reverse', 
+        alignItems: 'center', 
+    },
     card: {
         flex: 1,
         shadowColor: Colors.White,
@@ -207,16 +213,12 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         paddingLeft: 10,
         padding: 5,
-
-
-
     },
     Pname: {
         fontWeight: 'bold',
         color: Colors.Sp_Text,
         fontSize: 17,
         padding: 5,
-
     },
     name: {
         padding: 2
@@ -243,7 +245,7 @@ const styles = StyleSheet.create({
     address: {
         flex: 1.5,
         fontSize: 16,
-        color: Colors.GREY,
+        color: Colors.Gray,
     },
     checkIcon: {
         height: 25,

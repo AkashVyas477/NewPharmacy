@@ -151,7 +151,6 @@ const ChangePassword = props => {
 const styles = StyleSheet.create({
     screen:{
         flex:1,
-        // paddingHorizontal:25,
     },
     screen2:{
         flex:1,
@@ -165,7 +164,6 @@ const styles = StyleSheet.create({
     },
     inputLabel:{
         marginTop:25,
-        // fontWeight:'bold',
         color: Colors.Gray,
         fontSize: 18
     },

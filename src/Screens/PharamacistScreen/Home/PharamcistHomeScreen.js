@@ -19,11 +19,9 @@ const PharamaHomeScreen = props => {
     const [length, setLength] = useState(0)
     const [prescriptionList, setPrescriptionList] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-
     const [currentPage, setCurrentPage] = useState(1)
     const [isMoreItem, setIsMoreItem] = useState(false)
     const [activeAddress, setActiveAddress] = useState({})
-
     const renderLoader = () => {
         return (
             <View style={styles.loaderStyle}>
@@ -34,32 +32,20 @@ const PharamaHomeScreen = props => {
             </View>
         );
     }
-
     const loadMoreItem = () => {
         setCurrentPage(currentPage + 1)
-        // console.log("loadMore  ", currentPage)
     };
-
-
     useEffect(() => {
         getPrescription()
     }, [currentPage]);
 
+
     const getuser = async () => {
         setUser(JSON.parse(await AsyncStorage.getItem('user')))
     }
-    useEffect(() => {
-    }, [user])
-
-    // console.log(user);
-
 const ActiveAddress = async()=>{
     setActiveAddress(JSON.parse(await AsyncStorage.getItem('activeAddress')))
 }
-useEffect(()=>{
-    //   ActiveAddress()
-    // console.log(activeAddress)
-},[activeAddress])
 
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
@@ -67,19 +53,14 @@ useEffect(()=>{
             getuser()
             ActiveAddress()
         });
-
         return update;
-       
-    }, [props.navigation])
+    }, [props.navigation,activeAddress,user])
+    console.log("Active Address---------->",activeAddress)
     // console.log("Data--------->",prescriptionList)
-
-
     const getPrescription = async () => {
         const response = await getParams(`pharmacist/getRequests?page=${currentPage}`)
         if (response.success) {
-            // console.log("prescription\n",response.data.data)
             setPrescriptionList([...prescriptionList, ...response.data.data])
-            // console.log(response.data.data)
             setLength(response.data.length)
             setIsMoreItem(true)
             setIsLoading(false)
@@ -89,9 +70,7 @@ useEffect(()=>{
         }
        
     }
-
     const renderprescriptionList = data => {
-        // console.log("data---------->", data.item)
         return (
             <View style={styles.card}>
                 <TouchableOpacity
@@ -116,7 +95,6 @@ useEffect(()=>{
                                     <Image source={Images.Calendar} style={{ height: 20, width: 20, }} />
                                     <Text style={styles.name}>{moment(data.item.createdAt).format('DD/MM/YYYY') + ' at ' + moment(data.item.createdAt).format('hh:mm A')}</Text>
                                 </View>
-
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Image source={Images.Quotes} style={{ height: 18, width: 20, }} />
                                     <Text style={styles.name}>{data.item.total_quotes}</Text>
@@ -129,8 +107,6 @@ useEffect(()=>{
             </View>
         )
     }
-
-
     return (
         <View style={styles.screen}>
             {/*Logo + Icon  */}
@@ -153,7 +129,6 @@ useEffect(()=>{
                                 Current Location
                             </Text>
                                 <View>
-                            
                                 </View>
                             <View >
                             <Text style={{color:'#0DC314', paddingLeft:7, marginBottom:10}}>{activeAddress?.primary_address}<Image source={Images.Pencil} style={{ height:15 ,  width:15,}} /> </Text>
@@ -162,7 +137,6 @@ useEffect(()=>{
                             </View>
                         </View>
             </View>
-
             <View style={{ padding: 10, flex: 1 }}>
                 <View style={{ alignItems: 'center' }}>
                     {
@@ -275,12 +249,10 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         paddingLeft: 10,
     },
-
     Pname: {
         fontWeight: 'bold',
         color: Colors.Sp_Text,
         fontSize: 17,
-
     },
     name: {
         padding: 2
@@ -296,9 +268,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         color: Colors.PRIMARY
     },
-
-
-
 });
 
 export default PharamaHomeScreen;

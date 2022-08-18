@@ -130,7 +130,7 @@ const DrawerContent = (props) => {
 
           <View style={styles.drawerSection}>
             <TouchableOpacity
-            // onPress={() => {props.navigation.navigate('LanguageScreen') }}
+            // onPress={() => {props.navigation.navigate('Chat') }}
             >
               <View style={{ flexDirection: "row", margin: 15, alignItems: 'center' }}>
                 <Image source={Images.TermsNconditions}
@@ -140,6 +140,27 @@ const DrawerContent = (props) => {
                   <View>
                     <Text style={{ color: Colors.Gray }}>
                       {t('navigate:TermsandConditions')}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+
+
+          <View style={styles.drawerSection}>
+            <TouchableOpacity
+            onPress={() => {props.navigation.navigate('Chat') }}
+            >
+              <View style={{ flexDirection: "row", margin: 15, alignItems: 'center' }}>
+                <Image source={Images.Chat}
+                  style={{ height: 38, width: 32 }}
+                />
+                <View style={{ marginLeft: 15, }}>
+                  <View>
+                    <Text style={{ color: Colors.Gray }}>
+                      {t('navigate:Chat')}
                     </Text>
                   </View>
                 </View>

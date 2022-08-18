@@ -16,34 +16,35 @@ const Addquotes = (props) => {
     const { t,i18n } = useTranslation()
     const refRBSheet=useRef({});
     const userRequest = props.route.params.prescription
-    console.log("Detail\n", userRequest.address)
+    // console.log("Quotes======>\n",userRequest.quotes)
+    // console.log("Detail\n", userRequest.quotes)
     const [user, setUser] = useState({});
+    console.log("user------->",user)
+
     const getuser = async () => {
         setUser(JSON.parse(await AsyncStorage.getItem('user')))
     }
-    useEffect(() => {
-    }, [user])
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
             getuser()
         });
         return update;
-    }, [props.navigation])
+    }, [props.navigation,user])
 
-    //console.log('user------->',user);
+    
 
     const [modalVisible, setModalVisible] = useState(false);
     const [submitLoader, setSubmitLoader] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [priceing, setPriceing] = useState('')
     const [notes, setNote] = useState('')
+
     const onpressSubmit = async () => {
         setSubmitLoader(true)
         const data = {
             price: priceing,
             text_note: notes
         }
-    
         const response = await postPostLogin(`pharmacist/addQuote?prescriptionId=${userRequest.id}`, data)
         let errorMessage = "Check Quotes"
         if (response.success) {
@@ -55,6 +56,16 @@ const Addquotes = (props) => {
         setSubmitLoader(false)
     }
 
+    const onPressOrederComplete = async()=>{
+    // setIsLoading(true)
+    const data = userRequest.quotes.map(item=>{
+        return item.id
+    })
+    console.log("quotesId-------------->",data)
+  
+    // const response= await postPostLogin('changeOrderStatus') 
+    }
+    
     const addressType = (address_type) => {
         if (address_type === 0) return <Text>{t("common:Home")}</Text>
         if (address_type === 1) return <Text>{t("common:Office")}</Text>
@@ -72,7 +83,7 @@ const Addquotes = (props) => {
         if (is_complete === 1) return <Text style={{ color: Colors.PRIMARY }}>{t("common:Completed")}</Text>
     }
 
-    const type1 = (is_complete) => {
+    const status = (is_complete) => {
         if (is_complete === 0) return <Text style={{ color: Colors.orange, textAlign: "right" }}>{t("common:Pendding")}</Text>
         if (is_complete === 1) return <Text style={{ color: Colors.PRIMARY, textAlign: "right" }}>{t("common:Approve")}</Text>
         if (is_complete === 2) return <Text style={{ color: Colors.Error_Textcolor, textAlign: "right" }}>{t("common:NotApprove")}</Text>
@@ -81,6 +92,8 @@ const Addquotes = (props) => {
     const is_complete = userRequest.quotes.map(item => {
         return item.is_complete;
     });
+
+
 
     return (
         // ----------> Header <--------------- //
@@ -169,7 +182,6 @@ const Addquotes = (props) => {
                 </View>
                 {/* List Of Medicines */}
                 <View style={styles.card}>
-                    <View>
                         <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
                             {t('common:ListOfMedicines')}
                         </Text>
@@ -182,14 +194,9 @@ const Addquotes = (props) => {
                                 </View>
                             )
                         })}
-                    </View>
                 </View>
-
-
-
                 {/* Quote Price && Text note added */}
                 <View style={styles.card}>
-                    <View>
                         {userRequest.quotes.map(item => {
                             if (item.store_name === user.store_name) {
                                 return (
@@ -199,7 +206,7 @@ const Addquotes = (props) => {
                                                 {t('common:QuotePrice')}
                                             </Text>
                                             <Text>
-                                                {type1(item.is_complete)}
+                                                {status(item.is_complete)}
                                             </Text>
                                         </View>
                                         <Text style={{ borderBottomWidth: 0.5, width: '95%', margin: 5, fontSize: 15, fontWeight: 'bold' }}>
@@ -216,23 +223,24 @@ const Addquotes = (props) => {
                                 )
                             }
                         })}
-                    </View>
                 </View>
+
                 {/* Adding Quotes */}
-                {userRequest.total_quotes === 0 ?
+
+
+                {/* {!userRequest.quotes.find(quote => {
+                    return quote.storeId === user.store_id }) ?
                     <View style={styles.card}>
                         <TouchableOpacity onPress={() => { setModalVisible(true) }} style={{ flexDirection: 'row', alignItems: 'center', }} >
                             <Image source={Images.GreenAdd} style={{ height: 20, width: 20 }} />
-
                             <Text style={{ padding: 5, alignItems: 'center', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 20 }}>
                                 {t('common:AddQuotesHere')}
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    :
-
+                     : 
                     <View style={styles.card}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding:10 }}>
                             <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
                                 {t('common:Order')}
                             </Text>
@@ -251,8 +259,47 @@ const Addquotes = (props) => {
                             }
                         </View>
                     </View>
+                 }  */}
 
-                }
+
+{/* 
+       // -------->  Work from here 
+                  {userRequest.quotes.map(item=>{
+                        if(item.is_complete)
+                        
+                    })} */}
+
+
+
+                {!userRequest.quotes.find(quote => {
+                    return quote.storeId === user.store_id
+                }) ?
+                    <View style={styles.card}>
+                        <TouchableOpacity onPress={() => { setModalVisible(true) }} style={{ flexDirection: 'row', alignItems: 'center', }} >
+                            <Image source={Images.GreenAdd} style={{ height: 20, width: 20 }} />
+                            <Text style={{ padding: 5, alignItems: 'center', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 20 }}>
+                                {t('common:AddQuotesHere')}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    :
+                    <View>
+                   {!userRequest.quotes.find(quote=>{return user.store_id === quote.is_complete})?
+                         <View>
+                         {is_complete.includes(1)?
+                         <Button
+                         label="Mark Order As Completed"
+                         onPress={onPressOrederComplete}
+                         />
+                         :null
+                     }
+                      </View>
+                        :null
+                        } 
+                    
+                    </View>
+                } 
+
                 <Modal
                     animationType="fade"
                     transparent={true}
@@ -296,7 +343,6 @@ const Addquotes = (props) => {
                                     disabled={(!priceing || !notes || submitLoader) ? true : false}
                                     style={[styles.buttonModal, styles.buttonClose]}
                                     onPress={onpressSubmit}
-                                // onPress={() => {//console.log(priceing, notes);}}
                                 >
                                     {submitLoader ? <ActivityIndicator size={'small'} color={Colors.White} /> : <Text style={styles.textStyle}>{t('common:Submit')}</Text>}
                                 </TouchableOpacity>
@@ -377,7 +423,7 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
         elevation: 5,
         borderRadius: 10,
-        margin: 10,
+        margin:5,
     },
     text: {
         fontWeight: 'bold',

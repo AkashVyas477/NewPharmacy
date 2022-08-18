@@ -55,15 +55,17 @@ const ActiveAddress = async()=>{
         });
         return update;
     }, [props.navigation,activeAddress,user])
-    console.log("Active Address---------->",activeAddress)
+    // console.log("Active Address---------->",activeAddress)
     // console.log("Data--------->",prescriptionList)
     const getPrescription = async () => {
         const response = await getParams(`pharmacist/getRequests?page=${currentPage}`)
         if (response.success) {
             setPrescriptionList([...prescriptionList, ...response.data.data])
             setLength(response.data.length)
-            setIsMoreItem(true)
             setIsLoading(false)
+         
+            setIsMoreItem(true)
+           
         } else {
             setIsLoading(false)
             setIsMoreItem(false)

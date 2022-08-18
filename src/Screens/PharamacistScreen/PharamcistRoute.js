@@ -22,6 +22,9 @@ import AddAddres from '../PharamacistScreen/Profile/Address/AddNewAddress';
 import Address from '../PharamacistScreen/Profile/Address/Address';
 import EditAddress from '../PharamacistScreen/Profile/Address/EditAddress';
 
+import Message from '../PharamacistScreen/Chat/Message';
+import ChatScreen from '../PharamacistScreen/Chat/ChatScreen';
+
 import Addquotes from '../PharamacistScreen/Home/DetailsScreen/Addquotes';
 
 import SplashScreen from '../SplashScreen';
@@ -39,6 +42,7 @@ const PharamaDrawerNavigator = props => {
             <Drawer.Screen name='PharamaHome' component={PharamaHomeStackScreen} />
             <Drawer.Screen name='PharamaProfile' component={PharamUserStackScreen}/>
             <Drawer.Screen name='SaveAddress' component={AddresStackScreen}/>
+            <Drawer.Screen name='Chat' component={ChatStackScreen} />
             
         </Drawer.Navigator>
     )
@@ -89,5 +93,16 @@ const AddresStackScreen = props => {
             <AddresStack.Screen name='AddAddress' component={AddAddres} />
             <AddresStack.Screen name='EditAddress' component={EditAddress}/>
         </AddresStack.Navigator>
+    )
+}
+
+
+const ChatStack = createStackNavigator()
+const ChatStackScreen = props => {
+    return(
+        <ChatStack.Navigator headerMode='none' >
+            <ChatStack.Screen name='Message' component={Message} />
+        <ChatStack.Screen name='ChatScreen' component={ChatScreen} />
+        </ChatStack.Navigator>
     )
 }

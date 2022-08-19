@@ -22,30 +22,33 @@ const PharamaHomeScreen = props => {
     const [currentPage, setCurrentPage] = useState(1)
     const [isMoreItem, setIsMoreItem] = useState(false)
     const [activeAddress, setActiveAddress] = useState({})
-    const renderLoader = () => {
-        return (
-            <View style={styles.loaderStyle}>
-                {isMoreItem ?
-                    (
-                        <ActivityIndicator size="large" />
-                    ) : null}
-            </View>
-        );
-    }
-    const loadMoreItem = () => {
-        setCurrentPage(currentPage + 1)
-    };
-    useEffect(() => {
-        getPrescription()
-    }, [currentPage]);
+
+
+    // const renderLoader = () => {
+    //     return (
+    //         <View style={styles.loaderStyle}>
+    //             {isMoreItem ?
+    //                 (<ActivityIndicator size="large" /> ) : null}
+    //         </View>
+    //     );
+    // }
+
+    // const loadMoreItem = () => {
+    //     setCurrentPage(currentPage + 1)
+    // };
+
+    // useEffect(() => {
+    //     // getPrescription()
+    // }, [currentPage]);
 
 
     const getuser = async () => {
         setUser(JSON.parse(await AsyncStorage.getItem('user')))
     }
-const ActiveAddress = async()=>{
+
+        const ActiveAddress = async()=>{
     setActiveAddress(JSON.parse(await AsyncStorage.getItem('activeAddress')))
-}
+    }
 
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
@@ -54,18 +57,17 @@ const ActiveAddress = async()=>{
             ActiveAddress()
         });
         return update;
-    }, [props.navigation,activeAddress,user])
-    // console.log("Active Address---------->",activeAddress)
-    // console.log("Data--------->",prescriptionList)
+    }, [props.navigation,activeAddress,user,currentPage])
+ 
+
     const getPrescription = async () => {
+        setIsLoading(true)
         const response = await getParams(`pharmacist/getRequests?page=${currentPage}`)
         if (response.success) {
             setPrescriptionList([...prescriptionList, ...response.data.data])
-            setLength(response.data.length)
             setIsLoading(false)
-         
+            setLength(response.data.length)
             setIsMoreItem(true)
-           
         } else {
             setIsLoading(false)
             setIsMoreItem(false)
@@ -158,8 +160,8 @@ const ActiveAddress = async()=>{
                                         data={prescriptionList}
                                         keyExtractor={item => item.id}
                                         renderItem={renderprescriptionList}
-                                        ListFooterComponent={renderLoader}
-                                        onEndReached={loadMoreItem}
+                                        // ListFooterComponent={renderLoader}
+                                        onEndReached={()=>setCurrentPage(currentPage+1)}
                                         onEndReachedThreshold={0.1}
                               
                                     />

@@ -112,6 +112,8 @@ export default {
   Pendding:'قيد الانتظار',
   Approve:'يوافق',
   NotApprove:'لم يوافق',
+  Ordercompletedsuccessfully:'اكتمل الطلب بنجاح',
+  MarkOrderAsCompleted:'وضع علامة على الطلب على أنه مكتمل',
 
 
 

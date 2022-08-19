@@ -18,64 +18,88 @@ const PrescriptionScreen = props => {
 
     const [prescriptionList, setprescriptionList] = useState([])
     const [PastPrescription, setpastprescriptionList] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
 
     const [currentPage, setCurrentPage] = useState(1)
     const [isMoreItem, setIsMoreItem] = useState(false)
     
 
-    const renderLoader = () => {
-        return (
-            <View style={styles.loaderStyle}>
-                {isMoreItem ?
-                    (
-                        <ActivityIndicator size="large" />
-                    ) : null}
-            </View>
-        );
-    }
+    // const renderLoader = () => {
+    //     return (
+    //         <View style={styles.loaderStyle}>
+    //             {isMoreItem ?
+    //                 (
+    //                     <ActivityIndicator size={32} />
+    //                 ) : null}
+    //         </View>
+    //     );
+    // }
 
-    const loadMoreItem = () => {
-        setCurrentPage(currentPage + 1)
-    };
+    // const loadMoreItem = () => {
+    //     // setIsMoreItem(true)
+    //     setCurrentPage(currentPage + 1)
+    // };
 
-    useEffect(()=>{
-        getPrescriptionList()
-        getPastPrescription()
-    },[currentPage]);
+    // // useEffect(()=>{
+    // //     getPrescriptionList()
+    // //     getPastPrescription()
+    // // },[currentPage]);
 
+const renderLoader =() => {
+    return (
+        isLoading ?
+        <View style={styles.loaderStyle}>
+            <ActivityIndicator size={32} />
+        </View>:null
+    );
+};
 
+const loadMoreItem = () => {
+    setCurrentPage(currentPage+1);
+};
+
+// useEffect(()=>{ 
+//     setIsMoreItem(true)
+//     getPrescriptionList();
+//     getPastPrescription();
+//     setIsMoreItem(false)
+// },[currentPage])
+
+console.log("Current Page ------->",currentPage);
 
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
-            setIsLoading(true)
-            getPrescriptionList()
-            getPastPrescription()
+            getPrescriptionList();
+            getPastPrescription();
         });
         return update;
-    }, [props.navigation])
+    }, [props.navigation,currentPage])
 
 
 
 
     const getPrescriptionList = async () => {
+        setIsLoading(true)
+        setIsMoreItem(true)
         const response = await getParams(`customer/getPrescriptionsList/?page=${currentPage}&state=current&page_size=6`)
         if (response.success) {
             setprescriptionList([...prescriptionList, ...response.data.prescription])
-            setIsMoreItem(true)
             setIsLoading(false)
-        } else {
             setIsMoreItem(false)
+        } else {
             setIsLoading(false) 
+            setIsMoreItem(false)
+            
         }
     }
 
     const getPastPrescription = async () => {
-        const response = await getParams(`customer/getPrescriptionsList/?page=${currentPage}&state=past&page_size=6`)
+        const response = await getParams(`customer/getPrescriptionsList/?page=${currentPage}&state=past`)
         if (response.success) {
             setpastprescriptionList([...PastPrescription, ...response.data.prescription])
-            setIsMoreItem(true)
             setIsLoading(false)
+            setIsMoreItem(true)
+           
         } else {
             setIsMoreItem(false)
             setIsLoading(false)
@@ -236,6 +260,7 @@ const PrescriptionScreen = props => {
                                                 keyExtractor={item => item.id}
                                                 renderItem={renderprescription}
                                                 ListFooterComponent={renderLoader}
+                                                // onEndReached={()=>console.log()}
                                                 onEndReached={loadMoreItem}
                                                 onEndReachedThreshold={0.1}
                                             />
@@ -275,8 +300,9 @@ const PrescriptionScreen = props => {
                                             keyExtractor={item => item.id}
                                             renderItem={Pastrenderprescription}
                                             ListFooterComponent={renderLoader}
+                                            // onEndReached={()=>setCurrentPage(currentPage+1)}
                                             onEndReached={loadMoreItem}
-                                            onEndReachedThreshold={0.1}
+                                            onEndReachedThreshold={0}
                                         />
                                     </View>
                                 }
@@ -370,7 +396,7 @@ const styles = StyleSheet.create({
         color: Colors.Sp_Text
     },
     loaderStyle: {
-        marginVertical: 16,
+        marginVertical: 18,
         alignItems: "center",
         color: Colors.PRIMARY
     },

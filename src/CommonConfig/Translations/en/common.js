@@ -109,6 +109,8 @@ export default {
   Pendding:'Pendding',
   Approve:'Approve',
   NotApprove:'Not Approve',
+  Ordercompletedsuccessfully:'Order completed successfully',
+  MarkOrderAsCompleted:'Mark Order As Completed'
 
 
 

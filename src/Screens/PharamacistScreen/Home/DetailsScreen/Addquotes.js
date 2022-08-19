@@ -24,9 +24,12 @@ const Addquotes = (props) => {
     const getuser = async () => {
         setUser(JSON.parse(await AsyncStorage.getItem('user')))
     }
+
+
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
             getuser()
+
         });
         return update;
     }, [props.navigation,user])
@@ -48,22 +51,35 @@ const Addquotes = (props) => {
         const response = await postPostLogin(`pharmacist/addQuote?prescriptionId=${userRequest.id}`, data)
         let errorMessage = "Check Quotes"
         if (response.success) {
+            // setModalVisible(false)
             Toast.show("Quote created successfully")
-            props.navigation.navigate('PharamaHome')
+            // props.navigation.navigate('PharamaHome')
         } else {
             Alert.alert('Error', errorMessage, [{ text: "Okay" }])
         }
         setSubmitLoader(false)
     }
 
+
     const onPressOrederComplete = async()=>{
-    // setIsLoading(true)
-    const data = userRequest.quotes.map(item=>{
-        return item.id
-    })
-    console.log("quotesId-------------->",data)
+   setIsLoading(true)
+        const completedquote = userRequest.quotes.find(item=>item.is_complete===1) 
+        const quote = {
+            quoteId: completedquote.id
+        }
+    console.log("quotesId-------------->",quote)
   
-    // const response= await postPostLogin('changeOrderStatus') 
+    const response= await postPostLogin(`pharmacist/changeOrderStatus`,quote)
+    console.log(response)
+    if (response.data.message == "Order completed successfully and user picked up order from store.") {
+        Toast.show(`${t('common:Ordercompletedsuccessfully')}`)
+    }
+    else{
+        console.log(response.data.message);
+    }
+    props.navigation.navigate('PharamaHome')
+   
+    setIsLoading(false)
     }
     
     const addressType = (address_type) => {
@@ -225,80 +241,38 @@ const Addquotes = (props) => {
                         })}
                 </View>
 
+
+
                 {/* Adding Quotes */}
-
-
-                {/* {!userRequest.quotes.find(quote => {
-                    return quote.storeId === user.store_id }) ?
-                    <View style={styles.card}>
-                        <TouchableOpacity onPress={() => { setModalVisible(true) }} style={{ flexDirection: 'row', alignItems: 'center', }} >
-                            <Image source={Images.GreenAdd} style={{ height: 20, width: 20 }} />
-                            <Text style={{ padding: 5, alignItems: 'center', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 20 }}>
-                                {t('common:AddQuotesHere')}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                     : 
-                    <View style={styles.card}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding:10 }}>
-                            <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 15 }}>
-                                {t('common:Order')}
-                            </Text>
-                            {is_complete.includes(1) ?
-                                <View>
-                                    <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', fontSize: 15 }}>
-                                        {type(1)}
-                                    </Text>
-                                </View>
-                                :
-                                <View>
-                                    <Text style={{ alignItems: 'center', justifyContent: 'flex-start', fontWeight: 'bold', fontSize: 15 }}>
-                                        {type(0)}
-                                    </Text>
-                                </View>
-                            }
-                        </View>
-                    </View>
-                 }  */}
-
-
-{/* 
-       // -------->  Work from here 
-                  {userRequest.quotes.map(item=>{
-                        if(item.is_complete)
-                        
-                    })} */}
-
-
-
-                {!userRequest.quotes.find(quote => {
-                    return quote.storeId === user.store_id
-                }) ?
-                    <View style={styles.card}>
-                        <TouchableOpacity onPress={() => { setModalVisible(true) }} style={{ flexDirection: 'row', alignItems: 'center', }} >
-                            <Image source={Images.GreenAdd} style={{ height: 20, width: 20 }} />
-                            <Text style={{ padding: 5, alignItems: 'center', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 20 }}>
-                                {t('common:AddQuotesHere')}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    :
-                    <View>
-                   {!userRequest.quotes.find(quote=>{return user.store_id === quote.is_complete})?
-                         <View>
-                         {is_complete.includes(1)?
-                         <Button
-                         label="Mark Order As Completed"
-                         onPress={onPressOrederComplete}
-                         />
-                         :null
-                     }
-                      </View>
-                        :null
-                        } 
+                 {!userRequest.quotes.find(quote => {
                     
-                    </View>
-                } 
+                     return quote.storeId === user.store_id
+                 }) ?
+                     <View style={styles.card}>
+                         <TouchableOpacity onPress={() => { setModalVisible(true) }} style={{ flexDirection: 'row', alignItems: 'center', }} >
+                            <Image source={Images.GreenAdd} style={{ height: 20, width: 20 }} />
+                         <Text style={{ padding: 5, alignItems: 'center', fontWeight: 'bold', color: Colors.Sp_Text, fontSize: 20 }}>
+                                 {t('common:AddQuotesHere')}
+                             </Text>
+                        </TouchableOpacity>
+                     </View>
+                    :
+                     <View>
+                    {!userRequest.quotes.find(quote=>{return user.store_id === quote.is_complete})?
+                          <View>
+                          {is_complete.includes(1)?
+                          <Button
+                          label={t("common:MarkOrderAsCompleted")}
+                          onPress={onPressOrederComplete}
+                          showActivityIndicator={isLoading}
+                          />
+                          :null
+                      }
+                       </View>
+                         :null
+                        } 
+                     </View>
+                 } 
 
                 <Modal
                     animationType="fade"

@@ -213,6 +213,7 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation project(':react-native-vector-icons')
+    implementation 'com.google.firebase:firebase-messaging:21.1.0'
     // implementation 'com.stripe:stripe-android:20.7.0'
    
     // implementation(project(':stripe_stripe-react-native')) { exclude module: 'appcompat' }

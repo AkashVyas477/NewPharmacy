@@ -19,7 +19,8 @@ const Addquotes = (props) => {
     // console.log("Quotes======>\n",userRequest.quotes)
     // console.log("Detail\n", userRequest.quotes)
     const [user, setUser] = useState({});
-    console.log("user------->",user)
+    // console.log("user------->",user)
+
 
     const getuser = async () => {
         setUser(JSON.parse(await AsyncStorage.getItem('user')))
@@ -29,7 +30,6 @@ const Addquotes = (props) => {
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
             getuser()
-
         });
         return update;
     }, [props.navigation,user])
@@ -51,18 +51,18 @@ const Addquotes = (props) => {
         const response = await postPostLogin(`pharmacist/addQuote?prescriptionId=${userRequest.id}`, data)
         let errorMessage = "Check Quotes"
         if (response.success) {
-            // setModalVisible(false)
             Toast.show("Quote created successfully")
-            // props.navigation.navigate('PharamaHome')
+            props.navigation.navigate('PharamaHome')
         } else {
             Alert.alert('Error', errorMessage, [{ text: "Okay" }])
         }
         setSubmitLoader(false)
+        // setModalVisible(false) 
     }
 
 
     const onPressOrederComplete = async()=>{
-   setIsLoading(true)
+        setIsLoading(true)
         const completedquote = userRequest.quotes.find(item=>item.is_complete===1) 
         const quote = {
             quoteId: completedquote.id

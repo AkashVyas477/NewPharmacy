@@ -32,19 +32,21 @@ const DrawerContent = (props) => {
 
 
   useEffect(() => {
-    getProfile()
+    const update= props.navigation.addListener('focus',()=>{
+      getProfile()
+    })
+    return update;
   }, [props.navigation])
 
 
-  const update = async () => {
-    props.navigation.addListener('focus', () => {
-      getProfile()
-    });
-  }
+  // const update = async () => {
+  //   props.navigation.addListener('focus', () => {
+  //     getProfile()
+  //   });
+  // }
 
   const getProfile = async () => {
     setUser(JSON.parse(await AsyncStorage.getItem("user")))
-
   }
   //  console.log(user)
 

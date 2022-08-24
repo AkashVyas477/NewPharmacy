@@ -36,7 +36,6 @@ const PrescriptionScreen = props => {
     // }
 
     // const loadMoreItem = () => {
-    //     // setIsMoreItem(true)
     //     setCurrentPage(currentPage + 1)
     // };
 
@@ -55,17 +54,10 @@ const renderLoader =() => {
 };
 
 const loadMoreItem = () => {
-    setCurrentPage(currentPage+1);
+    setCurrentPage(currentPage + 1);
 };
 
-// useEffect(()=>{ 
-//     setIsMoreItem(true)
-//     getPrescriptionList();
-//     getPastPrescription();
-//     setIsMoreItem(false)
-// },[currentPage])
-
-console.log("Current Page ------->",currentPage);
+// console.log("Current Page ------->",currentPage);
 
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
@@ -94,7 +86,7 @@ console.log("Current Page ------->",currentPage);
     }
 
     const getPastPrescription = async () => {
-        const response = await getParams(`customer/getPrescriptionsList/?page=${currentPage}&state=past`)
+        const response = await getParams(`customer/getPrescriptionsList/?page=${currentPage}&state=past&page_size=6`)
         if (response.success) {
             setpastprescriptionList([...PastPrescription, ...response.data.prescription])
             setIsLoading(false)
@@ -259,10 +251,10 @@ console.log("Current Page ------->",currentPage);
                                                 data={prescriptionList}
                                                 keyExtractor={item => item.id}
                                                 renderItem={renderprescription}
-                                                ListFooterComponent={renderLoader}
+                                                // ListFooterComponent={renderLoader}
                                                 // onEndReached={()=>console.log()}
-                                                onEndReached={loadMoreItem}
-                                                onEndReachedThreshold={0.1}
+                                                // onEndReached={loadMoreItem}
+                                                // onEndReachedThreshold={0.1}
                                             />
                                         </View>
                                 }
@@ -299,10 +291,10 @@ console.log("Current Page ------->",currentPage);
                                             data={PastPrescription}
                                             keyExtractor={item => item.id}
                                             renderItem={Pastrenderprescription}
-                                            ListFooterComponent={renderLoader}
+                                            // ListFooterComponent={renderLoader}
                                             // onEndReached={()=>setCurrentPage(currentPage+1)}
-                                            onEndReached={loadMoreItem}
-                                            onEndReachedThreshold={0}
+                                            // onEndReached={loadMoreItem}
+                                            // onEndReachedThreshold={0}
                                         />
                                     </View>
                                 }

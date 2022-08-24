@@ -103,6 +103,7 @@ const ChatScreen = (props) => {
                 renderSend={renderSend}
                 scrollToBottom
                 scrollToBottomComponent={scrollToBottomComponent}
+                
             />
 
         </View>

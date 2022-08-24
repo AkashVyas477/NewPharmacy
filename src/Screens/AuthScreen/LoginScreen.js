@@ -59,7 +59,7 @@ const LoginScreen = (props) => {
                 await AsyncStorage.setItem("user", JSON.stringify(resData.user))
                 await AsyncStorage.setItem("isLogin", "1")
             } catch (error) {
-                console.log(error)
+                // console.log(error)
             }
             if (resData.user.role === 1) {
                 props.navigation.dispatch(

@@ -13,6 +13,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import LoginScreen from '../AuthScreen/LoginScreen'
 //Screens from Customer 
 import LanguageScreen from '../LanguageScreen';
+
 // Screens from Home in Customer 
 import HomeScreen from '../CustomerScreen/Home/HomeScreen';
 import PrescriptionScreen from '../CustomerScreen/Home/PrescriptionScreen';
@@ -38,6 +39,7 @@ import AddCard from '../CustomerScreen/Payment/AddCard';
 import SplashScreen from '../SplashScreen';
 import DrawerContent from './CustomerDrawer';
 import navigate from '../../CommonConfig/Translations/en/navigate';
+
 const Drawer = createDrawerNavigator()
 const DrawerNavigator = props => {
     return (

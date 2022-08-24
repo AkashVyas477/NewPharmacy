@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useReducer ,useRef} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, ScrollView, ActivityIndicator, PermissionsAndroid, Platform, Dimensions } from 'react-native';
+import React, { useState, useEffect, useReducer, useRef } from 'react';
+import { View, Text, StyleSheet, RefreshControl, TouchableOpacity, Image, FlatList, ScrollView, ActivityIndicator, PermissionsAndroid, Platform, Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { Images, Colors } from '../../../CommonConfig';
@@ -14,31 +14,35 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 const PharamaHomeScreen = props => {
 
     const { t } = useTranslation()
-    const refRBSheet=useRef();
+    const refRBSheet = useRef();
     const [user, setUser] = useState({});
     const [length, setLength] = useState(0)
     const [prescriptionList, setPrescriptionList] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
-    const [isMoreItem, setIsMoreItem] = useState(false)
+
     const [activeAddress, setActiveAddress] = useState({})
 
+    const [isMoreItem, setIsMoreItem] = useState(false)
+
+    // const ActiveAddress = async () => {
+    //     setActiveAddress(JSON.parse(await AsyncStorage.getItem('activeAddress')))
+    // }
 
     // const renderLoader = () => {
     //     return (
     //         <View style={styles.loaderStyle}>
     //             {isMoreItem ?
-    //                 (<ActivityIndicator size="large" /> ) : null}
+    //                 (<ActivityIndicator size="large" />) : null}
     //         </View>
     //     );
     // }
-
     // const loadMoreItem = () => {
     //     setCurrentPage(currentPage + 1)
     // };
 
     // useEffect(() => {
-    //     // getPrescription()
+    //     getPrescription()
     // }, [currentPage]);
 
 
@@ -46,35 +50,40 @@ const PharamaHomeScreen = props => {
         setUser(JSON.parse(await AsyncStorage.getItem('user')))
     }
 
-        const ActiveAddress = async()=>{
-    setActiveAddress(JSON.parse(await AsyncStorage.getItem('activeAddress')))
-    }
+    
 
     useEffect(() => {
         const update = props.navigation.addListener('focus', () => {
             getPrescription()
             getuser()
-            ActiveAddress()
         });
         return update;
-    }, [props.navigation,activeAddress,user,currentPage])
- 
+    }, [props.navigation, user])
+
 
     const getPrescription = async () => {
+        // setIsLoading(true)
         setIsLoading(true)
-        const response = await getParams(`pharmacist/getRequests?page=${currentPage}`)
+        const response = await getParams(`pharmacist/getRequests?page=${currentPage}&page_size=6`)
+        
         if (response.success) {
             setPrescriptionList([...prescriptionList, ...response.data.data])
-            setIsLoading(false)
             setLength(response.data.length)
-            setIsMoreItem(true)
+            setIsLoading(false)
         } else {
             setIsLoading(false)
-            setIsMoreItem(false)
+          
         }
-       
+
+        setTimeout(()=>{
+            setIsLoading(false)
+        },4000)
     }
-    const renderprescriptionList = data => {
+
+
+
+    const renderprescriptionList =( data )=> {
+
         return (
             <View style={styles.card}>
                 <TouchableOpacity
@@ -87,7 +96,7 @@ const PharamaHomeScreen = props => {
                                 <Image source={{ uri: data.item.user_image }} style={styles.userImage} />
                                 <Text style={styles.userName}>{data.item.user}</Text>
                             </View>
-                   
+
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <View style={styles.Text_sty}>
@@ -111,6 +120,9 @@ const PharamaHomeScreen = props => {
             </View>
         )
     }
+
+
+
     return (
         <View style={styles.screen}>
             {/*Logo + Icon  */}
@@ -126,21 +138,9 @@ const PharamaHomeScreen = props => {
                         <Image source={Images.Logout} style={styles.MenuStyle1} />
                     </View>
                 </View>
-                <View>
-                            <View>
-                            <TouchableOpacity  onPress={() => { props.navigation.navigate('Address') }}>
-                            <Text style={{padding:10}}>
-                                Current Location
-                            </Text>
-                                <View>
-                                </View>
-                            <View >
-                            <Text style={{color:'#0DC314', paddingLeft:7, marginBottom:10}}>{activeAddress?.primary_address}<Image source={Images.Pencil} style={{ height:15 ,  width:15,}} /> </Text>
-                             </View> 
-                             </TouchableOpacity>
-                            </View>
-                        </View>
             </View>
+
+
             <View style={{ padding: 10, flex: 1 }}>
                 <View style={{ alignItems: 'center' }}>
                     {
@@ -154,18 +154,18 @@ const PharamaHomeScreen = props => {
                                     <Text>{t('common:NoPrescriptionfound')}</Text>
                                 </View>
                                 :
-
-                                <View>
                                     <FlatList
-                                        data={prescriptionList}
-                                        keyExtractor={item => item.id}
-                                        renderItem={renderprescriptionList}
-                                        // ListFooterComponent={renderLoader}
-                                        onEndReached={()=>setCurrentPage(currentPage+1)}
-                                        onEndReachedThreshold={0.1}
-                              
+                                    data={prescriptionList}
+                                    keyExtractor={(item) => item.id}
+                                    renderItem={renderprescriptionList}
+                                        // refreshing={isLoading}
+                                        // onRefresh={getPrescription}
+                                    // onEndReached={() => console.log(currentPage + 1)}
+                                    // onEndReachedThreshold={0.1}
+                                    // ListFooterComponent={renderLoader}
+
                                     />
-                                </View>
+                               
                     }
                 </View>
             </View>

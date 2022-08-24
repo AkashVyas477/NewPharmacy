@@ -29,19 +29,16 @@ const DrawerContent = (props) => {
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
+
   const getProfile = async() => {
     setUser(JSON.parse(await AsyncStorage.getItem("user")))
-    console.log("user   ", user)
 }
-
-
 useEffect(()=>{
     const update = props.navigation.addListener('focus',()=>{
         getProfile();
     })
     return update;
-
-},[props.navigation])
+},[props.navigation,user])
 
 
 

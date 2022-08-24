@@ -261,8 +261,7 @@ const PrescriptionImageScreen = props => {
                         <View style={{ width: "100%", padding: 5, paddingLeft: 10, paddingRight: 10 }}>
                             {inputs.map((input, key) => (
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', ...styles.textInput }}
-                                key={key}
-                                >
+                                key={key} >
                                     <TextInput
                                         placeholder={t('common:EnterName')}
                                         placeholderTextColor={Colors.placeHolder}

@@ -1,0 +1,447 @@
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Image, FlatList, ImageBackground, TouchableOpacity, Alert, TextInput, ActivityIndicator, ScrollView, } from 'react-native';
+import Header from '../../../../Components/Common/Header';
+import RadioButton from '../../../../Components/Common/RadioButton';
+import CheckButton from '../../../../Components/Common/CheckButton';
+import Button from '../../../../Components/Common/Button';
+import { Colors, Images } from '../../../../CommonConfig';
+import { postPostLogin, getPreLogin } from '../../../../Components/Helpers/ApiHelper';
+import Cards from '../../../../Components/Common/Cards';
+import Toast from 'react-native-simple-toast'
+import { CommonActions } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { retrievePaymentIntent, StripeProvider, useStripe } from '@stripe/stripe-react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+
+
+const OrderScreen1 = props => {
+
+    const {t}= useTranslation()
+
+
+    useEffect(() => {
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 1500)
+    }, [])
+
+    const dispatch = useDispatch()
+
+
+    const selectedQuotes = props.route.params.activeQuotes
+    const currentprescription = props.route.params.currentprescription
+    // console.log("PrescriptionId",currentprescription.id)
+    const quoteId = selectedQuotes.id
+    const Deliverycharge = 5.00
+
+    const [PaymentType, setPaymentType] = useState(1);
+    const [state, setState] = useState('cash')
+    const [checkOutType, setcheckOutType] = useState();
+    const [isLoading, setIsLoading] = useState({});
+
+    const [selectedCard, setSelectedCard] = useState({})
+
+
+    useEffect(() => {
+        const refresh = props.navigation.addListener('focus', async () => {
+            setSelectedCard (JSON.parse(await AsyncStorage.getItem('activateCard')))
+            getcard()
+         
+        });
+        return refresh
+    }, [props.navigation,selectedCard])
+
+
+    // const getPaymentMethod = async () => {
+    //     setSelectedCard (JSON.parse(await AsyncStorage.getItem('activateCard')))
+    // }
+
+    console.log("getting cards\n", selectedCard)
+
+    const [card, setCard] = useState([])
+    const getcard = async () => {
+        setIsLoading(true)
+        const response = await getPreLogin('customer/getCard')
+       
+        let errorMsg = 'No Credit Cards to Show!';
+        if (response.success) {
+            setCard(response.data.message.data)
+            setIsLoading(false)
+         
+        } else {
+            Alert.alert("Error", errorMsg, [{ text: "Okay" }])
+            console.log(response)
+            setIsLoading(false)
+        }
+    }
+
+
+    const [user, setUser] = useState({})
+    const getProfile = async () => {
+        setUser(JSON.parse(await AsyncStorage.getItem("user")))
+    }
+
+
+const [paymentLoader, setPaymentLoader] = useState(false)
+const stripe=useStripe();
+ const  onPressPayment = async()=>{
+    setIsLoading(true)
+try {
+//sending request
+const paydata = {
+    quoteId: quoteId,
+    prescriptionId: currentprescription.id,
+    delivery_charge: Deliverycharge,
+    payment_method: PaymentType,
+    checkout_type: checkOutType,
+    card_id: selectedCard.id,
+}
+console.log("Pay Data----->\n",paydata)
+const getPayment = await postPostLogin('customer/checkout', paydata)
+
+
+if (state==='cash'){
+    Alert.alert('Order complete, thank you!');
+    props.navigation.navigate('Prescription') 
+}
+
+if(!getPayment.success) return Alert.alert(error.ErrorMessage);
+setIsLoading(false)
+const clientSecret= getPayment.data.data.payment_intent
+const EphemeralKeySecret= getPayment.data.data.ephemeral_key
+const Displayname=   'Mobile Pharmacy'
+const customersId= getPayment.data.data.customer_id
+
+const initSheet = await stripe.initPaymentSheet({
+    paymentIntentClientSecret:clientSecret,
+    customerEphemeralKeySecret:EphemeralKeySecret,
+    merchantDisplayName:Displayname,
+    customerId:customersId,
+    allowsDelayedPaymentMethods:true,
+    testEnv:true
+});
+
+if(initSheet.error) return Alert.alert(initSheet.error.message);
+setIsLoading(false)
+const presentSheet = await stripe.presentPaymentSheet({
+    clientSecret,
+})
+
+if(presentSheet.error) return Alert.alert(presentSheet.error.message);
+setIsLoading(false)
+Alert.alert('Payment complete, thank you!');
+props.navigation.navigate('Prescription')
+
+const {error, paymentIntent } = await stripe.retrievePaymentIntent(clientSecret)
+if(error){
+    console.log(error);
+    setIsLoading(false)
+}else if(paymentIntent.status==='Succeeded'){
+    console.log("Payment Success!\n",paymentIntent);
+}
+
+
+const successdata={
+    status:paymentIntent.status==='Succeeded' ? 'SUCCESS' : 'FAILED',
+    paymentId:getPayment.data.data.paymentId,
+    quoteId:quoteId,
+}
+console.log("on press \n ",getPayment)
+console.log("after payment \n",successdata)
+
+const afterSucces= await getPreLogin(`customer/payment-status?status=${successdata.status}&paymentId=${successdata.paymentId}&quoteId=${successdata.quoteId}`)
+console.log("After payment status \n",afterSucces)
+
+}
+
+catch(error){
+    setIsLoading(false)
+    console.error("error",error);
+    Alert.alert('SomethingWent Wrong, try Angain later')
+}
+ }
+
+
+
+    return (
+        <StripeProvider
+            publishableKey='pk_test_51KYm9ASJ7crToGEYDadpzSGseBGOmjOfGKCFvTbGWSXJAGvwOGrQTXu3ZnJBKTKNXjYfgsgQTHX6q0WTdxaKrQfj003pXSAxAh'
+        >
+            <View style={styles.screen}>
+                <View style={styles.screen1} >
+                    <View style={styles.header_sty}>
+                        <Header
+                            Title={t('common:PAYMENTDETAILS')}
+                            onPress={() => (props.navigation.goBack())}
+                        />
+                    </View>
+                </View>
+                <ScrollView>
+                    <View style={styles.screen1}>
+                        <View style={{ padding: 10, paddingLeft: 10 }}>
+                            <Text>
+                                {t('common:SelectPaymentMode')}
+                            </Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', padding: 20 }}>
+                            <View style={{ width: "50%", }}>
+                                <RadioButton
+                                    label={t("common:CashonDelivery")}
+                                    onPress={() => {
+                                        setPaymentType(1)
+                                        setState('cash')
+
+                                    }}
+                                    state={PaymentType === 1}
+                                />
+
+                            </View>
+                            <View style={{ width: "50%" }}>
+                                <RadioButton
+                                    label={t("common:Online")}
+                                    onPress={() => {
+                                        setPaymentType(0)
+                                        setState('card')
+                                    }}
+                                    state={PaymentType === 0}
+                                />
+                            </View>
+                        </View>
+                    </View>
+
+                    {state === 'cash' ?
+
+                        <View>
+                            <View style={styles.cod}>
+
+                                <Text style={styles.codText}>
+                                    {t('common:CashonDelivery')}
+                                </Text>
+                            </View>
+                        </View>
+
+                        : <View>
+                            <View style={{ flexDirection: 'row', paddingLeft: 30, marginBottom: 10, alignContent: 'center', alignItems: 'center' }}>
+                                <Text>
+                                    {t('common:AddNewcard')}
+                                </Text>
+                                <TouchableOpacity onPress={() => { props.navigation.navigate('AddCard') }}>
+                                    <Image source={Images.AddIcon} style={{ height: 30, width: 30 }} />
+                                </TouchableOpacity>
+                            </View>
+
+                            <FlatList
+                                horizontal
+                                keyExtractor={item => item.id}
+                                showsHorizontalScrollIndicator={false}
+                                data={card}
+                                renderItem={({ item, index }) => {
+                                   
+                                    return (
+                                        <View>
+                                            <Cards
+                                                item={item}
+                                                id={item.id}
+                                                number={item.last4}
+                                                image={item.image}
+                                                brand={item.brand}
+                                                exp_month={item.exp_month}
+                                                exp_year={item.exp_year}
+                                                showActivityIndicator={isLoading}
+                                            />
+                                        </View>
+                                    )
+                                }}
+                            />
+
+                        </View>
+                    }
+
+
+                    <View style={styles.screen_divide}>
+                        <></>
+                    </View>
+
+                    <View style={styles.screen1}>
+                        <Text style={{ padding: 10, }}>
+                            {t('common:SelectoptionforCheckout')}
+                        </Text>
+                        <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={{ color: Colors.Sp_Text }}>
+                                {t('common:PayandCollectfromstore')}
+                            </Text>
+                            <CheckButton
+                                onPress={() => { setcheckOutType(0) }}
+                                state={checkOutType === 0}
+                            />
+                        </View>
+                        <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={{ color: Colors.Sp_Text }}>
+                                {t('common:Bookandcollectfromstore')}
+                            </Text>
+                            <CheckButton onPress={() => { setcheckOutType(1) }}
+                                state={checkOutType === 1} />
+                        </View>
+                        <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={{ color: Colors.Sp_Text }}>
+                                {t('common:PayandgetDelivery')}
+                            </Text>
+                            <CheckButton onPress={() => { setcheckOutType(2) }}
+                                state={checkOutType === 2} />
+                        </View>
+                        <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={{ color: Colors.Sp_Text }}>
+                                {t('common:Getdeliveryanddocashondelivery')}
+                            </Text>
+                            <CheckButton onPress={() => { setcheckOutType(3) }}
+                                state={checkOutType === 3} />
+                        </View>
+                    </View>
+
+                    <View style={styles.screen_divide}>
+                        <></>
+                    </View>
+
+                    <View style={styles.screen1}>
+                        <Text style={styles.Text1}>
+                            {selectedQuotes.store_name.toUpperCase()}
+                        </Text>
+                        <Text style={{ color: Colors.Sp_Text, padding: 10 }}>
+                            {t('common:BillDetails')}
+                        </Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10 }}>
+                            <Text style={styles.Text}>
+                                {currentprescription.name.toUpperCase()}
+                            </Text>
+                            <Text>$ {parseFloat(selectedQuotes.price).toFixed(2)}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10 }}>
+                            <Text style={styles.Text2} >
+                                {t('common:DeliveryCharge')}
+                            </Text>
+                            <Text style={styles.Text2}>$ {Deliverycharge.toFixed(2)}</Text>
+                        </View>
+                        <View style={{ borderBottomWidth: 0.5, margin: 10, borderColor: Colors.borderBottomColor }}>
+                            <></>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+                            <Text style={styles.Text1} >
+                                {t('common:Total')}
+                            </Text>
+                            <Text style={styles.Text1}>$ {(parseFloat(selectedQuotes.price) + parseFloat(Deliverycharge)).toFixed(2)}</Text>
+                        </View>
+
+                        <View>
+
+
+                            <Image source={Images.PaymentBorder} style={{ height: 30, width: "100%" }} />
+                        </View>
+
+                        <View style={{ marginBottom: 20 }}>
+                            <Button
+                                showActivityIndicator={isLoading}
+                                label={t("common:PAYMENT")}
+                                onPress={onPressPayment}
+                          
+                            />
+                        </View>
+                    </View>
+                </ScrollView>
+            </View>
+        </StripeProvider>
+    );
+};
+
+const styles = StyleSheet.create({
+    screen: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+    screen_divide: {
+        flex: 0.02
+    },
+    screen1: {
+    
+        padding: 10,
+    },
+    checkIcon: { 
+        height: 29.5,
+        width: 28.5, 
+        },
+    header_sty: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 10
+    },
+    Text: {
+        color: Colors.Sp_Text,
+        // fontWeight:'bold'
+    },
+    Text1: {
+        color: Colors.PRIMARY,
+        fontWeight: 'bold',
+        padding: 10
+    },
+    Text2: {
+        color: Colors.Error_Textcolor,
+        fontWeight: 'bold',
+    },
+    cod: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        // justifyContent: 'flex-start',
+        padding: 10,
+        elevation: 10,
+        backgroundColor: Colors.White,
+        overflow: 'hidden',
+        marginLeft: 20,
+        marginRight: 20,
+        borderRadius: 10,
+        marginTop: 10
+    },
+    codText: {
+        fontSize: 19,
+        color: Colors.Gray
+    },
+
+    cardItemContainer: {
+        // flex:1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 15,
+        padding: 10,
+        marginLeft: 15,
+        elevation: 10,
+        overflow: 'hidden',
+        borderRadius: 10,
+        backgroundColor: Colors.White,
+        // marginVertical:5,
+    },
+    detailContainer: {
+        flex: 3,
+        marginLeft: 20,
+        justifyContent: 'space-evenly',
+        height: '100%'
+    },
+    imageStyle: {
+        height: 80,
+        width: 80
+    },
+    // cardnum:{
+    //     fontSize: 18,
+    //     color: Colors.Gray
+    // },
+    cardNumber: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginRight: 10
+    },
+    expiry: {
+        fontWeight: '600',
+        fontSize: 16,
+        color: Colors.GREY
+    }
+});
+export default OrderScreen1;

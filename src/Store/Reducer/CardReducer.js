@@ -9,6 +9,7 @@ export default (state = initialState, action ) => {
     switch(action.type) {
         case ACTIVATE_PAYMENT:
             const id = action.id
+            console.log("cardid---->",id)
             return {
                 ...state,
                 activeMethodID: id 

@@ -3,29 +3,88 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator,
 import { Colors, Images } from '../../../CommonConfig'
 import { Header } from '../../../Components/Common'
 import { useTranslation } from "react-i18next";
+import { getPreLogin} from "../../../Components/Helpers/ApiHelper";
+import moment from 'moment';
+import io from 'socket.io-client';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import MessageData from "../../../DummyData/ChatData";
+// import MessageData from "../../../DummyData/ChatData";
+
+let socket;
 
 const Message = props => {
     const { t, i18n } = useTranslation()
-    // console.log("MessageData--------->",MessageData)
+
+    const [ loading, setLoading ] = useState(true)
+
+    const [ socketConnected, setSocketConnected ] = useState(false)
+    const [ user, setUser ] = useState({})
+
+  
+    useEffect(()=>{
+        getAllChats()
+        getProfile()
+        socket= io('https://mobile-pharmacy.herokuapp.com')
+        socket.emit('setup',user)
+        socket.on('connected',()=>setSocketConnected(true))
+    },[])
+   
+    useEffect( () => {
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            getAllChats();
+        })
+        return unsubscribe;
+    }, [props.navigation])
+
+
+    const getProfile = async() => {
+        setUser(JSON.parse(await AsyncStorage.getItem("user")))
+    }
+
+
+    const [allChats, setAllChats] = useState([])
+
+    const getAllChats = async() => {
+        setLoading(true)
+        const response = await getPreLogin('chat/getChats')
+        // console.log(response.data.chats)
+        if(response.success) {
+            setAllChats(response.data.chats)
+            setLoading(false)
+        } else {
+            console.log(response);
+            setLoading(false)
+        }
+    }
+
+    if(loading){
+        return(
+            <View style={styles.loader}>
+                <ActivityIndicator  size={65} color={Colors.PRIMARY}/>
+            </View>
+        )
+    }
+
+
+
 
     const renderItem = data => {
+        // console.log(data.item.store.image)
         return (
 
             <View style={styles.CardTouchable}>
-                <TouchableOpacity onPress={() => { props.navigation.navigate('ChatScreen', { UserName: data.item.userName }) }}>
+                <TouchableOpacity onPress={() => { props.navigation.navigate('ChatScreen', { UserName: data.item.chat_name, Data:data.item}) }}>
                     <View style={styles.UserInfo}>
                         <View style={styles.UserImgWrapper}>
-                            <Image source={data.item.userImg} style={styles.UserImg} />
+                            <Image source={{uri:data.item.store.image}} style={styles.UserImg} />
                         </View>
                         <View style={styles.TextSection}>
 
                             <View style={styles.UserInfoText}>
-                                <Text style={styles.UserName}>{data.item.userName}</Text>
-                                <Text style={styles.PostTime}>{data.item.messageTime}</Text>
+                                <Text style={styles.UserName}>{data.item.chat_name}</Text>
+                                <Text style={styles.PostTime}>{moment(data.item.updatedAt).format('hh:mm A')}</Text>
                             </View>
-                            <Text style={styles.MessageText}>{data.item.messageText}</Text>
+                            <Text style={styles.MessageText}>{data.item.lastMessage}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -53,7 +112,7 @@ const Message = props => {
             {/* Message */}
             <View style={styles.container}>
                 <FlatList
-                    data={MessageData}
+                    data={allChats}
                     keyExtractor={item => item.id}
                     renderItem={renderItem}
 
@@ -68,6 +127,12 @@ const styles = StyleSheet.create({
         flex: 1, 
         backgroundColor:Colors.White
 
+    },
+    loader:{
+        flex:1,
+        backgroundColor: Colors.WHITE,
+        justifyContent:'center',
+        alignItems:'center'
     },
     header_sty: {
         flexDirection: 'row',
@@ -114,15 +179,19 @@ const styles = StyleSheet.create({
         //    backgroundColor:'#ffffff'
     },
     CardTouchable: {
-        width: "100%"
+        width: "100%",
+       
     },
     UserInfo: {
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        
     },
     UserImgWrapper: {
         paddingTop: 15,
         paddingBottom: 15,
+        alignItems:"center",
+        justifyContent:"center"
     },
     UserImg: {
         width: 50,
@@ -136,8 +205,9 @@ const styles = StyleSheet.create({
         paddingLeft:0,
         marginLeft: 10,
         width: 300,
-        borderBottomWidth: 1,
+        // borderBottomWidth: 1,
         borderBottomColor: "#cccccc",
+      
     },
     UserInfoText: {
         flexDirection: "row",
